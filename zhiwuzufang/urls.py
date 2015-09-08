@@ -18,5 +18,10 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^$', 'zhiwu.views.home', name='home'),
+    url(r'^search/', 'zhiwu.views.search', name='search'),
+    url(r'^room_detail/', 'zhiwu.views.room_detail', name='room_detail'),
+    url(r'^admin_login/', 'zhiwu.views.admin_login', name='admin_login'),
+    url(r'^admin_assessor/', 'zhiwu.views.admin_assessor', name='admin_assessor'),
+    url(r'^admin_uploader/','zhiwu.views.admin_uploader', name='admin_uploader'),
     url(r'^admin/', include(admin.site.urls)),
 ]
