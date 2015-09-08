@@ -13,3 +13,15 @@ def search(request):
 
 def room_detail(request):
     return render(request, "room_detail.html")
+
+
+def admin_login(request):
+    return render(request, "admin_login.html")
+
+
+def admin_assessor(request):
+    return render(request, "admin_assessor.html")
+
+
+def admin_uploader(request):
+    return render(request, "admin_uploader.html")

@@ -14,6 +14,41 @@ class Environment(models.Model):
     anBao = models.CharField(max_length=100)
 
 
+class Room(models.Model):
+    # 房屋信息
+    roomNumber = models.CharField(max_length=10, primary_key=True)
+    picture = models.ImageField()
+    community = models.CharField(max_length=30)
+    shi = models.IntegerField()
+    ting = models.IntegerField()
+    wei = models.IntegerField()
+    rent = models.IntegerField()
+    area = models.IntegerField()
+    direction = models.CharField(max_length=10)
+    level = models.IntegerField()
+    elevator = models.BooleanField()
+    timeToLive = models.TimeField()
+    lookAble = models.BooleanField()
+    contactPerson = models.CharField(max_length=30)
+    environment = models.CharField(max_length=30)
+    exist = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return self
+
+
+class RoomPicture(models.Model):
+    # 房屋照片
+    roomNumber = models.ForeignKey(Room)
+    picture = models.ImageField()
+
+
+class RoomEvaluation(models.Model):
+    # 租客评价
+    roomNumber = models.ForeignKey(Room)
+    text = models.TextField()
+
+
 class RoomConfiguration(models.Model):
     # 房屋配置
     roomNumber = models.ForeignKey(Room)
@@ -46,35 +81,6 @@ class RoomDescription(models.Model):
     suitable = models.CharField(max_length=100)
 
 
-class RoomEvaluation(models.Model):
-    # 租客评价
-    roomNumber = models.ForeignKey(Room)
-    text = models.TextField()
-
-
-class Room(models.Model):
-    # 房屋信息
-    roomNumber = models.CharField(max_length=10, primary_key=True)
-    picture = models.ImageField()
-    community = models.CharField(max_length=30)
-    shi = models.IntegerField()
-    ting = models.IntegerField()
-    wei = models.IntegerField()
-    rent = models.IntegerField()
-    area = models.IntegerField()
-    direction = models.CharField()
-    level = models.IntegerField()
-    elevator = models.BooleanField()
-    timeToLive = models.TimeField()
-    lookAble = models.BooleanField()
-    contactPerson = models.CharField(max_length=30)
-    environment = models.CharField(max_length=30)
-    exist = models.BooleanField(default=True)
-
-    def __unicode__(self):
-        return self
-
-
 class Assessor(models.Model):
     # 鉴定员
     user = models.CharField(max_length=30, primary_key=True)
@@ -82,7 +88,7 @@ class Assessor(models.Model):
     name = models.CharField(max_length=30)
     phone = models.CharField(max_length=11)
     exist = models.BooleanField(default=True)
-    status = models.CharField(max_length=10)
+    status = models.CharField(max_length=30)
 
     def __unicode__(self):
         return self.name
@@ -94,7 +100,7 @@ class Broker(models.Model):
     name = models.CharField(max_length=30)
     phone = models.CharField(max_length=11)
     company = models.CharField(max_length=30)
-    status = models.CharField(max_length=10)
+    status = models.CharField(max_length=30)
 
     def __unicode__(self):
         return self.name
