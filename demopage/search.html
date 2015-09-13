@@ -22,7 +22,7 @@
     <title>搜索页面</title>
 
 
-    <script type="text/javascript" name="baidu-tc-cerfication" data-appid="6817982" src="http://apps.bdimg.com/cloudaapi/lightapp.js"></script>
+    <!--<script type="text/javascript" name="baidu-tc-cerfication" data-appid="6817982" src="http://apps.bdimg.com/cloudaapi/lightapp.js"></script>-->
 
 </head>
 <body>
@@ -153,6 +153,37 @@
 
     <div class="search-content">
         <form class="search-condition form-horizontal">
+
+
+            <div class="search-row form-group">
+                <label class="search-category col-sm-2">搜索方法：</label>
+
+                <div class="col-sm-10 searched-content" id="searched-in-work-way">
+                    <input type="text" class="form-control" name="work-location" value="滨江网易"/>
+                    <select class="form-control" name="way" id="way">
+                        <option value="walk" selected>步行</option>
+                        <option value="bus">公交</option>
+                        <option value="drive">驾车</option>
+                    </select>
+                    <input class="form-control" type="text" name="time" id="time" value="20分钟"/>
+
+                    <span id="searched-in-home">改用居住地搜索</span>
+                </div>
+
+
+
+
+
+                <div class="col-sm-10 searched-content" id="searched-in-home-way">
+                    <input type="text" class="form-control" name="home-location" id="home-location" value="古荡新村"/>
+                    <span id="searched-in-work">改用工作地搜索</span>
+                </div>
+
+
+            </div>
+
+            <hr/>
+
             <div class="price-row form-group">
                 <label class="search-category col-sm-2">价格：</label>
 
@@ -391,13 +422,27 @@
 
 </body>
 
-<script type="text/javascript">
-    // 百度地图API功能
-    var map = new BMap.Map("search-map");    // 创建Map实例
-    map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
-    map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
-    map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
-    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+<!--<script type="text/javascript">-->
+    <!--// 百度地图API功能-->
+    <!--var map = new BMap.Map("search-map");    // 创建Map实例-->
+    <!--map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别-->
+    <!--map.addControl(new BMap.MapTypeControl());   //添加地图类型控件-->
+    <!--map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的-->
+    <!--map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放-->
+<!--</script>-->
+
+<script>
+    $(function(){
+        $("#searched-in-home").bind("click",function(){
+            $("#searched-in-work-way").hide();
+            $("#searched-in-home-way").show();
+        });
+
+        $("#searched-in-work").bind("click",function(){
+            $("#searched-in-home-way").hide();
+            $("#searched-in-work-way").show();
+        });
+    });
 </script>
 
 </html>
