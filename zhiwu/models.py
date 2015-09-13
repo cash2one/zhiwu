@@ -17,7 +17,8 @@ class Environment(models.Model):
 class Room(models.Model):
     # 房屋信息
     roomNumber = models.CharField(max_length=10, primary_key=True)
-    picture = models.ImageField()
+    longitude = models.FloatField(default=120.200)
+    latitude = models.FloatField(default=30.3)
     community = models.CharField(max_length=30)
     shi = models.IntegerField()
     ting = models.IntegerField()
