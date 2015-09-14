@@ -1,0 +1,36 @@
+body{
+    background: white;
+}
+
+.section{
+    padding:15px;
+}
+
+.section-content table{
+    margin-top:15px;
+    vertical-align: middle;
+}
+
+
+.section .title-l1{
+    font-size:28px;
+    color:#337ab7;
+    border-left:3px solid cornflowerblue;
+    padding-left:10px;
+}
+
+.section .title-l2{
+    font-size:20px;
+    color:cornflowerblue;
+    margin-bottom:15px;
+}
+
+
+.form-inline .form-group{
+    margin-top:15px;
+}
+
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    vertical-align: middle;
+}

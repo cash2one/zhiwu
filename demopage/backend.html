@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!--样式表-->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheet/main.css"/>
+    <link rel="stylesheet" href="stylesheet/backend.css"/>
+
+
+    <!--脚本-->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <title>后台管理</title>
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron">
+        <h2>后台管理</h2>
+        <p>技术助理/技术经理</p>
+    </div>
+    <div class="row">
+        <div class="col-xs-3" id="myScrollspy">
+            <ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="125">
+                <li class="active">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#source-manage">
+                        房源管理
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">房源查询</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#jianding-manage">
+                        数据统计
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">客户流量</a></li>
+                        <li><a href="#">房源点击量</a></li>
+                        <li><a href="#">停留时间</a></li>
+                        <li><a href="#">来电量</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#data-statics">
+                        鉴定员管理
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">鉴定员新增</a></li>
+                        <li><a href="#">鉴定员查询</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#data-statics">
+                        经纪人通讯录管理
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">经纪人通讯录新增</a></li>
+                        <li><a href="#">经纪人通讯录查询</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#data-statics">
+                        发布帐户管理
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">发布帐户新增</a></li>
+                        <li><a href="#">发布帐户查询</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#data-statics">
+                        管家通讯录管理
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">管家通讯录新增</a></li>
+                        <li><a href="#">管家通讯录查询</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xs-9" id="lists">
+            <div class="section">
+                <div class="title-l1" id="source-manage">房源管理</div>
+                <div class="section-content">
+                    <div class="section">
+                        <div class="title-l2">房源查询</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="source-manager-search-form">
+                                <div class="form-group">
+                                    <label for="source-manager-search-no" class="col-sm-2 control-label">房源编号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source-manager-search-no" placeholder="房源编号">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source-manager-search-time" class="col-sm-2 control-label">发布时间</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source-manager-search-time" placeholder="发布时间">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source-manager-search-xiaoqu" class="col-sm-2 control-label">小区</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source-manager-search-xiaoqu" placeholder="小区">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source-manager-search-type" class="col-sm-2 control-label">户型</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source-manager-search-type" placeholder="户型">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source-manager-search-price" class="col-sm-2 control-label">价格</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source-manager-search-price" placeholder="价格">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source-manager-search-intime" class="col-sm-2 control-label">入住时间</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source-manager-search-intime" placeholder="入住时间">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source-manager-search-submitter" class="col-sm-2 control-label">鉴定员/发布员</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source-manager-search-submitter" placeholder="鉴定员/发布员">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source-manager-search-manager" class="col-sm-2 control-label">经纪人/管家</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source-manager-search-manager" placeholder="经纪人/管家">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source-manager-search-photo" class="col-sm-2 control-label">有无照片</label>
+                                    <div class="col-sm-10" id="source-manager-search-photo">
+                                        <label for="photo-yes" class="radio-inline">
+                                            <input type="radio" name="price" id="photo-yes"/>
+                                            有照片
+                                        </label>
+
+                                        <label for="photo-no" class="radio-inline">
+                                            <input type="radio" name="price" id="photo-no"/>
+                                            无照片
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source-manager-search-status" class="col-sm-2 control-label">状态</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source-manager-search-status" placeholder="状态">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source-manager-search-keyword" class="col-sm-2 control-label">关键字</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source-manager-search-keyword" placeholder="关键字">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default">搜索</button>
+                                    </div>
+                                </div>
+                            </form>
+
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>房源编号</th>
+                                    <th>发布时间</th>
+                                    <th>小区</th>
+                                    <th>户型</th>
+                                    <th>价格</th>
+                                    <th>入住时间</th>
+                                    <th>鉴定员/发布员</th>
+                                    <th>经纪人/管家</th>
+                                    <th>有无照片</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>1</th>
+                                    <th>2015-09-30</th>
+                                    <th>古荡小区</th>
+                                    <th>两室一厅</th>
+                                    <th>3000/月</th>
+                                    <th>2015-12-01</th>
+                                    <th>haha</th>
+                                    <th>haha</th>
+                                    <th>有</th>
+                                    <th>已发布</th>
+                                    <th class="btn-group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">下架</a></li>
+                                            <li><a href="#">激活</a></li>
+                                            <li><a href="#">导出</a></li>
+                                            <li><a href="#">直接统计</a></li>
+                                        </ul>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="title-l1">数据统计</div>
+                <div class="section-content">
+                    <div class="section">
+                        <div class="title-l2">客户流量</div>
+                        <div class="section-content">
+
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="title-l2">房源点击量</div>
+                        <div class="section-content">
+
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="title-l2">停留时间</div>
+                        <div class="section-content">
+
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="title-l2">来电量</div>
+                        <div class="section-content">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="title-l1">鉴定员管理</div>
+                <div class="section-content">
+                    <div class="section">
+                        <div class="title-l2">鉴定员新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="jianding-add-form">
+                                <div class="form-group">
+                                    <label for="jianding-add-account" class="col-sm-2 control-label">账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="jianding-add-account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="jianding-add-phone" class="col-sm-2 control-label">我司手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="jianding-add-phone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="jianding-add-name" class="col-sm-2 control-label">鉴定员姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="jianding-add-name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="jianding-add-pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="jianding-add-pw">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="title-l2">鉴定员查询</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="jianding-search-form">
+                                <div class="form-group">
+                                    <label for="jianding-search-account">账号</label>
+                                    <input type="text" class="form-control" id="jianding-search-account" placeholder="账号">
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="jianding-search-phone">我司手机</label>
+                                    <input type="text" class="form-control" id="jianding-search-phone" placeholder="我司手机">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="jianding-search-name">鉴定员姓名</label>
+                                    <input type="text" class="form-control" id="jianding-search-name" placeholder="鉴定员姓名">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="jianding-search-pw">密码</label>
+                                        <input type="password" class="form-control" id="jianding-search-pw" placeholder="密码">
+                                </div>
+
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default">搜索</button>
+                                </div>
+                            </form>
+
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>账号</th>
+                                        <th>我司手机</th>
+                                        <th>鉴定员姓名</th>
+                                        <th>密码</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>1</th>
+                                        <th>18848398351</th>
+                                        <th>张三</th>
+                                        <th>3725892739</th>
+                                        <th>
+                                            <button class="btn btn-default">编辑</button>
+                                            <button class="btn btn-danger">注销</button>
+                                            <button class="btn btn-success">激活</button>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="title-l1">经纪人通讯录管理</div>
+                <div class="section-content">
+                    <div class="section">
+                        <div class="title-l2">经纪人通讯录新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="manager-add-form">
+                                <div class="form-group">
+                                    <label for="manager-add-account" class="col-sm-2 control-label">账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="manager-add-account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="manager-add-name" class="col-sm-2 control-label">鉴定员姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="manager-add-name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="manager-add-phone" class="col-sm-2 control-label">我司手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="manager-add-phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="manager-add-shop" class="col-sm-2 control-label">鉴定员姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="manager-add-shop">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="title-l2">经纪人通讯录查询</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="manager-search-form">
+                                <div class="form-group">
+                                    <label for="manager-search-jiandingaccount">鉴定员账号</label>
+                                    <input type="text" class="form-control" id="manager-search-jiandingaccount" placeholder="鉴定员账号">
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="manager-search-managername">经纪人姓名</label>
+                                    <input type="text" class="form-control" id="manager-search-managername" placeholder="经纪人姓名">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="manager-search-managerphone">经纪人手机</label>
+                                    <input type="text" class="form-control" id="manager-search-managerphone" placeholder="经纪人手机">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="manager-search-location">所在公司门店</label>
+                                    <input type="text" class="form-control" id="manager-search-location" placeholder="所在公司门店">
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default">搜索</button>
+                                </div>
+                            </form>
+
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>鉴定员账号</th>
+                                    <th>经纪人姓名</th>
+                                    <th>经纪人手机</th>
+                                    <th>所在公司门店</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>1</th>
+                                    <th>张三</th>
+                                    <th>18848398351</th>
+                                    <th>古荡路128号</th>
+                                    <th>
+                                        <button class="btn btn-default">编辑</button>
+                                        <button class="btn btn-danger">注销</button>
+                                        <button class="btn btn-success">激活</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="title-l1">发布帐户管理</div>
+                <div class="section-content">
+                    <div class="section">
+                        <div class="title-l2">发布帐户新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="submit-account-add-form">
+                                <div class="form-group">
+                                    <label for="submit-account-add-startday" class="col-sm-2 control-label">合同启用日期</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-add-startday">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="submit-account-add-endday" class="col-sm-2 control-label">合同截止日期</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-add-endday">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="submit-account-add-company" class="col-sm-2 control-label">公司</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-add-company">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="submit-account-add-name" class="col-sm-2 control-label">发布员姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-add-name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="submit-account-add-account" class="col-sm-2 control-label">发布员账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-add-account">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="submit-account-add-pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="submit-account-add-pw">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="title-l2">发布帐户查询</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="submit-account-search-form">
+                                <div class="form-group">
+                                    <label for="submit-account-search-company" class="col-sm-2 control-label">公司</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-search-company" placeholder="公司">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="submit-account-search-name" class="col-sm-2 control-label">发布员姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-search-name" placeholder="发布员姓名">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="submit-account-search-account" class="col-sm-2 control-label">发布员账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-search-account" placeholder="发布员账号">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="submit-account-search-startday" class="col-sm-2 control-label">开始时间</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-search-startday" placeholder="开始时间">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="submit-account-search-endday" class="col-sm-2 control-label">结束时间</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-search-endday" placeholder="技术时间">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="submit-account-search-status" class="col-sm-2 control-label">状态</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-search-status" placeholder="状态">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="submit-account-search-keywords" class="col-sm-2 control-label">关键字</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="submit-account-search-keywords" placeholder="关键字">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default">搜索</button>
+                                    </div>
+                                </div>
+                            </form>
+
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>公司</th>
+                                    <th>发布员姓名</th>
+                                    <th>发布员账号</th>
+                                    <th>开始时间</th>
+                                    <th>结束时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>1</th>
+                                    <th>张三</th>
+                                    <th>236781</th>
+                                    <th>2015-09-01</th>
+                                    <th>2015-09-30</th>
+                                    <th>在发布</th>
+                                    <th class="btn-group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">编辑</a></li>
+                                            <li><a href="#">冻结</a></li>
+                                            <li><a href="#">激活</a></li>
+                                            <li><a href="#">注销</a></li>
+                                        </ul>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="title-l1">管家通讯录管理</div>
+                <div class="section-content">
+                    <div class="section">
+                        <div class="title-l2">管家通讯录新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="keeper-add-form">
+                                <div class="form-group">
+                                    <label for="keeper-add-account" class="col-sm-2 control-label">发布员账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="keeper-add-account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="keeper-add-name" class="col-sm-2 control-label">管家姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="keeper-add-name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="keeper-add-phone" class="col-sm-2 control-label">手机号码</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="keeper-add-phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="title-l2">管家通讯录查询</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="keeper-search-form">
+                                <div class="form-group">
+                                    <label for="keeper-search-company">公司</label>
+                                    <input type="text" class="form-control" id="keeper-search-company" placeholder="公司">
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="keeper-search-name">发布员姓名</label>
+                                    <input type="text" class="form-control" id="keeper-search-name" placeholder="发布员姓名">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="keeper-search-account">发布员账号</label>
+                                    <input type="text" class="form-control" id="keeper-search-account" placeholder="发布员账号">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="keeper-search-pw">密码</label>
+                                    <input type="password" class="form-control" id="keeper-search-pw" placeholder="密码">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="keeper-search-keywords">关键字</label>
+                                    <input type="text" class="form-control" id="keeper-search-keywords" placeholder="关键字">
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default">搜索</button>
+                                </div>
+                            </form>
+
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>公司</th>
+                                    <th>发布员姓名</th>
+                                    <th>发布员账号</th>
+                                    <th>密码</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>浙大公司</th>
+                                    <th>张三</th>
+                                    <th>1884351</th>
+                                    <th>sjfkldsj24</th>
+                                    <th>
+                                        <button class="btn btn-default">编辑</button>
+                                        <button class="btn btn-danger">注销</button>
+                                        <button class="btn btn-success">激活</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
