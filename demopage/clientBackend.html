@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!--样式表-->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheet/main.css"/>
+    <link rel="stylesheet" href="stylesheet/backend.css"/>
+
+
+    <!--脚本-->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <title>客户后台</title>
+</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">租房网后台</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">首页 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">关于我们</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" data-toggle="modal" data-target="#signup-modal">鉴定员/房东</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#login-modal">退出</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-2" id="myScrollspy">
+            <ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="70">
+                <li class="active">
+                    <a href="#source-manager">
+                        房源管理
+                    </a>
+                    <ul class="second-level-menu">
+                        <li><a href="#source-manager-search">发布新房源</a></li>
+                        <li><a href="#source-manager-search">我的房源</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#keeper-list">
+                        管家通讯录管理
+                    </a>
+                    <ul class="second-level-menu">
+                        <li><a href="#keeper-add">管家通讯录新增</a></li>
+                        <li><a href="#keeper-search">管家通讯录查询</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xs-offset-3 col-xs-9" id="lists">
+            <div class="section" id="source-manager">
+                <div class="title-l1">房源管理</div>
+                <div class="section-content">
+                    <div class="section" id="source-manager-new">
+                        <div class="title-l2">发布房源</div>
+                        <a class="btn btn-success" href="newHouse.html">发布新的房源</a>
+                    </div>
+                    <div class="section" id="source-manager-my">
+                        <div class="title-l2">房源查询</div>
+                        <div class="section-content">
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>房源编号</th>
+                                    <th>发布时间</th>
+                                    <th>小区</th>
+                                    <th>户型</th>
+                                    <th>价格</th>
+                                    <th>入住时间</th>
+                                    <th>鉴定员/发布员</th>
+                                    <th>经纪人/管家</th>
+                                    <th>有无照片</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>1</th>
+                                    <th>2015-09-30</th>
+                                    <th>古荡小区</th>
+                                    <th>两室一厅</th>
+                                    <th>3000/月</th>
+                                    <th>2015-12-01</th>
+                                    <th>haha</th>
+                                    <th>haha</th>
+                                    <th>有</th>
+                                    <th>已发布</th>
+                                    <th class="btn-group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">下架</a></li>
+                                            <li><a href="#">激活</a></li>
+                                            <li><a href="#">导出</a></li>
+                                            <li><a href="#">直接统计</a></li>
+                                        </ul>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="keeper-list">
+                <div class="title-l1">管家通讯录管理</div>
+                <div class="section-content">
+                    <div class="section" id="keeper-add">
+                        <div class="title-l2">管家通讯录新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="keeper-add-form">
+                                <div class="form-group">
+                                    <label for="keeper-add-account" class="col-sm-2 control-label">发布员账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="keeper-add-account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="keeper-add-name" class="col-sm-2 control-label">管家姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="keeper-add-name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="keeper-add-phone" class="col-sm-2 control-label">手机号码</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="keeper-add-phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-default">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section" id="keeper-search">
+                        <div class="title-l2">管家通讯录查询</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="keeper-search-form">
+                                <div class="form-group">
+                                    <label for="keeper-search-company">公司</label>
+                                    <input type="text" class="form-control" id="keeper-search-company" placeholder="公司">
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="keeper-search-name">发布员姓名</label>
+                                    <input type="text" class="form-control" id="keeper-search-name" placeholder="发布员姓名">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="keeper-search-account">发布员账号</label>
+                                    <input type="text" class="form-control" id="keeper-search-account" placeholder="发布员账号">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="keeper-search-pw">密码</label>
+                                    <input type="password" class="form-control" id="keeper-search-pw" placeholder="密码">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="keeper-search-keywords">关键字</label>
+                                    <input type="text" class="form-control" id="keeper-search-keywords" placeholder="关键字">
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default">搜索</button>
+                                </div>
+                            </form>
+
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>公司</th>
+                                    <th>发布员姓名</th>
+                                    <th>发布员账号</th>
+                                    <th>密码</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>浙大公司</th>
+                                    <th>张三</th>
+                                    <th>1884351</th>
+                                    <th>sjfkldsj24</th>
+                                    <th>
+                                        <button class="btn btn-default">编辑</button>
+                                        <button class="btn btn-danger">注销</button>
+                                        <button class="btn btn-success">激活</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
