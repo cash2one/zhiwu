@@ -21,6 +21,10 @@
     <!--脚本-->
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/jquery.tmpl.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <title>二级后台管理</title>
 </head>
 <body data-spy="scroll" data-target="#myScrollspy">
@@ -61,8 +65,8 @@
                         房源管理
                     </a>
                     <ul class="second-level-menu">
-                        <li><a href="#source-manager-search">发布新房源</a></li>
-                        <li><a href="#source-manager-search">我的房源</a></li>
+                        <li><a href="#source-manager-new">发布新房源</a></li>
+                        <li><a href="#source-manager-myhouse">我的房源</a></li>
                     </ul>
                 </li>
                 <li>
@@ -70,8 +74,8 @@
                         管家通讯录管理
                     </a>
                     <ul class="second-level-menu">
-                        <li><a href="#keeper-add">管家通讯录新增</a></li>
-                        <li><a href="#keeper-search">管家通讯录查询</a></li>
+                        <li><a href="#keeper_add">管家通讯录新增</a></li>
+                        <li><a href="#keeper_search">管家通讯录查询</a></li>
                     </ul>
                 </li>
             </ul>
@@ -85,7 +89,7 @@
                         <a class="btn btn-success" href="newHouse.html">发布新的房源</a>
                     </div>
                     <div class="section" id="source-manager-my">
-                        <div class="title-l2">房源查询</div>
+                        <div class="title-l2">我的房源</div>
                         <div class="section-content">
 
                             <table class="table table-striped">
@@ -137,26 +141,26 @@
             <div class="section" id="keeper-list">
                 <div class="title-l1">管家通讯录管理</div>
                 <div class="section-content">
-                    <div class="section" id="keeper-add">
+                    <div class="section" id="keeper_add">
                         <div class="title-l2">管家通讯录新增</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="keeper-add-form">
+                            <form class="form-horizontal" id="keeper_add_form">
                                 <div class="form-group">
-                                    <label for="keeper-add-account" class="col-sm-2 control-label">发布员账号</label>
+                                    <label for="keeper_add_account" class="col-sm-2 control-label">发布员账号</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="keeper-add-account">
+                                        <input type="text" class="form-control" id="keeper_add_account">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="keeper-add-name" class="col-sm-2 control-label">管家姓名</label>
+                                    <label for="keeper_add_name" class="col-sm-2 control-label">管家姓名</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="keeper-add-name">
+                                        <input type="text" class="form-control" id="keeper_add_name">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="keeper-add-phone" class="col-sm-2 control-label">手机号码</label>
+                                    <label for="keeper_add_phone" class="col-sm-2 control-label">手机号码</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="keeper-add-phone">
+                                        <input type="text" class="form-control" id="keeper_add_phone">
                                     </div>
                                 </div>
 
@@ -168,34 +172,34 @@
                             </form>
                         </div>
                     </div>
-                    <div class="section" id="keeper-search">
+                    <div class="section" id="keeper_search">
                         <div class="title-l2">管家通讯录查询</div>
                         <div class="section-content">
-                            <form class="form-inline" id="keeper-search-form">
+                            <form class="form-inline" id="keeper_search_form">
                                 <div class="form-group">
-                                    <label for="keeper-search-company">公司</label>
-                                    <input type="text" class="form-control" id="keeper-search-company" placeholder="公司">
+                                    <label for="keeper_search_company">公司</label>
+                                    <input type="text" class="form-control" id="keeper_search_company" placeholder="公司">
 
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="keeper-search-name">发布员姓名</label>
-                                    <input type="text" class="form-control" id="keeper-search-name" placeholder="发布员姓名">
+                                    <label for="keeper_search_name">发布员姓名</label>
+                                    <input type="text" class="form-control" id="keeper_search_name" placeholder="发布员姓名">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="keeper-search-account">发布员账号</label>
-                                    <input type="text" class="form-control" id="keeper-search-account" placeholder="发布员账号">
+                                    <label for="keeper_search_account">发布员账号</label>
+                                    <input type="text" class="form-control" id="keeper_search_account" placeholder="发布员账号">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="keeper-search-pw">密码</label>
-                                    <input type="password" class="form-control" id="keeper-search-pw" placeholder="密码">
+                                    <label for="keeper_search_pw">密码</label>
+                                    <input type="password" class="form-control" id="keeper_search_pw" placeholder="密码">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="keeper-search-keywords">关键字</label>
-                                    <input type="text" class="form-control" id="keeper-search-keywords" placeholder="关键字">
+                                    <label for="keeper_search_keywords">关键字</label>
+                                    <input type="text" class="form-control" id="keeper_search_keywords" placeholder="关键字">
                                 </div>
 
                                 <div class="form-group">

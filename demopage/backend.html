@@ -19,11 +19,17 @@
 
 
     <!--脚本-->
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js" charset="UTF-8"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/jquery.tmpl.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <title>后台管理</title>
 </head>
 <body data-spy="scroll" data-target="#myScrollspy">
+
+
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -124,56 +130,77 @@
                                 <div class="form-group">
                                     <label for="source_manager_search_no" class="col-sm-2 control-label">房源编号</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_no" name="source_manager_search_no" placeholder="房源编号">
+                                        <input type="text" class="form-control" id="source_manager_search_no" name="source_manager_search_no">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="source_manager_search_time" class="col-sm-2 control-label">发布时间</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_time" name="source_manager_search_time" placeholder="发布时间">
+                                        <input type="text" class="form-control" id="source_manager_search_time" name="source_manager_search_time">
                                     </div>
                                 </div>
+
+                                <!--<div class="form-group">-->
+                                    <!--<label for="source_manager_search_time" class="col-sm-2 control-label">发布时间</label>-->
+                                    <!--<div class="input-group date source_manager_search_time_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
+                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                                    <!--</div>-->
+                                    <!--<input type="hidden" id="source_manager_search_time" value="" /><br/>-->
+                                <!--</div>-->
+
 
                                 <div class="form-group">
                                     <label for="source_manager_search_xiaoqu" class="col-sm-2 control-label">小区</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_xiaoqu" name="source_manager_search_xiaoqu" placeholder="小区">
+                                        <input type="text" class="form-control" id="source_manager_search_xiaoqu" name="source_manager_search_xiaoqu">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="source_manager_search_type" class="col-sm-2 control-label">户型</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_type" name="source_manager_search_type" placeholder="户型">
+                                        <input type="text" class="form-control" id="source_manager_search_type" name="source_manager_search_type">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="source_manager_search_price" class="col-sm-2 control-label">价格</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_price" name="source_manager_search_price" placeholder="价格">
+                                        <input type="text" class="form-control" id="source_manager_search_price" name="source_manager_search_price">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="source_manager_search_intime" class="col-sm-2 control-label">入住时间</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_intime" name="source_manager_search_intime" placeholder="入住时间">
+                                        <input type="text" class="form-control" id="source_manager_search_intime" name="source_manager_search_intime">
                                     </div>
                                 </div>
+
+                                <!--<div class="form-group">-->
+                                    <!--<label for="source_manager_search_intime" class="col-sm-2 control-label">入住时间</label>-->
+                                    <!--<div class="input-group date source_manager_search_intime_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
+                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                                    <!--</div>-->
+                                    <!--<input type="hidden" id="source_manager_search_intime" value="" /><br/>-->
+                                <!--</div>-->
 
                                 <div class="form-group">
                                     <label for="source_manager_search_submitter" class="col-sm-2 control-label">鉴定员/发布员</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_submitter" name="source_manager_search_submitter" placeholder="鉴定员/发布员">
+                                        <input type="text" class="form-control" id="source_manager_search_submitter" name="source_manager_search_submitter">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="source_manager_search_manager" class="col-sm-2 control-label">经纪人/管家</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_manager" name="source_manager_search_manager" placeholder="经纪人/管家">
+                                        <input type="text" class="form-control" id="source_manager_search_manager" name="source_manager_search_manager">
                                     </div>
                                 </div>
 
@@ -195,14 +222,14 @@
                                 <div class="form-group">
                                     <label for="source_manager_search_status" class="col-sm-2 control-label">状态</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_status" name="source_manager_search_status" placeholder="状态">
+                                        <input type="text" class="form-control" id="source_manager_search_status" name="source_manager_search_status">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="source_manager_search_keyword" class="col-sm-2 control-label">关键字</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_keyword" name="source_manager_search_keyword" placeholder="关键字">
+                                        <input type="text" class="form-control" id="source_manager_search_keyword" name="source_manager_search_keyword">
                                     </div>
                                 </div>
 
@@ -509,12 +536,35 @@
                                         <input type="text" class="form-control" id="submit_account_add_startday" name="submit_account_add_startday">
                                     </div>
                                 </div>
+
+                                <!--<div class="form-group">-->
+                                    <!--<label for="submit_account_add_startday" class="col-sm-2 control-label">合同启用日期</label>-->
+                                    <!--<div class="input-group date submit_account_add_startday_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
+                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                                    <!--</div>-->
+                                    <!--<input type="hidden" id="submit_account_add_startday" value="" /><br/>-->
+                                <!--</div>-->
+
+
+
                                 <div class="form-group">
                                     <label for="submit_account_add_endday" class="col-sm-2 control-label">合同截止日期</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="submit_account_add_endday" name="submit_account_add_endday">
                                     </div>
                                 </div>
+
+                                <!--<div class="form-group">-->
+                                    <!--<label for="submit_account_add_endday" class="col-sm-2 control-label">合同截止日期</label>-->
+                                    <!--<div class="input-group date submit_account_add_endday_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
+                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                                    <!--</div>-->
+                                    <!--<input type="hidden" id="submit_account_add_endday" value="" /><br/>-->
+                                <!--</div>-->
 
                                 <div class="form-group">
                                     <label for="submit_account_add_company" class="col-sm-2 control-label">公司</label>
@@ -585,12 +635,32 @@
                                     </div>
                                 </div>
 
+                                <!--<div class="form-group">-->
+                                    <!--<label for="submit_account_search_startday" class="col-sm-2 control-label">开始时间</label>-->
+                                    <!--<div class="input-group date submit_account_search_startday_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
+                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                                    <!--</div>-->
+                                    <!--<input type="hidden" id="submit_account_search_startday" value="" /><br/>-->
+                                <!--</div>-->
+
                                 <div class="form-group">
                                     <label for="submit_account_search_endday" class="col-sm-2 control-label">结束时间</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="submit_account_search_endday" name="submit_account_search_endday" placeholder="技术时间">
                                     </div>
                                 </div>
+
+                                <!--<div class="form-group">-->
+                                    <!--<label for="submit_account_search_endday" class="col-sm-2 control-label">结束时间</label>-->
+                                    <!--<div class="input-group date submit_account_search_endday_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
+                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                                    <!--</div>-->
+                                    <!--<input type="hidden" id="submit_account_search_endday" value="" /><br/>-->
+                                <!--</div>-->
 
                                 <div class="form-group">
                                     <label for="submit_account_search_status" class="col-sm-2 control-label">状态</label>
@@ -801,10 +871,24 @@
             .error(function(){
                 console.log("error");
             });
-
-
-            //查询结果按钮相应 编辑弹框，别的只是发对应的请求
         });
+
+        //查询结果按钮相应 编辑弹框，别的只是发对应的请求
+
+        //添加日期输入启动datetimepicker
+        $('#source_manager_search_time').datepicker({  dateFormat: "yy-mm-dd" });
+
+        $('#source_manager_search_intime').datepicker({  dateFormat: "yy-mm-dd" });
+
+        $('#submit_account_add_startday').datepicker({  dateFormat: "yy-mm-dd" });
+
+        $('#submit_account_add_endday').datepicker({  dateFormat: "yy-mm-dd" });
+
+        $('#submit_account_search_startday').datepicker({  dateFormat: "yy-mm-dd" });
+
+        $('#submit_account_search_endday').datepicker({  dateFormat: "yy-mm-dd" });
+
+
 
     })();
 

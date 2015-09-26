@@ -32,10 +32,6 @@ footer .copy-right{
     text-align: center ;
 }
 
-#index-carousel{
-    margin-top: 52px;
-}
-
 hr{
     color:#e7e7e7;
 }
@@ -45,9 +41,11 @@ hr{
 #room-carousel{
     position: relative;
     overflow: hidden;
-    width:400px;
-    height:300px;
+    width:600px;
+    height:450px;
     display: inline-block;
+    margin-right:40px;
+    /*vertical-align: top;*/
 }
 
 .room-poster li{
@@ -60,25 +58,64 @@ hr{
 
 .room-info{
     display: inline-block;
-    margin-left:40px;
     position: relative;
-    top:-10px;
+    top:-31px;
+    padding-bottom:15px;
+    /*border:1px solid #ff5a5f;*/
+    background: rgba(255,255,255,0.7);
+    color:black;
+    z-index:1000;
+}
+
+.room-info .room-info-content{
+    padding:0 15px;
+}
+
+.pin-wrapper{
+    display: inline-block;
+    position: fixed;
+    top:152px;
+    z-index: 1000;
 }
 
 .room-info .room-title{
     font-size: 25px;
     font-weight: 600;
+    padding:10px 15px;
+    background: rgba(0,0,0,0.7);
+    color:white;
 }
 
 .room-info .room-desc{
     margin-top:15px;
-    width:500px;
+    width:400px;
+}
+
+.room-info .room-desc .room-desc-item{
+    width:180px;
+    display: inline-block;
+}
+
+.room-config{
+    width:360px;
+    margin-top:20px;
+    color:gray;
 }
 
 
-.room-info .room-desc .room-desc-item{
-    width:240px;
-    display: inline-block;
+.room-config .room-config-title{
+    display:inline-block;
+    width:100px;
+    vertical-align: top;
+}
+
+.room-config .room-config-content{
+    display:inline-block;
+    width:250px;
+}
+
+.room-config .config-item{
+
 }
 
 .room-tag{
@@ -90,17 +127,17 @@ hr{
     margin-right:5px;
     width:100px;
     border-radius: 3px;
-    border: 1px solid orangered;
-    color:orangered;
+    border: 1px solid #ff5a5f;
+    color:#ff5a5f;
     text-align: center;
     height:30px;
     line-height:30px;
 }
 
 .room-price{
-    color:orangered;
+    color:#ff5a5f;
     font-size:20px;
-    margin-top:15px;
+    margin-top:20px;
     font-weight: 600;
 }
 
@@ -121,10 +158,10 @@ hr{
 }
 
 .room-master .room-master-desc{
-    color:orangered;
+    color:#ff5a5f;
     padding-top:15px;
     position: relative;
-    left:15px;
+    left:45px;
 }
 
 .room-btn{
@@ -135,34 +172,34 @@ hr{
     width:150px;
 }
 
-.room-nav-wrapper{
+/*.room-nav-wrapper{*/
 
-}
+/*}*/
 
-.room-nav-wrapper .room-nav{
-    list-style: none;
-    padding:0;
-}
+/*.room-nav-wrapper .room-nav{*/
+    /*list-style: none;*/
+    /*padding:0;*/
+/*}*/
 
-.room-nav-wrapper .room-nav li{
-    background: #EAEAEA;
-    color:black;
-    text-align:center;
-    font-size:16px;
-    float:left;
-    height:50px;
-    line-height: 50px;
-    border-right:1px solid #D1D1D1;
-    width:20%;
-}
+/*.room-nav-wrapper .room-nav li{*/
+    /*background: #EAEAEA;*/
+    /*color:black;*/
+    /*text-align:center;*/
+    /*font-size:16px;*/
+    /*float:left;*/
+    /*height:50px;*/
+    /*line-height: 50px;*/
+    /*border-right:1px solid #D1D1D1;*/
+    /*width:20%;*/
+/*}*/
 
-.room-nav-wrapper .room-nav li:first-child{
-    border-left:1px solid #D1D1D1 ;
-}
+/*.room-nav-wrapper .room-nav li:first-child{*/
+    /*border-left:1px solid #D1D1D1 ;*/
+/*}*/
 
-.room-nav-wrapper .room-nav li:hover{
-    background: #D1D1D1;
-}
+/*.room-nav-wrapper .room-nav li:hover{*/
+    /*background: #D1D1D1;*/
+/*}*/
 
 .room-detail-wrapper{
     position: relative;
@@ -170,38 +207,46 @@ hr{
     padding:0;
 }
 
-.room-detail-section{
+.room-detail-wrapper .room-detail-section{
     margin-top:25px;
+    width:600px;
+}
 
+.room-detail-wrapper .room-detail-section-fulllength{
+    width:100%;
 }
 
 .room-detail-section .room-detail-title{
-    color:black;
-    font-size:16px;
+    color:#ff5a5f;
+    font-size:18px;
 }
 
 .room-detail-section .room-detail-title .glyphicon{
-    color:orangered;
+    color:#ff5a5f;
     margin-right:5px;
 }
 
 .room-detail-section .room-detail-content{
-    background: #EAEAEA;
-    border-top:1px solid orangered;
+    /*background: #EAEAEA;*/
+    /*border-top:1px solid #ff5a5f;*/
     padding:15px;
-    line-height: 20px;
+    font-size:16px;
+    line-height: 30px;
 }
 
 .room-detail-content .detail-item{
     display: inline-block;
-    width:460px;
+    width:560px;
     position: relative;
-    line-height:25px;
+    font-size:16px;
+    line-height:30px;
+    padding:10px;
+    border-bottom:1px dotted #DEDEDE;
 }
 
-.room-detail-content .detail-item:nth-child(2n-1){
-    border-right:1px solid #D1D1D1;
-}
+/*.room-detail-content .detail-item:nth-child(2n-1){*/
+    /*border-right:1px solid #D1D1D1;*/
+/*}*/
 
 .room-detail-content .detail-item .detail-item-key{
     width:35%;
@@ -213,11 +258,38 @@ hr{
     left:35%;
 }
 
+
+.room-desc .detail-item{
+    display: inline-block;
+    width:360px;
+    position: relative;
+    font-size:14px;
+    line-height:20px;
+    padding:10px;
+    /*border-bottom:1px dotted #DEDEDE;*/
+}
+
+.room-desc .detail-item .detail-item-key{
+    width:35%;
+    color:grey;
+}
+
+.room-desc .detail-item .detail-item-value{
+    position: absolute;
+    left:35%;
+    /*overflow: visible;*/
+}
+
+
+
 .peitao{
     position: relative;
 }
 
 .room-detail-map{
+    position: relative;
+    left:20px;
+    top:-30px;
     width:700px;
     height:275px;
     background: url("../resource/peitao.png");
@@ -225,9 +297,9 @@ hr{
 }
 
 .room-detail-facility{
-    position: absolute;
-    right:0px;
-    top:20px;
+    /*position: absolute;*/
+    /*right:0px;*/
+    /*top:20px;*/
     width:250px;
 }
 
@@ -260,29 +332,29 @@ hr{
 }
 
 .room-detail-facility .facility-choose li:hover{
-    color:orangered;
-    border: 2px solid orangered;
+    color:#ff5a5f;
+    border: 2px solid #ff5a5f;
 }
 
-.home-config .detail-item{
-    width:900px;
-    position: relative;
-    line-height:25px;
-}
+/*.home-config .detail-item{*/
+    /*width:900px;*/
+    /*position: relative;*/
+    /*line-height:25px;*/
+/*}*/
 
-.home-config .detail-item:nth-child(2n-1){
-    border-right:none;
-}
+/*.home-config .detail-item:nth-child(2n-1){*/
+    /*border-right:none;*/
+/*}*/
 
-.home-config .detail-item .detail-item-key{
-    width:35%;
-    color:grey;
-}
+/*.home-config .detail-item .detail-item-key{*/
+    /*width:35%;*/
+    /*color:grey;*/
+/*}*/
 
-.home-config .detail-item .detail-item-value{
-    position: absolute;
-    left:35%;
-}
+/*.home-config .detail-item .detail-item-value{*/
+    /*position: absolute;*/
+    /*left:35%;*/
+/*}*/
 
 
 /*SEARCH*/
