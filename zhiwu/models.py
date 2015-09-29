@@ -10,8 +10,14 @@ class Environment(models.Model):
     shangQuan = models.CharField(max_length=100)
     shuXing = models.CharField(max_length=100)
     nianXian = models.CharField(max_length=100)
-    guiMou = models.CharField(max_length=100)
+    guiMo = models.CharField(max_length=100)
     anBao = models.CharField(max_length=100)
+
+
+class Community(models.Model):
+    # 小区信息
+    name = models.CharField(max_length=30, primary_key=True)
+    item = models.CharField(max_length=100)
 
 
 class Room(models.Model):
@@ -19,40 +25,48 @@ class Room(models.Model):
     roomNumber = models.CharField(max_length=10, primary_key=True)
     longitude = models.FloatField(default=120.200)
     latitude = models.FloatField(default=30.3)
-    community = models.CharField(max_length=30)
     shi = models.IntegerField()
     ting = models.IntegerField()
     wei = models.IntegerField()
     rent = models.IntegerField()
     area = models.IntegerField()
     direction = models.CharField(max_length=10)
-    level = models.IntegerField()
-    elevator = models.BooleanField()
-    timeToLive = models.TimeField()
+    DateToLive = models.DateField()
     lookAble = models.BooleanField()
     contactPerson = models.CharField(max_length=30)
+    community = models.CharField(max_length=30)
     environment = models.CharField(max_length=30)
     exist = models.BooleanField(default=True)
+    achieve = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self
+        return self.roomNumber
+
+
+class RoomRented(models.Model):
+    # 房屋出租信息 todo 还有很多信息需要补全
+    roomNumber = models.CharField(max_length=10, primary_key=True)
+    rentDate = models.DateField()
 
 
 class RoomPicture(models.Model):
     # 房屋照片
     roomNumber = models.ForeignKey(Room)
-    picture = models.ImageField()
+    picture = models.CharField(max_length=100)
 
 
 class RoomEvaluation(models.Model):
     # 租客评价
     roomNumber = models.ForeignKey(Room)
+    creatTime = models.DateTimeField(auto_now_add=True)
     text = models.TextField()
 
 
 class RoomConfiguration(models.Model):
     # 房屋配置
-    roomNumber = models.ForeignKey(Room)
+    roomNumber = models.OneToOneField(Room, primary_key=True)
+    level = models.IntegerField()
+    elevator = models.BooleanField()
     canZhuo = models.BooleanField()
     shaFa = models.BooleanField()
     shuZhuo = models.BooleanField()
@@ -70,7 +84,7 @@ class RoomConfiguration(models.Model):
 
 class RoomDescription(models.Model):
     # 房屋描述
-    roomNumber = models.ForeignKey(Room)
+    roomNumber = models.OneToOneField(Room, primary_key=True)
     roomType = models.CharField(max_length=100)
     decoration = models.CharField(max_length=100)
     configuration = models.CharField(max_length=100)
@@ -82,26 +96,31 @@ class RoomDescription(models.Model):
     suitable = models.CharField(max_length=100)
 
 
-class Assessor(models.Model):
-    # 鉴定员
+class Manager(models.Model):
+    # 一级管理员
     user = models.CharField(max_length=30, primary_key=True)
     pw = models.CharField(max_length=30)
     name = models.CharField(max_length=30)
     phone = models.CharField(max_length=11)
-    exist = models.BooleanField(default=True)
     status = models.CharField(max_length=30)
+    district = models.CharField(max_length=30)
+    exist = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.name
 
 
-class Broker(models.Model):
-    # 经纪人
-    assessor = models.ForeignKey(Assessor)
+class SecondManager(models.Model):
+
+    # 二级管理员
+    manager = models.ForeignKey(Manager)
+    user = models.CharField(max_length=30, primary_key=True)
+    pw = models.CharField(max_length=30)
     name = models.CharField(max_length=30)
     phone = models.CharField(max_length=11)
     company = models.CharField(max_length=30)
     status = models.CharField(max_length=30)
+    exist = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.name

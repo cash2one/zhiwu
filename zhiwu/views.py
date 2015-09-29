@@ -1,40 +1,37 @@
 # coding:utf-8
 from django.shortcuts import render
 from django.http import HttpResponse
-from zhiwu.models import *
+from django.http import HttpResponseRedirect
 from .forms import *
+from .help import *
+from zhiwu.models import *
 # Create your views here.
 
+success = 1
+fault = 0
 
-def insert(request):
-    Room.objects.create(roomNumber='HZ10001',
-                        longitude=120.200,
-                        latitude=30.300,
-                        community='COMMUNITY',
-                        shi=3,
-                        ting=2,
-                        wei=1,
-                        rent=1500,
-                        area=110,
-                        direction='南',
-                        level=7,
-                        elevator=True,
-                        DateToLive="2015-10-11",
-                        lookAble=True,
-                        contactPerson='Leon',
-                        environment='123ENI',
-                        exist=True
-                        )
-    return HttpResponse(u"欢迎光临 自强学堂!")
+
+# def home(request):
+#     if request.method == "POST":
+#         uf = ManagerForm(request.POST)
+#         if uf.is_valid():
+#             #获取表单信息
+#             im = uf.cleaned_data['image']
+#             print "ok"
+#             #写入数据库
+#             # user = Image.objects.create(image=im)
+#             return HttpResponse('upload ok!')
+#     else:
+#         uf = RoomForm()
+#     return render(request, 'home.html', {"room": uf})
 
 
 def home(request):
-    return render(request, "home.html")
+    # room = ManagerForm
+    return HttpResponseRedirect("admin_manager")
 
-
-def admin_root(request):
-    return render(request, "backend.html")
-
+    # return render(request, "home.html", {"room": room})
+    # return HttpResponse("hello world",status=200)
 
 def search(request):
     return render(request, "search.html")
@@ -45,97 +42,104 @@ def room_detail(request):
     return render(request, "detail.html", {'R': r})
 
 
-def admin_login(request):
-    return render(request, "admin_login.html")
-
-
-def admin_assessor(request):
-    return render(request, "admin_assessor.html")
-
-
-def admin_uploader(request):
-    return render(request, "admin_uploader.html")
+def admin_manager_login(request):
+    if request.method == "POST":
+        form = AdminLogin(request.POST)
+        if form.is_valid():
+            try:
+                user = form.cleaned_data['login_user']
+                pw = form.cleaned_data['login_pw']
+                status = form.cleaned_data['login_type']
+                if status == "manager":
+                    tag, m = get_manager(user, pw)
+                elif status == "second_manager":
+                    tag, m = get_second_manager(user, pw)
+                elif status == "root":
+                    request.session['user'] = "root"
+                    request.session['status'] = "root"
+                    return HttpResponseRedirect("admin_manager/")
+                    # todo 完善root的数据库
+                else:
+                    return HttpResponse(status=-1)
+                    # 身份不正确
+                if tag:
+                    request.session['user'] = m.user
+                    request.session['status'] = m.status
+                    if m.status == "manager":
+                        return HttpResponseRedirect("admin_manager/")
+                    else:
+                        return HttpResponseRedirect("admin_second_manager/")
+                else:
+                    return HttpResponse(status=0)
+                    # 账号密码错误
+            except Exception, e:
+                print e
+    return render(request, "manager_login.html")
 
 
 # post
 # JianDing
 
 
-def jianding_search(request):
-    user = request.GET.get('jianding_search_account', None)
-    name = request.GET.get('jianding_search_name', None)
-    phone = request.GET.get('jianding_search_phone', None)
-    result = Assessor.objects.filter(user__icontains=user,
-                                     name__icontains=name,
-                                     phone__icontains=phone,
-                                     exist=True)
+def manager_search(request):
+    user = request.GET.get('manager_search_account', None)
+    name = request.GET.get('manager_search_name', None)
+    phone = request.GET.get('manager_search_phone', None)
+    result = Manager.objects.filter(user__icontains=user,
+                                    name__icontains=name,
+                                    phone__icontains=phone,
+                                    exist=True)
     # todo
 
 
-def assessor_add(user, pw, name, phone, status, district):
-    try:
-        Assessor.objects.create(user=user,
-                                pw=pw,
-                                name=name,
-                                phone=phone,
-                                status=status,
-                                district=district)
-        print "Assessor_add ok!"
-        return True
-    except Exception, e:
-        print "Assessor add error:"
-        print e
-        return False
-
-
-def jianding_add(request):
+def post_manager_add(request):
     if request.method == 'POST':  # 当提交表单时
-        form = AssessorForm(request.POST)  # form 包含提交的数据
+        form = ManagerForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['jianding_account']
-                pw = form.cleaned_data['jianding_pw']
-                name = form.cleaned_data['jianding_name']
-                phone = form.cleaned_data['jianding_phone']
-                Assessor.objects.create(user=user,
-                                        pw=pw,
-                                        name=name,
-                                        phone=phone)
-                print 'add success'
+                user = form.cleaned_data['manager_account']
+                pw = form.cleaned_data['manager_pw']
+                name = form.cleaned_data['manager_name']
+                phone = form.cleaned_data['manager_phone']
+                status = form.cleaned_data['manager_status']
+                district = form.cleaned_data['manager_district']
+                p = manager_add(user, pw, name, phone, status, district)
+                return HttpResponse(p)
             except Exception, e:
                 print e
     else:  # 当正常访问时
         print 'not post'
+# 添加一条一级管理员
 
 
-def jianding_modify(request):
+def post_manager_modify(request):
     if request.method == 'POST':  # 当提交表单时
-        form = AssessorForm(request.POST)  # form 包含提交的数据
+        form = ManagerForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['jianding_account']
-                pw = form.cleaned_data['jianding_pw']
-                name = form.cleaned_data['jianding_name']
-                phone = form.cleaned_data['jianding_phone']
-                p = Assessor.objects.get(user=user)
-                p.pw = pw
-                p.name = name
-                p.phone = phone
-                p.save()
+                user = form.cleaned_data['manager_account']
+                pw = form.cleaned_data['manager_pw']
+                name = form.cleaned_data['manager_name']
+                phone = form.cleaned_data['manager_phone']
+                status = form.cleaned_data['manager_status']
+                district = form.cleaned_data['manager_district']
+                p = manager_modify(user, pw, name, phone, status, district)
                 print 'modify success!'
+                return HttpResponse(p)
             except Exception, e:
                 print e
     else:  # 当正常访问时
         print 'not post'
+# 修改一条一级管理员
 
 
-def jianding_create(request):
+def post_manager_create(request):
     if request.method == 'POST':  # 当提交表单时
-        form = AssessorUserForm(request.POST)  # form 包含提交的数据
+        form = ManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['jianding_account']
-                p, flag = Assessor.objects.get_or_create(user=user)
+                user = form.cleaned_data['manager_account']
+                p, flag = Manager.objects.get_or_create(user=user)
                 if not flag:
                     p.exist = True
                 print 'create success!'
@@ -143,20 +147,78 @@ def jianding_create(request):
                 print e
     else:  # 当正常访问时
         print 'not post'
+# 创建一个空的一级管理员
 
 
-def jianding_delete(request):
+def post_manager_delete(request):
     if request.method == 'POST':  # 当提交表单时
-        form = AssessorUserForm(request.POST)  # form 包含提交的数据
+        form = ManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['jianding_account']
-                p = Assessor.objects.get(user=user)
-                p.exist = False
+                user = form.cleaned_data['manager_account']
+                p = Manager.objects.get(user=user)
+                p.delete()
                 print 'delete success!'
             except Exception, e:
                 print e
     else:  # 当正常访问时
         print 'not post'
+# 删除一个一级管理员
 
 
+def post_second_manager_add(request):
+    if request.method == 'POST':  # 当提交表单时
+        form = SecondManagerForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                manager = form.cleaned_data['second_manager_manager']
+                user = form.cleaned_data['second_manager_account']
+                pw = form.cleaned_data['second_manager_pw']
+                name = form.cleaned_data['second_manager_name']
+                phone = form.cleaned_data['second_manager_phone']
+                company = form.cleaned_data['second_manager_company']
+                status = form.cleaned_data['second_manager_status']
+                p = second_manager_add(manager, user, pw, name, phone, company, status)
+                return HttpResponse(p)
+            except Exception, e:
+                print e
+    else:  # 当正常访问时
+        print 'not post'
+# 添加一个二级管理员
+
+
+def post_second_manager_modify(request):
+    if request.method == 'POST':  # 当提交表单时
+        form = SecondManagerForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                user = form.cleaned_data['second_manager_account']
+                pw = form.cleaned_data['second_manager_pw']
+                name = form.cleaned_data['second_manager_name']
+                phone = form.cleaned_data['second_manager_phone']
+                company = form.cleaned_data['second_manager_company']
+                status = form.cleaned_data['second_manager_status']
+                p = second_manager_modify(user, pw, name, phone, company, status)
+                print 'modify success!'
+                return HttpResponse(p)
+            except Exception, e:
+                print e
+    else:  # 当正常访问时
+        print 'not post'
+# 修改一个二级管理员
+
+
+def post_second_manager_delete(request):
+    if request.method == 'POST':  # 当提交表单时
+        form = SecondManagerUserForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                user = form.cleaned_data['second_manager_account']
+                p = SecondManager.objects.get(user=user)
+                p.delete()
+                print 'delete success!'
+            except Exception, e:
+                print e
+    else:  # 当正常访问时
+        print 'not post'
+# 删除一个二级管理员
