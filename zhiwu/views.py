@@ -27,10 +27,10 @@ fault = 0
 
 
 def home(request):
-    # room = ManagerForm
-    return HttpResponseRedirect("admin_manager")
+    room = ManagerForm()
+    # return HttpResponseRedirect("admin_manager")
 
-    # return render(request, "home.html", {"room": room})
+    return render(request, "backend.html", {"room": room})
     # return HttpResponse("hello world",status=200)
 
 def search(request):

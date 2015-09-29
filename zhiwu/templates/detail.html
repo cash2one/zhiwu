@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="">
+<head>
+    <!--meta配置-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!--样式表-->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheet/main.css"/>
+
+
+    <!--脚本-->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/jquery.pin.min.js" type="text/javascript"></script>
+    <title>详情页</title>
+
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
+
+    <style>
+        .container{
+            /*margin-top:52px;*/
+            padding-top:50px;
+            min-width:1170px;
+        }
+    </style>
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">租房网</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">首页 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">关于我们</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" data-toggle="modal" data-target="#signup-modal">注册</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#login-modal">登陆</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="modal fade" id="login-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">登陆</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="tel-number" class="col-sm-2 control-label">手机号</label>
+                        <div class="col-sm-10">
+                            <input type="tel-number" class="form-control" id="tel-number" placeholder="请输入手机号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">
+                                    下次记住我
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-offset-2 col-sm-10">-->
+                            <!--<button type="submit" class="btn btn-default">Sign in</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">提交</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="signup-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">注册</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="tel-number" class="col-sm-2 control-label">手机号</label>
+                        <div class="col-sm-10">
+                            <input type="tel-number" class="form-control" id="tel-number" placeholder="请输入手机号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">下次记住我
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                    <!--<div class="col-sm-offset-2 col-sm-10">-->
+                    <!--<button type="submit" class="btn btn-default">Sign in</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">提交</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div class="container">
+
+    <div id="room-carousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#room-carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#room-carousel" data-slide-to="1"></li>
+            <li data-target="#room-carousel" data-slide-to="2"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="https://z2.muscache.com/ac/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=xx_large&output-format=jpg&output-quality=70" alt="...">
+            </div>
+            <div class="item">
+                <img src="https://z1.muscache.com/ac/pictures/103744160/129d5fe2_original.jpg?interpolation=lanczos-none&size=x_large&output-format=progressive-jpeg&output-quality=70" alt="...">
+            </div>
+            <div class="item">
+                <img src="https://z0.muscache.com/ac/pictures/103743598/eec4dbe1_original.jpg?interpolation=lanczos-none&size=x_large&output-format=progressive-jpeg&output-quality=70" alt="...">
+            </div>
+
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#room-carousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#room-carousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+
+    <div class="room-info">
+        <div class="room-title">
+            芍药居 芍药居9号院
+        </div>
+
+        <div class="room-info-content">
+            <div class="room-desc">
+                <div class="detail-item"><span class="detail-item-key">户型</span><span class="detail-item-value">2室1厅1卫</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">面积</span><span class="detail-item-value">24 m2</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">付款方式</span><span class="detail-item-value">押一付三</span>
+                </div>
+
+                <div class="detail-item"><span class="detail-item-key">出租方式</span><span class="detail-item-value">次卧</span>
+                </div>
+
+                <div class="detail-item"><span class="detail-item-key">朝向</span><span class="detail-item-value">向南</span>
+                </div>
+
+                <div class="detail-item"><span class="detail-item-key">楼层</span><span class="detail-item-value">11/13层</span>
+                </div>
+
+                <div class="detail-item"><span class="detail-item-key">是否有电梯</span><span class="detail-item-value">有电梯</span>
+                </div>
+
+                <div class="detail-item"><span class="detail-item-key">最早可入住时间</span><span class="detail-item-value">2015-09-30</span>
+                </div>
+
+                <div class="detail-item"><span class="detail-item-key">房屋配置</span><span class="detail-item-value">
+                    餐桌&nbsp
+                    沙发&nbsp
+                    书桌&nbsp
+                    椅子&nbsp
+                    衣柜&nbsp
+                    床&nbsp
+                    空调&nbsp
+                    洗衣机&nbsp
+                    热水器&nbsp
+                    冰箱&nbsp
+                    电视机&nbsp
+                    油烟机&nbsp
+                    燃气灶&nbsp
+                </span>
+                </div>
+            </div>
+
+
+            <div class="room-price">
+                2700/月
+            </div>
+
+            <div class="room-tag">
+                <div class="room-tag-item">随时可看</div>
+                <div class="room-tag-item">邻近地铁</div>
+                <div class="room-tag-item">新上房源</div>
+            </div>
+
+
+            <div class="room-master">
+                <div class="room-master-img">
+
+                </div>
+
+                <div class="room-master-desc">
+                    <div class="room-master-name">户小姐</div>
+                    <div class="room-master-type">转租客（和转租客签约）</div>
+                </div>
+            </div>
+
+            <div class="room-btn">
+                <button class="btn btn-default">预约清单</button>
+
+                <button class="btn btn-info">加入预约清单</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="room-detail-wrapper">
+
+        <div class="room-detail-section">
+            <div class="room-detail-title"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>房源描述</div>
+            <div class="room-detail-content">
+                <div class="detail-item"><span class="detail-item-key">此房原户型</span><span class="detail-item-value">二室一厅</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">装修档次</span><span class="detail-item-value">精装修</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">房屋配置如何</span><span class="detail-item-value">配置完全</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">是否可以做饭</span><span class="detail-item-value">可以做饭</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">采光</span><span class="detail-item-value">采光明亮</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">通风</span><span class="detail-item-value">通风很好</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">噪声</span><span class="detail-item-value">安静</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">房东要求</span><span class="detail-item-value">长租</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">适宜居住人群</span><span class="detail-item-value">上班族</span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="room-detail-section">
+            <div class="room-detail-title"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>小区环境</div>
+            <div class="room-detail-content">
+                <div class="detail-item"><span class="detail-item-key">小区所在商圈</span><span class="detail-item-value">西溪商圈</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">小区属性</span><span class="detail-item-value">高档小区</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">成年限</span><span class="detail-item-value">3年</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">小区档次规模</span><span class="detail-item-value">高档大规模小区</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">安保</span><span class="detail-item-value">安全</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="room-detail-section">
+            <div class="room-detail-title"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>租客评论</div>
+            <div class="room-detail-content">
+                <div class="detail-item"><span class="detail-item-key">对房屋的评价</span><span class="detail-item-value">房子非常漂亮，以后还会租这样的房子。</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">对小区的评价</span><span class="detail-item-value">小区环境很好，设施齐全，交通便利。</span>
+                </div>
+                <div class="detail-item"><span class="detail-item-key">对房东的评价</span><span class="detail-item-value">房东人很好说话，以后还会一直长住下去！</span>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="room-detail-section">-->
+            <!--<div class="room-detail-title"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>基本信息</div>-->
+            <!--<div class="room-detail-content">-->
+                <!--<div class="detail-item"><span class="detail-item-key">房屋类型</span><span class="detail-item-value">普通住宅</span>-->
+                <!--</div>-->
+                <!--<div class="detail-item"><span class="detail-item-key">房屋朝向</span><span class="detail-item-value">东</span>-->
+                <!--</div>-->
+                <!--<div class="detail-item"><span class="detail-item-key">楼层</span><span class="detail-item-value">13/14层</span>-->
+                <!--</div>-->
+                <!--<div class="detail-item"><span class="detail-item-key">卫生间</span><span class="detail-item-value">1</span>-->
+                <!--</div>-->
+                <!--<div class="detail-item"><span class="detail-item-key">可入住时间</span><span class="detail-item-value">随时</span>-->
+                <!--</div>-->
+                <!--<div class="detail-item"><span class="detail-item-key">房源编号</span><span class="detail-item-value">3240686</span>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="room-detail-section">-->
+            <!--<div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>房屋配置</div>-->
+            <!--<div class="room-detail-content home-config">-->
+
+                <!--<div class="detail-item"><span class="detail-item-key">家具</span><span class="detail-item-value">床(1) 沙发(1) 衣柜(1) 餐桌(0)</span>-->
+                <!--</div>-->
+                <!--<div class="detail-item"><span class="detail-item-key">家电</span><span class="detail-item-value">电视(1) 冰箱(1) 洗衣机(1)</span>-->
+                <!--</div>-->
+                <!--<div class="detail-item"><span class="detail-item-key">附加设施</span><span class="detail-item-value">热水器(1) 无线网(1) 抽油烟机(1) 燃气灶(1)</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="room-detail-section">-->
+            <!--<div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>补充说明</div>-->
+            <!--<div class="room-detail-content">我出租的是位于芍药居9号院的次卧，目前入住主卧的是3个90年的女生，次卧希望招1名女生入住，如果你有朋友的话，也可以2名女生一起。有厨房，可以做饭，电费、物业费、宽带这些就是按人头均摊的，房子紧挨着地铁芍药居站，有10号线、13号线两条线通过，交通很便利 火炬租房温馨提示： 你可以将看中的房子加入预约清单，随后可在预约清单中直接拨打电话联系。 火炬租房特别提醒： 租房过程中请一定审核对方的房产证、租房合同等有效证明文件；当面签署有效房屋租赁合同；入住之前切勿提前付款。</div>-->
+        <!--</div>-->
+        <div class="room-detail-section room-detail-section-fulllength">
+            <div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>房源周边</div>
+            <div class="room-detail-content peitao">
+                <div class="room-detail-facility">
+                    <div class="facility-title">
+                        周边设施
+                    </div>
+                    
+                    <div class="facility-choose">
+                        <ul>
+                            <li class="active facility-item" data-type="公交"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>公交</span></li>
+                            <li class="facility-item" data-type="地铁"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>地铁</span></li>
+                            <li class="facility-item" data-type="银行"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>银行</span></li>
+                            <li class="facility-item" data-type="医院"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>医院</span></li>
+                            <li class="facility-item" data-type="超市"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>超市</span></li>
+                            <li class="facility-item" data-type="餐馆"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>美食</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="room-detail-map">
+
+                </div>
+            </div>
+        </div>
+        <!--<div class="room-detail-section room-detail-section-fulllength">-->
+            <!--<div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>房源推荐</div>-->
+            <!--<div class="room-detail-content">-->
+                <!--<div class="result-box" style="width:300px;display:inline-block;">-->
+                    <!--<a href="javascript:void(0);">-->
+                        <!--<div class="result-image thumbnail">-->
+                            <!--<img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>-->
+                            <!--<div class="result-desc">-->
+                                <!--<div class="result-title">-->
+                                    <!--市中心的好房子-->
+                                <!--</div>-->
+                                <!--<div class="result-type">-->
+                                    <!--整套房子/公寓-->
+                                <!--</div>-->
+                                <!--<div class="collect result-item">-->
+                                    <!--<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="price-tag result-item">-->
+                                <!--￥400-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</a>-->
+                <!--</div>-->
+                <!--<div class="result-box" style="width:300px;display:inline-block;">-->
+                    <!--<a href="javascript:void(0);">-->
+                        <!--<div class="result-image thumbnail">-->
+                            <!--<img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>-->
+                            <!--<div class="result-desc">-->
+                                <!--<div class="result-title">-->
+                                    <!--市中心的好房子-->
+                                <!--</div>-->
+                                <!--<div class="result-type">-->
+                                    <!--整套房子/公寓-->
+                                <!--</div>-->
+                                <!--<div class="collect result-item">-->
+                                    <!--<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="price-tag result-item">-->
+                                <!--￥400-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</a>-->
+                <!--</div>-->
+                <!--<div class="result-box" style="width:300px;display:inline-block;">-->
+                    <!--<a href="javascript:void(0);">-->
+                        <!--<div class="result-image thumbnail">-->
+                            <!--<img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>-->
+                            <!--<div class="result-desc">-->
+                                <!--<div class="result-title">-->
+                                    <!--市中心的好房子-->
+                                <!--</div>-->
+                                <!--<div class="result-type">-->
+                                    <!--整套房子/公寓-->
+                                <!--</div>-->
+                                <!--<div class="collect result-item">-->
+                                    <!--<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="price-tag result-item">-->
+                                <!--￥400-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</a>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+
+
+</div>
+
+<footer>
+    <div class="row">
+        <div class="col-xs-4 col-md-2 col-md-offset-3">
+            <h4>公司信息</h4>
+
+            <ul>
+                <li><a href="">关于</a></li>
+                <li><a href="">工作机会</a></li>
+                <li><a href="">条款与隐私</a></li>
+                <li><a href="">发现</a></li>
+            </ul>
+
+        </div>
+
+        <div class="col-xs-4 col-md-2">
+            <h4>公司信息</h4>
+
+            <ul>
+                <li><a href="">关于</a></li>
+                <li><a href="">工作机会</a></li>
+                <li><a href="">条款与隐私</a></li>
+                <li><a href="">发现</a></li>
+            </ul>
+
+        </div>
+
+        <div class="col-xs-4 col-md-2">
+            <h4>公司信息</h4>
+
+            <ul>
+                <li><a href="">关于</a></li>
+                <li><a href="">工作机会</a></li>
+                <li><a href="">条款与隐私</a></li>
+                <li><a href="">发现</a></li>
+            </ul>
+
+        </div>
+
+
+    </div>
+
+    <hr style="border-top:1px solid grey;width:60%"/>
+
+
+    <div class="copy-right">
+        © 租房网 copyright
+    </div>
+
+
+</footer>
+
+</body>
+
+<script type="text/javascript">
+    // 百度地图API功能
+
+    //    地图创建
+    var map = new BMap.Map("room-detail-map");    // 创建Map实例
+    var mPoint = new BMap.Point(116.404, 39.915);
+    map.enableScrollWheelZoom();
+    map.centerAndZoom(mPoint,15);
+
+    var circle = new BMap.Circle(mPoint,1000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.2, strokeOpacity: 0.3});
+    map.addOverlay(circle);
+    var local =  new BMap.LocalSearch(map, {renderOptions: {map: map, autoViewport: false}});
+    local.searchNearby('公交',mPoint,1000);
+
+    //    添加控件
+    var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+    var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+    map.addControl(top_left_control);
+    map.addControl(top_left_navigation);
+
+</script>
+
+<script>
+    $(function(){
+        //pin住右侧的房源情况
+        $(".room-info").pin({
+            containerSelector: "body"
+        });
+
+        //周边设施交互
+        $(".facility-item").bind("click",function(e){
+            $(".facility-item.active").removeClass("active");
+            $(this).addClass("active");
+
+            var searchItem=$(this).data("type");
+            local.searchNearby(searchItem,mPoint,1000);
+
+
+        });
+    });
+</script>
+</html>

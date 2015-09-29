@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!--样式表-->
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheet/main.css"/>
+    <link rel="stylesheet" href="stylesheet/backend.css"/>
+
+
+    <!--脚本-->
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js" charset="UTF-8"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="js/jquery.tmpl.min.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <title>后台管理</title>
+</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">租房网后台</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">首页 <span class="sr-only">(current)</span></a></li>
+                <li><a href="#">关于我们</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" data-toggle="modal" data-target="#signup-modal">技术经理</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#login-modal">退出</a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-2" id="myScrollspy">
+            <ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="70">
+                <li class="active">
+                    <a href="#xiaoqu_manager">
+                        小区库管理
+                    </a>
+                    <ul class="second-level-menu">
+                        <li><a href="#xiaoqu_manager_add">小区新增</a></li>
+                        <li><a href="#xiaoqu_manager_search">小区查找</a></li>
+                    </ul>
+                </li>
+
+                <li class="active">
+                    <a href="#area_manager">
+                        区域管理
+                    </a>
+                    <ul class="second-level-menu">
+                        <li><a href="#area_manager_add">区域及账号建设</a></li>
+                        <li><a href="#area_manager_search">区域查找及修改</a></li>
+                    </ul>
+                </li>
+
+                <li class="active">
+                    <a href="#wuye_keeper_manager">
+                        物业人员管理
+                    </a>
+                    <ul class="second-level-menu">
+                        <li><a href="#wuye_keeper_manager_add">物业管家新增</a></li>
+                        <li><a href="#wuye_keeper_manager_search">物业管家查找</a></li>
+                    </ul>
+                </li>
+
+
+
+                <li>
+                    <a href="#source_manager">
+                        房源管理
+                    </a>
+                    <ul class="second-level-menu">
+                        <li><a href="#source_manager_submit">房源发布</a></li>
+                        <li><a href="#source_manager_search">房源查找</a></li>
+                    </ul>
+                </li>
+
+                <!--<li>-->
+                    <!--<a href="#data-statistics">-->
+                        <!--数据统计-->
+                    <!--</a>-->
+                    <!--<ul class="second-level-menu">-->
+                        <!--<li><a href="#">小区统计</a></li>-->
+                        <!--<li><a href="#">区域统计</a></li>-->
+                        <!--<li><a href="#">房源统计</a></li>-->
+                        <!--<li><a href="#">客户流量</a></li>-->
+                        <!--<li><a href="#">房源点击</a></li>-->
+                        <!--<li><a href="#">停留时间</a></li>-->
+                        <!--<li><a href="#">来电量</a></li>-->
+                    <!--</ul>-->
+                <!--</li>-->
+
+                <li>
+                    <a href="#mansion_manager_list">
+                        公寓经理管理
+                    </a>
+                    <ul class="second-level-menu">
+                        <li><a href="#mansion_manager_add">公寓经理新增</a></li>
+                        <li><a href="#mansion_manager_search">公寓经理查询</a></li>
+                    </ul>
+                </li>
+
+
+                <li>
+                    <a href="#mansion_keeper_list">
+                        公寓管家管理
+                    </a>
+                    <ul class="second-level-menu">
+                        <li><a href="#mansion_keeper_add">公寓管家新增</a></li>
+                        <li><a href="#mansion_keeper_search">公寓管家查询</a></li>
+                    </ul>
+                </li>
+
+
+            </ul>
+        </div>
+        <div class="col-xs-offset-3 col-xs-9">
+
+            <div class="section" id="xiaoqu_manager">
+                <div class="title-l1">小区库管理</div>
+                <div class="section-content">
+                    <div class="section" id="xiaoqu_manager_add">
+                        <div class="title-l2">小区新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="xiaoqu_add_form" dest="/xiaoqu_add">
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_name" class="col-sm-2 control-label">详细小区名称*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_name" name="xiaoqu_add_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_area" class="col-sm-2 control-label">所属区域*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_area" name="xiaoqu_add_area">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_district" class="col-sm-2 control-label">所属行政区*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_district" name="xiaoqu_add_district">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_business" class="col-sm-2 control-label">所在商圈</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_business" name="xiaoqu_add_business">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_keyword" class="col-sm-2 control-label">其它关键字*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_keyword" name="xiaoqu_add_keyword">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_type" class="col-sm-2 control-label">房屋类型*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_type" name="xiaoqu_add_type">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_year" class="col-sm-2 control-label">建成年限*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_year" name="xiaoqu_add_year">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_level" class="col-sm-2 control-label">小区档次</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_level" name="xiaoqu_add_level">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_facilitiy" class="col-sm-2 control-label">配套设施</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_facilitiy" name="xiaoqu_add_facilitiy">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_green" class="col-sm-2 control-label">绿化</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_green" name="xiaoqu_add_green">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_security" class="col-sm-2 control-label">安保</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_security" name="xiaoqu_add_security">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section" id="xiaoqu_manager_search">
+                        <div class="title-l2">鉴定员查询</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="xiaoqu_search_form" dest="/xiaoqu_search">
+                                <div class="form-group">
+                                    <label for="xiaoqu_search_name" class="control-label">小区名称*</label>
+                                    <input type="text" class="form-control" id="xiaoqu_search_name" name="xiaoqu_search_name">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get">搜索</button>
+                                </div>
+                            </form>
+
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>详细小区名称</th>
+                                    <th>所属区域</th>
+                                    <th>所属行政区</th>
+                                    <th>所在商圈</th>
+                                    <th>其它关键字</th>
+                                    <th>房屋类型</th>
+                                    <th>建成年限</th>
+                                    <th>小区档次</th>
+                                    <th>配套设施</th>
+                                    <th>绿化</th>
+                                    <th>安保</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>古荡小区</th>
+                                    <th>古荡</th>
+                                    <th>西湖区</th>
+                                    <th>黄龙商圈</th>
+                                    <th>haha</th>
+                                    <th>洋房</th>
+                                    <th>5年</th>
+                                    <th>高档</th>
+                                    <th>地铁</th>
+                                    <th>多</th>
+                                    <th>安全</th>
+                                    <!--<th>-->
+                                        <!--<button class="btn btn-success">编辑</button>-->
+                                    <!--</th>-->
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="area_manager">
+                <div class="title-l1">区域管理</div>
+                <div class="section-content">
+                    <div class="section" id="area_manager_add">
+                        <div class="title-l2">区域及账号建设</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="area_add_form" dest="/area_add">
+                                <div class="form-group">
+                                    <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_name" name="area_add_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_xiaoqu" class="col-sm-2 control-label">所辖小区</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="area_add_xiaoqu" name="area_add_xiaoqu">
+                                            <option value="">浦沿A</option>
+                                            <option value="">浦沿B</option>
+                                            <option value="">浦沿C</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_account" class="col-sm-2 control-label">区账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_account" name="area_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="area_add_pw" name="area_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_manager_name" class="col-sm-2 control-label">区经理姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_manager_name" name="area_add_manager_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_phone" class="col-sm-2 control-label">区域手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_phone" name="area_add_phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section" id="area_manager_search">
+                        <div class="title-l2">区域查找及修改</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="area_search_form" dest="/area_search">
+                                <div class="form-group">
+                                    <label for="area_search_name" class="control-label">区域名称*</label>
+                                    <input type="text" class="form-control" id="area_search_name" name="area_search_name">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get">搜索</button>
+                                </div>
+                            </form>
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>区域名</th>
+                                    <th>区账号</th>
+                                    <th>所辖小区</th>
+                                    <th>密码</th>
+                                    <th>区经理姓名</th>
+                                    <th>区域手机</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>古荡</th>
+                                    <th>Q3748</th>
+                                    <th>古荡小区</th>
+                                    <th>JKLFJD9</th>
+                                    <th>张三</th>
+                                    <th>3725892739</th>
+                                    <th>
+                                        <button class="btn btn-default">编辑</button>
+                                        <button class="btn btn-danger">注销</button>
+                                        <button class="btn btn-success">激活</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="wuye_keeper_manager">
+                <div class="title-l1">物业人员管理</div>
+                <div class="section-content">
+                    <div class="section" id="wuye_keeper_manager_add">
+                        <div class="title-l2">物业管家新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_keeper_add">
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_account" class="col-sm-2 control-label">账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_account" name="wuye_keeper_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="wuye_keeper_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_xiaoqu" class="col-sm-2 control-label">所属小区</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="wuye_keeper_add_xiaoqu" name="wuye_keeper_add_xiaoqu">
+                                            <option value="">浦沿A</option>
+                                            <option value="">浦沿B</option>
+                                            <option value="">浦沿C</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_name" class="col-sm-2 control-label">管家姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_name" name="wuye_keeper_add_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_phone" class="col-sm-2 control-label">管家手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_phone" name="wuye_keeper_add_phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section" id="wuye_keeper_manager_search">
+                        <div class="title-l2">物业管家查找</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="wuye_keeper_search_form" dest="/wuye_keeper_search">
+                                <div class="form-group">
+                                    <label for="wuye_keeper_search_account" class="control-label">账号*</label>
+                                    <input type="text" class="form-control" id="wuye_keeper_search_account" name="wuye_keeper_search_account">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get">搜索</button>
+                                </div>
+                            </form>
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>账号</th>
+                                    <th>密码</th>
+                                    <th>所属小区</th>
+                                    <th>管家姓名</th>
+                                    <th>管家手机</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>Q3748</th>
+                                    <th>JKLFJD9</th>
+                                    <th>古荡校区</th>
+                                    <th>张三</th>
+                                    <th>3725892739</th>
+                                    <th>
+                                        <button class="btn btn-default">编辑</button>
+                                        <button class="btn btn-danger">注销</button>
+                                        <button class="btn btn-success">激活</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="source_manager">
+                <div class="title-l1">房源管理</div>
+                <div class="section-content">
+                    <div class="section" id="source_manager_submit">
+                        <div class="title-l2">房源发布</div>
+                        <div class="section-content">
+                            <a class="btn btn-success" href="newHouse.html">发布新的房源</a>
+                        </div>
+                    </div>
+                    <div class="section" id="source_manager_search">
+                        <div class="title-l2">房源查询</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="source_manager_search_form" dest="/source_manager_search">
+                                <div class="form-group">
+                                    <label for="source_manager_search_no" class="col-sm-2 control-label">房源编号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source_manager_search_no" name="source_manager_search_no">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source_manager_search_time" class="col-sm-2 control-label">发布时间</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source_manager_search_time" name="source_manager_search_time">
+                                    </div>
+                                </div>
+
+                                <!--<div class="form-group">-->
+                                    <!--<label for="source_manager_search_time" class="col-sm-2 control-label">发布时间</label>-->
+                                    <!--<div class="input-group date source_manager_search_time_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
+                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                                    <!--</div>-->
+                                    <!--<input type="hidden" id="source_manager_search_time" value="" /><br/>-->
+                                <!--</div>-->
+
+
+                                <div class="form-group">
+                                    <label for="source_manager_search_xiaoqu" class="col-sm-2 control-label">小区</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source_manager_search_xiaoqu" name="source_manager_search_xiaoqu">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source_manager_search_type" class="col-sm-2 control-label">户型</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source_manager_search_type" name="source_manager_search_type">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source_manager_search_price" class="col-sm-2 control-label">价格</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source_manager_search_price" name="source_manager_search_price">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source_manager_search_intime" class="col-sm-2 control-label">入住时间</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source_manager_search_intime" name="source_manager_search_intime">
+                                    </div>
+                                </div>
+
+                                <!--<div class="form-group">-->
+                                    <!--<label for="source_manager_search_intime" class="col-sm-2 control-label">入住时间</label>-->
+                                    <!--<div class="input-group date source_manager_search_intime_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
+                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
+                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
+                                    <!--</div>-->
+                                    <!--<input type="hidden" id="source_manager_search_intime" value="" /><br/>-->
+                                <!--</div>-->
+
+                                <div class="form-group">
+                                    <label for="source_manager_search_submitter" class="col-sm-2 control-label">物业/发布员</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source_manager_search_submitter" name="source_manager_search_submitter">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source_manager_search_manager" class="col-sm-2 control-label">物业管家/二房东管家</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source_manager_search_manager" name="source_manager_search_manager">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source_manager_search_photo" class="col-sm-2 control-label">有无照片</label>
+                                    <div class="col-sm-10" id="source_manager_search_photo">
+                                        <label for="photo_yes" class="radio-inline">
+                                            <input type="radio" name="photo_yes" id="photo_yes"/>
+                                            有照片
+                                        </label>
+
+                                        <label for="photo_no" class="radio-inline">
+                                            <input type="radio" name="photo_no" id="photo_no"/>
+                                            无照片
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source_manager_search_status" class="col-sm-2 control-label">状态</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source_manager_search_status" name="source_manager_search_status">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="source_manager_search_keyword" class="col-sm-2 control-label">关键字</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="source_manager_search_keyword" name="source_manager_search_keyword">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-default btn-get">搜索</button>
+                                    </div>
+                                </div>
+                            </form>
+
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>房源编号</th>
+                                    <th>发布时间</th>
+                                    <th>小区</th>
+                                    <th>户型</th>
+                                    <th>价格</th>
+                                    <th>入住时间</th>
+                                    <th>物业/发布员</th>
+                                    <th>物业管家/二房东管家</th>
+                                    <th>有无照片</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>1</th>
+                                    <th>2015-09-30</th>
+                                    <th>古荡小区</th>
+                                    <th>两室一厅</th>
+                                    <th>3000/月</th>
+                                    <th>2015-12-01</th>
+                                    <th>haha</th>
+                                    <th>haha</th>
+                                    <th>有</th>
+                                    <th>已发布</th>
+                                    <th class="btn-group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">下架</a></li>
+                                            <li><a href="#">激活</a></li>
+                                            <li><a href="#">导出</a></li>
+                                            <li><a href="#">直接统计</a></li>
+                                        </ul>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="section" id="data-statistics">-->
+                <!--<div class="title-l1">数据统计</div>-->
+                <!--<div class="section-content">-->
+                    <!--<div class="section">-->
+                        <!--<div class="title-l2">小区统计</div>-->
+                        <!--<div class="section-content">-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="section">-->
+                        <!--<div class="title-l2">区域统计</div>-->
+                        <!--<div class="section-content">-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="section">-->
+                        <!--<div class="title-l2">房源统计</div>-->
+                        <!--<div class="section-content">-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="section">-->
+                        <!--<div class="title-l2">客户流量</div>-->
+                        <!--<div class="section-content">-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="section">-->
+                        <!--<div class="title-l2">房源点击</div>-->
+                        <!--<div class="section-content">-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="section">-->
+                        <!--<div class="title-l2">停留时间</div>-->
+                        <!--<div class="section-content">-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="section">-->
+                        <!--<div class="title-l2">来电量</div>-->
+                        <!--<div class="section-content">-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div class="section" id="mansion_manager_list">
+                <div class="title-l1">公寓经理管理</div>
+                <div class="section-content">
+                    <div class="section" id="mansion_manager_add">
+                        <div class="title-l2">公寓经理新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="mansion_manager_add_form" dest="/mansion_manager_add">
+                                <div class="form-group">
+                                    <label for="mansion_manager_add_account" class="col-sm-2 control-label">账号*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="mansion_manager_add_account" name="mansion_manager_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mansion_manager_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="mansion_manager_add_pw" name="mansion_manager_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mansion_manager_add_phone" class="col-sm-2 control-label">管家手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="mansion_manager_add_phone" name="mansion_manager_add_phone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section" id="mansion_manager_search">
+                        <div class="title-l2">物业管家查找</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="mansion_manager_search_form" dest="/mansion_manager_search">
+                                <div class="form-group">
+                                    <label for="mansion_manager_search_account" class="control-label">账号*</label>
+                                    <input type="text" class="form-control" id="mansion_manager_search_account" name="mansion_manager_search_account">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get">搜索</button>
+                                </div>
+                            </form>
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>账号</th>
+                                    <th>密码</th>
+                                    <th>业务经理手机</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>Q3748</th>
+                                    <th>JKLFJD9</th>
+                                    <th>3725892739</th>
+                                    <th>
+                                        <button class="btn btn-default">编辑</button>
+                                        <button class="btn btn-danger">注销</button>
+                                        <button class="btn btn-success">激活</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="mansion_keeper_list">
+                <div class="title-l1">公寓管家管理</div>
+                <div class="section-content">
+                    <div class="section" id="mansion_keeper_add">
+                        <div class="title-l2">公寓管家新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="masion_keeper_add_form" dest="/masion_keeper_add">
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_account" class="col-sm-2 control-label">账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_account" name="masion_keeper_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="masion_keeper_add_pw" name="masion_keeper_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_company" class="col-sm-2 control-label">所属公司</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_company" name="masion_keeper_add_company">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_xiaoqu" class="col-sm-2 control-label">所属业务经理</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="masion_keeper_add_xiaoqu" name="masion_keeper_add_xiaoqu">
+                                            <option value="">李xx</option>
+                                            <option value="">张xx</option>
+                                            <option value="">高xx</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_phone" class="col-sm-2 control-label">管家手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_phone" name="masion_keeper_add_phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section" id="mansion_keeper_search">
+                        <div class="title-l2">公寓管家查询</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="masion_keeper_search_form" dest="/masion_keeper_search">
+                                <div class="form-group">
+                                    <label for="masion_keeper_search_account" class="control-label">账号*</label>
+                                    <input type="text" class="form-control" id="masion_keeper_search_account" name="masion_keeper_search_account">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get">搜索</button>
+                                </div>
+                            </form>
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>账号</th>
+                                    <th>密码</th>
+                                    <th>所属公司</th>
+                                    <th>所属业务经理</th>
+                                    <th>管家手机</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>Q3748</th>
+                                    <th>JKLFJD9</th>
+                                    <th>租房网</th>
+                                    <th>张三</th>
+                                    <th>3725892739</th>
+                                    <th>
+                                        <button class="btn btn-default">编辑</button>
+                                        <button class="btn btn-danger">注销</button>
+                                        <button class="btn btn-success">激活</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    ;(function(){
+        //为查询form添加ajax
+        $(".btn-get").bind("click",function(e){
+            e.preventDefault();
+            var form = $(this).parents("form");
+            var dest = form.attr("dest");
+            var content=form.serialize();
+
+            $.get(
+                dest,
+                content,
+                function(data){
+                    if(data.status==200){
+                        console.log("get success");
+                    }else{
+                        console.log("get failed");
+                    }
+                }
+            )
+            .error(function(){
+                console.log("error");
+            })
+        });
+
+        //为新增form添加ajax
+        $(".btn-post").bind("click",function(e){
+            e.preventDefault();
+            var form = $(this).parents("form");
+            var dest = form.attr("dest");
+            var content=form.serialize();
+
+            $.post(
+                    dest,
+                    content,
+                    function(data){
+                        if(data.status==200){
+                            console.log("post success");
+                        }else{
+                            console.log("post failed");
+                        }
+                    }
+            )
+            .error(function(){
+                console.log("error");
+            });
+        });
+
+        //查询结果按钮相应 编辑弹框，别的只是发对应的请求
+
+        //添加日期输入启动datetimepicker
+        $('#source_manager_search_time').datepicker({  dateFormat: "yy-mm-dd" });
+    })();
+
+</script>
+
+</body>
+</html>
