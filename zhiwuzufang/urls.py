@@ -15,13 +15,28 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf import settings
 
 urlpatterns = [
+    url(r'^insert/','zhiwu.views.insert', name='insert'),
     url(r'^$', 'zhiwu.views.home', name='home'),
     url(r'^search/', 'zhiwu.views.search', name='search'),
     url(r'^room_detail/', 'zhiwu.views.room_detail', name='room_detail'),
     url(r'^admin_login/', 'zhiwu.views.admin_login', name='admin_login'),
+    url(r'^admin_root/', 'zhiwu.views.admin_root', name='admin_root'),
     url(r'^admin_assessor/', 'zhiwu.views.admin_assessor', name='admin_assessor'),
-    url(r'^admin_uploader/','zhiwu.views.admin_uploader', name='admin_uploader'),
+    url(r'^admin_uploader/', 'zhiwu.views.admin_uploader', name='admin_uploader'),
+
+    # post
+    url(r'^jianding_add/', 'zhiwu.views.jianding_add', name='jianding_add'),
+    url(r'^jianding_search/', 'zhiwu.views.jianding_search', name='jianding_search'),
+    url(r'^manager_add/', 'zhiwu.views.manager_add', name='manager_add'),
+
     url(r'^admin/', include(admin.site.urls)),
+    # url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_URL}),
+    #
+    url(r'^stylesheet/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_URL+"stylesheet"}),
+    url(r'^resource/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_URL+"resource"}),
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+
 ]
