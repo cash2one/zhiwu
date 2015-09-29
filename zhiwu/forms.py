@@ -14,7 +14,7 @@ class RoomForm(forms.Form):
     room_latitude = forms.FloatField()
     room_community = forms.CharField()
     room_shi = forms.IntegerField()
-    room_room_ting = forms.IntegerField()
+    room_ting = forms.IntegerField()
     room_wei = forms.IntegerField()
     room_rent = forms.IntegerField()
     room_area = forms.IntegerField()

@@ -36,7 +36,8 @@ class Room(models.Model):
     contactPerson = models.CharField(max_length=30)
     community = models.CharField(max_length=30)
     environment = models.CharField(max_length=30)
-    exist = models.BooleanField(default=True)
+    sold = models.BooleanField(default=False)
+    exist = models.BooleanField(default=False)
     achieve = models.BooleanField(default=False)
 
     def __unicode__(self):

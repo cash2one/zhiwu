@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from .forms import *
 from .help import *
 from zhiwu.models import *
+import json
 # Create your views here.
 
 success = 1
@@ -27,10 +28,11 @@ fault = 0
 
 
 def home(request):
-    room = ManagerForm()
+    # room = ManagerForm()
+    r = {"user": 2, "kk":3}
     # return HttpResponseRedirect("admin_manager")
 
-    return render(request, "backend.html", {"room": room})
+    return render(request, "home.html", {"r": json.dumps(r)})
     # return HttpResponse("hello world",status=200)
 
 def search(request):
