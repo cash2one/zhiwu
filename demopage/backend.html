@@ -63,66 +63,432 @@
         <div class="col-xs-2" id="myScrollspy">
             <ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="70">
                 <li class="active">
+                    <a href="#xiaoqu_manager">
+                        小区库管理
+                    </a>
+                    <ul class="second-level-menu">
+                        <li><a href="#xiaoqu_manager_add">小区新增</a></li>
+                        <li><a href="#xiaoqu_manager_search">小区查找</a></li>
+                    </ul>
+                </li>
+
+                <li class="active">
+                    <a href="#area_manager">
+                        区域管理
+                    </a>
+                    <ul class="second-level-menu">
+                        <li><a href="#area_manager_add">区域及账号建设</a></li>
+                        <li><a href="#area_manager_search">区域查找及修改</a></li>
+                    </ul>
+                </li>
+
+                <li class="active">
+                    <a href="#wuye_keeper_manager">
+                        物业人员管理
+                    </a>
+                    <ul class="second-level-menu">
+                        <li><a href="#wuye_keeper_manager_add">物业管家新增</a></li>
+                        <li><a href="#wuye_keeper_manager_search">物业管家查找</a></li>
+                    </ul>
+                </li>
+
+
+
+                <li>
                     <a href="#source_manager">
                         房源管理
                     </a>
                     <ul class="second-level-menu">
-                        <li><a href="#source_manager_search">房源查询</a></li>
+                        <li><a href="#source_manager_submit">房源发布</a></li>
+                        <li><a href="#source_manager_search">房源查找</a></li>
                     </ul>
                 </li>
+
                 <!--<li>-->
                     <!--<a href="#data-statistics">-->
                         <!--数据统计-->
                     <!--</a>-->
                     <!--<ul class="second-level-menu">-->
+                        <!--<li><a href="#">小区统计</a></li>-->
+                        <!--<li><a href="#">区域统计</a></li>-->
+                        <!--<li><a href="#">房源统计</a></li>-->
                         <!--<li><a href="#">客户流量</a></li>-->
-                        <!--<li><a href="#">房源点击量</a></li>-->
+                        <!--<li><a href="#">房源点击</a></li>-->
                         <!--<li><a href="#">停留时间</a></li>-->
                         <!--<li><a href="#">来电量</a></li>-->
                     <!--</ul>-->
                 <!--</li>-->
+
                 <li>
-                    <a href="#jianding_list">
-                        鉴定员管理
+                    <a href="#mansion_manager_list">
+                        公寓经理管理
                     </a>
                     <ul class="second-level-menu">
-                        <li><a href="#jianding_add">鉴定员新增</a></li>
-                        <li><a href="#jianding_search">鉴定员查询</a></li>
+                        <li><a href="#mansion_manager_add">公寓经理新增</a></li>
+                        <li><a href="#mansion_manager_search">公寓经理查询</a></li>
                     </ul>
                 </li>
+
+
                 <li>
-                    <a href="#manager_list">
-                        经纪人通讯录管理
+                    <a href="#mansion_keeper_list">
+                        公寓管家管理
                     </a>
                     <ul class="second-level-menu">
-                        <li><a href="#manager_add">经纪人通讯录新增</a></li>
-                        <li><a href="#manager_search">经纪人通讯录查询</a></li>
+                        <li><a href="#mansion_keeper_add">公寓管家新增</a></li>
+                        <li><a href="#mansion_keeper_search">公寓管家查询</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#submit_account_list">
-                        发布帐户管理
-                    </a>
-                    <ul class="second-level-menu">
-                        <li><a href="#submit_account_add">发布帐户新增</a></li>
-                        <li><a href="#submit_account_search">发布帐户查询</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#keeper_list">
-                        管家通讯录管理
-                    </a>
-                    <ul class="second-level-menu">
-                        <li><a href="#keeper_add">管家通讯录新增</a></li>
-                        <li><a href="#keeper_search">管家通讯录查询</a></li>
-                    </ul>
-                </li>
+
+
             </ul>
         </div>
-        <div class="col-xs-offset-3 col-xs-9" id="lists">
-            <div class="section">
-                <div class="title-l1" id="source_manager">房源管理</div>
+        <div class="col-xs-offset-3 col-xs-9">
+
+            <div class="section" id="xiaoqu_manager">
+                <div class="title-l1">小区库管理</div>
                 <div class="section-content">
+                    <div class="section" id="xiaoqu_manager_add">
+                        <div class="title-l2">小区新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="xiaoqu_add_form" dest="/xiaoqu_add">
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_name" class="col-sm-2 control-label">详细小区名称*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_name" name="xiaoqu_add_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_area" class="col-sm-2 control-label">所属区域*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_area" name="xiaoqu_add_area">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_district" class="col-sm-2 control-label">所属行政区*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_district" name="xiaoqu_add_district">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_business" class="col-sm-2 control-label">所在商圈</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_business" name="xiaoqu_add_business">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_keyword" class="col-sm-2 control-label">其它关键字*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_keyword" name="xiaoqu_add_keyword">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_type" class="col-sm-2 control-label">房屋类型*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_type" name="xiaoqu_add_type">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_year" class="col-sm-2 control-label">建成年限*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_year" name="xiaoqu_add_year">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_level" class="col-sm-2 control-label">小区档次</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_level" name="xiaoqu_add_level">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_facilitiy" class="col-sm-2 control-label">配套设施</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_facilitiy" name="xiaoqu_add_facilitiy">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_green" class="col-sm-2 control-label">绿化</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_green" name="xiaoqu_add_green">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_security" class="col-sm-2 control-label">安保</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_security" name="xiaoqu_add_security">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section" id="xiaoqu_manager_search">
+                        <div class="title-l2">鉴定员查询</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="xiaoqu_search_form" dest="/xiaoqu_search">
+                                <div class="form-group">
+                                    <label for="xiaoqu_search_name" class="control-label">小区名称*</label>
+                                    <input type="text" class="form-control" id="xiaoqu_search_name" name="xiaoqu_search_name">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get">搜索</button>
+                                </div>
+                            </form>
+
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>详细小区名称</th>
+                                    <th>所属区域</th>
+                                    <th>所属行政区</th>
+                                    <th>所在商圈</th>
+                                    <th>其它关键字</th>
+                                    <th>房屋类型</th>
+                                    <th>建成年限</th>
+                                    <th>小区档次</th>
+                                    <th>配套设施</th>
+                                    <th>绿化</th>
+                                    <th>安保</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>古荡小区</th>
+                                    <th>古荡</th>
+                                    <th>西湖区</th>
+                                    <th>黄龙商圈</th>
+                                    <th>haha</th>
+                                    <th>洋房</th>
+                                    <th>5年</th>
+                                    <th>高档</th>
+                                    <th>地铁</th>
+                                    <th>多</th>
+                                    <th>安全</th>
+                                    <!--<th>-->
+                                        <!--<button class="btn btn-success">编辑</button>-->
+                                    <!--</th>-->
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="area_manager">
+                <div class="title-l1">区域管理</div>
+                <div class="section-content">
+                    <div class="section" id="area_manager_add">
+                        <div class="title-l2">区域及账号建设</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="area_add_form" dest="/area_add">
+                                <div class="form-group">
+                                    <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_name" name="area_add_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_xiaoqu" class="col-sm-2 control-label">所辖小区</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="area_add_xiaoqu" name="area_add_xiaoqu">
+                                            <option value="">浦沿A</option>
+                                            <option value="">浦沿B</option>
+                                            <option value="">浦沿C</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_account" class="col-sm-2 control-label">区账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_account" name="area_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="area_add_pw" name="area_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_manager_name" class="col-sm-2 control-label">区经理姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_manager_name" name="area_add_manager_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_phone" class="col-sm-2 control-label">区域手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_phone" name="area_add_phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section" id="area_manager_search">
+                        <div class="title-l2">区域查找及修改</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="area_search_form" dest="/area_search">
+                                <div class="form-group">
+                                    <label for="area_search_name" class="control-label">区域名称*</label>
+                                    <input type="text" class="form-control" id="area_search_name" name="area_search_name">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get">搜索</button>
+                                </div>
+                            </form>
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>区域名</th>
+                                    <th>区账号</th>
+                                    <th>所辖小区</th>
+                                    <th>密码</th>
+                                    <th>区经理姓名</th>
+                                    <th>区域手机</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>古荡</th>
+                                    <th>Q3748</th>
+                                    <th>古荡小区</th>
+                                    <th>JKLFJD9</th>
+                                    <th>张三</th>
+                                    <th>3725892739</th>
+                                    <th>
+                                        <button class="btn btn-default">编辑</button>
+                                        <button class="btn btn-danger">注销</button>
+                                        <button class="btn btn-success">激活</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="wuye_keeper_manager">
+                <div class="title-l1">物业人员管理</div>
+                <div class="section-content">
+                    <div class="section" id="wuye_keeper_manager_add">
+                        <div class="title-l2">物业管家新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_keeper_add">
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_account" class="col-sm-2 control-label">账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_account" name="wuye_keeper_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="wuye_keeper_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_xiaoqu" class="col-sm-2 control-label">所属小区</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="wuye_keeper_add_xiaoqu" name="wuye_keeper_add_xiaoqu">
+                                            <option value="">浦沿A</option>
+                                            <option value="">浦沿B</option>
+                                            <option value="">浦沿C</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_name" class="col-sm-2 control-label">管家姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_name" name="wuye_keeper_add_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_phone" class="col-sm-2 control-label">管家手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_phone" name="wuye_keeper_add_phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section" id="wuye_keeper_manager_search">
+                        <div class="title-l2">物业管家查找</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="wuye_keeper_search_form" dest="/wuye_keeper_search">
+                                <div class="form-group">
+                                    <label for="wuye_keeper_search_account" class="control-label">账号*</label>
+                                    <input type="text" class="form-control" id="wuye_keeper_search_account" name="wuye_keeper_search_account">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get">搜索</button>
+                                </div>
+                            </form>
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>账号</th>
+                                    <th>密码</th>
+                                    <th>所属小区</th>
+                                    <th>管家姓名</th>
+                                    <th>管家手机</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>Q3748</th>
+                                    <th>JKLFJD9</th>
+                                    <th>古荡校区</th>
+                                    <th>张三</th>
+                                    <th>3725892739</th>
+                                    <th>
+                                        <button class="btn btn-default">编辑</button>
+                                        <button class="btn btn-danger">注销</button>
+                                        <button class="btn btn-success">激活</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="source_manager">
+                <div class="title-l1">房源管理</div>
+                <div class="section-content">
+                    <div class="section" id="source_manager_submit">
+                        <div class="title-l2">房源发布</div>
+                        <div class="section-content">
+                            <a class="btn btn-success" href="newHouse.html">发布新的房源</a>
+                        </div>
+                    </div>
                     <div class="section" id="source_manager_search">
                         <div class="title-l2">房源查询</div>
                         <div class="section-content">
@@ -191,14 +557,14 @@
                                 <!--</div>-->
 
                                 <div class="form-group">
-                                    <label for="source_manager_search_submitter" class="col-sm-2 control-label">鉴定员/发布员</label>
+                                    <label for="source_manager_search_submitter" class="col-sm-2 control-label">物业/发布员</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="source_manager_search_submitter" name="source_manager_search_submitter">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="source_manager_search_manager" class="col-sm-2 control-label">经纪人/管家</label>
+                                    <label for="source_manager_search_manager" class="col-sm-2 control-label">物业管家/二房东管家</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="source_manager_search_manager" name="source_manager_search_manager">
                                     </div>
@@ -251,8 +617,8 @@
                                     <th>户型</th>
                                     <th>价格</th>
                                     <th>入住时间</th>
-                                    <th>鉴定员/发布员</th>
-                                    <th>经纪人/管家</th>
+                                    <th>物业/发布员</th>
+                                    <th>物业管家/二房东管家</th>
                                     <th>有无照片</th>
                                     <th>状态</th>
                                     <th>操作</th>
@@ -292,6 +658,27 @@
                 <!--<div class="title-l1">数据统计</div>-->
                 <!--<div class="section-content">-->
                     <!--<div class="section">-->
+                        <!--<div class="title-l2">小区统计</div>-->
+                        <!--<div class="section-content">-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="section">-->
+                        <!--<div class="title-l2">区域统计</div>-->
+                        <!--<div class="section-content">-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="section">-->
+                        <!--<div class="title-l2">房源统计</div>-->
+                        <!--<div class="section-content">-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="section">-->
                         <!--<div class="title-l2">客户流量</div>-->
                         <!--<div class="section-content">-->
 
@@ -299,7 +686,7 @@
                     <!--</div>-->
 
                     <!--<div class="section">-->
-                        <!--<div class="title-l2">房源点击量</div>-->
+                        <!--<div class="title-l2">房源点击</div>-->
                         <!--<div class="section-content">-->
 
                         <!--</div>-->
@@ -320,495 +707,68 @@
                     <!--</div>-->
                 <!--</div>-->
             <!--</div>-->
-            <div class="section" id="jianding_list">
-                <div class="title-l1">鉴定员管理</div>
-                <div class="section-content">
-                    <div class="section" id="jianding_add">
-                        <div class="title-l2">鉴定员新增</div>
-                        <div class="section-content">
-                            <form class="form-horizontal" id="jianding_add_form" dest="/jianding_add">
-                                <div class="form-group">
-                                    <label for="jianding_add_account" class="col-sm-2 control-label">账号</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="jianding_add_account" name="jianding_add_account">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="jianding_add_phone" class="col-sm-2 control-label">我司手机</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="jianding_add_phone" name="jianding_add_phone">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="jianding_add_name" class="col-sm-2 control-label">鉴定员姓名</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="jianding_add_name" name="jianding_add_name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="jianding_add_pw" class="col-sm-2 control-label">密码</label>
-                                    <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="jianding_add_pw" name="jianding_add_pw">
-                                    </div>
-                                </div>
 
+            <div class="section" id="mansion_manager_list">
+                <div class="title-l1">公寓经理管理</div>
+                <div class="section-content">
+                    <div class="section" id="mansion_manager_add">
+                        <div class="title-l2">公寓经理新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="mansion_manager_add_form" dest="/mansion_manager_add">
+                                <div class="form-group">
+                                    <label for="mansion_manager_add_account" class="col-sm-2 control-label">账号*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="mansion_manager_add_account" name="mansion_manager_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mansion_manager_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="mansion_manager_add_pw" name="mansion_manager_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mansion_manager_add_phone" class="col-sm-2 control-label">管家手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="mansion_manager_add_phone" name="mansion_manager_add_phone">
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button class="btn btn-default btn-post">保存</button>
+                                        <button class="btn btn-success btn-post">保存</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-
-                    <div class="section" id="jianding_search">
-                        <div class="title-l2">鉴定员查询</div>
+                    <div class="section" id="mansion_manager_search">
+                        <div class="title-l2">物业管家查找</div>
                         <div class="section-content">
-                            <form class="form-inline" id="jianding_search_form" dest="/jianding_search">
+                            <form class="form-inline" id="mansion_manager_search_form" dest="/mansion_manager_search">
                                 <div class="form-group">
-                                    <label for="jianding_search_account">账号</label>
-                                    <input type="text" class="form-control" id="jianding_search_account" name="jianding_search_account" placeholder="账号">
-
+                                    <label for="mansion_manager_search_account" class="control-label">账号*</label>
+                                    <input type="text" class="form-control" id="mansion_manager_search_account" name="mansion_manager_search_account">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="jianding_search_phone">我司手机</label>
-                                    <input type="text" class="form-control" id="jianding_search_phone" name="jianding_search_phone" placeholder="我司手机">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="jianding_search_name">鉴定员姓名</label>
-                                    <input type="text" class="form-control" id="jianding_search_name" name="jianding_search_name" placeholder="鉴定员姓名">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="jianding_search_pw">密码</label>
-                                        <input type="password" class="form-control" id="jianding_search_pw" name="jianding_search_pw" placeholder="密码">
-                                </div>
-
-
-                                <div class="form-group">
-                                    <button class="btn btn-default btn-get">搜索</button>
+                                    <button class="btn btn-info btn-get">搜索</button>
                                 </div>
                             </form>
-
-
-
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>账号</th>
-                                        <th>我司手机</th>
-                                        <th>鉴定员姓名</th>
-                                        <th>密码</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>1</th>
-                                        <th>18848398351</th>
-                                        <th>张三</th>
-                                        <th>3725892739</th>
-                                        <th>
-                                            <button class="btn btn-default">编辑</button>
-                                            <button class="btn btn-danger">注销</button>
-                                            <button class="btn btn-success">激活</button>
-                                        </th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="section" id="manager_list">
-                <div class="title-l1">经纪人通讯录管理</div>
-                <div class="section-content">
-                    <div class="section" id="manager_add">
-                        <div class="title-l2">经纪人通讯录新增</div>
-                        <div class="section-content">
-                            <form class="form-horizontal" id="manager_add_form" dest="/manager_add">
-                                <div class="form-group">
-                                    <label for="manager_add_account" class="col-sm-2 control-label">账号</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="manager_add_account" name="manager_add_account">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="manager_add_name" class="col-sm-2 control-label">鉴定员姓名</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="manager_add_name" name="manager_add_name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="manager_add_phone" class="col-sm-2 control-label">我司手机</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="manager_add_phone" name="manager_add_phone">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="manager_add_shop" class="col-sm-2 control-label">鉴定员姓名</label>
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="manager_add_shop" name="manager_add_shop">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button type="submit" class="btn btn-default btn-post">保存</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="section" id="manager_search">
-                        <div class="title-l2">经纪人通讯录查询</div>
-                        <div class="section-content">
-                            <form class="form-inline" id="manager_search_form" dest="/manager_search">
-                                <div class="form-group">
-                                    <label for="manager_search_jiandingaccount">鉴定员账号</label>
-                                    <input type="text" class="form-control" id="manager_search_jiandingaccount" name="manager_search_jiandingaccount" placeholder="鉴定员账号">
-
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="manager_search_managername">经纪人姓名</label>
-                                    <input type="text" class="form-control" id="manager_search_managername" name="manager_search_managername" placeholder="经纪人姓名">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="manager_search_managerphone">经纪人手机</label>
-                                    <input type="text" class="form-control" id="manager_search_managerphone" name="manager_search_managerphone" placeholder="经纪人手机">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="manager_search_location">所在公司门店</label>
-                                    <input type="text" class="form-control" id="manager_search_location" name="manager_search_location" placeholder="所在公司门店">
-                                </div>
-
-                                <div class="form-group">
-                                    <button class="btn btn-default btn-get">搜索</button>
-                                </div>
-                            </form>
-
 
 
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
-                                    <th>鉴定员账号</th>
-                                    <th>经纪人姓名</th>
-                                    <th>经纪人手机</th>
-                                    <th>所在公司门店</th>
-                                    <th>操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <th>张三</th>
-                                    <th>18848398351</th>
-                                    <th>古荡路128号</th>
-                                    <th>
-                                        <button class="btn btn-default">编辑</button>
-                                        <button class="btn btn-danger">注销</button>
-                                        <button class="btn btn-success">激活</button>
-                                    </th>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="section" id="submit_account_list">
-                <div class="title-l1" id="submit_account_add">发布帐户管理</div>
-                <div class="section-content">
-                    <div class="section">
-                        <div class="title-l2">发布帐户新增</div>
-                        <div class="section-content">
-                            <form class="form-horizontal" id="submit_account_add_form" dest="/submit_account_add">
-                                <div class="form-group">
-                                    <label for="submit_account_add_startday" class="col-sm-2 control-label">合同启用日期</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_add_startday" name="submit_account_add_startday">
-                                    </div>
-                                </div>
-
-                                <!--<div class="form-group">-->
-                                    <!--<label for="submit_account_add_startday" class="col-sm-2 control-label">合同启用日期</label>-->
-                                    <!--<div class="input-group date submit_account_add_startday_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
-                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
-                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
-                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
-                                    <!--</div>-->
-                                    <!--<input type="hidden" id="submit_account_add_startday" value="" /><br/>-->
-                                <!--</div>-->
-
-
-
-                                <div class="form-group">
-                                    <label for="submit_account_add_endday" class="col-sm-2 control-label">合同截止日期</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_add_endday" name="submit_account_add_endday">
-                                    </div>
-                                </div>
-
-                                <!--<div class="form-group">-->
-                                    <!--<label for="submit_account_add_endday" class="col-sm-2 control-label">合同截止日期</label>-->
-                                    <!--<div class="input-group date submit_account_add_endday_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
-                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
-                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
-                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
-                                    <!--</div>-->
-                                    <!--<input type="hidden" id="submit_account_add_endday" value="" /><br/>-->
-                                <!--</div>-->
-
-                                <div class="form-group">
-                                    <label for="submit_account_add_company" class="col-sm-2 control-label">公司</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_add_company" name="submit_account_add_company">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="submit_account_add_name" class="col-sm-2 control-label">发布员姓名</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_add_name" name="submit_account_add_name">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="submit_account_add_account" class="col-sm-2 control-label">发布员账号</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_add_account" name="submit_account_add_account">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="submit_account_add_pw" class="col-sm-2 control-label">密码</label>
-                                    <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="submit_account_add_pw" name="submit_account_add_pw">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button class="btn btn-default btn-post">保存</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="section" id="submit_account_search">
-                        <div class="title-l2">发布帐户查询</div>
-                        <div class="section-content">
-                            <form class="form-horizontal" id="submit_account_search_form" dest="/submit_account_search">
-                                <div class="form-group">
-                                    <label for="submit_account_search_company" class="col-sm-2 control-label">公司</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_search_company" name="submit_account_search_company" placeholder="公司">
-                                    </div>
-
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="submit_account_search_name" class="col-sm-2 control-label">发布员姓名</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_search_name" name="submit_account_search_name" placeholder="发布员姓名">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="submit_account_search_account" class="col-sm-2 control-label">发布员账号</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_search_account" name="submit_account_search_account" placeholder="发布员账号">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="submit_account_search_startday" class="col-sm-2 control-label">开始时间</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_search_startday" name="submit_account_search_startday" placeholder="开始时间">
-                                    </div>
-                                </div>
-
-                                <!--<div class="form-group">-->
-                                    <!--<label for="submit_account_search_startday" class="col-sm-2 control-label">开始时间</label>-->
-                                    <!--<div class="input-group date submit_account_search_startday_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
-                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
-                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
-                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
-                                    <!--</div>-->
-                                    <!--<input type="hidden" id="submit_account_search_startday" value="" /><br/>-->
-                                <!--</div>-->
-
-                                <div class="form-group">
-                                    <label for="submit_account_search_endday" class="col-sm-2 control-label">结束时间</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_search_endday" name="submit_account_search_endday" placeholder="技术时间">
-                                    </div>
-                                </div>
-
-                                <!--<div class="form-group">-->
-                                    <!--<label for="submit_account_search_endday" class="col-sm-2 control-label">结束时间</label>-->
-                                    <!--<div class="input-group date submit_account_search_endday_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">-->
-                                        <!--<input class="form-control" size="16" type="text" value="" readonly>-->
-                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>-->
-                                        <!--<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>-->
-                                    <!--</div>-->
-                                    <!--<input type="hidden" id="submit_account_search_endday" value="" /><br/>-->
-                                <!--</div>-->
-
-                                <div class="form-group">
-                                    <label for="submit_account_search_status" class="col-sm-2 control-label">状态</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_search_status" name="submit_account_search_status" placeholder="状态">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="submit_account_search_keywords" class="col-sm-2 control-label">关键字</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="submit_account_search_keywords" name="submit_account_search_keywords" placeholder="关键字">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button class="btn btn-default btn-get">搜索</button>
-                                    </div>
-                                </div>
-                            </form>
-
-
-
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>公司</th>
-                                    <th>发布员姓名</th>
-                                    <th>发布员账号</th>
-                                    <th>开始时间</th>
-                                    <th>结束时间</th>
-                                    <th>状态</th>
-                                    <th>操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <th>张三</th>
-                                    <th>236781</th>
-                                    <th>2015-09-01</th>
-                                    <th>2015-09-30</th>
-                                    <th>在发布</th>
-                                    <th class="btn-group">
-                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
-
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">编辑</a></li>
-                                            <li><a href="#">冻结</a></li>
-                                            <li><a href="#">激活</a></li>
-                                            <li><a href="#">注销</a></li>
-                                        </ul>
-                                    </th>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="section" id="keeper_list">
-                <div class="title-l1">管家通讯录管理</div>
-                <div class="section-content">
-                    <div class="section" id="keeper_add">
-                        <div class="title-l2">管家通讯录新增</div>
-                        <div class="section-content">
-                            <form class="form-horizontal" id="keeper_add_form" dest="/keeper_add">
-                                <div class="form-group">
-                                    <label for="keeper_add_account" class="col-sm-2 control-label">发布员账号</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="keeper_add_account" name="keeper_add_account">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="keeper_add_name" class="col-sm-2 control-label">管家姓名</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="keeper_add_name" name="keeper_add_name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="keeper_add_phone" class="col-sm-2 control-label">手机号码</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="keeper_add_phone" name="keeper_add_phone">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <button class="btn btn-default btn-post">保存</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="section" id="keeper_search">
-                        <div class="title-l2">管家通讯录查询</div>
-                        <div class="section-content">
-                            <form class="form-inline" id="keeper_search_form" dest="/keeper_search">
-                                <div class="form-group">
-                                    <label for="keeper_search_company">公司</label>
-                                    <input type="text" class="form-control" id="keeper_search_company" name="keeper_search_company" placeholder="公司">
-
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="keeper_search_name">发布员姓名</label>
-                                    <input type="text" class="form-control" id="keeper_search_name" name="keeper_search_name" placeholder="发布员姓名">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="keeper_search_account">发布员账号</label>
-                                    <input type="text" class="form-control" id="keeper_search_account" name="keeper_search_account" placeholder="发布员账号">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="keeper_search_pw">密码</label>
-                                    <input type="password" class="form-control" id="keeper_search_pw" name="keeper_search_pw" placeholder="密码">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="keeper_search_keywords">关键字</label>
-                                    <input type="text" class="form-control" id="keeper_search_keywords" name="keeper_search_keywords" placeholder="关键字">
-                                </div>
-
-                                <div class="form-group">
-                                    <button class="btn btn-default btn-get">搜索</button>
-                                </div>
-                            </form>
-
-
-
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>公司</th>
-                                    <th>发布员姓名</th>
-                                    <th>发布员账号</th>
+                                    <th>账号</th>
                                     <th>密码</th>
-                                    <th>操作</th>
+                                    <th>业务经理手机</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <th>浙大公司</th>
-                                    <th>张三</th>
-                                    <th>1884351</th>
-                                    <th>sjfkldsj24</th>
+                                    <th>Q3748</th>
+                                    <th>JKLFJD9</th>
+                                    <th>3725892739</th>
                                     <th>
                                         <button class="btn btn-default">编辑</button>
                                         <button class="btn btn-danger">注销</button>
@@ -821,6 +781,102 @@
                     </div>
                 </div>
             </div>
+
+            <div class="section" id="mansion_keeper_list">
+                <div class="title-l1">公寓管家管理</div>
+                <div class="section-content">
+                    <div class="section" id="mansion_keeper_add">
+                        <div class="title-l2">公寓管家新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="masion_keeper_add_form" dest="/masion_keeper_add">
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_account" class="col-sm-2 control-label">账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_account" name="masion_keeper_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="masion_keeper_add_pw" name="masion_keeper_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_company" class="col-sm-2 control-label">所属公司</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_company" name="masion_keeper_add_company">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_xiaoqu" class="col-sm-2 control-label">所属业务经理</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="masion_keeper_add_xiaoqu" name="masion_keeper_add_xiaoqu">
+                                            <option value="">李xx</option>
+                                            <option value="">张xx</option>
+                                            <option value="">高xx</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_phone" class="col-sm-2 control-label">管家手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_phone" name="masion_keeper_add_phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section" id="mansion_keeper_search">
+                        <div class="title-l2">公寓管家查询</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="masion_keeper_search_form" dest="/masion_keeper_search">
+                                <div class="form-group">
+                                    <label for="masion_keeper_search_account" class="control-label">账号*</label>
+                                    <input type="text" class="form-control" id="masion_keeper_search_account" name="masion_keeper_search_account">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get">搜索</button>
+                                </div>
+                            </form>
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>账号</th>
+                                    <th>密码</th>
+                                    <th>所属公司</th>
+                                    <th>所属业务经理</th>
+                                    <th>管家手机</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th>Q3748</th>
+                                    <th>JKLFJD9</th>
+                                    <th>租房网</th>
+                                    <th>张三</th>
+                                    <th>3725892739</th>
+                                    <th>
+                                        <button class="btn btn-default">编辑</button>
+                                        <button class="btn btn-danger">注销</button>
+                                        <button class="btn btn-success">激活</button>
+                                    </th>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -877,19 +933,6 @@
 
         //添加日期输入启动datetimepicker
         $('#source_manager_search_time').datepicker({  dateFormat: "yy-mm-dd" });
-
-        $('#source_manager_search_intime').datepicker({  dateFormat: "yy-mm-dd" });
-
-        $('#submit_account_add_startday').datepicker({  dateFormat: "yy-mm-dd" });
-
-        $('#submit_account_add_endday').datepicker({  dateFormat: "yy-mm-dd" });
-
-        $('#submit_account_search_startday').datepicker({  dateFormat: "yy-mm-dd" });
-
-        $('#submit_account_search_endday').datepicker({  dateFormat: "yy-mm-dd" });
-
-
-
     })();
 
 </script>

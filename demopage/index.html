@@ -283,15 +283,15 @@
         租房网
     </div>
 
-    <div class="index-panel" id="work-panel">
+    <form class="index-panel" id="work-panel" action="/work_search" method="get">
         <div class="title">寻房启事</div>
 
-        <div class="content">
+        <div class="content" id="work-search">
 
 
 
             &nbsp&nbsp&nbsp&nbsp我的工作地点在
-            <input type="text" class="form-control" name="work-location"/>，
+            <input type="text" class="form-control" name="work_location" id="work_location"/>，
             我想通过
             <select class="form-control" name="way" id="way">
                 <option value="walk">步行</option>
@@ -299,24 +299,24 @@
                 <option value="drive">驾车</option>
             </select>
             的方式，在
-            <input class="form-control" type="text" name="time"/>
+            <input class="form-control" type="text" name="time" id="time"/>
             的时间内到达公司。
 
 
         </div>
 
-        <button class="btn-search">
+        <button type="submit" class="btn-search">
             <span class="glyphicon glyphicon-search"></span>
             搜索房源
         </button>
         <span id="search-in-home">按照居住地搜索？</span>
-    </div>
+    </form>
 
 
-    <div class="index-panel" id="home-panel">
+    <form class="index-panel" id="home-panel" action="/home_search" method="get">
         <div class="title">寻房启事</div>
 
-        <div class="content">
+        <div class="content" id="home-search">
             <!--我想住在-->
             <!--<div class="space">-->
 
@@ -326,17 +326,17 @@
 
             &nbsp&nbsp&nbsp&nbsp
             我想住在
-            <input type="text" class="form-control" name="home-location"/>
+            <input type="text" class="form-control" name="home_location" id="home_location"/>
             附近。
 
         </div>
 
-        <button class="btn-search">
+        <button type="submit" class="btn-search btn-get">
             <span class="glyphicon glyphicon-search"></span>
             搜索房源
         </button>
         <span id="search-in-work">按照工作地搜索？</span>
-    </div>
+    </form>
 </div>
 
 <footer>
@@ -403,6 +403,7 @@
             $("#home-panel").hide().css("left","60%");
             $("#work-panel").show().css("left","50%");
         });
+
     });
 </script>
 </html>

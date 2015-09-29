@@ -61,7 +61,7 @@
             <div class="section" id="step1">
                 <div class="title-l1">第一步</div>
                 <div class="section-content">
-                    <form class="form-horizontal" id="step1-form">
+                    <form class="form-horizontal" id="step1-form" dest-save="/" dest-submit="/">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">小区地址</label>
                             <div class="col-sm-10">
@@ -118,12 +118,12 @@
                             <label class="col-sm-2 control-label">随时可看</label>
                             <div class="col-sm-10">
                                 <label for="see_yes" class="radio-inline">
-                                    <input type="radio" name="price" id="see_yes"/>
+                                    <input type="radio" name="see" id="see_yes"/>
                                     是
                                 </label>
 
                                 <label for="see_no" class="radio-inline">
-                                    <input type="radio" name="price" id="see_no"/>
+                                    <input type="radio" name="see" id="see_no"/>
                                     否
                                 </label>
                             </div>
@@ -131,8 +131,8 @@
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button class="btn btn-success">保存</button>
-                                <button class="btn btn-info">发布</button>
+                                <button class="btn btn-success btn-save btn-post" data-type="save">保存</button>
+                                <button class="btn btn-info btn-submit btn-post" data-type="submit">发布</button>
                             </div>
                         </div>
                     </form>
@@ -143,7 +143,7 @@
                 <div class="title-l1">第二步</div>
                 <div class="section-content">
                     <div class="section">
-                        <form class="form-horizontal" id="step2-form">
+                        <form class="form-horizontal" id="step2-form" dest-save="/" dest-submit="/">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">上传照片</label>
                                 <div class="col-sm-10">
@@ -153,8 +153,8 @@
 
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button class="btn btn-success">保存</button>
-                                    <button class="btn btn-info">发布</button>
+                                    <button class="btn btn-success btn-save btn-post" data-type="save">保存</button>
+                                    <button class="btn btn-info btn-submit btn-post" data-type="submit">发布</button>
                                 </div>
                             </div>
                         </form>
@@ -166,16 +166,16 @@
                 <div class="title-l1">第三步</div>
                 <div class="section-content">
                     <div class="section">
-                        <form class="form-horizontal" id="step3-form">
+                        <form class="form-horizontal" id="step3-form" dest-save="/" dest-submit="/">
                             <div class="form-group">
-                                <label for="floor" class="col-sm-2 control-label">楼层</label>
+                                <label class="col-sm-2 control-label">楼层</label>
                                 <div class="col-sm-10">
-                                    <select name="floor" id="floor" class="form-control inline-input">
+                                    <select name="floor_level" id="floor_level" class="form-control inline-input">
                                         <option value="low">低</option>
                                         <option value="mid">中</option>
                                         <option value="high">高</option>
                                     </select>/
-                                    <input type="text" class="form-control inline-input" id="keeper-add-account">层
+                                    <input type="text" class="form-control inline-input" id="total_floor" name="total_floor">层
                                 </div>
                             </div>
 
@@ -183,12 +183,12 @@
                                 <label class="col-sm-2 control-label">电梯</label>
                                 <div class="col-sm-10">
                                     <label for="elevator_yes" class="radio-inline">
-                                        <input type="radio" name="price" id="elevator_yes"/>
+                                        <input type="radio" name="elevator" id="elevator_yes"/>
                                         有电梯
                                     </label>
 
                                     <label for="elevator_no" class="radio-inline">
-                                        <input type="radio" name="price" id="elevator_no"/>
+                                        <input type="radio" name="elevator" id="elevator_no"/>
                                         无电梯
                                     </label>
                                 </div>
@@ -197,68 +197,68 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">房屋配置</label>
                                 <div class="col-sm-10">
-                                    <label for="canzhuo_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="canzhuo_yes" id="canzhuo_yes"/>
+                                    <label for="canzhuo" class="checkbox-inline">
+                                        <input type="checkbox" name="canzhuo" id="canzhuo"/>
                                         餐桌
                                     </label>
 
-                                    <label for="sofa_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="sofa_yes" id="sofa_yes"/>
+                                    <label for="sofa" class="checkbox-inline">
+                                        <input type="checkbox" name="sofa" id="sofa"/>
                                         沙发
                                     </label>
 
-                                    <label for="desk_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="desk_yes" id="desk_yes"/>
+                                    <label for="desk" class="checkbox-inline">
+                                        <input type="checkbox" name="desk" id="desk"/>
                                         书桌
                                     </label>
 
-                                    <label for="chair_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="chair_yes" id="chair_yes"/>
+                                    <label for="chair" class="checkbox-inline">
+                                        <input type="checkbox" name="chair" id="chair"/>
                                         椅子
                                     </label>
 
-                                    <label for="closet_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="closet_yes" id="closet_yes"/>
+                                    <label for="closet" class="checkbox-inline">
+                                        <input type="checkbox" name="closet" id="closet"/>
                                         衣柜
                                     </label>
 
-                                    <label for="bed_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="bed_yes" id="bed_yes"/>
+                                    <label for="bed" class="checkbox-inline">
+                                        <input type="checkbox" name="bed" id="bed"/>
                                         床
                                     </label>
 
-                                    <label for="aircon_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="aircon_yes" id="aircon_yes"/>
+                                    <label for="aircon" class="checkbox-inline">
+                                        <input type="checkbox" name="aircon" id="aircon"/>
                                         空调
                                     </label>
 
-                                    <label for="washer_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="washer_yes" id="washer_yes"/>
+                                    <label for="washer" class="checkbox-inline">
+                                        <input type="checkbox" name="washer" id="washer"/>
                                         洗衣机
                                     </label>
 
-                                    <label for="waterheater_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="waterheater_yes" id="waterheater_yes"/>
+                                    <label for="waterheater" class="checkbox-inline">
+                                        <input type="checkbox" name="waterheater" id="waterheater"/>
                                         热水器
                                     </label>
 
-                                    <label for="refregister_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="refregister_yes" id="refregister_yes"/>
+                                    <label for="refregister" class="checkbox-inline">
+                                        <input type="checkbox" name="refregister" id="refregister"/>
                                         冰箱
                                     </label>
 
-                                    <label for="tv_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="tv_yes" id="tv_yes"/>
+                                    <label for="tv" class="checkbox-inline">
+                                        <input type="checkbox" name="tv" id="tv"/>
                                         电视机
                                     </label>
 
-                                    <label for="cookerhood_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="cookerhood_yes" id="cookerhood_yes"/>
+                                    <label for="cookerhood" class="checkbox-inline">
+                                        <input type="checkbox" name="cookerhood" id="cookerhood"/>
                                         油烟机
                                     </label>
 
-                                    <label for="gascooker_yes" class="checkbox-inline">
-                                        <input type="checkbox" name="gascooker_yes" id="gascooker_yes"/>
+                                    <label for="gascooker" class="checkbox-inline">
+                                        <input type="checkbox" name="gascooker" id="gascooker"/>
                                         燃气灶
                                     </label>
                                 </div>
@@ -361,9 +361,9 @@
 
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button class="btn btn-success">保存</button>
-                                    <button class="btn btn-info">发布</button>
-                                    <button class="btn btn-default">预览</button>
+                                    <button class="btn btn-success btn-save btn-post" data-type="save">保存</button>
+                                    <button class="btn btn-info btn-submit btn-post" data-type="submit">发布</button>
+                                    <button class="btn btn-default btn-preview">预览</button>
                                 </div>
                             </div>
                         </form>
@@ -432,11 +432,18 @@
 <script>
     ;(function(){
 
-        //为新增form添加ajax
+        //为新增form,save或者submit添加ajax
         $(".btn-post").bind("click",function(e){
             e.preventDefault();
             var form = $(this).parents("form");
-            var dest = form.attr("dest");
+            var dest;
+
+            if($(this).data("type")==="save"){
+                dest=form.attr("dest-save");
+            }else{
+                dest=form.attr("dest-submit");
+            }
+
             var content=form.serialize();
 
             $.post(

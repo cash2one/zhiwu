@@ -286,13 +286,13 @@ hr{
     position: relative;
 }
 
-.room-detail-map{
+#room-detail-map{
     position: relative;
     left:20px;
     top:-30px;
-    width:700px;
+    width:750px;
     height:275px;
-    background: url("../resource/peitao.png");
+    /*background: url("../resource/peitao.png");*/
     display: inline-block;
 }
 
@@ -332,6 +332,11 @@ hr{
 }
 
 .room-detail-facility .facility-choose li:hover{
+    color:#ff5a5f;
+    border: 2px solid #ff5a5f;
+}
+
+.room-detail-facility .facility-choose li.active{
     color:#ff5a5f;
     border: 2px solid #ff5a5f;
 }
@@ -399,7 +404,7 @@ hr{
     position: fixed;
     right:0;
     top:52px;
-    background:url("../resource/map.png") repeat;
+    /*background:url("../resource/map.png") repeat;*/
 }
 
 .search-condition{

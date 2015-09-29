@@ -20,9 +20,7 @@
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <title>搜索页面</title>
-
-
-    <!--<script type="text/javascript" name="baidu-tc-cerfication" data-appid="6817982" src="http://apps.bdimg.com/cloudaapi/lightapp.js"></script>-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
 
 </head>
 <body>
@@ -170,10 +168,6 @@
                     <span id="searched-in-home">改用居住地搜索</span>
                 </div>
 
-
-
-
-
                 <div class="col-sm-10 searched-content" id="searched-in-home-way">
                     <input type="text" class="form-control" name="home-location" id="home-location" value="古荡新村"/>
                     <span id="searched-in-work">改用工作地搜索</span>
@@ -188,7 +182,12 @@
                 <label class="search-category col-sm-2">价格：</label>
 
                 <div class="col-sm-10">
-                    <label for="1000to1500" class="checkbox-inline" style="margin-left:10px;">
+                    <label for="noprice" class="checkbox-inline" style="margin-left:10px;">
+                        <input type="radio" checked name="price" id="noprice"/>
+                        不限
+                    </label>
+
+                    <label for="1000to1500" class="checkbox-inline">
                         <input type="radio" name="price" id="1000to1500"/>
                         1000-1500(含)
                     </label>
@@ -231,8 +230,12 @@
 
                 <div class="col-sm-10">
 
+                    <label for="notype" class="checkbox-inline" style="margin-left:10px;">
+                        <input type="radio" checked name="type" id="notype"/>
+                        不限
+                    </label>
 
-                    <label for="1room" class="checkbox-inline" style="margin-left:10px;">
+                    <label for="1room" class="checkbox-inline">
                         <input type="radio" name="type" id="1room"/>
                         1室
                     </label>
@@ -267,14 +270,20 @@
                 <label class="search-category col-sm-2">获取途径：</label>
 
                 <div class="col-sm-10">
-                    <label for="manager" class="checkbox-inline" style="margin-left:10px;">
-                        <input type="radio" name="type" id="manager"/>
+                    <label for="noway" class="checkbox-inline" style="margin-left:10px;">
+                        <input type="radio" checked name="acheive_way" id="noway"/>
+                        不限
+                    </label>
+
+
+                    <label for="manager" class="checkbox-inline">
+                        <input type="radio" name="acheive_way" id="manager"/>
                         优质经纪人房源
                     </label>
 
 
                     <label for="freeproxy" class="checkbox-inline">
-                        <input type="radio" name="type" id="freeproxy"/>
+                        <input type="radio" name="acheive_way" id="freeproxy"/>
                         0中介费品牌公寓
                     </label>
 
@@ -415,21 +424,48 @@
 
 
     <div class="search-map" id="search-map">
-        <img src="resource/map.png" alt="" width="100%" height="100%"/>
-
+        <div id="allmap" style="width:100%;height:100%;"></div>
     </div>
 </div>
 
 </body>
 
-<!--<script type="text/javascript">-->
-    <!--// 百度地图API功能-->
-    <!--var map = new BMap.Map("search-map");    // 创建Map实例-->
-    <!--map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别-->
-    <!--map.addControl(new BMap.MapTypeControl());   //添加地图类型控件-->
-    <!--map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的-->
-    <!--map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放-->
-<!--</script>-->
+<script type="text/javascript">
+    // 百度地图API功能
+
+//    地图创建
+    var map = new BMap.Map("allmap");    // 创建Map实例
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
+    map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
+    map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+
+//    添加控件
+    var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+    var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+    map.addControl(top_left_control);
+    map.addControl(top_left_navigation);
+
+
+    map.centerAndZoom(point, 15);
+    // 编写自定义函数,创建标注
+    function addMarker(point){
+        var marker = new BMap.Marker(point);
+        map.addOverlay(marker);
+    }
+
+    // 随机向地图添加5个标注
+    var bounds = map.getBounds();
+    var sw = bounds.getSouthWest();
+    var ne = bounds.getNorthEast();
+    var lngSpan = Math.abs(sw.lng - ne.lng);
+    var latSpan = Math.abs(ne.lat - sw.lat);
+    for (var i = 0; i < 5; i ++) {
+        var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
+        addMarker(point);
+    }
+
+</script>
 
 <script>
     $(function(){
