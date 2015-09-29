@@ -2,6 +2,34 @@ body{
     background: white;
 }
 
+.container{
+    /*margin-top:70px;*/
+}
+
+#myScrollspy{
+    position:fixed;
+    top:60px;
+    left:10%;
+}
+
+.nav-stacked li a{
+    background: #eee;
+}
+
+.second-level-menu{
+    list-style: none;
+}
+
+.second-level-menu li{
+    height:40px;
+    padding:10px 15px;
+}
+
+.second-level-menu li a{
+    text-decoration: none;
+
+}
+
 .section{
     padding:15px;
 }
@@ -33,4 +61,52 @@ body{
 
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
     vertical-align: middle;
+}
+
+.inline-input{
+    display: inline-block;
+    width:100px;
+    margin-top:10px;
+}
+
+.client-info{
+    margin-top:30px;
+    margin-bottom:30px;
+}
+
+.client-img{
+    border:2px solid darkgrey;
+    box-shadow: 1px 1px 2px darkgrey;
+    border-radius: 50px;
+    float:left;
+    margin-left:15px;
+    width:60px;
+    height:60px;
+    overflow: hidden;
+    background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+    vertical-align: middle;
+}
+
+
+.client-info{
+    font-size:25px;
+    line-height:65px;
+}
+
+.client-price{
+    float:right;
+    color:orangered;
+    /*margin-right:60px;*/
+
+}
+
+.client-price .client-price-title{
+    font-size:20px;
+    color:black;
+}
+
+.ticket-info .ticket-title{
+    font-size:25px;
 }
