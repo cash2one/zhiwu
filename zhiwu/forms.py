@@ -2,6 +2,10 @@ from .models import *
 from django import forms
 
 
+class ImageForm(forms.Form):
+    imageDate = forms.ImageField()
+
+
 class AdminLogin(forms.Form):
     login_user = forms.CharField()
     login_pw = forms.CharField(widget=forms.PasswordInput)

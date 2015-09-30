@@ -19,11 +19,11 @@ from django.contrib import admin
 from django.conf import settings
 
 urlpatterns = [
-    url(r'^$', 'zhiwu.views.home', name='home'),
+    url(r'^$', 'zhiwu.views.upload_image', name='home'),
     url(r'^work_search/', 'zhiwu.views.work_search', name='work_search'),
     url(r'^home_search/', 'zhiwu.views.home_search', name='home_search'),
     url(r'^room_detail/', 'zhiwu.views.room_detail', name='room_detail'),
-    url(r'^manager_login/', 'zhiwu.views.manager_login',name='manager_login'),
+    url(r'^manager_login/', 'zhiwu.views.admin_manager_login',name='manager_login'),
     url(r'^admin_root/', 'zhiwu.views.admin_root',name='admin_root'),
     url(r'^admin_manager/', 'zhiwu.views.admin_manager',name='admin_manager'),
     # root get user
@@ -38,29 +38,31 @@ urlpatterns = [
     # url(r'^admin_uploader/', 'zhiwu.views.admin_uploader', name='admin_uploader'),
 
     # ajax
-    url(r'^map_search/', 'zhiwu.views.mapsearch', name='map_search'),
+    url(r'^map_search/', 'zhiwu.views.map_search', name='map_search'),
     # 地图拖动接口 data:longtitude,latitude
-    url(r'^room_collection/', 'zhiwu.views.roomcollection', name='room_collection'),
+    url(r'^room_collection/', 'zhiwu.views.room_collection', name='room_collection'),
     # 收藏房源 data:room_num
     # post
-    url(r'^manager_add/', 'zhiwu.views.manageradd', name='manager_add'),
-    url(r'^manager_delete/', 'zhiwu.views.manageradd', name='manager_delete'),
-    url(r'^manager_modify/', 'zhiwu.views.managermodify', name='manager_modify'),
-    url(r'^manager_logout/', 'zhiwu.views.managerlogout', name='manager_logout'),
-    url(r'^manager_active/', 'zhiwu.views.manageractive', name='manager_active'),
-    url(r'^manager_pw/', 'zhiwu.views.managerpw', name='manager_pw'),
+    url(r'^manager_add/', 'zhiwu.views.post_manager_add', name='manager_add'),
+    url(r'^manager_delete/', 'zhiwu.views.post_manager_delete', name='manager_delete'),
+    url(r'^manager_modify/', 'zhiwu.views.post_manager_modify', name='manager_modify'),
+    url(r'^manager_logout/', 'zhiwu.views.post_manager_logout', name='manager_logout'),
+    url(r'^manager_active/', 'zhiwu.views.post_manager_active', name='manager_active'),
+    url(r'^manager_pw/', 'zhiwu.views.post_manager_pw', name='manager_pw'),
 
-    url(r'^second_manager_add/', 'zhiwu.views.secondmanageradd', name='second_manager_add'),
-    url(r'^second_manager_modify/', 'zhiwu.views.secondmanagermodify', name='second_manager_modify'),
-    url(r'^second_manager_logout/', 'zhiwu.views.secondmanagerlogout', name='second_manager_logout'),
-    url(r'^second_manager_active/', 'zhiwu.views.secondmanageractive', name='second_manager_active'),
-    url(r'^second_manager_pw/', 'zhiwu.views.secondmanagerpw', name='second_manager_pw'),
+    url(r'^second_manager_add/', 'zhiwu.views.post_second_manager_add', name='second_manager_add'),
+    url(r'^second_manager_modify/', 'zhiwu.views.post_second_manager_modify', name='second_manager_modify'),
+    url(r'^second_manager_logout/', 'zhiwu.views.post_second_manager_logout', name='second_manager_logout'),
+    url(r'^second_manager_active/', 'zhiwu.views.post_second_manager_active', name='second_manager_active'),
+    url(r'^second_manager_pw/', 'zhiwu.views.post_second_manager_pw', name='second_manager_pw'),
 
-    url(r'^room_logout/', 'zhiwu.views.roomlogout', name='room_logout'),
-    url(r'^room_active/', 'zhiwu.views.roomactive', name='room_active'),
-    url(r'^room_save/', 'zhiwu.views.roomsave', name='room_save'),
-    url(r'^room_sub/', 'zhiwu.views.roomsub', name='room_sub'),
-    url(r'^room_sold/', 'zhiwu.views.roomsold', name='room_sold'),
+    url(r'^room_logout/', 'zhiwu.views.post_room_logout', name='room_logout'),
+    url(r'^room_active/', 'zhiwu.views.post_room_active', name='room_active'),
+    url(r'^room_save/', 'zhiwu.views.post_room_save', name='room_save'),
+    url(r'^room_sub/', 'zhiwu.views.post_room_sub', name='room_sub'),
+    url(r'^room_sold/', 'zhiwu.views.post_room_sold', name='room_sold'),
+
+    url(r'^upload_image/', 'zhiwu.views.upload_image', name='upload_image'),
 
     url(r'^admin/', include(admin.site.urls)),
     # url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_URL}),

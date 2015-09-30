@@ -2,46 +2,42 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.conf import settings
 from .forms import *
 from .help import *
 from zhiwu.models import *
 import json
+import time
+import os
 # Create your views here.
 
 success = 1
 fault = 0
 
 
-# def home(request):
-#     if request.method == "POST":
-#         uf = ManagerForm(request.POST)
-#         if uf.is_valid():
-#             #获取表单信息
-#             im = uf.cleaned_data['image']
-#             print "ok"
-#             #写入数据库
-#             # user = Image.objects.create(image=im)
-#             return HttpResponse('upload ok!')
-#     else:
-#         uf = RoomForm()
-#     return render(request, 'home.html', {"room": uf})
-
-
 def home(request):
-    # room = ManagerForm()
-    r = {"user": 2, "kk":3}
-    # return HttpResponseRedirect("admin_manager")
+    return render(request, "index.html")
 
-    return render(request, "index.html", {"r": json.dumps(r)})
-    # return HttpResponse("hello world",status=200)
 
-def search(request):
+# def home(request):
+#     # room = ManagerForm()
+#     r = {"user": 2, "kk":3}
+#     # return HttpResponseRedirect("admin_manager")
+#
+#     return render(request, "detail.html", {"r": json.dumps(r)})
+#     # return HttpResponse("hello world",status=200)
+
+
+def work_search(request):
+    return render(request, "search.html")
+
+
+def home_search(request):
     return render(request, "search.html")
 
 
 def room_detail(request):
-    r = Room.objects.get(roomNumber='HZ10001')
-    return render(request, "detail.html", {'R': r})
+    return render(request, "detail.html")
 
 
 def admin_manager_login(request):
@@ -77,6 +73,44 @@ def admin_manager_login(request):
             except Exception, e:
                 print e
     return render(request, "manager_login.html")
+
+
+def admin_login(request):
+    return render(request, "admin_login.html")
+
+
+def admin_root(request):
+    return render(request, "admin_root.html")
+
+
+def admin_manager(request):
+    return render(request, "admin_manager.html")
+
+
+def admin_second_manager(request):
+    return render(request, "admin_second_manager.html")
+
+
+def map_search(request):
+    return render(request, "")
+
+
+def room_collection(request):
+    return render(request, "")
+
+
+def mapsearch(request):
+    return render(request, "")
+
+
+def mapsearch(request):
+    return render(request, "")
+
+
+def mapsearch(request):
+    return render(request, "")
+
+
 
 
 # post
@@ -168,6 +202,18 @@ def post_manager_delete(request):
 # 删除一个一级管理员
 
 
+def post_manager_logout(request):
+    return render(request, "")
+
+
+def post_manager_active(request):
+    return render(request, "")
+
+
+def post_manager_pw(request):
+    return render(request, "")
+
+
 def post_second_manager_add(request):
     if request.method == 'POST':  # 当提交表单时
         form = SecondManagerForm(request.POST)  # form 包含提交的数据
@@ -224,3 +270,59 @@ def post_second_manager_delete(request):
     else:  # 当正常访问时
         print 'not post'
 # 删除一个二级管理员
+
+
+def post_second_manager_logout(request):
+    return render(request, "")
+
+
+def post_second_manager_active(request):
+    return render(request, "")
+
+
+def post_second_manager_pw(request):
+    return render(request, "")
+
+
+def upload_image(request):
+    if request.method == 'POST':
+        try:
+            image = request.FILES['imageDate']
+            folder = time.strftime('%Y%m')
+            if not os.path.exists(settings.MEDIA_ROOT+"upload/"+folder):
+                os.mkdir(settings.MEDIA_ROOT+"upload/"+folder)
+            file_name = time.strftime('%Y%m%d%H%M%S')
+            file_ext = image.name.split('.')[-1]
+            file_addr = settings.MEDIA_ROOT+"upload/"+folder+"/"+file_name+"."+file_ext
+            destination = open(file_addr, 'wb+')
+            for chunk in image.chunks():
+                destination.write(chunk)
+            destination.close()
+            return HttpResponse(file_addr)
+        except Exception, e:
+            print "image upload error:"
+            print e
+            return HttpResponse(status=500)
+    else:
+        fb = ImageForm()
+    return render(request, "home.html", {"r": fb})
+
+
+def post_room_logout(request):
+    return render(request, "")
+
+
+def post_room_active(request):
+    return render(request, "")
+
+
+def post_room_save(request):
+    return render(request, "")
+
+
+def post_room_sub(request):
+    return render(request, "")
+
+
+def post_room_sold(request):
+    return render(request, "")
