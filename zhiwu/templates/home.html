@@ -3,8 +3,8 @@
 </head>
 <body>
 
-<form action="" method="post" enctype="multipart/form-data">
-    {{ r.user }}
+<form action="{% url 'upload_image' %}" method="post" enctype="multipart/form-data">
+    {{ r.as_p }}
 {#<label for="file">Filename:</label>#}
 {#<input type="file" name="file" multiple="true" id="file" />#}
 {#<br />#}
