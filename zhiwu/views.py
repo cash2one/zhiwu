@@ -32,7 +32,7 @@ def home(request):
     r = {"user": 2, "kk":3}
     # return HttpResponseRedirect("admin_manager")
 
-    return render(request, "home.html", {"r": json.dumps(r)})
+    return render(request, "index.html", {"r": json.dumps(r)})
     # return HttpResponse("hello world",status=200)
 
 def search(request):
