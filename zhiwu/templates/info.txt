@@ -18,3 +18,25 @@ https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolatio
 
 detail
 https://z2.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=xx_large&output-format=jpg&output-quality=70)
+
+
+<!--extentds-->
+{% extends 'base.html' %}
+
+<!--title-->
+{% block title %}{% endblock %}
+
+<!--sp_header-->
+{% block sp_header %}
+
+{% endblock %}
+
+<!--content-->
+{% block content %}
+
+{% endblock %}
+
+<!--sp_script-->
+{% block sp_script %}
+
+{% endblock %}
