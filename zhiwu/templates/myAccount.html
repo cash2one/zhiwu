@@ -1,233 +1,64 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--extentds-->
+{% extends './common/baseForClient.html' %}
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="//cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
+<!--title-->
+{% block title %}用户后台-账号管理{% endblock %}
 
-    <!--样式表-->
-    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="stylesheet/main.css"/>
-    <link rel="stylesheet" href="stylesheet/backend.css"/>
+<!--sp_header-->
+{% block sp_header %}
 
+<style>
+    .nav-stacked{
+        margin-top:30px;
+    }
 
-    <!--脚本-->
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <title>客户后台</title>
+    #my-account-change{
+        margin-top:30px;
+    }
 
-    <style>
-        .nav-stacked{
-            margin-top:30px;
-        }
+    .nav-stacked li a{
+        background-color: white;
+    }
+</style>
 
-        #my-account-change{
-            margin-top:30px;
-        }
+{% endblock %}
 
-        .nav-stacked li a{
-            background-color: white;
-        }
-    </style>
-</head>
-<body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">租房网后台</a>
+<!--content-->
+{% block content %}
+
+<div class="col-xs-8" style="min-height:400px;">
+    <form class="form-horizontal" id="my-account-change" action="/my-account-change">
+        <div class="form-group">
+            <label for="keeper-add-account" class="col-sm-2 control-label">手机号</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="keeper-add-account" placeholder="18868101869">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="keeper-add-name" class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="keeper-add-name" placeholder="lyt9304">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="keeper-add-phone" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="keeper-add-phone">
+            </div>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">首页 <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">关于我们</a></li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" data-toggle="modal" data-target="#signup-modal">lyt9304</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#login-modal">退出</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-
-<div class="container">
-    <div id="index-carousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#index-carousel" data-slide-to="0" class="active"></li>
-            <li data-target="#index-carousel" data-slide-to="1"></li>
-            <li data-target="#index-carousel" data-slide-to="2"></li>
-            <li data-target="#index-carousel" data-slide-to="3"></li>
-        </ol>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img src="https://z1.muscache.com/airbnb/static/homepages/china/campaigns/family/header-2a1261a8198b81bf1b11a601de847e81.jpg" alt="...">
-                <div class="carousel-caption">
-                    <h2>标题1</h2>
-                </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">保存</button>
             </div>
-            <div class="item">
-                <img src="https://z2.muscache.com/airbnb/static/homepages/china/campaigns/taiwan/header-734f7ca5ad58d7382c99172ebe61e711.jpg" alt="...">
-                <div class="carousel-caption">
-                    <h2>标题2</h2>
-                </div>
-            </div>
-            <div class="item">
-                <img src="https://z1.muscache.com/airbnb/static/homepages/china/campaigns/japan_korea/header-cdd94262b6bd5bfeafb6ce740cb51868.jpg" alt="...">
-                <div class="carousel-caption">
-                    <h2>标题3</h2>
-                </div>
-            </div>
-            <div class="item">
-                <img src="https://z0.muscache.com/airbnb/static/homepages/china/campaigns/students/header-f32329382225fa2bf392e0ef81684892.jpg" alt="...">
-                <div class="carousel-caption">
-                    <h2>标题4</h2>
-                </div>
-            </div>
-
         </div>
-
-        <!-- Controls -->
-        <a class="left carousel-control" href="#index-carousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#index-carousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-
-    <div class="row">
-
-        <div class="col-xs-2">
-            <ul class="nav nav-pills nav-stacked">
-                <li>
-                    <a href="clientBackend.html">
-                        我的控制台
-                    </a>
-                </li>
-                <li>
-                    <a href="myList.html">
-                        选房清单
-                    </a>
-                </li>
-
-                <li class="active">
-                    <a href="myAccount.html">
-                        账号管理
-                    </a>
-                </li>
-
-                <li>
-                    <a href="serviceContact.html">
-                        咨询客服/投诉与举报
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="col-xs-8" style="min-height:400px;">
-            <form class="form-horizontal" id="my-account-change" action="/my-account-change">
-                <div class="form-group">
-                    <label for="keeper-add-account" class="col-sm-2 control-label">手机号</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="keeper-add-account" placeholder="18868101869">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="keeper-add-name" class="col-sm-2 control-label">用户名</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="keeper-add-name" placeholder="lyt9304">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="keeper-add-phone" class="col-sm-2 control-label">密码</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="keeper-add-phone">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default">保存</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+    </form>
 </div>
 
+{% endblock %}
 
+<!--sp_script-->
+{% block sp_script %}
 
-<footer>
-    <div class="row">
-        <div class="col-xs-4 col-md-2 col-md-offset-3">
-            <h4>公司信息</h4>
+{% endblock %}
 
-            <ul>
-                <li><a href="">关于</a></li>
-                <li><a href="">工作机会</a></li>
-                <li><a href="">条款与隐私</a></li>
-                <li><a href="">发现</a></li>
-            </ul>
-
-        </div>
-
-        <div class="col-xs-4 col-md-2">
-            <h4>公司信息</h4>
-
-            <ul>
-                <li><a href="">关于</a></li>
-                <li><a href="">工作机会</a></li>
-                <li><a href="">条款与隐私</a></li>
-                <li><a href="">发现</a></li>
-            </ul>
-
-        </div>
-
-        <div class="col-xs-4 col-md-2">
-            <h4>公司信息</h4>
-
-            <ul>
-                <li><a href="">关于</a></li>
-                <li><a href="">工作机会</a></li>
-                <li><a href="">条款与隐私</a></li>
-                <li><a href="">发现</a></li>
-            </ul>
-
-        </div>
-
-
-    </div>
-
-    <hr style="border-top:1px solid grey;width:60%"/>
-
-
-    <div class="copy-right">
-        © 租房网 copyright
-    </div>
-
-
-</footer>
-
-</body>
-</html>

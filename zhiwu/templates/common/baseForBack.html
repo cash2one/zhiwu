@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include './common/headerForBack.html' %}
+
+    {% block sp_header %}
+        <div>默认头</div>
+    {% endblock %}
+
+    <title>{% block title %}默认标题{% endblock %}</title>
+</head>
+<body data-spy="scroll" data-target="#myScrollspy">
+
+    {% include './common/navForBack.html' %}
+
+    {% block content %}
+        <div>默认内容</div>
+    {% endblock %}
+
+</body>
+
+{% include './common/scriptForBack.html' %}
+
+
+{% block sp_script %}
+    <div>默认脚本</div>
+{% endblock %}
+
+</html>

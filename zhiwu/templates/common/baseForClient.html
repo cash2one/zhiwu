@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include './common/header.html' %}
+
+    {% block sp_header %}
+    <div>默认头</div>
+    {% endblock %}
+
+    <title>{% block title %}默认标题{% endblock %}</title>
+</head>
+<body>
+
+{% include './common/nav.html' %}
+
+
+<div class="container">
+    {% include './common/carouselForClient.html' %}
+    <div class="row">
+        {% include './common/sidebarForClient.html' %}
+
+        {% block content %}
+        <div>默认内容</div>
+        {% endblock %}
+
+    </div>
+</div>
+
+
+{% include './common/footer.html' %}
+
+</body>
+
+{% include './common/script.html' %}
+
+{% block sp_script %}
+<div>默认脚本</div>
+{% endblock %}
+
+</html>

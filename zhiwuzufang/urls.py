@@ -33,6 +33,12 @@ urlpatterns = [
         # 详情页
             url(r'^room_detail/', 'zhiwu.views.room_detail', name='room_detail'), #TODO:房源编号
 
+        # 客户后台
+            url(r'^client_back/', 'zhiwu.views.client_back', name='client_back'),
+            url(r'^client_back_list/', 'zhiwu.views.client_back_list', name='client_back_list'),
+            url(r'^client_back_account/', 'zhiwu.views.client_back_account', name='client_back_comment'),
+            url(r'^client_back_comment/', 'zhiwu.views.client_back_comment', name='client_back_comment'),
+
         # 后台登陆
             url(r'^manager_login/', 'zhiwu.views.admin_manager_login',name='manager_login'),
 
@@ -46,6 +52,8 @@ urlpatterns = [
             url(r'^admin_second_manager/', 'zhiwu.views.admin_second_manager',name='admin_second_manager'),
 
         # 新建房源
+            url(r'^new_house/', 'zhiwu.views.new_house',name='new_house'),
+
 
     # Part2:Post ajax
 

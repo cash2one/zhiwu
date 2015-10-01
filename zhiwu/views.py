@@ -80,16 +80,30 @@ def admin_login(request):
 
 
 def admin_root(request):
-    return render(request, "admin_root.html")
+    return render(request, "backend.html")
 
 
 def admin_manager(request):
-    return render(request, "admin_manager.html")
+    return render(request, "backendL1.html")
 
 
 def admin_second_manager(request):
-    return render(request, "admin_second_manager.html")
+    return render(request, "backendL2.html")
 
+def new_house(request):
+    return render(request, "newHouse.html")
+
+def client_back(request):
+    return render(request, "clientBackend.html")
+
+def client_back_account(request):
+    return render(request, "myAccount.html")
+
+def client_back_list(request):
+    return render(request, "mylist.html")
+
+def client_back_comment(request):
+    return render(request, "serviceContact.html")
 
 def map_search(request):
     return render(request, "")
