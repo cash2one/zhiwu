@@ -19,6 +19,8 @@ from django.contrib import admin
 from django.conf import settings
 
 urlpatterns = [
+    # test
+    url(r'^test/', 'zhiwu.views.test', name='home'),
 
     # Part1: 页面显示url
 
