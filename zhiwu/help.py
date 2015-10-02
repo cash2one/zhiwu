@@ -1,4 +1,95 @@
+# -*- coding: utf-8 -*-
 from models import *
+
+
+# 判断身份
+def is_root(status):
+    return True
+    # todo
+
+
+def is_manager(status):
+    return True
+    # todo
+
+
+def is_second_manager(status):
+    return True
+    # todo
+
+
+# 后台管理界面得到相应的列表
+def get_manager_list(user=""):
+    try:
+        m = Manager.objects.filter(user__icontains=user)
+        return m
+    except Exception, e:
+        print e
+        return []
+
+
+def get_second_manager_list(manager):
+    try:
+        m = Manager.objects.filter(manager=manager)
+        return m
+    except Exception, e:
+        print e
+        return []
+
+
+def get_room_list_by_manager(manager=""):
+    try:
+        room_list = Room.objects.get(contactPerson=manager)
+        return room_list
+    except Exception, e:
+        print e
+        return []
+
+
+def get_environment(environment):
+    try:
+        em = RoomEvaluation.objects.get(name=environment)
+        return em
+    except Exception, e:
+        print e
+        return None
+
+
+def get_room_picture(room):
+    try:
+        rp = RoomPicture.objects.filter(roomNumber=room)
+        return rp
+    except Exception, e:
+        print e
+        return []
+
+
+def get_room_evaluation(room):
+    try:
+        re = RoomEvaluation.objects.get(roomNumber=room)
+        return re
+    except Exception, e:
+        print e
+        return None
+
+
+def get_room_configuration(room):
+    try:
+        rc = RoomConfiguration.objects.get(roomNumber=room)
+        return rc
+    except Exception, e:
+        print e
+        return None
+
+
+def get_room_description(room):
+    try:
+        rd = RoomDescription.objects.get(roomNumber=room)
+        return rd
+    except Exception, e:
+        print e
+        return None
+
 
 def get_second_manager(user, pw):
     try:

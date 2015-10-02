@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from .forms import *
 from .help import *
 from zhiwu.models import *
@@ -44,7 +45,23 @@ def home_search(request):
 
 
 def room_detail(request):
-    return render(request, "detail.html")
+    try:
+        roomNum = request.GET.get('roomNumber')
+        room = Room.objects.get(roomNumber = roomNum)
+        roomP = get_room_picture(room)
+        roomC = get_room_configuration(room)
+        roomD = get_room_description(room)
+        roomE = get_room_evaluation(room)
+        environ = get_environment(room.environment)
+        return render(request, "detail.html", {"room": room,
+                                               "picture": roomP,
+                                               "configuration": roomC,
+                                               "description": roomD,
+                                               "evaluation": roomE,
+                                               "ecvironment": environ})
+    except Exception, e:
+        print e
+        return HttpResponse(status=404)
 
 
 def admin_manager_login(request):
@@ -83,34 +100,81 @@ def admin_manager_login(request):
 
 
 def admin_login(request):
-    return render(request, "admin_login.html")
+    return render(request, "index.html")
 
 
 def admin_root(request):
-    return render(request, "backend.html")
+    status = request.session.get("status", "")
+    user = request.session.get("user", "")
+    if is_root(status):
+        m_list = get_manager_list()
+        return render(request, "backend.html", {"managers": m_list,
+                                                "status": status,
+                                                "user": user})
+    else:
+        return HttpResponseRedirect(reverse("manager_login"))
 
 
 def admin_manager(request):
-    return render(request, "backendL1.html")
+    managerget = request.GET.get("manager", "")
+    status = request.session.get("status", "")
+    user = request.session.get("user", "")
+    if is_manager(status):
+        mu = request.session.get("user", "")
+    elif is_root(status) and managerget != "":
+        mu = managerget
+    else:
+        return HttpResponseRedirect(reverse("manager_login"))
+    try:
+        manager = Manager.objects.get(user=mu)
+    except:
+        return HttpResponseRedirect(reverse("manager_login"))
+    m_list = get_second_manager_list(manager)
+    return render(request, "backendL1.html", {"second_managers": m_list,
+                                              "status": status,
+                                              "user": user})
 
 
 def admin_second_manager(request):
-    return render(request, "backendL2.html")
+    secondmanagerget = request.GET.get("second_manager", "")
+    status = request.session.get("status", "")
+    user = request.session.get("user", "")
+    if is_second_manager(status):
+        smu = request.session.get("user", "")
+    elif (is_root(status) or is_manager(status)) and secondmanagerget != "":
+        smu = secondmanagerget
+    else:
+        return HttpResponseRedirect(reverse("manager_login"))
+    rooms = Room.objects.filter(contactPerson=smu)
+    return render(request, "backendL2.html", {"second_managers": rooms,
+                                              "status": status,
+                                              "user": user})
+
 
 def new_house(request):
-    return render(request, "newHouse.html")
+    user = request.session.get("user")
+    status = request.session.get("status", "")
+    if is_second_manager(status):
+        return render(request, "newHouse.html", {"user": user})
+    else:
+        return HttpResponseRedirect(reverse("manager_login"))
+
 
 def client_back(request):
     return render(request, "clientBackend.html")
 
+
 def client_back_account(request):
     return render(request, "myAccount.html")
+
 
 def client_back_list(request):
     return render(request, "mylist.html")
 
+
 def client_back_comment(request):
     return render(request, "serviceContact.html")
+
 
 def map_search(request):
     return render(request, "")
@@ -118,20 +182,6 @@ def map_search(request):
 
 def room_collection(request):
     return render(request, "")
-
-
-def mapsearch(request):
-    return render(request, "")
-
-
-def mapsearch(request):
-    return render(request, "")
-
-
-def mapsearch(request):
-    return render(request, "")
-
-
 
 
 # post

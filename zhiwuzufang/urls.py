@@ -42,19 +42,19 @@ urlpatterns = [
             url(r'^client_back_comment/', 'zhiwu.views.client_back_comment', name='client_back_comment'),
 
         # 后台登陆
-            url(r'^manager_login/', 'zhiwu.views.admin_manager_login',name='manager_login'),
+            url(r'^manager_login/', 'zhiwu.views.admin_manager_login', name='manager_login'),
 
         # 一级管理
-            url(r'^admin_root/', 'zhiwu.views.admin_root',name='admin_root'),
+            url(r'^admin_root/', 'zhiwu.views.admin_root', name='admin_root'),
 
         # 二级管理
-            url(r'^admin_manager/', 'zhiwu.views.admin_manager',name='admin_manager'),
+            url(r'^admin_manager/', 'zhiwu.views.admin_manager', name='admin_manager'),
 
         # 三级管理
-            url(r'^admin_second_manager/', 'zhiwu.views.admin_second_manager',name='admin_second_manager'),
+            url(r'^admin_second_manager/', 'zhiwu.views.admin_second_manager', name='admin_second_manager'),
 
         # 新建房源
-            url(r'^new_house/', 'zhiwu.views.new_house',name='new_house'),
+            url(r'^new_house/', 'zhiwu.views.new_house', name='new_house'),
 
 
     # Part2:Post ajax
