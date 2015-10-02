@@ -104,9 +104,12 @@ def client_back(request):
     return render(request, "clientBackend.html")
 
 def client_back_account(request):
-    return render(request, "myAccount.html")
+    return render(request, Sl")
 
-def client_back_list(request):
+de
+
+
+f client_back_list(request):
     return render(request, "mylist.html")
 
 def client_back_comment(request):

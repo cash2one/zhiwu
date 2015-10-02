@@ -26,7 +26,7 @@
                     </ul>
                 </li>
 
-                <li class="active">
+                <li>
                     <a href="#area_manager">
                         区域管理
                     </a>
@@ -36,7 +36,7 @@
                     </ul>
                 </li>
 
-                <li class="active">
+                <li>
                     <a href="#wuye_keeper_manager">
                         物业人员管理
                     </a>
@@ -181,7 +181,7 @@
                         </div>
                     </div>
                     <div class="section" id="xiaoqu_manager_search">
-                        <div class="title-l2">鉴定员查询</div>
+                        <div class="title-l2">小区查询</div>
                         <div class="section-content">
                             <form class="form-inline" id="xiaoqu_search_form" dest="/xiaoqu_search">
                                 <div class="form-group">
@@ -589,15 +589,15 @@
                                     <th>haha</th>
                                     <th>haha</th>
                                     <th>有</th>
-                                    <th>已发布</th>
+                                    <th class="hs-status">已发布</th>
                                     <th class="btn-group">
                                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
 
                                         <ul class="dropdown-menu">
-                                            <li><a href="#">下架</a></li>
-                                            <li><a href="#">激活</a></li>
-                                            <li><a href="#">导出</a></li>
-                                            <li><a href="#">直接统计</a></li>
+                                            <li><a href="#" data-target="HZ01" class="hs-offline">下架</a></li>
+                                            <li><a href="#" data-target="HZ01" class="hs-activate">激活</a></li>
+                                            <!--<li><a href="#">导出</a></li>-->
+                                            <!--<li><a href="#">直接统计</a></li>-->
                                         </ul>
                                     </th>
                                 </tr>
@@ -893,6 +893,48 @@
 
         //添加日期输入启动datetimepicker
         $('#source_manager_search_time').datepicker({  dateFormat: "yy-mm-dd" });
+
+        //房源下架
+        $("#hs-list-wrapper").delegate(".hs-offline","click",function(e){
+            var _id=$(this).data("target");
+
+            $.post(
+                    "{% url 'room_collection' %}",//TODO:修改url
+                    {roomNumber:_id},
+                    function(data){
+                        if(data.status==200){
+                            //TODO:修改房源状态
+                            console.log("post success");
+                        }else{
+                            console.log("post failed");
+                        }
+                    }
+            )
+                    .error(function(){
+                        console.log("error");
+                    });
+        });
+
+        //房源激活
+        $("#hs-list-wrapper").delegate(".hs-activate","click",function(e){
+            var _id=$(this).data("target");
+
+            $.post(
+                    "{% url 'room_collection' %}",//TODO:修改url
+                    {roomNumber:_id},
+                    function(data){
+                        if(data.status==200){
+                            console.log("post success");
+                        }else{
+                            console.log("post failed");
+                        }
+                    }
+            )
+                    .error(function(){
+                        console.log("error");
+                    });
+
+        });
     })();
 
 </script>
