@@ -179,6 +179,65 @@ def room_picture_delete(roomNumber, picture_addr):
         print e
         return False
 
+def room_logout(roomNumber):
+    try:
+        p = Room.objects.get(roomNumber=roomNumber)
+        p.exist = False
+        p.save(update_fields=['exist'])
+        print "room logout success!"
+        return True
+    except Exception, e:
+        print "room logout error:"
+        print e
+        return False
+
+def room_active(roomNumber):
+    try:
+        p = Room.objects.get(roomNumber=roomNumber)
+        p.exist = True
+        p.save(update_fields=['exist'])
+        print "room active success!"
+        return True
+    except Exception, e:
+        print "room acitve error:"
+        print e
+        return False
+
+def room_save(roomNumber):
+    try:
+        p = Room.objects.get(roomNumber=roomNumber)
+        p.achieve = False
+        p.save(update_fields=['achieve'])
+        print "room unpublished success!"
+        return True
+    except Exception, e:
+        print "room unpublished error:"
+        print e
+        return False
+
+def room_sub(roomNumber):
+    try:
+        p = Room.objects.get(roomNumber=roomNumber)
+        p.achieve = True
+        p.save(update_fields=['achieve'])
+        print "room released success!"
+        return True
+    except Exception, e:
+        print "room released error:"
+        print e
+        return False
+
+def room_sold(roomNumber):
+    try:
+        p = Room.objects.get(roomNumber=roomNumber)
+        p.sold = True
+        p.save(update_fields=['sold'])
+        print "room sold success!"
+        return True
+    except Exception, e:
+        print "room sold error:"
+        print e
+        return False
 
 def room_add(roomNumber, longitude, latitude,
              shi, ting, wei, rent, area, direction,
@@ -382,7 +441,7 @@ def manager_add(user, pw, name, phone, status, district):
                                phone=phone,
                                status=status,
                                district=district)
-        print "Manager_add success!"
+        print "Manager add success!"
         return True
     except Exception, e:
         print "Manager add error:"
@@ -423,10 +482,11 @@ def manager_logout(user):
     try:
         p = Manager.objects.get(user=user)
         p.exist = False
-        print "manager delete success!"
+        p.save(update_fields=['exist'])
+        print "manager logout success!"
         return True
     except Exception, e:
-        print "manager delete error:"
+        print "manager logout error:"
         print e
         return False
 
@@ -435,12 +495,31 @@ def manager_active(user):
     try:
         p = Manager.objects.get(user=user)
         p.exist = True
-        print "manager delete success!"
+        p.save(update_fields=['exist'])
+        print "manager active success!"
         return True
     except Exception, e:
-        print "manager delete error:"
+        print "manager acitve error:"
         print e
         return False
+
+def manager_pw(user,oldpw,newpw):
+    try:
+        p = Manager.objects.get(user=user)
+        if p.pw == oldpw :
+            p.pw = newpw
+            p.save(update_fields=['pw'])
+            print 'pwd modify success'
+            return True
+        else:
+            print 'pwd is not correct'
+            return False
+    except Exception, e:
+        print 'pwd modify error:'
+        print e
+        return False
+
+
 
 
 def second_manager_add(manager_user, user, pw, name, phone, company, status):
@@ -482,10 +561,11 @@ def second_manager_logout(user):
     try:
         p = SecondManager.objects.get(user=user)
         p.exist = False
-        print "second_manager delete success!"
+        p.save(update_fields=['exist'])
+        print "second_manager logout success!"
         return True
     except Exception, e:
-        print "second_manager delete error:"
+        print "second_manager logout error:"
         print e
         return False
 
@@ -494,9 +574,27 @@ def second_manager_active(user):
     try:
         p = SecondManager.objects.get(user=user)
         p.exist = True
-        print "second_manager delete success!"
+        p.save(update_fields=['exist'])
+        print "second_manager active success!"
         return True
     except Exception, e:
-        print "second_manager delete error:"
+        print "second_manager active error:"
+        print e
+        return False
+
+
+def second_manager_pw(user, oldpw, newpw):
+    try:
+        p = SecondManager.objects.get(user=user)
+        if p.pw == oldpw :
+            p.pw = newpw
+            p.save(update_fields=['pw'])
+            print 'pwd modify success'
+            return True
+        else:
+            print 'pwd is not correct'
+            return False
+    except Exception, e:
+        print 'pwd modify error:'
         print e
         return False

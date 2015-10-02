@@ -54,3 +54,14 @@ class SecondManagerForm(forms.Form):
 
 class SecondManagerUserForm(forms.Form):
     second_manager_account = forms.CharField()
+
+
+class ManagerPwdChange(forms.Form):
+    manager_account=forms.CharField(required=False)
+    manager_oldpw=forms.CharField(widget=forms.PasswordInput)
+    manager_newpw=forms.CharField(widget=forms.PasswordInput)
+
+class SecondManagerPwdChange(forms.Form):
+    sencond_manager_account=forms.CharField(required=False)
+    second_manager_oldpw=forms.CharField(widget=forms.PasswordInput)
+    second_manager_newpw=forms.CharField(widget=forms.PasswordInput)

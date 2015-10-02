@@ -148,7 +148,7 @@ def manager_search(request):
                                     exist=True)
     # todo
 
-
+#code from here
 def post_manager_add(request):
     if request.method == 'POST':  # 当提交表单时
         form = ManagerForm(request.POST)  # form 包含提交的数据
@@ -184,9 +184,10 @@ def post_manager_modify(request):
                 district = form.cleaned_data['manager_district']
                 p = manager_modify(user, pw, name, phone, status, district)
                 print 'modify success!'
-                return HttpResponse(p)
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
 # 修改一条一级管理员
@@ -202,8 +203,10 @@ def post_manager_create(request):
                 if not flag:
                     p.exist = True
                 print 'create success!'
+                return HttpResponse(status=1)  #add return
             except Exception, e:
                 print e
+                return HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
 # 创建一个空的一级管理员
@@ -218,23 +221,68 @@ def post_manager_delete(request):
                 p = Manager.objects.get(user=user)
                 p.delete()
                 print 'delete success!'
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
+
 # 删除一个一级管理员
 
-
+#code from here
 def post_manager_logout(request):
-    return render(request, "")
+     if request.method == 'POST':  # 当提交表单时
+        form = ManagerUserForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                user = form.cleaned_data['manager_account']
+                p=manager_logout(user)
+                print 'logout success!'
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return HttpResponse(status=0)
+     else:
+         print 'not post'
+#管理员登出
 
 
 def post_manager_active(request):
-    return render(request, "")
+        if request.method == 'POST':  # 当提交表单时
+            form = ManagerUserForm(request.POST)  # form 包含提交的数据
+            if form.is_valid():  # 如果提交的数据合法
+                try:
+                    user = form.cleaned_data['manager_account']
+                    p=manager_active(user)
+                    print 'active success!'
+                    return HttpResponse(status=1)
+                except Exception, e:
+                    print e
+                    return HttpResponse(status=0)
+        else:
+            print 'not post'
+#激活一个管理员账号
+
 
 
 def post_manager_pw(request):
-    return render(request, "")
+    if request.method == 'POST':
+        form = ManagerPwdChange(request.POST)
+        if form.is_valid():
+            try:
+                user = form.cleaned_data['manager_account']
+                oldpw = form.cleaned_data['manager_oldpw']
+                newpw = form.cleaned_data['manager_newpw']
+                p = manager_pw(user, oldpw, newpw)
+                print 'password modify success!'
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:
+        print 'not post'
+
 
 
 def post_second_manager_add(request):
@@ -250,9 +298,10 @@ def post_second_manager_add(request):
                 company = form.cleaned_data['second_manager_company']
                 status = form.cleaned_data['second_manager_status']
                 p = second_manager_add(manager, user, pw, name, phone, company, status)
-                return HttpResponse(p)
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
 # 添加一个二级管理员
@@ -271,9 +320,10 @@ def post_second_manager_modify(request):
                 status = form.cleaned_data['second_manager_status']
                 p = second_manager_modify(user, pw, name, phone, company, status)
                 print 'modify success!'
-                return HttpResponse(p)
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
 # 修改一个二级管理员
@@ -288,23 +338,64 @@ def post_second_manager_delete(request):
                 p = SecondManager.objects.get(user=user)
                 p.delete()
                 print 'delete success!'
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return  HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
 # 删除一个二级管理员
 
 
 def post_second_manager_logout(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = SecondManagerUserForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                user = form.cleaned_data['second_manager_account']
+                p = second_manager_logout(user)
+                print 'logout success!'
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
 
 
 def post_second_manager_active(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = SecondManagerUserForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                user = form.cleaned_data['second_manager_account']
+                p = second_manager_active(user)
+                print 'active success!'
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
+
 
 
 def post_second_manager_pw(request):
-    return render(request, "")
+    if request.method == 'POST':
+        form = SecondManagerPwdChange(request.POST)
+        if form.is_valid():
+            try:
+                user = form.cleaned_data['second_manager_account']
+                oldpw = form.cleaned_data['second_manager_oldpw']
+                newpw = form.cleaned_data['second_manager_newpw']
+                p = second_manager_pw(user, oldpw, newpw)
+                print 'password modify success!'
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:
+        print 'not post'
 
 
 def upload_image(request):
@@ -332,20 +423,82 @@ def upload_image(request):
 
 
 def post_room_logout(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['room_roomNumber']
+                p = room_logout(roomNumber)
+                print 'logout success!'
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
+
 
 
 def post_room_active(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['room_roomNumber']
+                p = room_active(roomNumber)
+                print 'active success!'
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
 
 
 def post_room_save(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['room_roomNumber']
+                p = room_save(roomNumber)
+                print 'room info is not published '
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
+
 
 
 def post_room_sub(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['room_roomNumber']
+                p = room_sub(roomNumber)
+                print 'room info is released '
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
 
 
 def post_room_sold(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['room_roomNumber']
+                p = room_sold(roomNumber)
+                print 'room has been sold '
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
