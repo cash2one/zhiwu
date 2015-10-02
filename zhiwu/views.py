@@ -19,13 +19,6 @@ def home(request):
     return render(request, "index.html")
 
 
-def test(request):
-    if request.method == "POST":
-        print 1
-    else:
-        ff = RoomForm()
-    return render(request, "home.html", {"ff": ff})
-
 # def home(request):
 #     # room = ManagerForm()
 #     r = {"user": 2, "kk":3}
@@ -104,12 +97,9 @@ def client_back(request):
     return render(request, "clientBackend.html")
 
 def client_back_account(request):
-    return render(request, Sl")
+    return render(request, "myAccount.html")
 
-de
-
-
-f client_back_list(request):
+def client_back_list(request):
     return render(request, "mylist.html")
 
 def client_back_comment(request):
@@ -164,11 +154,9 @@ def post_manager_add(request):
                 status = form.cleaned_data['manager_status']
                 district = form.cleaned_data['manager_district']
                 p = manager_add(user, pw, name, phone, status, district)
-                return HttpResponse(status=1)
+                return HttpResponse(p)
             except Exception, e:
                 print e
-                return HttpResponse(status=0)
-
     else:  # 当正常访问时
         print 'not post'
 # 添加一条一级管理员
