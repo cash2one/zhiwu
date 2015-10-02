@@ -38,7 +38,7 @@
 
             <hr/>
 
-            <div class="price-row form-group">
+            <div class="price-row form-group form-listen">
                 <label class="search-category col-sm-2">价格：</label>
 
                 <div class="col-sm-10">
@@ -75,8 +75,8 @@
                     </label>
 
 
-                    <label for="8000up" class="checkbox-inline">
-                        <input type="radio" name="price" id="8000up"/>
+                    <label for="8000toh" class="checkbox-inline">
+                        <input type="radio" name="price" id="8000toh"/>
                         8000以上
                     </label>
                 </div>
@@ -85,7 +85,7 @@
 
             <hr/>
 
-            <div class="type-row form-group">
+            <div class="type-row form-group form-listen">
                 <label class="search-category col-sm-2">户型：</label>
 
                 <div class="col-sm-10">
@@ -126,7 +126,7 @@
 
             <hr/>
 
-            <div class="way-row form-group">
+            <div class="way-row form-group form-listen">
                 <label class="search-category col-sm-2">获取途径：</label>
 
                 <div class="col-sm-10">
@@ -164,123 +164,14 @@
 
         <div class="search-result">
 
-            <div class="row">
-                <div class="result-box col-lg-6">
-                    <a href="javascript:void(0);">
-                        <div class="result-image thumbnail">
-                            <img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>
-                            <div class="result-desc">
-                                <div class="result-title">
-                                    市中心的好房子
-                                </div>
-                                <div class="result-type">
-                                    整套房子/公寓
-                                </div>
-                                <div class="collect result-item">
-                                    <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-                                </div>
-                            </div>
+            <div class="row" id="search-result-container">
 
-                            <div class="price-tag result-item">
-                                ￥400
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="result-box col-lg-6">
-                    <a href="javascript:void(0);">
-                        <div class="result-image thumbnail">
-                            <img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>
-                            <div class="result-desc">
-                                <div class="result-title">
-                                    市中心的好房子
-                                </div>
-                                <div class="result-type">
-                                    整套房子/公寓
-                                </div>
-                                <div class="collect result-item">
-                                    <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-                                </div>
-                            </div>
 
-                            <div class="price-tag result-item">
-                                ￥400
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="result-box col-lg-6">
-                    <a href="javascript:void(0);">
-                        <div class="result-image thumbnail">
-                            <img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>
-                            <div class="result-desc">
-                                <div class="result-title">
-                                    市中心的好房子
-                                </div>
-                                <div class="result-type">
-                                    整套房子/公寓
-                                </div>
-                                <div class="collect result-item">
-                                    <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-                                </div>
-                            </div>
 
-                            <div class="price-tag result-item">
-                                ￥400
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="result-box col-lg-6">
-                    <a href="javascript:void(0);">
-                        <div class="result-image thumbnail">
-                            <img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>
-                            <div class="result-desc">
-                                <div class="result-title">
-                                    市中心的好房子
-                                </div>
-                                <div class="result-type">
-                                    整套房子/公寓
-                                </div>
-                                <div class="collect result-item">
-                                    <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-                                </div>
-                            </div>
 
-                            <div class="price-tag result-item">
-                                ￥400
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="result-box col-lg-6">
-                    <a href="javascript:void(0);">
-                        <div class="result-image thumbnail">
-                            <img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>
-                            <div class="result-desc">
-                                <div class="result-title">
-                                    市中心的好房子
-                                </div>
-                                <div class="result-type">
-                                    整套房子/公寓
-                                </div>
-                                <div class="collect result-item">
-                                    <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-                                </div>
-                            </div>
 
-                            <div class="price-tag result-item">
-                                ￥400
-                            </div>
-                        </div>
-                    </a>
-                </div>
             </div>
-
-
-
         </div>
-    </div>
 
 
     <div class="search-map" id="search-map">
@@ -294,8 +185,142 @@
 {% block sp_script %}
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
+
+{% verbatim %}
+<script id="house-item" type="text/x-jquery-tmpl">
+{{if isValid}}
+<div class="result-box col-lg-6">
+    <a href="/room_detail" target="_blank">
+        <div class="result-image thumbnail" data-target="${roomNumber}">
+            <img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>
+            <div class="result-desc">
+                <div class="result-title">
+                    ${roomNumber}:${community}
+                </div>
+                <div class="result-type">
+                    ${shi}室${ting}厅${wei}卫
+                </div>
+                <div class="collect result-item {{if isCollected}}active{{/if}}" data-target="${roomNumber}">
+                    <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
+                </div>
+            </div>
+
+            <div class="price-tag result-item">
+                ${rent}￥
+            </div>
+        </div>
+    </a>
+</div>
+
+{{/if}}
+</script>
+{% endverbatim %}
+
 <script type="text/javascript">
-    // 百度地图API功能
+
+    //存储源数据
+    var rawData=[
+        {
+            roomNumber:"HZ01",
+            community:"古荡小区",
+            longitude:116.407845,
+            latitude:39.914101,
+            shi:1,
+            ting:1,
+            wei:1,
+            rent:1200,
+            isCollected:true,
+            achvWay:"manager",
+            isValid:true
+        },
+        {
+            roomNumber:"HZ02",
+            community:"花园小区",
+            longitude:116.407845,
+            latitude:39.915101,
+            shi:1,
+            ting:1,
+            wei:1,
+            rent:1700,
+            isCollected:false,
+            achvWay:"manager",
+            isValid:true
+        },
+        {
+            roomNumber:"HZ03",
+            community:"哈哈小区",
+            longitude:116.407845,
+            latitude:39.916101,
+            shi:2,
+            ting:1,
+            wei:1,
+            rent:2500,
+            isCollected:false,
+            achvWay:"manager",
+            isValid:true
+        },
+        {
+            roomNumber:"HZ04",
+            community:"求是小区",
+            longitude:116.407845,
+            latitude:39.917101,
+            shi:2,
+            ting:1,
+            wei:1,
+            rent:4000,
+            isCollected:false,
+            achvWay:"manager",
+            isValid:true
+        },
+        {
+            roomNumber:"HZ05",
+            community:"你好小区",
+            longitude:116.407845,
+            latitude:39.918101,
+            shi:3,
+            ting:1,
+            wei:1,
+            rent:6000,
+            isCollected:false,
+            achvWay:"freeproxy",
+            isValid:true
+        }
+    ];
+
+
+    var newData=[
+        {
+            roomNumber:"HZ06",
+            community:"古荡小区",
+            longitude:116.408845,
+            latitude:39.914101,
+            shi:1,
+            ting:1,
+            wei:1,
+            rent:1200,
+            isCollected:true,
+            achvWay:"manager",
+            isValid:true
+        },
+        {
+            roomNumber:"HZ07",
+            community:"花园小区",
+            longitude:116.406845,
+            latitude:39.915101,
+            shi:1,
+            ting:1,
+            wei:1,
+            rent:1700,
+            isCollected:false,
+            achvWay:"manager",
+            isValid:true
+        }
+    ];
+
+
+
+
+//    百度地图初始化
 
 //    地图创建
     var map = new BMap.Map("allmap");    // 创建Map实例
@@ -310,38 +335,269 @@
     map.addControl(top_left_control);
     map.addControl(top_left_navigation);
 
-
-    map.centerAndZoom(point, 15);
-    // 编写自定义函数,创建标注
-    function addMarker(point){
-        var marker = new BMap.Marker(point);
-        map.addOverlay(marker);
+//    复杂的自定义覆盖物
+    function ComplexCustomOverlay(point, text, id){
+        this._point = point;
+        this._text = text;
+        this._id = id;
+//        this._overText = mouseoverText;
     }
+    ComplexCustomOverlay.prototype = new BMap.Overlay();
+    ComplexCustomOverlay.prototype.initialize = function(map){
+        this._map = map;
+        var div = this._div = document.createElement("div");
+        div.id="overlay"+this._id;
+        div.style.position = "absolute";
+        div.style.zIndex = BMap.Overlay.getZIndex(this._point.lat);
+        div.style.backgroundColor = "#EE5D5B";
+        div.style.border = "1px solid #BC3B3A";
+        div.style.color = "white";
+//        div.style.height = "18px";
+        div.style.padding = "2px";
+        div.style.lineHeight = "18px";
+        div.style.whiteSpace = "nowrap";
+        div.style.MozUserSelect = "none";
+        div.style.fontSize = "12px";
+        var span = this._span = document.createElement("span");
+        div.appendChild(span);
+        span.appendChild(document.createTextNode(this._text.toString()+"￥"));
+        var that = this;
 
-    // 随机向地图添加5个标注
-    var bounds = map.getBounds();
-    var sw = bounds.getSouthWest();
-    var ne = bounds.getNorthEast();
-    var lngSpan = Math.abs(sw.lng - ne.lng);
-    var latSpan = Math.abs(ne.lat - sw.lat);
-    for (var i = 0; i < 5; i ++) {
-        var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
-        addMarker(point);
-    }
+        var arrow = this._arrow = document.createElement("div");
+        arrow.id="arrow"+this._id;
+        arrow.style.background = "url(http://map.baidu.com/fwmap/upload/r/map/fwmap/static/house/images/label.png) no-repeat";
+        arrow.style.position = "absolute";
+        arrow.style.width = "11px";
+        arrow.style.height = "10px";
+        arrow.style.top = "22px";
+        arrow.style.left = "10px";
+        arrow.style.overflow = "hidden";
+        div.appendChild(arrow);
+
+//        div.onmouseover = function(){
+//            this.style.backgroundColor = "#6BADCA";
+//            this.style.borderColor = "#0000ff";
+//            this.getElementsByTagName("span")[0].innerHTML = that._overText;
+//            arrow.style.backgroundPosition = "0px -20px";
+//        };
+//
+//        div.onmouseout = function(){
+//            this.style.backgroundColor = "#EE5D5B";
+//            this.style.borderColor = "#BC3B3A";
+//            this.getElementsByTagName("span")[0].innerHTML = that._text;
+//            arrow.style.backgroundPosition = "0px 0px";
+//        };
+
+        div.onclick = function(){
+            window.open("/room_detail?roomNumber="+this._id);
+        };
+
+        map.getPanes().labelPane.appendChild(div);
+
+        return div;
+    };
+
+    ComplexCustomOverlay.prototype.draw = function(){
+        var map = this._map;
+        var pixel = map.pointToOverlayPixel(this._point);
+        this._div.style.left = pixel.x - parseInt(this._arrow.style.left) + "px";
+        this._div.style.top  = pixel.y - 30 + "px";
+    };
+
+//    页面初始化
+    $("nav").addClass("navbar-fixed-top");
+    $("footer").remove();
+    $("#searched-in-home").bind("click",function(){
+        $("#searched-in-work-way").hide();
+        $("#searched-in-home-way").show();
+    });
+
+    $("#searched-in-work").bind("click",function(){
+        $("#searched-in-home-way").hide();
+        $("#searched-in-work-way").show();
+    });
+
+
 
 </script>
 
 <script>
     $(function(){
-        $("#searched-in-home").bind("click",function(){
-            $("#searched-in-work-way").hide();
-            $("#searched-in-home-way").show();
+
+//        页面初始化搜索结果以及地图
+
+        var point = new BMap.Point(116.404, 39.915);
+        map.centerAndZoom(point, 16);
+
+        function freshResult(){
+            //TODO:确定中心点和显示范围
+
+            //清空并添加结果框
+            $("#search-result-container").empty();
+            $("#house-item").tmpl(rawData).appendTo('#search-result-container');
+
+            //清空标记并添加新筛选过的标记
+            map.clearOverlays();
+            for(var i=0;i<rawData.length;i++){
+                if(rawData[i].isValid){
+                    var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(rawData[i].longitude,rawData[i].latitude), rawData[i].rent,rawData[i].roomNumber);
+                    map.addOverlay(myCompOverlay);
+                }
+            }
+        }
+
+        freshResult();
+
+        //鼠标进入房源区域，会在地图上高亮
+        $('#search-result-container').delegate(".thumbnail","mouseover",function(e){
+            var _id= $(this).data("target");
+            $("#overlay"+_id).css({
+                "background-color":"#6BADCA",
+                "border-color":"#0000ff",
+            });
+
+            $("#arrow"+_id).css({
+                "background-position":"0px -20px"
+            });
         });
 
-        $("#searched-in-work").bind("click",function(){
-            $("#searched-in-home-way").hide();
-            $("#searched-in-work-way").show();
+        //鼠标离开房源区域，会取消高亮
+        $('#search-result-container').delegate(".thumbnail","mouseout",function(e){
+            var _id= $(this).data("target");
+            $("#overlay"+_id).css({
+                "background-color":"#EE5D5B",
+                "border-color":"#BC3B3A",
+            });
+
+            $("#arrow"+_id).css({
+                "background-position":"0px 0px"
+            });
         });
+
+        //收藏功能
+        $('#search-result-container').delegate(".collect","click",function(e){
+            e.preventDefault();
+            var _id=$(this).data("target");
+            var that=$(this);
+
+            $.post(
+                "{% url 'room_collection' %}",
+                {roomNumber:_id},
+                function(data){
+                    if(data.status==200){
+                        that.addClass("active");
+                        console.log("post success");
+                    }else{
+                        console.log("post failed");
+                    }
+                }
+            )
+            .error(function(){
+                console.log("error");
+            });
+        });
+
+
+//        搜索条件改变后重新筛选后添加
+
+        var price_upper=-1,
+            price_lower=-1,
+            room_type=-1,
+            achive_type=-1;
+
+        $(".form-listen input").bind("change",function(e){
+
+            //设定搜索的界限,-1表示没有限制
+            var _target= e.target;
+            var _type= _target.name;
+
+            //根据表单变换去重新设置界限变量
+            switch(_type) {
+                case "price":
+                    if (_target.id === "noprice") {
+                        //没有价格限制
+                        price_upper = -1;
+                        price_lower = -1;
+                    } else {
+                        var price_bound = _target.id.split("to");
+                        price_lower = price_bound[0];
+                        price_upper = price_bound[1] === "h" ? -1 : price_bound[1];
+                    }
+                    break;
+                case "type":
+                    if (_target.id === "notype") {
+                        //没有房型限制
+                        room_type = -1;
+                    } else {
+                        room_type = _target.id.split("room")[0];
+                    }
+                    break;
+                case "acheive_way":
+                    if (_target.id === "noway") {
+                        //没有限制
+                        achive_type = -1;
+                    } else {
+                        achive_type = _target.id;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            //根据界限变量去遍历数组，筛选内容
+            for(var i=0;i<rawData.length;i++){
+                rawData[i].isValid=true;
+                if((price_upper!=-1&&rawData[i].rent>price_upper)
+                    ||(price_lower!=-1&&rawData[i].rent<=price_lower)
+                    ||(room_type!=-1&&rawData[i].shi!=room_type)
+                    ||(achive_type!=-1&&rawData[i].achvWay!=achive_type)){
+                    rawData[i].isValid=false;
+                }
+            }
+
+            //重新添加内容，并更新地图
+            freshResult();
+        });
+
+
+        //地图拖动后重新请求房源
+        map.addEventListener("dragend",mapDragHandler);
+
+        function mapDragHandler(){
+
+            // 判断用户勾选需求
+
+
+            // 获取地图的边界
+            var bounds = map.getBounds();
+            var sw = bounds.getSouthWest();
+            var ne = bounds.getNorthEast();
+
+            $.post(
+                "{% url 'map_search' %}",
+                {
+                    swx:sw.lng,//左下角坐标
+                    swy:sw.lat,
+                    nex:ne.lng,//右上角坐标
+                    ney:ne.lat
+                },
+                function(data){
+                    if(data.status==200){
+                        rawData=data.newData;
+                        freshResult();
+                        console.log("post success");
+                    }else{
+                        console.log("post failed");
+                    }
+                }
+            )
+            .error(function(){
+                console.log("error");
+            });
+
+        }
+
+
     });
 </script>
 

@@ -1,28 +1,40 @@
-<!--extentds-->
-{% extends './common/base.html' %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
 
-<!--title-->
-{% block title %}租房网demo{% endblock %}
+    {% include './common/header.html' %}
 
-<!--sp_header-->
-{% block sp_header %}
-<style>
-    body{
-        background: white;
-        width:100%;
-        height:100%;
-    }
+    <style>
 
-    .form-control{
-        display: inline-block;
-        width:100px;
-    }
-</style>
-{% endblock %}
+        .container{
+            background:url(../resource/indexback.png);
+            margin:0 0;
+            padding:0 0;
+            /*width:100%;*/
+            min-width:1170px;
+            min-height:800px;
+            -moz-background-size:100% 100%;
+            background-size:100% 100%;
+        }
 
-<!--content-->
-{% block content %}
-<div id="index-container">
+        body{
+            background: white;
+            /*width:100%;*/
+            /*height:100%;*/
+        }
+
+        .form-control{
+            display: inline-block;
+            width:100px;
+        }
+    </style>
+
+
+    <title>租房网demo</title>
+</head>
+<body>
+
+<div class="container">
     <!--<img src="resource/indexback.png" alt="" width="100%" height="100%"/>-->
 
     <div class="company-title">
@@ -45,12 +57,7 @@
                 <option value="drive">驾车</option>
             </select>
             的方式，在
-            <!--<input class="form-control" type="text" name="time" id="time"/>-->
-            <select class="form-control" name="time" id="time">
-                <option value="10">10分钟</option>
-                <option value="15">15分钟</option>
-                <option value="30">30分钟</option>
-            </select>
+            <input class="form-control" type="text" name="time" id="time"/>
             的时间内到达公司。
 
 
@@ -64,38 +71,37 @@
     </form>
 
 
-    <form class="index-panel" id="home-panel" action="/home_search" method="get">
-        <div class="title">寻房启事</div>
+    <!--<form class="index-panel" id="home-panel" action="/home_search" method="get">-->
+        <!--<div class="title">寻房启事</div>-->
 
-        <div class="content" id="home-search">
+        <!--<div class="content" id="home-search">-->
+            <!--&lt;!&ndash;我想住在&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="space">&ndash;&gt;-->
+
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;附近&ndash;&gt;-->
+
+
+            <!--&nbsp&nbsp&nbsp&nbsp-->
             <!--我想住在-->
-            <!--<div class="space">-->
+            <!--<input type="text" class="form-control" name="home_location" id="home_location"/>-->
+            <!--附近。-->
 
-            <!--</div>-->
-            <!--附近-->
+        <!--</div>-->
 
-
-            &nbsp&nbsp&nbsp&nbsp
-            我想住在
-            <input type="text" class="form-control" name="home_location" id="home_location"/>
-            附近。
-
-        </div>
-
-        <button type="submit" class="btn-search btn-get">
-            <span class="glyphicon glyphicon-search"></span>
-            搜索房源
-        </button>
-        <span id="search-in-work">按照工作地搜索？</span>
-    </form>
+        <!--<button type="submit" class="btn-search btn-get">-->
+            <!--<span class="glyphicon glyphicon-search"></span>-->
+            <!--搜索房源-->
+        <!--</button>-->
+        <!--<span id="search-in-work">按照工作地搜索？</span>-->
+    <!--</form>-->
 </div>
 
 
+{% include './common/footer.html' %}
 
-{% endblock %}
+</body>
 
-<!--sp_script-->
-{% block sp_script %}
 <script>
     $(function(){
         $("#search-in-home").bind("click",function(){
@@ -110,4 +116,4 @@
 
     });
 </script>
-{% endblock %}
+</html>

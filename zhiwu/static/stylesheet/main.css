@@ -363,6 +363,10 @@ hr{
 
 
 /*SEARCH*/
+.search{
+    min-width:1170px;
+}
+
 .search-row .searched-content{
     padding-left:40px;
 }
@@ -452,8 +456,12 @@ hr{
     color:white;
 }
 
+.result-box .collect.active{
+    color:#ff5a5f;
+}
+
 .result-box .collect:hover{
-    color:pink;
+    color:#ff5a5f;
 }
 
 
@@ -483,15 +491,6 @@ hr{
 
 
 /*INDEX*/
-#index-container{
-    background:url(../resource/indexback.png);
-    width:100%;
-    min-height:800px;
-    -moz-background-size:100% 100%;
-    background-size:100% 100%;
-}
-
-
 .index-panel{
     background-color: rgba(95,137,118,0.7);
     border-radius: 10px;
@@ -501,11 +500,10 @@ hr{
     top:25%;
     width:700px;
     height:350px;
-    -webkit-transition: all .5s ease-in-out 1s;
-    -o-transition: all .5s ease-in-out 1s;
-    -moz-transition: all .5s ease-in-out 1s;
-    transition: all .5s ease-in-out 1s;
-
+    /*-webkit-transition: all .5s ease-in-out 1s;*/
+    /*-o-transition: all .5s ease-in-out 1s;*/
+    /*-moz-transition: all .5s ease-in-out 1s;*/
+    /*transition: all .5s ease-in-out 1s;*/
 }
 
 @font-face{
@@ -552,7 +550,7 @@ hr{
 
 .company-title{
     font-family: companyTitleFont;
-    position:relative;
+    position:absolute;
     top:70px;
     left:50%;
     margin-left:-90px;
@@ -594,18 +592,11 @@ hr{
     display: none;
 }
 
-
-
-
 .btn-search:hover{
     color:white;
-
 }
 
-
-
 .search-wrapper{
-
     padding:5px;
     width:500px;
     height:300px;
