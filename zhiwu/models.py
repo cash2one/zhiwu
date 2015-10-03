@@ -17,6 +17,7 @@ class Environment(models.Model):
 class Community(models.Model):
     # 小区信息
     name = models.CharField(max_length=30, primary_key=True)
+    environment = models.ForeignKey(Environment)
     item = models.CharField(max_length=100)
 
 
@@ -29,6 +30,7 @@ class Room(models.Model):
     ting = models.IntegerField()
     wei = models.IntegerField()
     rent = models.IntegerField()
+    rentStyle = models.CharField(max_length=30)
     area = models.IntegerField()
     direction = models.CharField(max_length=10)
     DateToLive = models.DateField()

@@ -2,6 +2,14 @@
 from models import *
 
 
+def get_search_room_list(rooms):
+    p = []
+    for i in rooms:
+        images = RoomPicture.objects.filter(roomNumber=i.roomNumber)
+        p.append({"room": i, "images": images})
+    return p
+
+
 # 判断身份
 def is_root(status):
     return True

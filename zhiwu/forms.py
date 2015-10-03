@@ -22,6 +22,7 @@ class RoomForm(forms.Form):
     room_ting = forms.IntegerField()
     room_wei = forms.IntegerField()
     room_rent = forms.IntegerField()
+    room_rentStyle = forms.CharField()
     room_area = forms.IntegerField()
     room_direction = forms.CharField()
     room_DateToLive = forms.DateField()
