@@ -20,7 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     # test
-    url(r'^test/', 'zhiwu.views.test', name='home'),
+    # url(r'^test/', 'zhiwu.views.test', name='home'),
 
     # Part1: 页面显示url
 
@@ -31,6 +31,8 @@ urlpatterns = [
         # 主页搜索
             url(r'^work_search/', 'zhiwu.views.work_search', name='work_search'),
             url(r'^home_search/', 'zhiwu.views.home_search', name='home_search'),
+            url(r'^search/', 'zhiwu.views.search', name='search'),
+
 
         # 详情页
             url(r'^room_detail/', 'zhiwu.views.room_detail', name='room_detail'), #TODO:房源编号

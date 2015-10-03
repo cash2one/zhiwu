@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from .forms import *
@@ -29,12 +30,60 @@ def home(request):
 #     # return HttpResponse("hello world",status=200)
 
 
-def work_search(request):
+def search(request):
     return render(request, "search.html")
+
+
+def work_search(request):
+    distance = {"walk": {"10": 0.010, "15": 0.015, "30": 0.030},
+                "bus": {"10": 0.02, "15": 0.025, "30": 0.050},
+                "drive": {"10": 0.03, "15": 0.050, "30": 0.100}}
+    time_get = request.GET.get("time", None)
+    way = request.GET.get("way", None)
+    longitude = request.GET.get("longitude", None)
+    latitude = request.GET.get("latitude", None)
+    if time is None or way is None or longitude is None and latitude is None:
+        return HttpResponse(status=404)
+    else:
+        try:
+            dis = distance.get(way).get(time_get)
+        except:
+            return HttpResponse(status=404)
+        if dis is None:
+            return HttpResponse(status=404)
+        rooms = Room.objects.filter(longitude__range=(longitude-dis, longitude+dis),
+                                    latitude__range=(latitude-dis, latitude+dis))
+        room_list = get_search_room_list(rooms)
+        return render(request, "search.html", {"rooms": room_list})
 
 
 def home_search(request):
-    return render(request, "search.html")
+    # home_location
+    # longitude = models.FloatField(default=120.200)
+    # latitude = models.FloatField(default=30.3)
+    location = request.GET.get("home_location", None)
+    longitude = request.GET.get("longitude", None)
+    latitude = request.GET.get("latitude", None)
+    rooms = Room.objects.filter(community=location)
+    dis = 0.010
+    if len(rooms) == 0:
+        rooms = Room.objects.filter(longitude__range=(longitude-dis, longitude+dis),
+                                    latitude__range=(latitude-dis, latitude+dis))
+    room_list = get_search_room_list(rooms)
+    return render(request, "search.html", {"rooms": room_list})
+
+
+def map_search(request):
+    # longitude = models.FloatField(default=120.200)
+    # latitude = models.FloatField(default=30.3)
+    longitude_l = request.GET.get("longitude_left", None)
+    latitude_l = request.GET.get("latitude_left", None)
+    longitude_r = request.GET.get("longitude_right", None)
+    latitude_r = request.GET.get("latitude_right", None)
+    rooms = Room.objects.filter(longitude__range=(longitude_l, longitude_r),
+                                latitude__range=(latitude_l, latitude_r))
+    room_list = get_search_room_list(rooms)
+    return JsonResponse(room_list)
 
 
 def room_detail(request):
@@ -147,8 +196,11 @@ def admin_second_manager(request):
 def new_house(request):
     user = request.session.get("user")
     status = request.session.get("status", "")
+    communities = Community.objects.all()
     if is_second_manager(status):
-        return render(request, "newHouse.html", {"user": user})
+        return render(request, "newHouse.html", {"user": user,
+                                                 "status": status,
+                                                 "communities": communities})
     else:
         return HttpResponseRedirect(reverse("manager_login"))
 
@@ -167,10 +219,6 @@ def client_back_list(request):
 
 def client_back_comment(request):
     return render(request, "serviceContact.html")
-
-
-def map_search(request):
-    return render(request, "")
 
 
 def room_collection(request):
@@ -479,7 +527,6 @@ def post_room_logout(request):
         print 'not post'
 
 
-
 def post_room_active(request):
     if request.method == 'POST':  # 当提交表单时
         form = RoomForm(request.POST)  # form 包含提交的数据
@@ -497,6 +544,7 @@ def post_room_active(request):
 
 
 def post_room_save(request):
+    # todo 这个不对
     if request.method == 'POST':  # 当提交表单时
         form = RoomForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
