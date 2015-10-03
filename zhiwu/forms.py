@@ -14,6 +14,7 @@ class AdminLogin(forms.Form):
 
 class RoomForm(forms.Form):
     room_roomNumber = forms.CharField()
+    #房屋信息
     room_longitude = forms.FloatField()
     room_latitude = forms.FloatField()
     room_community = forms.CharField()
@@ -27,6 +28,45 @@ class RoomForm(forms.Form):
     room_lookAble = forms.BooleanField()
     room_contactPerson = forms.CharField()
     room_environment = forms.CharField()
+    #出租信息
+    rentDate = forms.DateField()
+    #房屋图片
+    picture = forms.CharField()
+    #房屋配置
+    level = forms.IntegerField()
+    elevator = forms.BooleanField()
+    canZhuo = forms.BooleanField()
+    shaFa = forms.BooleanField()
+    shuZhuo = forms.BooleanField()
+    yiZi = forms.BooleanField()
+    yiGui = forms.BooleanField()
+    chuang = forms.BooleanField()
+    kongTiao = forms.BooleanField()
+    xiYiJi = forms.BooleanField()
+    reShuiQi = forms.BooleanField()
+    bingXiang = forms.BooleanField()
+    dianShiJi = forms.BooleanField()
+    xiYouYanJi = forms.BooleanField()
+    ranQiZao = forms.BooleanField()
+    roomType = forms.CharField(max_length=100) #房屋描述
+    decoration = forms.CharField(max_length=100)
+    configuration = forms.CharField(max_length=100)
+    cook = forms.CharField(max_length=100)
+    light = forms.CharField(max_length=100)
+    wind = forms.CharField(max_length=100)
+    sound = forms.CharField(max_length=100)
+    requirement = forms.CharField(max_length=100)
+    suitable = forms.CharField(max_length=100)
+
+class RoomEvaluation(forms.Form):
+    # 租客评价
+    roomNumber = forms.CharField()
+    creatTime = forms.DateTimeField(auto_now_add=True)
+    text = forms.CharField(widget=forms.Textarea)
+
+
+
+
 
 
 class ManagerForm(forms.Form):

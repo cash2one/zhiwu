@@ -73,7 +73,7 @@ class RoomConfiguration(models.Model):
     shuZhuo = models.BooleanField()
     yiZi = models.BooleanField()
     yiGui = models.BooleanField()
-    chunag = models.BooleanField()
+    chuang = models.BooleanField()
     kongTiao = models.BooleanField()
     xiYiJi = models.BooleanField()
     reShuiQi = models.BooleanField()

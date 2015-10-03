@@ -160,12 +160,12 @@ def description_modify(roomNumber, roomType, decoration,
         return False
 
 
-def configuration_add( roomNumber, level, elevator, canZhuo,
-                       shaFa, shuZhuo, yiZi, yiGui, chunag,
-                       kongTiao, xiYiJi, reShuiQi, bingXiang,
-                       dianShiJi, xiYouYanJi, ranQiZao):
+def configuration_add(roomNumber, level, elevator, canZhuo,
+                      shaFa, shuZhuo, yiZi, yiGui, chunag,
+                      kongTiao, xiYiJi, reShuiQi, bingXiang,
+                      dianShiJi, xiYouYanJi, ranQiZao):
     try:
-        room =Room.objects.get(roomNumber=roomNumber)
+        room = Room.objects.get(roomNumber=roomNumber)
         RoomConfiguration.objects.create(roomNumber=room,
                                          level=level,
                                          elevator=elevator,
@@ -195,23 +195,23 @@ def configuration_modify(roomNumber, level, elevator, canZhuo,
                          kongTiao, xiYiJi, reShuiQi, bingXiang,
                          dianShiJi, xiYouYanJi, ranQiZao):
     try:
-        room =Room.objects.get(roomNumber=roomNumber)
+        room = Room.objects.get(roomNumber=roomNumber)
         p = RoomConfiguration.objects.get(roomNumber=room)
-        p.level=level
-        p.elevator=elevator
-        p.canZhuo=canZhuo
-        p.shaFa=shaFa
-        p.shuZhuo=shuZhuo
-        p.yiZi=yiZi
-        p.yiGui=yiGui
-        p.chunag=chunag
-        p.kongTiao=kongTiao
-        p.xiYiJi=xiYiJi
-        p.reShuiQi=reShuiQi
-        p.bingXiang=bingXiang
-        p.dianShiJi=dianShiJi
-        p.xiYouYanJi=xiYouYanJi
-        p.ranQiZao=ranQiZao
+        p.level = level
+        p.elevator = elevator
+        p.canZhuo = canZhuo
+        p.shaFa = shaFa
+        p.shuZhuo = shuZhuo
+        p.yiZi = yiZi
+        p.yiGui = yiGui
+        p.chunag = chunag
+        p.kongTiao = kongTiao
+        p.xiYiJi = xiYiJi
+        p.reShuiQi = reShuiQi
+        p.bingXiang = bingXiang
+        p.dianShiJi = dianShiJi
+        p.xiYouYanJi = xiYouYanJi
+        p.ranQiZao = ranQiZao
         p.save()
         print "room configuration modify success!"
         return True
@@ -270,6 +270,7 @@ def room_picture_delete(roomNumber, picture_addr):
         print e
         return False
 
+
 def room_logout(roomNumber):
     try:
         p = Room.objects.get(roomNumber=roomNumber)
@@ -281,6 +282,7 @@ def room_logout(roomNumber):
         print "room logout error:"
         print e
         return False
+
 
 def room_active(roomNumber):
     try:
@@ -294,29 +296,85 @@ def room_active(roomNumber):
         print e
         return False
 
-def room_save(roomNumber):
+
+def room_save(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
+               room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
+               room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
+               level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
+               bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
+               light, wind, sound, requirement, suitable):
     try:
-        p = Room.objects.get(roomNumber=roomNumber)
-        p.achieve = False
-        p.save(update_fields=['achieve'])
-        print "room unpublished success!"
+        room_defaults = {'longitude':room_longitude, 'latitude':room_latitude, 'community':room_community, \
+                       'shi':room_shi, 'ting':room_ting, 'wei':room_wei, 'rent':room_rent, 'area':room_area,\
+                       'direction':room_direction, 'DateToLive':room_DateToLive,'lookAble':room_lookAble,\
+                       'contactPerson':room_contactPerson, 'environment':room_environment,'sold':False,'exist':False,'achieve':False}
+        rent_defaults = {'rentDate':rentDate}
+        picture_defaults = {'picture':picture}
+        configuration_defaults = {'level': level,'elevator': elevator,'canZhuo': canZhuo,'shaFa': shaFa,'shuZhuo': shuZhuo,\
+                                  'yiZi': yiZi,'yiGui': yiGui, 'chuang':chuang, 'kongTiao': kongTiao,'xiYiJi': xiYiJi,\
+                                  'reShuiQi': reShuiQi, 'bingXiang': bingXiang, 'dianShiJi': dianShiJi, 'xiYouYanJi': xiYouYanJi,\
+                                  'ranQiZao':ranQiZao}
+        description_defaults = {'roomType': roomType,'decoration':decoration,'configuration': configuration,'cook': cook, \
+                'light': light,'wind': wind,'sound': sound,'requirement': requirement,'suitable': suitable}
+        p1,created1 = Room.objects.get_or_create(roomNumber=roomNumber,defaults=room_defaults)
+        p1.achieve = False
+        p1.save(update_fields=['achieve'])
+        p2,created2 = RoomRented.objects.get_or_create(roomNumber=roomNumber,defaults=rent_defaults)
+        p3,created3 = RoomPicture.objects.get_or_create(roomNumber=p1,defaults=picture_defaults)#foreign key
+        p4,created4 = RoomConfiguration.objects.get_or_create(roomNumber=roomNumber,defaults=configuration_defaults)
+        p5,created5 = RoomDescription.objects.get_or_create(roomNumber=roomNumber,defaults=description_defaults)
+        print "save success!"
         return True
     except Exception, e:
-        print "room unpublished error:"
+        print "save error:"
         print e
         return False
 
-def room_sub(roomNumber):
+
+def room_sub(roomNumber,room_longitude,room_latitude,room_community,room_shi,\
+                             room_ting, room_wei,room_rent,room_area,room_direction,room_DateToLive,\
+                              room_lookAble,room_contactPerson,room_environment,rentDate,picture,\
+                        level,elevator,canZhuo,shaFa,shuZhuo,yiZi,yiGui,chuang,kongTiao,xiYiJi,reShuiQi,\
+                        bingXiang,dianShiJi,xiYouYanJi,ranQiZao,roomType,decoration,configuration,cook,\
+                        light,wind,sound,requirement,suitable):
     try:
-        p = Room.objects.get(roomNumber=roomNumber)
-        p.achieve = True
-        p.save(update_fields=['achieve'])
-        print "room released success!"
+        room_defaults = {'longitude':room_longitude, 'latitude':room_latitude, 'community':room_community, \
+                       'shi':room_shi, 'ting':room_ting, 'wei':room_wei, 'rent':room_rent, 'area':room_area,\
+                       'direction':room_direction, 'DateToLive':room_DateToLive,'lookAble':room_lookAble,\
+                       'contactPerson':room_contactPerson, 'environment':room_environment,'sold':False,'exist':False,'achieve':False}
+        rent_defaults = {'rentDate':rentDate}
+        picture_defaults = {'picture':picture}
+        configuration_defaults = {'level': level,'elevator': elevator,'canZhuo': canZhuo,'shaFa': shaFa,'shuZhuo': shuZhuo,\
+                                  'yiZi': yiZi,'yiGui': yiGui, 'chuang':chuang, 'kongTiao': kongTiao,'xiYiJi': xiYiJi,\
+                                  'reShuiQi': reShuiQi, 'bingXiang': bingXiang, 'dianShiJi': dianShiJi, 'xiYouYanJi': xiYouYanJi,\
+                                  'ranQiZao':ranQiZao}
+        description_defaults = {'roomType': roomType,'decoration':decoration,'configuration': configuration,'cook': cook, \
+                'light': light,'wind': wind,'sound': sound,'requirement': requirement,'suitable': suitable}
+        p1,created1 = Room.objects.get_or_create(roomNumber=roomNumber,defaults=room_defaults)
+        p1.achieve = False
+        p1.save(update_fields=['achieve'])
+        p2,created2 = RoomRented.objects.get_or_create(roomNumber=roomNumber,defaults=rent_defaults)
+        p3,created3 = RoomPicture.objects.get_or_create(roomNumber=p1,defaults=picture_defaults)#foreign key
+        p4,created4 = RoomConfiguration.objects.get_or_create(roomNumber=roomNumber,defaults=configuration_defaults)
+        p5,created5 = RoomDescription.objects.get_or_create(roomNumber=roomNumber,defaults=description_defaults)
+        print "submit success!"
         return True
     except Exception, e:
-        print "room released error:"
+        print "submit error:"
         print e
         return False
+
+def room_evaluation(roomNumber,creatTime,text):
+    try:
+        p=Room.objects.get(roomNumber=roomNumber)
+        p2,created = RoomEvaluation.objects.get_or_create(p,defaults={'creatTime':creatTime,'text':text})
+        print "evaluation success!"
+        return True
+    except Exception, e:
+        print "evaluation error:"
+        print e
+        return False
+
 
 def room_sold(roomNumber):
     try:
@@ -329,6 +387,7 @@ def room_sold(roomNumber):
         print "room sold error:"
         print e
         return False
+
 
 def room_add(roomNumber, longitude, latitude,
              shi, ting, wei, rent, area, direction,
@@ -360,8 +419,8 @@ def room_add(roomNumber, longitude, latitude,
 
 
 def room_modify(roomNumber, longitude, latitude,
-             shi, ting, wei, rent, area, direction,
-             DateToLive, losuccessAble, contactPerson, community, environment):
+                shi, ting, wei, rent, area, direction,
+                DateToLive, losuccessAble, contactPerson, community, environment):
     try:
         SecondManager.objects.get(user=contactPerson)
         Community.objects.get(name=community)
@@ -594,10 +653,11 @@ def manager_active(user):
         print e
         return False
 
-def manager_pw(user,oldpw,newpw):
+
+def manager_pw(user, oldpw, newpw):
     try:
         p = Manager.objects.get(user=user)
-        if p.pw == oldpw :
+        if p.pw == oldpw:
             p.pw = newpw
             p.save(update_fields=['pw'])
             print 'pwd modify success'
@@ -609,8 +669,6 @@ def manager_pw(user,oldpw,newpw):
         print 'pwd modify error:'
         print e
         return False
-
-
 
 
 def second_manager_add(manager_user, user, pw, name, phone, company, status):
@@ -677,7 +735,7 @@ def second_manager_active(user):
 def second_manager_pw(user, oldpw, newpw):
     try:
         p = SecondManager.objects.get(user=user)
-        if p.pw == oldpw :
+        if p.pw == oldpw:
             p.pw = newpw
             p.save(update_fields=['pw'])
             print 'pwd modify success'
