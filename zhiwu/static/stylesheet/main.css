@@ -36,6 +36,48 @@ hr{
     color:#e7e7e7;
 }
 
+.navbar-form{
+    position: relative;
+}
+
+.navbar-form .form-control{
+    border:none;
+    border-radius: 0;
+    border-bottom:1px solid #ADADAD;
+    color:grey;
+    background-color:#f8f8f8;
+    box-shadow: none;
+}
+
+.navbar-form #way{
+    border: none;
+}
+
+.navbar-form .select-border{
+    height: 5px;
+    width:50px;
+    border-bottom:1px solid #ADADAD;
+    position: absolute;
+    bottom:0;
+    left:212px;
+}
+/*.navbar-form #way:after{*/
+    /*position:absolute;*/
+    /*boder-bottom:1px solid #777;*/
+    /*height:60px;*/
+    /*bottom:0;*/
+    /*left:0;*/
+/*}*/
+
+.btn-pink{
+    border:#ff5a5f;
+    background: #ff5a5f;
+    color:white;
+}
+
+.btn-pink:hover{
+    color:white;
+}
 
 /*DETAIL*/
 #room-carousel{
@@ -59,16 +101,19 @@ hr{
 .room-info{
     display: inline-block;
     position: relative;
-    top:-31px;
-    padding-bottom:15px;
+    top:-15px;
+    padding:5px;
     /*border:1px solid #ff5a5f;*/
-    background: rgba(255,255,255,0.7);
+    width:450px;
+    height:510px;
+    background: rgba(255,255,255,1);
     color:black;
     z-index:1000;
 }
 
-.room-info .room-info-content{
-    padding:0 15px;
+.room-info .room-part{
+    /*display:inline-block;*/
+    position: absolute;
 }
 
 .pin-wrapper{
@@ -78,11 +123,166 @@ hr{
     z-index: 1000;
 }
 
-.room-info .room-title{
+.room-info .room-xiaoqu{
     font-size: 25px;
     font-weight: 600;
     padding:10px 15px;
-    background: rgba(0,0,0,0.7);
+    width:300px;
+    height:50px;
+    background: #ff5a5f;
+    color:white;
+}
+
+.room-info .room-number{
+    font-size: 25px;
+    font-weight: 600;
+    padding:10px 15px;
+    width:135px;
+    height:50px;
+    top:5px;
+    right:5px;
+    background: rgba(192,107,72,1);
+    color:white;
+}
+
+
+.room-info .room-keyinfo{
+    font-size: 18px;
+    font-weight: 600;
+    padding:15px 20px;
+    width:200px;
+    height:120px;
+    top:60px;
+    left:5px;
+    background: #E9967A;
+    color:white;
+}
+
+.room-info .bigger{
+    font-size:25px;
+    font-weight: 500;
+}
+
+.room-info .room-keyinfo #home-icon{
+    font-size:40px;
+    position: absolute;
+    right:20px;
+    top:50%;
+    margin-top:-20px;
+}
+
+.room-info .room-moreinfo1{
+    font-size: 18px;
+    font-weight: 600;
+    padding:15px 20px;
+    width:200px;
+    height:160px;
+    top:185px;
+    left:5px;
+    background: #EBAC40;
+    color:white;
+}
+
+.room-info .room-moreinfo2{
+    font-size: 18px;
+    font-weight: 600;
+    padding:15px 20px;
+    width:440px;
+    height:50px;
+    top:350px;
+    left:5px;
+    background: #A2CD5A;
+    color:white;
+}
+
+.room-info .room-config-info{
+    font-size: 16px;
+    font-weight: 500;
+    padding:15px 20px;
+    width:235px;
+    height:200px;
+    top:60px;
+    right:5px;
+    background: #FF8247;
+    color:white;
+}
+
+.room-info .room-config-info .title{
+    font-size:18px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom:10px;
+}
+
+.room-info .room-config-info .content{
+    line-height:30px;
+}
+
+.room-info .room-btn{
+    font-size: 25px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: 600;
+    padding:15px 20px;
+    width:235px;
+    height:80px;
+    top:265px;
+    right:5px;
+    background: #F4A460;
+    color:white;
+}
+
+.room-info .room-btn button{
+    padding:10px 20px;
+    background-color: #F4A460;
+    border: 3px solid white;
+    border-radius: 5px;
+}
+
+.room-info .room-btn button:hover{
+    color:white;
+}
+
+.room-info .room-master{
+    font-size: 16px;
+    font-weight: 600;
+    padding:15px 20px;
+    width:300px;
+    height:100px;
+    top:405px;
+    left:5px;
+    background: #9BCD9B;
+    color:white;
+}
+
+.room-info .room-master .room-master-img{
+    border-radius: 100px;
+    float:left;
+    width:60px;
+    height:60px;
+    overflow: hidden;
+    background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+}
+
+.room-info .room-master .room-master-desc{
+    position: relative;
+    top:10px;
+    left:25px;
+}
+
+.room-info .room-lookable{
+    font-size: 20px;
+    line-height: 60px;
+    text-align: center;
+    font-weight: 600;
+    padding:15px 20px;
+    width:135px;
+    height:100px;
+    top:405px;
+    right:5px;
+    background: rgba(135,166,153,1);
     color:white;
 }
 
@@ -118,59 +318,21 @@ hr{
 
 }
 
-.room-tag{
-    margin-top:15px;
-}
+/*.room-tag .room-tag-item{*/
+    /*display: inline-block;*/
+    /*margin-right:5px;*/
+    /*width:100px;*/
+    /*border-radius: 3px;*/
+    /*border: 1px solid #ff5a5f;*/
+    /*color:#ff5a5f;*/
+    /*text-align: center;*/
+    /*height:30px;*/
+    /*line-height:30px;*/
+/*}*/
 
-.room-tag .room-tag-item{
-    display: inline-block;
-    margin-right:5px;
-    width:100px;
-    border-radius: 3px;
-    border: 1px solid #ff5a5f;
-    color:#ff5a5f;
-    text-align: center;
-    height:30px;
-    line-height:30px;
-}
 
-.room-price{
-    color:#ff5a5f;
-    font-size:20px;
-    margin-top:20px;
-    font-weight: 600;
-}
 
-.room-master{
-    margin-top:15px;
-    height:70px;
-}
 
-.room-master .room-master-img{
-    border-radius: 100px;
-    float:left;
-    width:60px;
-    height:60px;
-    overflow: hidden;
-    background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);
-    -moz-background-size:100% 100%;
-    background-size:100% 100%;
-}
-
-.room-master .room-master-desc{
-    color:#ff5a5f;
-    padding-top:15px;
-    position: relative;
-    left:45px;
-}
-
-.room-btn{
-    margin-top:15px;
-}
-
-.room-btn button{
-    width:150px;
-}
 
 /*.room-nav-wrapper{*/
 
@@ -365,10 +527,20 @@ hr{
 /*SEARCH*/
 .search{
     min-width:1170px;
+    margin-top: 52px;
+    width:100%;
+    height:100%;
 }
 
-.search-row .searched-content{
-    padding-left:40px;
+.search-content{
+    position: fixed;
+    top: 68px;
+    left: 0;
+    bottom: 0;
+    width: 65%;
+    /*height: ;*/
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
 .search-row .form-control{
@@ -393,10 +565,6 @@ hr{
     display: none;
 }
 
-.search{
-    margin-top: 52px;
-}
-
 #searched-in-home,#searched-in-work{
     vertical-align: bottom;
     cursor: pointer;
@@ -404,30 +572,38 @@ hr{
 
 .search-map{
     height:100%;
-    width:40%;
+    width:35%;
+    min-width:400px;
     position: fixed;
     right:0;
-    top:52px;
-    /*background:url("../resource/map.png") repeat;*/
+    top:68px;
 }
 
 .search-condition{
     width:100%;
-    height:330px;
-    padding:30px 10px;
+    /*height:330px;*/
+    padding:30px 10px 0px;
     background-color: white;
     border-bottom:1px solid darkgray;
     margin-bottom:20px;
     color:grey;
 }
 
-.search-category{
-    margin-top:7px;
-    /*color:darkgray;*/
+#more-way-btn{
+    position: absolute;
+    right:20px;
 }
 
-.search-content{
-    width:60%;
+#less-way-btn{
+    position: absolute;
+    right:20px;
+    display: none;
+}
+
+.search-category{
+    padding-left:30px;
+    margin-top:7px;
+    /*color:darkgray;*/
 }
 
 .search-result{

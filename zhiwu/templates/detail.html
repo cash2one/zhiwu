@@ -21,7 +21,7 @@
 <!--content-->
 {% block content %}
 
-<div class="container">
+<div class="container" id="pin-container">
 
     <div id="room-carousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
@@ -57,80 +57,69 @@
     </div>
 
     <div class="room-info">
-        <div class="room-title">
+        <div class="room-xiaoqu room-part">
             芍药居 芍药居9号院
         </div>
 
-        <div class="room-info-content">
-            <div class="room-desc">
-                <div class="detail-item"><span class="detail-item-key">户型</span><span class="detail-item-value">2室1厅1卫</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">面积</span><span class="detail-item-value">24 m2</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">付款方式</span><span class="detail-item-value">押一付三</span>
-                </div>
+        <div class="room-lookable room-part">
+            随时可看
+        </div>
 
-                <div class="detail-item"><span class="detail-item-key">出租方式</span><span class="detail-item-value">次卧</span>
-                </div>
+        <div class="room-number room-part">HZ0001</div>
 
-                <div class="detail-item"><span class="detail-item-key">朝向</span><span class="detail-item-value">向南</span>
-                </div>
+        <div class="room-keyinfo room-part">
+            <span class="bigger">2</span>室<span class="bigger">1</span>厅<span class="bigger">1</span>卫<br/>
+            押一付三<br/>
+            <span class="bigger">2700</span>/月<br/>
+            <span class="glyphicon glyphicon-home" id="home-icon" aria-hidden="true"></span>
+        </div>
 
-                <div class="detail-item"><span class="detail-item-key">楼层</span><span class="detail-item-value">11/13层</span>
-                </div>
 
-                <div class="detail-item"><span class="detail-item-key">是否有电梯</span><span class="detail-item-value">有电梯</span>
-                </div>
+        <div class="room-moreinfo1 room-part">
+            面积：<span class="bigger">27</span> m2<br/>
+            朝向：朝南<br/>
+            <span class="bigger">11/13层</span><br/>
+            有电梯
+        </div>
 
-                <div class="detail-item"><span class="detail-item-key">最早可入住时间</span><span class="detail-item-value">2015-09-30</span>
-                </div>
+        <div class="room-moreinfo2 room-part">
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;&nbsp;最早可入住时间&nbsp;:&nbsp;2015&nbsp;年&nbsp;9&nbsp;月&nbsp;30&nbsp;日<br/>
+        </div>
 
-                <div class="detail-item"><span class="detail-item-key">房屋配置</span><span class="detail-item-value">
-                    餐桌&nbsp
-                    沙发&nbsp
-                    书桌&nbsp
-                    椅子&nbsp
-                    衣柜&nbsp
-                    床&nbsp
-                    空调&nbsp
-                    洗衣机&nbsp
-                    热水器&nbsp
-                    冰箱&nbsp
-                    电视机&nbsp
-                    油烟机&nbsp
-                    燃气灶&nbsp
-                </span>
-                </div>
+
+        <div class="room-config-info room-part">
+            <span class="title"> <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>&nbsp;房屋配置</span><br/>
+            <span class="content">
+                餐桌&nbsp
+                沙发&nbsp
+                书桌&nbsp
+                椅子&nbsp
+                衣柜&nbsp
+                床&nbsp
+                空调&nbsp
+                洗衣机&nbsp
+                热水器&nbsp
+                冰箱&nbsp
+                电视机&nbsp
+                油烟机&nbsp
+                燃气灶&nbsp
+            </span>
+        </div>
+
+        <div class="room-master room-part">
+            <div class="room-master-img">
+
             </div>
 
-
-            <div class="room-price">
-                2700/月
+            <div class="room-master-desc">
+                <div class="room-master-name">户小姐</div>
+                <div class="room-master-type">转租客（和转租客签约）</div>
             </div>
+        </div>
 
-            <div class="room-tag">
-                <div class="room-tag-item">随时可看</div>
-                <div class="room-tag-item">邻近地铁</div>
-                <div class="room-tag-item">新上房源</div>
-            </div>
-
-
-            <div class="room-master">
-                <div class="room-master-img">
-
-                </div>
-
-                <div class="room-master-desc">
-                    <div class="room-master-name">户小姐</div>
-                    <div class="room-master-type">转租客（和转租客签约）</div>
-                </div>
-            </div>
-
-            <div class="room-btn">
-                <button class="btn btn-default">预约清单</button>
-
-                <button class="btn btn-info">加入预约清单</button>
-            </div>
+        <div class="room-btn room-part">
+            <button class="btn btn-collect"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;收藏</button>
+            <button class="btn btn-book"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>&nbsp;预约</button>
         </div>
     </div>
 
@@ -189,64 +178,6 @@
             </div>
         </div>
 
-        <!--<div class="room-detail-section">-->
-            <!--<div class="room-detail-title"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>基本信息</div>-->
-            <!--<div class="room-detail-content">-->
-                <!--<div class="detail-item"><span class="detail-item-key">房屋类型</span><span class="detail-item-value">普通住宅</span>-->
-                <!--</div>-->
-                <!--<div class="detail-item"><span class="detail-item-key">房屋朝向</span><span class="detail-item-value">东</span>-->
-                <!--</div>-->
-                <!--<div class="detail-item"><span class="detail-item-key">楼层</span><span class="detail-item-value">13/14层</span>-->
-                <!--</div>-->
-                <!--<div class="detail-item"><span class="detail-item-key">卫生间</span><span class="detail-item-value">1</span>-->
-                <!--</div>-->
-                <!--<div class="detail-item"><span class="detail-item-key">可入住时间</span><span class="detail-item-value">随时</span>-->
-                <!--</div>-->
-                <!--<div class="detail-item"><span class="detail-item-key">房源编号</span><span class="detail-item-value">3240686</span>-->
-                <!--</div>-->
-
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="room-detail-section">-->
-            <!--<div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>房屋配置</div>-->
-            <!--<div class="room-detail-content home-config">-->
-
-                <!--<div class="detail-item"><span class="detail-item-key">家具</span><span class="detail-item-value">床(1) 沙发(1) 衣柜(1) 餐桌(0)</span>-->
-                <!--</div>-->
-                <!--<div class="detail-item"><span class="detail-item-key">家电</span><span class="detail-item-value">电视(1) 冰箱(1) 洗衣机(1)</span>-->
-                <!--</div>-->
-                <!--<div class="detail-item"><span class="detail-item-key">附加设施</span><span class="detail-item-value">热水器(1) 无线网(1) 抽油烟机(1) 燃气灶(1)</span>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="room-detail-section">-->
-            <!--<div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>补充说明</div>-->
-            <!--<div class="room-detail-content">我出租的是位于芍药居9号院的次卧，目前入住主卧的是3个90年的女生，次卧希望招1名女生入住，如果你有朋友的话，也可以2名女生一起。有厨房，可以做饭，电费、物业费、宽带这些就是按人头均摊的，房子紧挨着地铁芍药居站，有10号线、13号线两条线通过，交通很便利 火炬租房温馨提示： 你可以将看中的房子加入预约清单，随后可在预约清单中直接拨打电话联系。 火炬租房特别提醒： 租房过程中请一定审核对方的房产证、租房合同等有效证明文件；当面签署有效房屋租赁合同；入住之前切勿提前付款。</div>-->
-        <!--</div>-->
-        <div class="room-detail-section room-detail-section-fulllength">
-            <div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>房源周边</div>
-            <div class="room-detail-content peitao">
-                <div class="room-detail-facility">
-                    <div class="facility-title">
-                        周边设施
-                    </div>
-                    
-                    <div class="facility-choose">
-                        <ul>
-                            <li class="active facility-item" data-type="公交"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>公交</span></li>
-                            <li class="facility-item" data-type="地铁"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>地铁</span></li>
-                            <li class="facility-item" data-type="银行"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>银行</span></li>
-                            <li class="facility-item" data-type="医院"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>医院</span></li>
-                            <li class="facility-item" data-type="超市"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>超市</span></li>
-                            <li class="facility-item" data-type="餐馆"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>美食</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div id="room-detail-map">
-
-                </div>
-            </div>
-        </div>
         <!--<div class="room-detail-section room-detail-section-fulllength">-->
             <!--<div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>房源推荐</div>-->
             <!--<div class="room-detail-content">-->
@@ -322,6 +253,33 @@
 
 </div>
 
+<div class="container">
+    <div class="room-detail-section room-detail-section-fulllength">
+        <div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>房源周边</div>
+        <div class="room-detail-content peitao">
+            <div class="room-detail-facility">
+                <div class="facility-title">
+                    周边设施
+                </div>
+
+                <div class="facility-choose">
+                    <ul>
+                        <li class="active facility-item" data-type="公交"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>公交</span></li>
+                        <li class="facility-item" data-type="地铁"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>地铁</span></li>
+                        <li class="facility-item" data-type="银行"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>银行</span></li>
+                        <li class="facility-item" data-type="医院"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>医院</span></li>
+                        <li class="facility-item" data-type="超市"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>超市</span></li>
+                        <li class="facility-item" data-type="餐馆"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>美食</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="room-detail-map">
+
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 <!--sp_script-->
@@ -355,7 +313,7 @@
     $(function(){
         //pin住右侧的房源情况
         $(".room-info").pin({
-            containerSelector: "body"
+            containerSelector: "#pin-container"
         });
 
         //周边设施交互

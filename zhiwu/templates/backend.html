@@ -225,9 +225,13 @@
                                     <th>地铁</th>
                                     <th>多</th>
                                     <th>安全</th>
-                                    <!--<th>-->
-                                        <!--<button class="btn btn-success">编辑</button>-->
-                                    <!--</th>-->
+                                    <th class="btn-group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" data-target="" >编辑</a></li>
+                                            <li><a href="#" data-target="" >删除</a></li>
+                                        </ul>
+                                    </th>
                                 </tr>
                                 </tbody>
                             </table>
@@ -899,7 +903,7 @@
             var _id=$(this).data("target");
 
             $.post(
-                    "{% url 'room_collection' %}",//TODO:修改url
+                    "",//TODO:修改url
                     {roomNumber:_id},
                     function(data){
                         if(data.status==200){
@@ -920,7 +924,7 @@
             var _id=$(this).data("target");
 
             $.post(
-                    "{% url 'room_collection' %}",//TODO:修改url
+                    "",//TODO:修改url
                     {roomNumber:_id},
                     function(data){
                         if(data.status==200){

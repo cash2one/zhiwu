@@ -6,7 +6,7 @@
 
 <!--sp_header-->
 {% block sp_header %}
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 {% endblock %}
 
 <!--content-->
@@ -15,28 +15,6 @@
 <div class="search">
     <div class="search-content">
         <form class="search-condition form-horizontal">
-            <div class="search-row form-group">
-                <label class="search-category col-sm-2">搜索方法：</label>
-
-                <div class="col-sm-10 searched-content" id="searched-in-work-way">
-                    <input type="text" class="form-control" name="work-location" value="滨江网易"/>
-                    <select class="form-control" name="way" id="way">
-                        <option value="walk" selected>步行</option>
-                        <option value="bus">公交</option>
-                        <option value="drive">驾车</option>
-                    </select>
-                    <input class="form-control" type="text" name="time" id="time" value="20分钟"/>
-
-                    <span id="searched-in-home">改用居住地搜索</span>
-                </div>
-
-                <div class="col-sm-10 searched-content" id="searched-in-home-way">
-                    <input type="text" class="form-control" name="home-location" id="home-location" value="古荡新村"/>
-                    <span id="searched-in-work">改用工作地搜索</span>
-                </div>
-            </div>
-
-            <hr/>
 
             <div class="price-row form-group form-listen">
                 <label class="search-category col-sm-2">价格：</label>
@@ -146,36 +124,115 @@
                         <input type="radio" name="acheive_way" id="freeproxy"/>
                         0中介费品牌公寓
                     </label>
+                </div>
 
+                <span id="more-way-btn" class="btn btn-pink">更多&nbsp;<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span>
+                <span id="less-way-btn" class="btn btn-pink">收起&nbsp;<span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span>
+            </div>
+
+            <hr/>
+
+            <div id="more-way-section">
+
+                <div class="look-row form-group form-listen">
+                    <label class="search-category col-sm-2">看房：</label>
+
+                    <div class="col-sm-10">
+                        <label for="nolook" class="checkbox-inline" style="margin-left:10px;">
+                            <input type="radio" checked name="lookable" id="nolook"/>
+                            不限
+                        </label>
+
+
+                        <label for="freelook" class="checkbox-inline">
+                            <input type="radio" name="lookable" id="freelook"/>
+                            随时可看
+                        </label>
+
+
+                        <label for="appolook" class="checkbox-inline">
+                            <input type="radio" name="lookable" id="appolook"/>
+                            预约可看
+                        </label>
+                    </div>
 
                 </div>
 
+                <hr/>
+
+                <div class="time-row form-group form-listen">
+                    <label class="search-category col-sm-2">入住时间：</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" style="margin-left:30px;width:200px;" id="intime"/>
+                    </div>
+
+                </div>
+
+
+                <hr/>
+
+                <div class="photo-row form-group form-listen">
+                    <label class="search-category col-sm-2">是否有电梯：</label>
+
+                    <div class="col-sm-10">
+                        <label for="noelevator" class="checkbox-inline" style="margin-left:10px;">
+                            <input type="radio" checked name="elevator" id="noelevator"/>
+                            不限
+                        </label>
+
+                        <label for="elevator-yes" class="checkbox-inline">
+                            <input type="radio" name="elevator" id="elevator-yes"/>
+                            有电梯
+                        </label>
+
+                        <label for="elevator-no" class="checkbox-inline">
+                            <input type="radio" name="elevator" id="elevator-no"/>
+                            无电梯
+                        </label>
+                    </div>
+
+                </div>
+
+                <hr/>
+
+                <div class="elevator-row form-group form-listen">
+                    <label class="search-category col-sm-2">是否有照片：</label>
+
+                    <div class="col-sm-10">
+                        <label for="nophoto" class="checkbox-inline" style="margin-left:10px;">
+                            <input type="radio" checked name="photo" id="nophoto"/>
+                            不限
+                        </label>
+
+                        <label for="photo-yesr" class="checkbox-inline">
+                            <input type="radio" name="photo" id="photo-yes"/>
+                            有照片
+                        </label>
+
+
+                        <label for="photo-no" class="checkbox-inline">
+                            <input type="radio" name="photo" id="photo-no"/>
+                            无照片
+                        </label>
+                    </div>
+
+                </div>
+
+
             </div>
 
-            <!--<div class="more-row">-->
-                <!--<span>获房途径：</span>-->
-                <!--<label for="manager">优质经纪人房源</label>-->
-                <!--<input type="radio" name="type" id="manager"/>-->
 
-                <!--<label for="freeproxy">0中介费品牌公寓</label>-->
-                <!--<input type="radio" name="type" id="freeproxy"/>-->
-            <!--</div>-->
+
         </form>
-
         <div class="search-result">
-
             <div class="row" id="search-result-container">
-
-
-
-
 
             </div>
         </div>
-
-
+    </div>
     <div class="search-map" id="search-map">
-        <div id="allmap" style="width:100%;height:100%;"></div>
+        <div id="allmap" style="height:100%"></div>
     </div>
 </div>
 
@@ -185,6 +242,7 @@
 {% block sp_script %}
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
 {% verbatim %}
 <script id="house-item" type="text/x-jquery-tmpl">
@@ -231,7 +289,10 @@
             rent:1200,
             isCollected:true,
             achvWay:"manager",
-            isValid:true
+            isValid:true,
+            lookable:false,
+            photo:true,
+            elevator:true
         },
         {
             roomNumber:"HZ02",
@@ -244,7 +305,10 @@
             rent:1700,
             isCollected:false,
             achvWay:"manager",
-            isValid:true
+            isValid:true,
+            lookable:true,
+            photo:true,
+            elevator:true
         },
         {
             roomNumber:"HZ03",
@@ -257,7 +321,10 @@
             rent:2500,
             isCollected:false,
             achvWay:"manager",
-            isValid:true
+            isValid:true,
+            lookable:false,
+            photo:true,
+            elevator:false
         },
         {
             roomNumber:"HZ04",
@@ -270,7 +337,10 @@
             rent:4000,
             isCollected:false,
             achvWay:"manager",
-            isValid:true
+            isValid:true,
+            lookable:true,
+            photo:true,
+            elevator:false
         },
         {
             roomNumber:"HZ05",
@@ -283,7 +353,10 @@
             rent:6000,
             isCollected:false,
             achvWay:"freeproxy",
-            isValid:true
+            isValid:true,
+            lookable:true,
+            photo:true,
+            elevator:false
         }
     ];
 
@@ -406,18 +479,26 @@
 
 //    页面初始化
     $("nav").addClass("navbar-fixed-top");
+    $("#more-way-section").hide();
     $("footer").remove();
-    $("#searched-in-home").bind("click",function(){
-        $("#searched-in-work-way").hide();
-        $("#searched-in-home-way").show();
+    $("input[type=radio]").iCheck({
+//        checkboxClass: 'icheckbox_flat-red',
+        radioClass: 'iradio_flat-red'
     });
 
-    $("#searched-in-work").bind("click",function(){
-        $("#searched-in-home-way").hide();
-        $("#searched-in-work-way").show();
+    $('#intime').datepicker({  dateFormat: "yy-mm-dd" });
+
+    $("#more-way-btn").bind("click",function(){
+        $(this).hide();
+        $("#less-way-btn").show();
+        $("#more-way-section").slideDown();
     });
 
-
+    $("#less-way-btn").bind("click",function(){
+        $(this).hide();
+        $("#more-way-btn").show();
+        $("#more-way-section").slideUp();
+    });
 
 </script>
 
@@ -481,7 +562,7 @@
             var that=$(this);
 
             $.post(
-                "{% url 'room_collection' %}",
+                "/room_collection",
                 {roomNumber:_id},
                 function(data){
                     if(data.status==200){
@@ -503,10 +584,14 @@
         var price_upper=-1,
             price_lower=-1,
             room_type=-1,
-            achive_type=-1;
+            achive_type=-1,
+            lookable_type=-1,
+            photo=-1,
+            elevator=-1,
+            intime=-1;
 
-        $(".form-listen input").bind("change",function(e){
 
+        $('.form-listen input').on('ifChecked', function(e){
             //设定搜索的界限,-1表示没有限制
             var _target= e.target;
             var _type= _target.name;
@@ -540,6 +625,30 @@
                         achive_type = _target.id;
                     }
                     break;
+                case "elevator":
+                    if (_target.id === "noelevator") {
+                        //没有限制
+                        elevator = -1;
+                    } else {
+                        elevator = _target.id==="elevator-yes";
+                    }
+                    break;
+                case "photo":
+                    if (_target.id === "nophoto") {
+                        //没有限制
+                        photo = -1;
+                    } else {
+                        photo = _target.id==="photo-yes";
+                    }
+                    break;
+                case "lookable":
+                    if (_target.id === "nolook") {
+                        //没有限制
+                        lookable_type = -1;
+                    } else {
+                        lookable_type = _target.id==="freelook";
+                    }
+                    break;
                 default:
                     break;
             }
@@ -548,9 +657,12 @@
             for(var i=0;i<rawData.length;i++){
                 rawData[i].isValid=true;
                 if((price_upper!=-1&&rawData[i].rent>price_upper)
-                    ||(price_lower!=-1&&rawData[i].rent<=price_lower)
-                    ||(room_type!=-1&&rawData[i].shi!=room_type)
-                    ||(achive_type!=-1&&rawData[i].achvWay!=achive_type)){
+                        ||(price_lower!=-1&&rawData[i].rent<=price_lower)
+                        ||(room_type!=-1&&rawData[i].shi!=room_type)
+                        ||(achive_type!=-1&&rawData[i].achvWay!=achive_type)
+                        ||(lookable_type!=-1&&rawData[i].lookable!==lookable_type)
+                        ||(photo!=-1&&rawData[i].photo!==photo)
+                        ||(elevator!=-1&&rawData[i].elevator!==elevator)){
                     rawData[i].isValid=false;
                 }
             }
@@ -574,30 +686,28 @@
             var ne = bounds.getNorthEast();
 
             $.post(
-                "{% url 'map_search' %}",
-                {
-                    swx:sw.lng,//左下角坐标
-                    swy:sw.lat,
-                    nex:ne.lng,//右上角坐标
-                    ney:ne.lat
-                },
-                function(data){
-                    if(data.status==200){
-                        rawData=data.newData;
-                        freshResult();
-                        console.log("post success");
-                    }else{
-                        console.log("post failed");
+                    "/map_search",
+                    {
+                        swx:sw.lng,//左下角坐标
+                        swy:sw.lat,
+                        nex:ne.lng,//右上角坐标
+                        ney:ne.lat
+                    },
+                    function(data){
+                        if(data.status==200){
+                            rawData=data.newData;
+                            freshResult();
+                            console.log("post success");
+                        }else{
+                            console.log("post failed");
+                        }
                     }
-                }
             )
-            .error(function(){
-                console.log("error");
-            });
+                    .error(function(){
+                        console.log("error");
+                    });
 
         }
-
-
     });
 </script>
 
