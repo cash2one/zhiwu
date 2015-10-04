@@ -2,7 +2,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from .forms import *
 from .help import *
 from zhiwu.models import *
@@ -27,17 +29,89 @@ def home(request):
 #     return render(request, "detail.html", {"r": json.dumps(r)})
 #     # return HttpResponse("hello world",status=200)
 
+def test(request):
+    if request.method == 'POST':
+        ff = RoomEvaluationForm(request.POST)
+        print "test"
+        post_room_evaluation(request)
+    else :
+        ff = RoomEvaluationForm()
+    return render(request,"home.html",{'ff':ff})
+
+def search(request):
+    return render(request, "search.html")
+
 
 def work_search(request):
-    return render(request, "search.html")
+    distance = {"walk": {"10": 0.010, "15": 0.015, "30": 0.030},
+                "bus": {"10": 0.02, "15": 0.025, "30": 0.050},
+                "drive": {"10": 0.03, "15": 0.050, "30": 0.100}}
+    time_get = request.GET.get("time", None)
+    way = request.GET.get("way", None)
+    longitude = request.GET.get("longitude", None)
+    latitude = request.GET.get("latitude", None)
+    if time is None or way is None or longitude is None and latitude is None:
+        return HttpResponse(status=404)
+    else:
+        try:
+            dis = distance.get(way).get(time_get)
+        except:
+            return HttpResponse(status=404)
+        if dis is None:
+            return HttpResponse(status=404)
+        rooms = Room.objects.filter(longitude__range=(longitude-dis, longitude+dis),
+                                    latitude__range=(latitude-dis, latitude+dis))
+        room_list = get_search_room_list(rooms)
+        return render(request, "search.html", {"rooms": room_list})
 
 
 def home_search(request):
-    return render(request, "search.html")
+    # home_location
+    # longitude = models.FloatField(default=120.200)
+    # latitude = models.FloatField(default=30.3)
+    location = request.GET.get("home_location", None)
+    longitude = request.GET.get("longitude", None)
+    latitude = request.GET.get("latitude", None)
+    rooms = Room.objects.filter(community=location)
+    dis = 0.010
+    if len(rooms) == 0:
+        rooms = Room.objects.filter(longitude__range=(longitude-dis, longitude+dis),
+                                    latitude__range=(latitude-dis, latitude+dis))
+    room_list = get_search_room_list(rooms)
+    return render(request, "search.html", {"rooms": room_list})
+
+
+def map_search(request):
+    # longitude = models.FloatField(default=120.200)
+    # latitude = models.FloatField(default=30.3)
+    longitude_l = request.GET.get("longitude_left", None)
+    latitude_l = request.GET.get("latitude_left", None)
+    longitude_r = request.GET.get("longitude_right", None)
+    latitude_r = request.GET.get("latitude_right", None)
+    rooms = Room.objects.filter(longitude__range=(longitude_l, longitude_r),
+                                latitude__range=(latitude_l, latitude_r))
+    room_list = get_search_room_list(rooms)
+    return JsonResponse(room_list)
 
 
 def room_detail(request):
-    return render(request, "detail.html")
+    try:
+        roomNum = request.GET.get('roomNumber')
+        room = Room.objects.get(roomNumber = roomNum)
+        roomP = get_room_picture(room)
+        roomC = get_room_configuration(room)
+        roomD = get_room_description(room)
+        roomE = get_room_evaluation(room)
+        environ = get_environment(room.environment)
+        return render(request, "detail.html", {"room": room,
+                                               "picture": roomP,
+                                               "configuration": roomC,
+                                               "description": roomD,
+                                               "evaluation": roomE,
+                                               "ecvironment": environ})
+    except Exception, e:
+        print e
+        return HttpResponse(status=404)
 
 
 def admin_manager_login(request):
@@ -76,55 +150,87 @@ def admin_manager_login(request):
 
 
 def admin_login(request):
-    return render(request, "admin_login.html")
+    return render(request, "index.html")
 
 
 def admin_root(request):
-    return render(request, "backend.html")
+    status = request.session.get("status", "")
+    user = request.session.get("user", "")
+    if is_root(status):
+        m_list = get_manager_list()
+        return render(request, "backend.html", {"managers": m_list,
+                                                "status": status,
+                                                "user": user})
+    else:
+        return HttpResponseRedirect(reverse("manager_login"))
 
 
 def admin_manager(request):
-    return render(request, "backendL1.html")
+    managerget = request.GET.get("manager", "")
+    status = request.session.get("status", "")
+    user = request.session.get("user", "")
+    if is_manager(status):
+        mu = request.session.get("user", "")
+    elif is_root(status) and managerget != "":
+        mu = managerget
+    else:
+        return HttpResponseRedirect(reverse("manager_login"))
+    try:
+        manager = Manager.objects.get(user=mu)
+    except:
+        return HttpResponseRedirect(reverse("manager_login"))
+    m_list = get_second_manager_list(manager)
+    return render(request, "backendL1.html", {"second_managers": m_list,
+                                              "status": status,
+                                              "user": user})
 
 
 def admin_second_manager(request):
-    return render(request, "backendL2.html")
+    secondmanagerget = request.GET.get("second_manager", "")
+    status = request.session.get("status", "")
+    user = request.session.get("user", "")
+    if is_second_manager(status):
+        smu = request.session.get("user", "")
+    elif (is_root(status) or is_manager(status)) and secondmanagerget != "":
+        smu = secondmanagerget
+    else:
+        return HttpResponseRedirect(reverse("manager_login"))
+    rooms = Room.objects.filter(contactPerson=smu)
+    return render(request, "backendL2.html", {"second_managers": rooms,
+                                              "status": status,
+                                              "user": user})
+
 
 def new_house(request):
-    return render(request, "newHouse.html")
+    user = request.session.get("user")
+    status = request.session.get("status", "")
+    communities = Community.objects.all()
+    if is_second_manager(status):
+        return render(request, "newHouse.html", {"user": user,
+                                                 "status": status,
+                                                 "communities": communities})
+    else:
+        return HttpResponseRedirect(reverse("manager_login"))
+
 
 def client_back(request):
     return render(request, "clientBackend.html")
 
+
 def client_back_account(request):
     return render(request, "myAccount.html")
+
 
 def client_back_list(request):
     return render(request, "mylist.html")
 
+
 def client_back_comment(request):
     return render(request, "serviceContact.html")
-
-def map_search(request):
-    return render(request, "")
 
 
 def room_collection(request):
     return render(request, "")
-
-
-def mapsearch(request):
-    return render(request, "")
-
-
-def mapsearch(request):
-    return render(request, "")
-
-
-def mapsearch(request):
-    return render(request, "")
-
-
 
 
 # post
@@ -141,7 +247,7 @@ def manager_search(request):
                                     exist=True)
     # todo
 
-
+#code from here
 def post_manager_add(request):
     if request.method == 'POST':  # 当提交表单时
         form = ManagerForm(request.POST)  # form 包含提交的数据
@@ -154,9 +260,10 @@ def post_manager_add(request):
                 status = form.cleaned_data['manager_status']
                 district = form.cleaned_data['manager_district']
                 p = manager_add(user, pw, name, phone, status, district)
-                return HttpResponse(p)
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
 # 添加一条一级管理员
@@ -174,10 +281,10 @@ def post_manager_modify(request):
                 status = form.cleaned_data['manager_status']
                 district = form.cleaned_data['manager_district']
                 p = manager_modify(user, pw, name, phone, status, district)
-                print 'modify success!'
-                return HttpResponse(p)
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
 # 修改一条一级管理员
@@ -193,8 +300,10 @@ def post_manager_create(request):
                 if not flag:
                     p.exist = True
                 print 'create success!'
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
 # 创建一个空的一级管理员
@@ -209,23 +318,65 @@ def post_manager_delete(request):
                 p = Manager.objects.get(user=user)
                 p.delete()
                 print 'delete success!'
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
+
 # 删除一个一级管理员
 
-
+#code from here
 def post_manager_logout(request):
-    return render(request, "")
+     if request.method == 'POST':  # 当提交表单时
+        form = ManagerUserForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                user = form.cleaned_data['manager_account']
+                p=manager_logout(user)
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return HttpResponse(status=0)
+     else:
+         print 'not post'
+#管理员登出
 
 
 def post_manager_active(request):
-    return render(request, "")
+        if request.method == 'POST':  # 当提交表单时
+            form = ManagerUserForm(request.POST)  # form 包含提交的数据
+            if form.is_valid():  # 如果提交的数据合法
+                try:
+                    user = form.cleaned_data['manager_account']
+                    p=manager_active(user)
+                    return HttpResponse(status=1)
+                except Exception, e:
+                    print e
+                    return HttpResponse(status=0)
+        else:
+            print 'not post'
+#激活一个管理员账号
+
 
 
 def post_manager_pw(request):
-    return render(request, "")
+    if request.method == 'POST':
+        form = ManagerPwdChange(request.POST)
+        if form.is_valid():
+            try:
+                user = form.cleaned_data['manager_account']
+                oldpw = form.cleaned_data['manager_oldpw']
+                newpw = form.cleaned_data['manager_newpw']
+                p = manager_pw(user, oldpw, newpw)
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:
+        print 'not post'
+
 
 
 def post_second_manager_add(request):
@@ -234,16 +385,17 @@ def post_second_manager_add(request):
         if form.is_valid():  # 如果提交的数据合法
             try:
                 manager = form.cleaned_data['second_manager_manager']
-                user = form.cleaned_data['second_manager_account']
+                user = form.cleaned_data['second_manager_user']
                 pw = form.cleaned_data['second_manager_pw']
                 name = form.cleaned_data['second_manager_name']
                 phone = form.cleaned_data['second_manager_phone']
                 company = form.cleaned_data['second_manager_company']
                 status = form.cleaned_data['second_manager_status']
                 p = second_manager_add(manager, user, pw, name, phone, company, status)
-                return HttpResponse(p)
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
 # 添加一个二级管理员
@@ -254,17 +406,17 @@ def post_second_manager_modify(request):
         form = SecondManagerForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['second_manager_account']
+                user = form.cleaned_data['second_manager_user']
                 pw = form.cleaned_data['second_manager_pw']
                 name = form.cleaned_data['second_manager_name']
                 phone = form.cleaned_data['second_manager_phone']
                 company = form.cleaned_data['second_manager_company']
                 status = form.cleaned_data['second_manager_status']
                 p = second_manager_modify(user, pw, name, phone, company, status)
-                print 'modify success!'
-                return HttpResponse(p)
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
 # 修改一个二级管理员
@@ -279,23 +431,62 @@ def post_second_manager_delete(request):
                 p = SecondManager.objects.get(user=user)
                 p.delete()
                 print 'delete success!'
+                return HttpResponse(status=1)
             except Exception, e:
                 print e
+                return  HttpResponse(status=0)
     else:  # 当正常访问时
         print 'not post'
 # 删除一个二级管理员
 
 
 def post_second_manager_logout(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = SecondManagerUserForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                user = form.cleaned_data['second_manager_account']
+                p = second_manager_logout(user)
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
 
 
 def post_second_manager_active(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = SecondManagerUserForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                user = form.cleaned_data['second_manager_account']
+                p = second_manager_active(user)
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
+
 
 
 def post_second_manager_pw(request):
-    return render(request, "")
+    if request.method == 'POST':
+        form = SecondManagerPwdChange(request.POST)
+        if form.is_valid():
+            try:
+                user = form.cleaned_data['second_manager_account']
+                oldpw = form.cleaned_data['second_manager_oldpw']
+                newpw = form.cleaned_data['second_manager_newpw']
+                p = second_manager_pw(user, oldpw, newpw)
+                print 'password modify success!'
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:
+        print 'not post'
 
 
 def upload_image(request):
@@ -323,20 +514,197 @@ def upload_image(request):
 
 
 def post_room_logout(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomShortForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['room_roomNumber']
+                p = room_logout(roomNumber)
+                if p:
+                    print 'logout success!'
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
 
 
 def post_room_active(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomShortForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['room_roomNumber']
+                p = room_active(roomNumber)
+                if p:
+                    print 'active success!'
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
 
 
 def post_room_save(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['room_roomNumber']
+                #房屋信息
+                room_longitude = form.cleaned_data['room_longitude']
+                room_latitude = form.cleaned_data['room_latitude']
+                room_community = form.cleaned_data['room_community']
+                room_shi = form.cleaned_data['room_shi']
+                room_ting = form.cleaned_data['room_ting']
+                room_wei = form.cleaned_data['room_wei']
+                room_rent = form.cleaned_data['room_rent']
+                room_area = form.cleaned_data['room_area']
+                room_direction = form.cleaned_data['room_direction']
+                room_DateToLive = form.cleaned_data['room_DateToLive']
+                room_lookAble = form.cleaned_data['room_lookAble']
+                room_contactPerson = form.cleaned_data['room_contactPerson']
+                room_environment = form.cleaned_data['room_environment']
+                 #出租信息
+                rentDate = form.cleaned_data['rentDate']
+                #房屋图片
+                picture = form.cleaned_data['picture']
+                #房屋配置
+                level = form.cleaned_data['level']
+                elevator = form.cleaned_data['elevator']
+                canZhuo = form.cleaned_data['canZhuo']
+                shaFa = form.cleaned_data['shaFa']
+                shuZhuo = form.cleaned_data['shuZhuo']
+                yiZi = form.cleaned_data['yiZi']
+                yiGui = form.cleaned_data['yiGui']
+                chuang = form.cleaned_data['chuang']
+                kongTiao = form.cleaned_data['kongTiao']
+                xiYiJi = form.cleaned_data['xiYiJi']
+                reShuiQi = form.cleaned_data['reShuiQi']
+                bingXiang = form.cleaned_data['bingXiang']
+                dianShiJi = form.cleaned_data['dianShiJi']
+                xiYouYanJi = form.cleaned_data['xiYouYanJi']
+                ranQiZao = form.cleaned_data['ranQiZao']
+                #房屋描述
+                roomType = form.cleaned_data['roomType']
+                decoration = form.cleaned_data['decoration']
+                configuration = form.cleaned_data['configuration']
+                cook = form.cleaned_data['cook']
+                light = form.cleaned_data['light']
+                wind = form.cleaned_data['wind']
+                sound = form.cleaned_data['sound']
+                requirement = form.cleaned_data['requirement']
+                suitable = form.cleaned_data['suitable']
+                p = room_save(roomNumber,room_longitude,room_latitude,room_community,room_shi,\
+                             room_ting, room_wei,room_rent,room_area,room_direction,room_DateToLive,\
+                              room_lookAble,room_contactPerson,room_environment,rentDate,picture,\
+                        level,elevator,canZhuo,shaFa,shuZhuo,yiZi,yiGui,chuang,kongTiao,xiYiJi,reShuiQi,\
+                        bingXiang,dianShiJi,xiYouYanJi,ranQiZao,roomType,decoration,configuration,cook,\
+                        light,wind,sound,requirement,suitable)
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
+
 
 
 def post_room_sub(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['room_roomNumber']
+                #房屋信息
+                room_longitude = form.cleaned_data['room_longitude']
+                room_latitude = form.cleaned_data['room_latitude']
+                room_community = form.cleaned_data['room_community']
+                room_shi = form.cleaned_data['room_shi']
+                room_ting = form.cleaned_data['room_ting']
+                room_wei = form.cleaned_data['room_wei']
+                room_rent = form.cleaned_data['room_rent']
+                room_area = form.cleaned_data['room_area']
+                room_direction = form.cleaned_data['room_direction']
+                room_DateToLive = form.cleaned_data['room_DateToLive']
+                room_lookAble = form.cleaned_data['room_lookAble']
+                room_contactPerson = form.cleaned_data['room_contactPerson']
+                room_environment = form.cleaned_data['room_environment']
+                 #出租信息
+                rentDate = form.cleaned_data['rentDate']
+                #房屋图片
+                picture = form.cleaned_data['picture']
+                #房屋配置
+                level = form.cleaned_data['level']
+                elevator = form.cleaned_data['elevator']
+                canZhuo = form.cleaned_data['canZhuo']
+                shaFa = form.cleaned_data['shaFa']
+                shuZhuo = form.cleaned_data['shuZhuo']
+                yiZi = form.cleaned_data['yiZi']
+                yiGui = form.cleaned_data['yiGui']
+                chuang = form.cleaned_data['chuang']
+                kongTiao = form.cleaned_data['kongTiao']
+                xiYiJi = form.cleaned_data['xiYiJi']
+                reShuiQi = form.cleaned_data['reShuiQi']
+                bingXiang = form.cleaned_data['bingXiang']
+                dianShiJi = form.cleaned_data['dianShiJi']
+                xiYouYanJi = form.cleaned_data['xiYouYanJi']
+                ranQiZao = form.cleaned_data['ranQiZao']
+                #房屋描述
+                roomType = form.cleaned_data['roomType']
+                decoration = form.cleaned_data['decoration']
+                configuration = form.cleaned_data['configuration']
+                cook = form.cleaned_data['cook']
+                light = form.cleaned_data['light']
+                wind = form.cleaned_data['wind']
+                sound = form.cleaned_data['sound']
+                requirement = form.cleaned_data['requirement']
+                suitable = form.cleaned_data['suitable']
+                p = room_sub(roomNumber,room_longitude,room_latitude,room_community,room_shi,\
+                             room_ting, room_wei,room_rent,room_area,room_direction,room_DateToLive,\
+                              room_lookAble,room_contactPerson,room_environment,rentDate,picture,\
+                        level,elevator,canZhuo,shaFa,shuZhuo,yiZi,yiGui,chuang,kongTiao,xiYiJi,reShuiQi,\
+                        bingXiang,dianShiJi,xiYouYanJi,ranQiZao,roomType,decoration,configuration,cook,\
+                        light,wind,sound,requirement,suitable)
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
 
 
 def post_room_sold(request):
-    return render(request, "")
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomShortForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['room_roomNumber']
+                p = room_sold(roomNumber)
+                if p:
+                    print 'room has been sold '
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'
+
+def post_room_evaluation(request):
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomEvaluationForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['roomNumber']
+                text = form.cleaned_data['text']
+                p = room_evaluation(roomNumber,text)
+                if p:
+                    print 'evaluation success '
+                return HttpResponse(status=1)
+            except Exception, e:
+                print e
+                return  HttpResponse(status=0)
+    else:  # 当正常访问时
+        print 'not post'

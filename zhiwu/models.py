@@ -17,6 +17,7 @@ class Environment(models.Model):
 class Community(models.Model):
     # 小区信息
     name = models.CharField(max_length=30, primary_key=True)
+    environment = models.ForeignKey(Environment)
     item = models.CharField(max_length=100)
 
 
@@ -29,6 +30,7 @@ class Room(models.Model):
     ting = models.IntegerField()
     wei = models.IntegerField()
     rent = models.IntegerField()
+    rentStyle = models.CharField(max_length=30)
     area = models.IntegerField()
     direction = models.CharField(max_length=10)
     DateToLive = models.DateField()
@@ -42,6 +44,7 @@ class Room(models.Model):
 
     def __unicode__(self):
         return self.roomNumber
+
 
 
 class RoomRented(models.Model):
@@ -73,7 +76,7 @@ class RoomConfiguration(models.Model):
     shuZhuo = models.BooleanField()
     yiZi = models.BooleanField()
     yiGui = models.BooleanField()
-    chunag = models.BooleanField()
+    chuang = models.BooleanField()
     kongTiao = models.BooleanField()
     xiYiJi = models.BooleanField()
     reShuiQi = models.BooleanField()

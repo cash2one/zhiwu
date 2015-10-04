@@ -31,6 +31,8 @@ urlpatterns = [
         # 主页搜索
             url(r'^work_search/', 'zhiwu.views.work_search', name='work_search'),
             url(r'^home_search/', 'zhiwu.views.home_search', name='home_search'),
+            url(r'^search/', 'zhiwu.views.search', name='search'),
+
 
         # 详情页
             url(r'^room_detail/', 'zhiwu.views.room_detail', name='room_detail'), #TODO:房源编号
@@ -42,19 +44,19 @@ urlpatterns = [
             url(r'^client_back_comment/', 'zhiwu.views.client_back_comment', name='client_back_comment'),
 
         # 后台登陆
-            url(r'^manager_login/', 'zhiwu.views.admin_manager_login',name='manager_login'),
+            url(r'^manager_login/', 'zhiwu.views.admin_manager_login', name='manager_login'),
 
         # 一级管理
-            url(r'^admin_root/', 'zhiwu.views.admin_root',name='admin_root'),
+            url(r'^admin_root/', 'zhiwu.views.admin_root', name='admin_root'),
 
         # 二级管理
-            url(r'^admin_manager/', 'zhiwu.views.admin_manager',name='admin_manager'),
+            url(r'^admin_manager/', 'zhiwu.views.admin_manager', name='admin_manager'),
 
         # 三级管理
-            url(r'^admin_second_manager/', 'zhiwu.views.admin_second_manager',name='admin_second_manager'),
+            url(r'^admin_second_manager/', 'zhiwu.views.admin_second_manager', name='admin_second_manager'),
 
         # 新建房源
-            url(r'^new_house/', 'zhiwu.views.new_house',name='new_house'),
+            url(r'^new_house/', 'zhiwu.views.new_house', name='new_house'),
 
 
     # Part2:Post ajax
@@ -77,6 +79,7 @@ urlpatterns = [
         url(r'^room_save/', 'zhiwu.views.post_room_save', name='room_save'),
         url(r'^room_sub/', 'zhiwu.views.post_room_sub', name='room_sub'),
         url(r'^room_sold/', 'zhiwu.views.post_room_sold', name='room_sold'),
+        url(r'^room_evaluation/', 'zhiwu.views.post_room_evaluation', name='room_evaluation'),
 
         url(r'^upload_image/', 'zhiwu.views.upload_image', name='upload_image'),
 

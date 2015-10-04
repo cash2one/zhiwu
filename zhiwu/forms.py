@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .models import *
 from django import forms
 
@@ -14,19 +15,62 @@ class AdminLogin(forms.Form):
 
 class RoomForm(forms.Form):
     room_roomNumber = forms.CharField()
-    room_longitude = forms.FloatField()
-    room_latitude = forms.FloatField()
-    room_community = forms.CharField()
-    room_shi = forms.IntegerField()
-    room_ting = forms.IntegerField()
-    room_wei = forms.IntegerField()
-    room_rent = forms.IntegerField()
-    room_area = forms.IntegerField()
-    room_direction = forms.CharField()
-    room_DateToLive = forms.DateField()
-    room_lookAble = forms.BooleanField()
-    room_contactPerson = forms.CharField()
-    room_environment = forms.CharField()
+    #房屋信息
+    room_longitude = forms.FloatField(required=False)
+    room_latitude = forms.FloatField(required=False)
+    room_community = forms.CharField(required=False)
+    room_shi = forms.IntegerField(required=False)
+    room_ting = forms.IntegerField(required=False)
+    room_wei = forms.IntegerField(required=False)
+    room_rent = forms.IntegerField(required=False)
+    room_rentStyle = forms.CharField(required=False)
+    room_area = forms.IntegerField(required=False)
+    room_direction = forms.CharField(required=False)
+    room_DateToLive = forms.DateField(required=False)
+    room_lookAble = forms.BooleanField(required=False)
+    room_contactPerson = forms.CharField(required=False)
+    room_environment = forms.CharField(required=False)
+    #出租信息
+    rentDate = forms.DateField(required=False)
+    #房屋图片
+    picture = forms.CharField(required=False)
+    #房屋配置
+    level = forms.IntegerField(required=False)
+    elevator = forms.BooleanField(required=False)
+    canZhuo = forms.BooleanField(required=False)
+    shaFa = forms.BooleanField(required=False)
+    shuZhuo = forms.BooleanField(required=False)
+    yiZi = forms.BooleanField(required=False)
+    yiGui = forms.BooleanField(required=False)
+    chuang = forms.BooleanField(required=False)
+    kongTiao = forms.BooleanField(required=False)
+    xiYiJi = forms.BooleanField(required=False)
+    reShuiQi = forms.BooleanField(required=False)
+    bingXiang = forms.BooleanField(required=False)
+    dianShiJi = forms.BooleanField(required=False)
+    xiYouYanJi = forms.BooleanField(required=False)
+    ranQiZao = forms.BooleanField(required=False)
+    roomType = forms.CharField(max_length=100,required=False) #房屋描述
+    decoration = forms.CharField(max_length=100,required=False)
+    configuration = forms.CharField(max_length=100,required=False)
+    cook = forms.CharField(max_length=100,required=False)
+    light = forms.CharField(max_length=100,required=False)
+    wind = forms.CharField(max_length=100,required=False)
+    sound = forms.CharField(max_length=100,required=False)
+    requirement = forms.CharField(max_length=100,required=False)
+    suitable = forms.CharField(max_length=100,required=False)
+
+class RoomEvaluationForm(forms.Form):
+    # 租客评价
+    roomNumber = forms.CharField()
+    text = forms.CharField(widget=forms.Textarea)
+
+class RoomShortForm(forms.Form):
+    room_roomNumber = forms.CharField()
+
+
+
+
 
 
 class ManagerForm(forms.Form):
@@ -43,7 +87,7 @@ class ManagerUserForm(forms.Form):
 
 
 class SecondManagerForm(forms.Form):
-    second_manager_assessor = forms.CharField(required=False)
+    second_manager_manager = forms.CharField(required=False)#foreignkey
     second_manager_user = forms.CharField(required=False)
     second_manager_pw = forms.CharField(widget=forms.PasswordInput, required=False)
     second_manager_name = forms.CharField(required=False)
@@ -54,3 +98,14 @@ class SecondManagerForm(forms.Form):
 
 class SecondManagerUserForm(forms.Form):
     second_manager_account = forms.CharField()
+
+
+class ManagerPwdChange(forms.Form):
+    manager_account=forms.CharField(required=False)
+    manager_oldpw=forms.CharField(widget=forms.PasswordInput)
+    manager_newpw=forms.CharField(widget=forms.PasswordInput)
+
+class SecondManagerPwdChange(forms.Form):
+    sencond_manager_account=forms.CharField(required=False)
+    second_manager_oldpw=forms.CharField(widget=forms.PasswordInput)
+    second_manager_newpw=forms.CharField(widget=forms.PasswordInput)
