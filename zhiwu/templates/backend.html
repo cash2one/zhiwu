@@ -113,6 +113,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-sm-2 control-label">详细小区名称*</label>
+                                    <div class="col-sm-10">
+                                        <div id="xiaoqu-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
+                                        <button class="btn btn-success" id="save-point">保存当前位置</button>
+                                        <input type="hidden" class="form-control" id="xiaoqu_add_lng" name="xiaoqu_add_lng">
+                                        <input type="hidden" class="form-control" id="xiaoqu_add_lat" name="xiaoqu_add_lat">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="xiaoqu_add_area" class="col-sm-2 control-label">所属区域*</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="xiaoqu_add_area" name="xiaoqu_add_area">
@@ -844,9 +853,40 @@
 
 <!--sp_script-->
 {% block sp_script %}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
+<script type="text/javascript">
+    // 百度地图API功能
+
+    //    地图创建
+    var map = new BMap.Map("xiaoqu-map");    // 创建Map实例
+//    var mPoint = new BMap.Point(116.404, 39.915);
+    //    map.enableScrollWheelZoom(false);
+//    map.centerAndZoom(mPoint,15);
+    map.centerAndZoom("杭州",15);
+
+    //    添加控件
+    var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+    var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+    map.addControl(top_left_control);
+    map.addControl(top_left_navigation);
+
+    var marker = new BMap.Marker(new BMap.Point(120.169848,30.276734));  // 创建标注
+    map.addOverlay(marker);              // 将标注添加到地图中
+    marker.enableDragging();
+
+</script>
 
 <script>
     ;(function(){
+        //保存地图上选中的点
+        $("#save-point").bind("click",function(e){
+            e.preventDefault();
+            var p = marker.getPosition();
+            $("#xiaoqu_add_lng").val(p.lng);
+            $("#xiaoqu_add_lat").val(p.lat);
+        });
+
+
         //为查询form添加ajax
         $(".btn-get").bind("click",function(e){
             e.preventDefault();

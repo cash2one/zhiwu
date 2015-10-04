@@ -396,6 +396,50 @@ hr{
     line-height: 30px;
 }
 
+.room-detail-section .room-detail-content .comment-avatar{
+    border-radius: 100px;
+    float:left;
+    width:100px;
+    height:100px;
+    overflow: hidden;
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+}
+
+.room-detail-section .room-detail-content .comment-content{
+    font-size:16px;
+    font-weight:500;
+    color:grey;
+    min-height:100px;
+    width:900px;
+    padding:40px 60px;
+    background: white;
+    border-radius: 5px;
+    border:1px solid white;
+    position: absolute;
+    left:150px;
+}
+
+.room-detail-section .room-detail-content .comment-quote{
+    position: absolute;
+    font-size:50px;
+    font-weight:900;
+    left:0px;
+    top:20px;
+}
+
+.room-detail-section .room-detail-content textarea{
+    width:750px;
+}
+
+.room-detail-section .room-detail-content textarea:focus{
+    border:1px solid #EEA2AD;
+    box-shadow:0px 0px 5px #EEA2AD;
+}
+
+
+
+
 .room-detail-content .detail-item{
     display: inline-block;
     width:560px;
@@ -676,10 +720,11 @@ hr{
     top:25%;
     width:700px;
     height:350px;
-    /*-webkit-transition: all .5s ease-in-out 1s;*/
-    /*-o-transition: all .5s ease-in-out 1s;*/
-    /*-moz-transition: all .5s ease-in-out 1s;*/
-    /*transition: all .5s ease-in-out 1s;*/
+    -webkit-transition: left 1s,opacity .1s;
+    -moz-transition: left 1s,opacity .1s;
+    -o-transition: left 1s,opacity .1s;
+    -ms-transition: left 1s,opacity .1s;
+    transition: left 1s,opacity .1s;
 }
 
 @font-face{
@@ -761,11 +806,6 @@ hr{
     bottom:20px;
     font-size:15px;
     cursor:pointer;
-}
-
-#home-panel{
-    left:70%;
-    display: none;
 }
 
 .btn-search:hover{

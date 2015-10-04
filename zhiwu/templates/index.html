@@ -26,6 +26,21 @@
         .form-control{
             display: inline-block;
             width:100px;
+            background-color: rgba(95,137,118,0.7);
+            border:2px solid white;
+            color:white;
+            font-size:20px;
+        }
+
+        .form-control:focus{
+            border:2px solid white;
+            box-shadow: none;
+        }
+
+        .form-hide{
+            left :60%;
+            opacity: 0;
+            z-index: -1 ;
         }
     </style>
 
@@ -49,7 +64,8 @@
 
 
             &nbsp&nbsp&nbsp&nbsp我的工作地点在
-            <input type="text" class="form-control" name="work_location" id="work_location"/>，
+            <input type="text" class="form-control" name="work_location" id="work_location" style="width:350px;"/>，
+            <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
             我想通过
             <select class="form-control" name="way" id="way">
                 <option value="walk">步行</option>
@@ -57,8 +73,20 @@
                 <option value="drive">驾车</option>
             </select>
             的方式，在
-            <input class="form-control" type="text" name="time" id="time"/>
-            的时间内到达公司。
+            <select class="form-control" name="time" id="time">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="45">45</option>
+                <option value="60">60</option>
+            </select>
+            分钟内到达公司。
+
+            <input type="hidden" name="work_lng" id="work_lng"/>
+            <input type="hidden" name="work_lat" id="work_lat"/>
+
 
 
         </div>
@@ -71,7 +99,7 @@
     </form>
 
 
-    <form class="index-panel" id="home-panel" action="/home_search" method="get">
+    <form class="index-panel form-hide" id="home-panel" action="/home_search" method="get">
         <div class="title">寻房启事</div>
 
         <div class="content" id="home-search">
@@ -84,8 +112,12 @@
 
             &nbsp&nbsp&nbsp&nbsp
             我想住在
-            <input type="text" class="form-control" name="home_location" id="home_location"/>
+            <input type="text" class="form-control" name="home_location" id="home_location" style="width:350px;"/>
+            <div id="searchResultHomePanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
             附近。
+
+            <input type="hidden" name="home_lng" id="home_lng"/>
+            <input type="hidden" name="home_lat" id="home_lat"/>
 
         </div>
 
@@ -98,22 +130,123 @@
 </div>
 
 
+<div id="hidden-map" style="display: none;"></div>
+
 {% include './common/footer.html' %}
 
 </body>
 {% include './common/script.html' %}
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
+
 <script>
     ;(function(){
+
+        window.isHomePanel=false;//false代表work，true代表home
         $("#search-in-home").bind("click",function(){
-            $("#work-panel").hide().css("left","60%");
-            $("#home-panel").show().css("left","50%");
+            $("#work-panel").addClass("form-hide");
+            $("#home-panel").removeClass("form-hide");
+            window.isHomePanel=true;
         });
 
         $("#search-in-work").bind("click",function(){
-            $("#home-panel").hide().css("left","60%");
-            $("#work-panel").show().css("left","50%");
+            $("#home-panel").addClass("form-hide");
+            $("#work-panel").removeClass("form-hide");
+            window.isHomePanel=false;
         });
 
     })();
 </script>
+
+<script type="text/javascript">
+    // 百度地图API功能
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var map = new BMap.Map("hidden-map");
+    map.centerAndZoom("杭州",12);                   // 初始化地图,设置城市和地图级别。
+
+    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+            {"input" : "work_location"
+                ,"location" : map
+            });
+
+    ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel").innerHTML = str;
+    });
+
+    var myValue;
+    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+        setPlace();
+    });
+
+    function setPlace(){
+        function myFun(){
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+            if(window.isHomePanel){
+                //home
+                $("#home_lng").val(pp.lng);
+                $("#home_lat").val(pp.lat);
+            }else{
+                //work
+                $("#work_lng").val(pp.lng);
+                $("#work_lat").val(pp.lat);
+            }
+        }
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
+
+
+    var acHome = new BMap.Autocomplete(    //建立一个自动完成的对象
+            {"input" : "home_location"
+                ,"location" : map
+            });
+
+    ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultHomePanel").innerHTML = str;
+    });
+
+    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("searchResultHomePanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+        setPlace();
+    });
+
+</script>
+
 </html>

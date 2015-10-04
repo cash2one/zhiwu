@@ -166,17 +166,17 @@
             </div>
         </div>
 
-        <div class="room-detail-section">
-            <div class="room-detail-title"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>租客评论</div>
-            <div class="room-detail-content">
-                <div class="detail-item"><span class="detail-item-key">对房屋的评价</span><span class="detail-item-value">房子非常漂亮，以后还会租这样的房子。</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">对小区的评价</span><span class="detail-item-value">小区环境很好，设施齐全，交通便利。</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">对房东的评价</span><span class="detail-item-value">房东人很好说话，以后还会一直长住下去！</span>
-                </div>
-            </div>
-        </div>
+        <!--<div class="room-detail-section">-->
+            <!--<div class="room-detail-title"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>租客评论</div>-->
+            <!--<div class="room-detail-content">-->
+                <!--<div class="detail-item"><span class="detail-item-key">对房屋的评价</span><span class="detail-item-value">房子非常漂亮，以后还会租这样的房子。</span>-->
+                <!--</div>-->
+                <!--<div class="detail-item"><span class="detail-item-key">对小区的评价</span><span class="detail-item-value">小区环境很好，设施齐全，交通便利。</span>-->
+                <!--</div>-->
+                <!--<div class="detail-item"><span class="detail-item-key">对房东的评价</span><span class="detail-item-value">房东人很好说话，以后还会一直长住下去！</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <!--<div class="room-detail-section room-detail-section-fulllength">-->
             <!--<div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>房源推荐</div>-->
@@ -278,6 +278,30 @@
             </div>
         </div>
     </div>
+
+    <div class="room-detail-section room-detail-section-fulllength">
+        <div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>租客评价</div>
+        <div class="room-detail-content">
+            <div class="row" style="position: relative;">
+                <div class="comment-avatar" style="background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);-moz-background-size:100% 100%;background-size:100% 100%;"></div>
+                <div class="comment-content">
+                    <span class="comment-quote">“</span>
+                    这套房子真的很不错,房东人非常奈斯的~~以后有机会一定还会找他的^ ^
+                </div>
+            </div>
+
+            <div class="row" style="position: relative;margin-top:50px;margin-bottom:150px;">
+                <div class="comment-avatar" style="background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);-moz-background-size:100% 100%;background-size:100% 100%;"></div>
+                <div class="comment-content" style="background: #f5f5f5;border:none;padding:0;">
+                    <textarea name="comment" id="comment" cols="20" rows="10" placeholder="留下你的足迹或者评论吧~" class="form-control"></textarea>
+                    <button class="btn btn-pink" style="position: absolute;top:0px;right:0px;"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;提交我的评论</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
 </div>
 
 {% endblock %}
@@ -293,7 +317,7 @@
     //    地图创建
     var map = new BMap.Map("room-detail-map");    // 创建Map实例
     var mPoint = new BMap.Point(116.404, 39.915);
-    map.enableScrollWheelZoom();
+//    map.enableScrollWheelZoom(false);
     map.centerAndZoom(mPoint,15);
 
     var circle = new BMap.Circle(mPoint,1000,{fillColor:"blue", strokeWeight: 1 ,fillOpacity: 0.2, strokeOpacity: 0.3});
@@ -323,8 +347,6 @@
 
             var searchItem=$(this).data("type");
             local.searchNearby(searchItem,mPoint,1000);
-
-
         });
     });
 </script>
