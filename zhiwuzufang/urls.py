@@ -20,7 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     # test
-    # url(r'^test/', 'zhiwu.views.test', name='home'),
+    url(r'^test/', 'zhiwu.views.test', name='home'),
 
     # Part1: 页面显示url
 
@@ -79,6 +79,7 @@ urlpatterns = [
         url(r'^room_save/', 'zhiwu.views.post_room_save', name='room_save'),
         url(r'^room_sub/', 'zhiwu.views.post_room_sub', name='room_sub'),
         url(r'^room_sold/', 'zhiwu.views.post_room_sold', name='room_sold'),
+        url(r'^room_evaluation/', 'zhiwu.views.post_room_evaluation', name='room_evaluation'),
 
         url(r'^upload_image/', 'zhiwu.views.upload_image', name='upload_image'),
 

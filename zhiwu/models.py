@@ -46,6 +46,7 @@ class Room(models.Model):
         return self.roomNumber
 
 
+
 class RoomRented(models.Model):
     # 房屋出租信息 todo 还有很多信息需要补全
     roomNumber = models.CharField(max_length=10, primary_key=True)

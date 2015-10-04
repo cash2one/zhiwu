@@ -44,6 +44,9 @@ def get_second_manager_list(manager):
         print e
         return []
 
+def get_roomNumber():
+    return 'roomNumber'
+
 
 def get_room_list_by_manager(manager=""):
     try:
@@ -304,6 +307,46 @@ def room_active(roomNumber):
         print e
         return False
 
+def room_content_add(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
+               room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
+               room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
+               level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
+               bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
+               light, wind, sound, requirement, suitable,achieve):
+    try:
+        if not roomNumber.strip():
+            roomNumber=get_roomNumber()
+        room_defaults = {'longitude':room_longitude, 'latitude':room_latitude, 'community':room_community, \
+                        'shi':room_shi,'ting':room_ting, 'wei':room_wei, 'rent':room_rent, 'area':room_area,\
+                       'direction':room_direction, 'DateToLive':room_DateToLive,'lookAble':room_lookAble,\
+                       'contactPerson':room_contactPerson, 'environment':room_environment,'sold':False,'exist':False,'achieve':False}
+        rent_defaults = {'rentDate':rentDate}
+        configuration_defaults = {'level': level,'elevator': elevator,'canZhuo': canZhuo,'shaFa': shaFa,'shuZhuo': shuZhuo,\
+                                  'yiZi': yiZi,'yiGui': yiGui, 'chuang':chuang, 'kongTiao': kongTiao,'xiYiJi': xiYiJi,\
+                                  'reShuiQi': reShuiQi, 'bingXiang': bingXiang, 'dianShiJi': dianShiJi, 'xiYouYanJi': xiYouYanJi,\
+                                  'ranQiZao':ranQiZao}
+        description_defaults = {'roomType': roomType,'decoration':decoration,'configuration': configuration,'cook': cook, \
+                'light': light,'wind': wind,'sound': sound,'requirement': requirement,'suitable': suitable}
+        p1,created1 = Room.objects.update_or_create(roomNumber=roomNumber,defaults=room_defaults)
+        p1.achieve = achieve
+        p1.save(update_fields=['achieve'])
+        p2,created2 = RoomRented.objects.update_or_create(roomNumber=p1,defaults=rent_defaults)
+        p4,created4 = RoomConfiguration.objects.update_or_create(roomNumber=p1,defaults=configuration_defaults)
+        p5,created5 = RoomDescription.objects.update_or_create(roomNumber=p1,defaults=description_defaults)
+        #picture
+        picture_list=picture.split(';^_^;')
+        p3=RoomPicture.objects.filter(roomNumber=p1)
+        if p3.count() != 0:
+            for pic in p3 :
+                room_picture_delete(roomNumber,pic.picture)
+        for pic in picture_list:
+            room_picture_add(p1,pic)
+        print "room content add success"
+        return True
+    except Exception, e:
+        print  "room content add error:"
+        print e
+        return False
 
 def room_save(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
                room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
@@ -312,26 +355,14 @@ def room_save(roomNumber, room_longitude, room_latitude, room_community, room_sh
                bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
                light, wind, sound, requirement, suitable):
     try:
-        room_defaults = {'longitude':room_longitude, 'latitude':room_latitude, 'community':room_community, \
-                       'shi':room_shi, 'ting':room_ting, 'wei':room_wei, 'rent':room_rent, 'area':room_area,\
-                       'direction':room_direction, 'DateToLive':room_DateToLive,'lookAble':room_lookAble,\
-                       'contactPerson':room_contactPerson, 'environment':room_environment,'sold':False,'exist':False,'achieve':False}
-        rent_defaults = {'rentDate':rentDate}
-        picture_defaults = {'picture':picture}
-        configuration_defaults = {'level': level,'elevator': elevator,'canZhuo': canZhuo,'shaFa': shaFa,'shuZhuo': shuZhuo,\
-                                  'yiZi': yiZi,'yiGui': yiGui, 'chuang':chuang, 'kongTiao': kongTiao,'xiYiJi': xiYiJi,\
-                                  'reShuiQi': reShuiQi, 'bingXiang': bingXiang, 'dianShiJi': dianShiJi, 'xiYouYanJi': xiYouYanJi,\
-                                  'ranQiZao':ranQiZao}
-        description_defaults = {'roomType': roomType,'decoration':decoration,'configuration': configuration,'cook': cook, \
-                'light': light,'wind': wind,'sound': sound,'requirement': requirement,'suitable': suitable}
-        p1,created1 = Room.objects.get_or_create(roomNumber=roomNumber,defaults=room_defaults)
-        p1.achieve = False
-        p1.save(update_fields=['achieve'])
-        p2,created2 = RoomRented.objects.get_or_create(roomNumber=roomNumber,defaults=rent_defaults)
-        p3,created3 = RoomPicture.objects.get_or_create(roomNumber=p1,defaults=picture_defaults)#foreign key
-        p4,created4 = RoomConfiguration.objects.get_or_create(roomNumber=roomNumber,defaults=configuration_defaults)
-        p5,created5 = RoomDescription.objects.get_or_create(roomNumber=roomNumber,defaults=description_defaults)
-        print "save success!"
+        p=room_content_add(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
+               room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
+               room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
+               level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
+               bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
+               light, wind, sound, requirement, suitable,False)
+        if p:
+            print "save success!"
         return True
     except Exception, e:
         print "save error:"
@@ -346,36 +377,24 @@ def room_sub(roomNumber,room_longitude,room_latitude,room_community,room_shi,\
                         bingXiang,dianShiJi,xiYouYanJi,ranQiZao,roomType,decoration,configuration,cook,\
                         light,wind,sound,requirement,suitable):
     try:
-        room_defaults = {'longitude':room_longitude, 'latitude':room_latitude, 'community':room_community, \
-                       'shi':room_shi, 'ting':room_ting, 'wei':room_wei, 'rent':room_rent, 'area':room_area,\
-                       'direction':room_direction, 'DateToLive':room_DateToLive,'lookAble':room_lookAble,\
-                       'contactPerson':room_contactPerson, 'environment':room_environment,'sold':False,'exist':False,'achieve':False}
-        rent_defaults = {'rentDate':rentDate}
-        picture_defaults = {'picture':picture}
-        configuration_defaults = {'level': level,'elevator': elevator,'canZhuo': canZhuo,'shaFa': shaFa,'shuZhuo': shuZhuo,\
-                                  'yiZi': yiZi,'yiGui': yiGui, 'chuang':chuang, 'kongTiao': kongTiao,'xiYiJi': xiYiJi,\
-                                  'reShuiQi': reShuiQi, 'bingXiang': bingXiang, 'dianShiJi': dianShiJi, 'xiYouYanJi': xiYouYanJi,\
-                                  'ranQiZao':ranQiZao}
-        description_defaults = {'roomType': roomType,'decoration':decoration,'configuration': configuration,'cook': cook, \
-                'light': light,'wind': wind,'sound': sound,'requirement': requirement,'suitable': suitable}
-        p1,created1 = Room.objects.get_or_create(roomNumber=roomNumber,defaults=room_defaults)
-        p1.achieve = False
-        p1.save(update_fields=['achieve'])
-        p2,created2 = RoomRented.objects.get_or_create(roomNumber=roomNumber,defaults=rent_defaults)
-        p3,created3 = RoomPicture.objects.get_or_create(roomNumber=p1,defaults=picture_defaults)#foreign key
-        p4,created4 = RoomConfiguration.objects.get_or_create(roomNumber=roomNumber,defaults=configuration_defaults)
-        p5,created5 = RoomDescription.objects.get_or_create(roomNumber=roomNumber,defaults=description_defaults)
-        print "submit success!"
+        p=room_content_add(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
+               room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
+               room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
+               level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
+               bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
+               light, wind, sound, requirement, suitable,True)
+        if p:
+            print 'submit success!'
         return True
     except Exception, e:
         print "submit error:"
         print e
         return False
 
-def room_evaluation(roomNumber,creatTime,text):
+def room_evaluation(roomNumber,text):
     try:
         p=Room.objects.get(roomNumber=roomNumber)
-        p2,created = RoomEvaluation.objects.get_or_create(p,defaults={'creatTime':creatTime,'text':text})
+        RoomEvaluation.objects.create(roomNumber=p,text=text)
         print "evaluation success!"
         return True
     except Exception, e:
