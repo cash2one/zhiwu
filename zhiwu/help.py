@@ -27,6 +27,15 @@ def is_second_manager(status):
 
 
 # 后台管理界面得到相应的列表
+def get_community_list(community=""):
+    try:
+        c = Community.objects.filter(name=community)
+        return c
+    except Exception, e:
+        print e
+        return []
+
+
 def get_manager_list(user=""):
     try:
         m = Manager.objects.filter(user__icontains=user)
@@ -44,13 +53,14 @@ def get_second_manager_list(manager):
         print e
         return []
 
+
 def get_roomNumber():
     return 'roomNumber'
 
 
 def get_room_list_by_manager(manager=""):
     try:
-        room_list = Room.objects.get(contactPerson=manager)
+        room_list = Room.objects.filter(contactPerson=manager)
         return room_list
     except Exception, e:
         print e
@@ -528,29 +538,44 @@ def room_rented_cancel(roomNumber):
         return False
 
 
-def community_add(name, item):
+def community_add_or_modify(name, lng, lat, area, district, business, keyword, type, year, level, facilitiy, green, security,):
     try:
-        Community.objects.create(name=name,
-                                 item=item)
-        print "community add success!"
+        community_default = {'name': name,
+                             'lng': lng,
+                             'lat': lat,
+                             'area': area,
+                             'district': district,
+                             'business': business,
+                             'keyword': keyword,
+                             'type': type,
+                             'year': year,
+                             'level': level,
+                             'facilitiy': facilitiy,
+                             'green': green,
+                             'security': security}
+        p, created = Community.objects.update_or_create(name=name, defaults=community_default)
+        if created:
+            print "community add success!"
+        else:
+            print "community modify success!"
         return True
     except Exception, e:
-        print "community add error:"
+        print "community add or modify error:"
         print e
         return False
 
 
-def community_modify(name, item):
-    try:
-        p = Community.objects.get(name=name)
-        p.item = item
-        p.save()
-        print "community modify success!"
-        return True
-    except Exception, e:
-        print "community modify error:"
-        print e
-        return False
+# def community_modify(name, item):
+#     try:
+#         p = Community.objects.get(name=name)
+#         p.item = item
+#         p.save()
+#         print "community modify success!"
+#         return True
+#     except Exception, e:
+#         print "community modify error:"
+#         print e
+#         return False
 
 
 def community_delete(name):
@@ -610,37 +635,41 @@ def environment_delete(name):
         return False
 
 
-def manager_add(user, pw, name, phone, status, district):
+def manager_add_or_modify(user, pw, name, phone, status, district):
     try:
-        Manager.objects.create(user=user,
-                               pw=pw,
-                               name=name,
-                               phone=phone,
-                               status=status,
-                               district=district)
-        print "Manager add success!"
+        manager_default = {'user': user,
+                           'pw': pw,
+                           'name': name,
+                           'phone': phone,
+                           'status': status,
+                           'district': district}
+        p, created = Manager.objects.update_or_create(user=user,defaults=manager_default)
+        if created:
+            print "Manager add success!"
+        else:
+            print "Manager modify success!"
         return True
     except Exception, e:
-        print "Manager add error:"
+        print "Manager add or modify error:"
         print e
         return False
 
 
-def manager_modify(user, pw, name, phone, status, district):
-    try:
-        p = Manager.objects.get(user=user)
-        p.pw = pw
-        p.name = name
-        p.phone = phone
-        p.status = status
-        p.district = district
-        p.save()
-        print "manager modify success!"
-        return True
-    except Exception, e:
-        print "manager modify error:"
-        print e
-        return False
+# def manager_modify(user, pw, name, phone, status, district):
+#     try:
+#         p = Manager.objects.get(user=user)
+#         p.pw = pw
+#         p.name = name
+#         p.phone = phone
+#         p.status = status
+#         p.district = district
+#         p.save()
+#         print "manager modify success!"
+#         return True
+#     except Exception, e:
+#         print "manager modify error:"
+#         print e
+#         return False
 
 
 def manager_delete(user):
@@ -698,20 +727,25 @@ def manager_pw(user, oldpw, newpw):
         return False
 
 
-def second_manager_add(manager_user, user, pw, name, phone, company, status):
+def second_manager_add_or_modify(manager_user, user, pw, name, phone, company, status):
     try:
         manager = Manager.objects.get(user=manager_user)
-        SecondManager.objects.create(manager=manager,
-                                     user=user,
-                                     pw=pw,
-                                     name=name,
-                                     phone=phone,
-                                     company=company,
-                                     status=status)
-        print "SecondManager add success!"
+        smanager_default = {'manager': manager,
+                            'user': user,
+                            'pw': pw,
+                            'name': name,
+                            'phone': phone,
+                            'company': company,
+                            'status': status}
+
+        p, created = SecondManager.objects.update_or_create(user=user, defaults=smanager_default)
+        if created:
+            print "SecondManager add success!"
+        else:
+            print "SecondManager modify success!"
         return True
     except Exception, e:
-        print "SecondManager add error:"
+        print "SecondManager add or modify error:"
         print e
         return False
 
@@ -774,3 +808,6 @@ def second_manager_pw(user, oldpw, newpw):
         print 'pwd modify error:'
         print e
         return False
+
+
+

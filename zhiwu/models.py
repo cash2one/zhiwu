@@ -17,8 +17,19 @@ class Environment(models.Model):
 class Community(models.Model):
     # 小区信息
     name = models.CharField(max_length=30, primary_key=True)
-    environment = models.ForeignKey(Environment)
     item = models.CharField(max_length=100)
+    lng = models.FloatField()
+    lat = models.FloatField()
+    area = models.CharField(max_length=100)
+    district = models.CharField(max_length=100)
+    business = models.CharField(max_length=100)
+    keyword = models.CharField(max_length=100)
+    type = models.CharField(max_length=100)
+    year = models.CharField(max_length=100)
+    level = models.CharField(max_length=100)
+    facilitiy = models.CharField(max_length=100)
+    green = models.CharField(max_length=100)
+    security = models.CharField(max_length=100)
 
 
 class Room(models.Model):

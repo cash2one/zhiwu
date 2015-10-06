@@ -20,7 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     # test
-    url(r'^test/', 'zhiwu.views.test', name='home'),
+    url(r'^test/', 'zhiwu.views.test', name='test'),
 
     # Part1: 页面显示url
 
@@ -61,15 +61,26 @@ urlpatterns = [
 
     # Part2:Post ajax
 
-        url(r'^manager_add/', 'zhiwu.views.post_manager_add', name='manager_add'),
+        url(r'^area_add_or_modify/', 'zhiwu.views.post_area_add_or_modify', name='area_add_or_modify'),
+        url(r'^mansion_manager_add_or_modify/', 'zhiwu.views.post_mansion_manager_add_or_modify', name='mansion_add_or_modify'),
+        url(r'^area_search/', 'zhiwu.views.post_area_search', name='area_search'),
+        url(r'^mansion_manager_search/', 'zhiwu.views.post_mansion_manager_search', name='mansion_manager_search'),
+
+
         url(r'^manager_delete/', 'zhiwu.views.post_manager_delete', name='manager_delete'),
-        url(r'^manager_modify/', 'zhiwu.views.post_manager_modify', name='manager_modify'),
+        # url(r'^manager_modify/', 'zhiwu.views.post_manager_modify', name='manager_modify'),
         url(r'^manager_logout/', 'zhiwu.views.post_manager_logout', name='manager_logout'),
         url(r'^manager_active/', 'zhiwu.views.post_manager_active', name='manager_active'),
         url(r'^manager_pw/', 'zhiwu.views.post_manager_pw', name='manager_pw'),
 
-        url(r'^second_manager_add/', 'zhiwu.views.post_second_manager_add', name='second_manager_add'),
-        url(r'^second_manager_modify/', 'zhiwu.views.post_second_manager_modify', name='second_manager_modify'),
+        url(r'^wuye_add_or_modify/', 'zhiwu.views.wuye_add_or_modify', name='wuye_add_or_modify'),
+        url(r'^mansion_keeper_add_or_modify/', 'zhiwu.views.mansion_keeper_add_or_modify', name='mansion_keeper_add_or_modify'),
+
+        url(r'^wuye_search/', 'zhiwu.views.wuye_search', name='wuye_search'),
+        url(r'^mansion_keeper_search/', 'zhiwu.views.mansion_keeper_search', name='mansion_keeper_search'),
+
+        # url(r'^second_manager_add/', 'zhiwu.views.post_second_manager_add', name='second_manager_add'),
+        # url(r'^second_manager_modify/', 'zhiwu.views.post_second_manager_modify', name='second_manager_modify'),
         url(r'^second_manager_logout/', 'zhiwu.views.post_second_manager_logout', name='second_manager_logout'),
         url(r'^second_manager_active/', 'zhiwu.views.post_second_manager_active', name='second_manager_active'),
         url(r'^second_manager_pw/', 'zhiwu.views.post_second_manager_pw', name='second_manager_pw'),
@@ -82,6 +93,11 @@ urlpatterns = [
         url(r'^room_evaluation/', 'zhiwu.views.post_room_evaluation', name='room_evaluation'),
 
         url(r'^upload_image/', 'zhiwu.views.upload_image', name='upload_image'),
+        url(r'^community_add/', 'zhiwu.views.post_community_add', name='community_add'),
+        url(r'^community_search/', 'zhiwu.views.post_community_search', name='community_search'),
+        url(r'^community_delete/', 'zhiwu.views.post_community_delete', name='community_delete'),
+
+
 
 
     # Part3:Get ajax

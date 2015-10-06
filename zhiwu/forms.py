@@ -1,6 +1,27 @@
 # -*- coding: utf-8 -*-
 from .models import *
 from django import forms
+from django.forms import ModelForm
+
+
+class CommunityDeleteForm(forms.Form):
+    xiaoqu_delete_name = forms.CharField()
+
+
+class CommunityForm(forms.Form):
+    xiaoqu_add_name = forms.CharField()
+    xiaoqu_add_lng = forms.FloatField()
+    xiaoqu_add_lat = forms.FloatField()
+    xiaoqu_add_area = forms.CharField()
+    xiaoqu_add_district = forms.CharField()
+    xiaoqu_add_business = forms.CharField()
+    xiaoqu_add_keyword = forms.CharField()
+    xiaoqu_add_type = forms.CharField()
+    xiaoqu_add_year = forms.CharField()
+    xiaoqu_add_level = forms.CharField()
+    xiaoqu_add_facilitiy = forms.CharField()
+    xiaoqu_add_green = forms.CharField()
+    xiaoqu_add_security = forms.CharField()
 
 
 class ImageForm(forms.Form):
@@ -60,17 +81,15 @@ class RoomForm(forms.Form):
     requirement = forms.CharField(max_length=100,required=False)
     suitable = forms.CharField(max_length=100,required=False)
 
+
 class RoomEvaluationForm(forms.Form):
     # 租客评价
     roomNumber = forms.CharField()
     text = forms.CharField(widget=forms.Textarea)
 
+
 class RoomShortForm(forms.Form):
     room_roomNumber = forms.CharField()
-
-
-
-
 
 
 class ManagerForm(forms.Form):
@@ -88,7 +107,7 @@ class ManagerUserForm(forms.Form):
 
 class SecondManagerForm(forms.Form):
     second_manager_manager = forms.CharField(required=False)#foreignkey
-    second_manager_user = forms.CharField(required=False)
+    second_manager_account = forms.CharField(required=False)
     second_manager_pw = forms.CharField(widget=forms.PasswordInput, required=False)
     second_manager_name = forms.CharField(required=False)
     second_manager_phone = forms.CharField(required=False)

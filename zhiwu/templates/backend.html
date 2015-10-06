@@ -105,7 +105,7 @@
                     <div class="section" id="xiaoqu_manager_add">
                         <div class="title-l2">小区新增</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="xiaoqu_add_form" dest="/xiaoqu_add">
+                            <form class="form-horizontal" id="xiaoqu_add_form" dest="{% url 'community_add' %}">
                                 <div class="form-group">
                                     <label for="xiaoqu_add_name" class="col-sm-2 control-label">详细小区名称*</label>
                                     <div class="col-sm-10">
@@ -192,7 +192,7 @@
                     <div class="section" id="xiaoqu_manager_search">
                         <div class="title-l2">小区查询</div>
                         <div class="section-content">
-                            <form class="form-inline" id="xiaoqu_search_form" dest="/xiaoqu_search">
+                            <form class="form-inline" id="xiaoqu_search_form" dest="{% url 'community_search' %}">
                                 <div class="form-group">
                                     <label for="xiaoqu_search_name" class="control-label">小区名称*</label>
                                     <input type="text" class="form-control" id="xiaoqu_search_name" name="xiaoqu_search_name">
@@ -255,45 +255,45 @@
                     <div class="section" id="area_manager_add">
                         <div class="title-l2">区域及账号建设</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="area_add_form" dest="/area_add">
-                                <div class="form-group">
-                                    <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="area_add_name" name="area_add_name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="area_add_xiaoqu" class="col-sm-2 control-label">所辖小区</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" id="area_add_xiaoqu" name="area_add_xiaoqu">
-                                            <option value="">浦沿A</option>
-                                            <option value="">浦沿B</option>
-                                            <option value="">浦沿C</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            <form class="form-horizontal" id="area_add_form" dest="{% url 'area_add_or_modify' %}">
+{#                                <div class="form-group">#}
+{#                                    <label for="area_add_xiaoqu" class="col-sm-2 control-label">所辖小区</label>#}
+{#                                    <div class="col-sm-10">#}
+{#                                        <select class="form-control" id="area_add_xiaoqu" name="area_add_xiaoqu">#}
+{#                                            <option value="">浦沿A</option>#}
+{#                                            <option value="">浦沿B</option>#}
+{#                                            <option value="">浦沿C</option>#}
+{#                                        </select>#}
+{#                                    </div>#}
+{#                                </div>#}
                                 <div class="form-group">
                                     <label for="area_add_account" class="col-sm-2 control-label">区账号</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="area_add_account" name="area_add_account">
+                                        <input type="text" class="form-control" id="area_add_account" name="manager_account">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="area_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="area_add_pw" name="area_add_pw">
+                                        <input type="password" class="form-control" id="area_add_pw" name="manager_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_name" name="manager_district">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="area_add_manager_name" class="col-sm-2 control-label">区经理姓名</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="area_add_manager_name" name="area_add_manager_name">
+                                        <input type="text" class="form-control" id="area_add_manager_name" name="manager_name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="area_add_phone" class="col-sm-2 control-label">区域手机</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="area_add_phone" name="area_add_phone">
+                                        <input type="text" class="form-control" id="area_add_phone" name="manager_phone">
                                     </div>
                                 </div>
 
@@ -308,10 +308,10 @@
                     <div class="section" id="area_manager_search">
                         <div class="title-l2">区域查找及修改</div>
                         <div class="section-content">
-                            <form class="form-inline" id="area_search_form" dest="/area_search">
+                            <form class="form-inline" id="area_search_form" dest="{% url 'area_search' %}">
                                 <div class="form-group">
                                     <label for="area_search_name" class="control-label">区域名称*</label>
-                                    <input type="text" class="form-control" id="area_search_name" name="area_search_name">
+                                    <input type="text" class="form-control" id="area_search_name" name="manager_search_district">
                                 </div>
 
                                 <div class="form-group">
@@ -358,39 +358,49 @@
                     <div class="section" id="wuye_keeper_manager_add">
                         <div class="title-l2">物业管家新增</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_keeper_add">
+                            <form class="form-horizontal" id="wuye_keeper_add_form" dest="{% url 'wuye_add_or_modify' %}">
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="wuye_keeper_add_account" name="wuye_keeper_add_account">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_account" name="second_manager_account">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="wuye_keeper_add_pw">
+                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="second_manager_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_manager" class="col-sm-2 control-label">所属区域管理员</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="wuye_keeper_add_manager" name="second_manager_manager">
+                                            <option value="">u1</option>
+                                            <option value="">管理员2</option>
+                                            <option value="">管理员3</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_xiaoqu" class="col-sm-2 control-label">所属小区</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" id="wuye_keeper_add_xiaoqu" name="wuye_keeper_add_xiaoqu">
-                                            <option value="">浦沿A</option>
-                                            <option value="">浦沿B</option>
-                                            <option value="">浦沿C</option>
+                                        <select class="form-control" id="wuye_keeper_add_xiaoqu" name="second_manager_company">
+                                            <option value="">小区1</option>
+                                            <option value="">小区2</option>
+                                            <option value="">小区3</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_name" class="col-sm-2 control-label">管家姓名</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="wuye_keeper_add_name" name="wuye_keeper_add_name">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_name" name="second_manager_name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_phone" class="col-sm-2 control-label">管家手机</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="wuye_keeper_add_phone" name="wuye_keeper_add_phone">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_phone" name="second_manager_phone">
                                     </div>
                                 </div>
 
@@ -405,10 +415,10 @@
                     <div class="section" id="wuye_keeper_manager_search">
                         <div class="title-l2">物业管家查找</div>
                         <div class="section-content">
-                            <form class="form-inline" id="wuye_keeper_search_form" dest="/wuye_keeper_search">
+                            <form class="form-inline" id="wuye_keeper_search_form" dest="{% url 'wuye_search' %}">
                                 <div class="form-group">
-                                    <label for="wuye_keeper_search_account" class="control-label">账号*</label>
-                                    <input type="text" class="form-control" id="wuye_keeper_search_account" name="wuye_keeper_search_account">
+                                    <label for="wuye_keeper_search_account" class="control-label">小区</label>
+                                    <input type="text" class="form-control" id="wuye_keeper_search_account" name="second_manager_search_company">
                                 </div>
 
                                 <div class="form-group">
@@ -681,23 +691,35 @@
                     <div class="section" id="mansion_manager_add">
                         <div class="title-l2">公寓经理新增</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="mansion_manager_add_form" dest="/mansion_manager_add">
+                            <form class="form-horizontal" id="mansion_manager_add_form" dest="{% url 'mansion_add_or_modify' %}">
                                 <div class="form-group">
                                     <label for="mansion_manager_add_account" class="col-sm-2 control-label">账号*</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="mansion_manager_add_account" name="mansion_manager_add_account">
+                                        <input type="text" class="form-control" id="mansion_manager_add_account" name="second_manager_account">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="mansion_manager_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="mansion_manager_add_pw" name="mansion_manager_add_pw">
+                                        <input type="password" class="form-control" id="mansion_manager_add_pw" name="second_manager_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mansion_manager_add_name" class="col-sm-2 control-label">管家姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="mansion_manager_add_name" name="second_manager_name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="mansion_manager_add_phone" class="col-sm-2 control-label">管家手机</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="mansion_manager_add_phone" name="mansion_manager_add_phone">
+                                        <input type="text" class="form-control" id="mansion_manager_add_phone" name="second_manager_phone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mansion_manager_add_district" class="col-sm-2 control-label">公司</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="mansion_manager_add_district" name="second_manager_district">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -709,12 +731,12 @@
                         </div>
                     </div>
                     <div class="section" id="mansion_manager_search">
-                        <div class="title-l2">物业管家查找</div>
+                        <div class="title-l2">公寓经理查找</div>
                         <div class="section-content">
-                            <form class="form-inline" id="mansion_manager_search_form" dest="/mansion_manager_search">
+                            <form class="form-inline" id="mansion_manager_search_form" dest="{% url 'mansion_manager_search' %}">
                                 <div class="form-group">
-                                    <label for="mansion_manager_search_account" class="control-label">账号*</label>
-                                    <input type="text" class="form-control" id="mansion_manager_search_account" name="mansion_manager_search_account">
+                                    <label for="mansion_manager_search_account" class="control-label">公司</label>
+                                    <input type="text" class="form-control" id="mansion_manager_search_account" name="manager_search_district">
                                 </div>
 
                                 <div class="form-group">
@@ -802,10 +824,10 @@
                     <div class="section" id="mansion_keeper_search">
                         <div class="title-l2">公寓管家查询</div>
                         <div class="section-content">
-                            <form class="form-inline" id="masion_keeper_search_form" dest="/masion_keeper_search">
+                            <form class="form-inline" id="masion_keeper_search_form" dest="{% url 'mansion_manager_search' %}">
                                 <div class="form-group">
-                                    <label for="masion_keeper_search_account" class="control-label">账号*</label>
-                                    <input type="text" class="form-control" id="masion_keeper_search_account" name="masion_keeper_search_account">
+                                    <label for="masion_keeper_search_account" class="control-label">公司*</label>
+                                    <input type="text" class="form-control" id="masion_keeper_search_account" name="second_manager_search_company">
                                 </div>
 
                                 <div class="form-group">
