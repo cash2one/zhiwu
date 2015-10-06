@@ -94,6 +94,17 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a href="#comment_list">
+                        评论管理
+                    </a>
+                    <!--<ul class="second-level-menu">-->
+                        <!--<li><a href="#mansion_keeper_add">公寓管家新增</a></li>-->
+                        <!--<li><a href="#mansion_keeper_search">公寓管家查询</a></li>-->
+                    <!--</ul>-->
+                </li>
+
+
 
             </ul>
         </div>
@@ -113,7 +124,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">详细小区名称*</label>
+                                    <label class="col-sm-2 control-label">详细位置点选*</label>
                                     <div class="col-sm-10">
                                         <div id="xiaoqu-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
                                         <button class="btn btn-success" id="save-point">保存当前位置</button>
@@ -453,7 +464,7 @@
                     <div class="section" id="source_manager_submit">
                         <div class="title-l2">房源发布</div>
                         <div class="section-content">
-                            <a class="btn btn-success" href="newHouse.html">发布新的房源</a>
+                            <a class="btn btn-success" href="/new_house">发布新的房源</a>
                         </div>
                     </div>
                     <div class="section" id="source_manager_search">
@@ -844,6 +855,33 @@
                 </div>
             </div>
 
+            <div class="section" id="comment_list">
+                <div class="title-l1">评论审核</div>
+                <div class="section-content">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>房源</th>
+                            <th>评论内容</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th><a href="/room_detail" target="_blank">HZ001</a></th>
+                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
+                            <th>未审核</th>
+                            <th>
+                                <button class="btn btn-success">通过</button>
+                                <button class="btn btn-danger">驳回</button>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+
+        </div>
         </div>
     </div>
 </div>
@@ -853,6 +891,265 @@
 
 <!--sp_script-->
 {% block sp_script %}
+
+
+{% verbatim %}
+<script id="xiaoqu-edit" type="text/x-jquery-tmpl">
+<form class="form-horizontal" id="xiaoqu_add_form" dest="/xiaoqu_add">
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_name" class="col-sm-2 control-label">详细小区名称*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_name" name="xiaoqu_add_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">详细位置点选*</label>
+                                    <div class="col-sm-10">
+                                        <div id="edit-xiaoqu-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
+                                        <button class="btn btn-success" id="save-point">保存当前位置</button>
+                                        <input type="hidden" class="form-control" id="xiaoqu_add_lng" name="xiaoqu_add_lng">
+                                        <input type="hidden" class="form-control" id="xiaoqu_add_lat" name="xiaoqu_add_lat">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_area" class="col-sm-2 control-label">所属区域*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_area" name="xiaoqu_add_area">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_district" class="col-sm-2 control-label">所属行政区*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_district" name="xiaoqu_add_district">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_business" class="col-sm-2 control-label">所在商圈</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_business" name="xiaoqu_add_business">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_keyword" class="col-sm-2 control-label">其它关键字*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_keyword" name="xiaoqu_add_keyword">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_type" class="col-sm-2 control-label">房屋类型*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_type" name="xiaoqu_add_type">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_year" class="col-sm-2 control-label">建成年限*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_year" name="xiaoqu_add_year">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_level" class="col-sm-2 control-label">小区档次</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_level" name="xiaoqu_add_level">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_facilitiy" class="col-sm-2 control-label">配套设施</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_facilitiy" name="xiaoqu_add_facilitiy">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_green" class="col-sm-2 control-label">绿化</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_green" name="xiaoqu_add_green">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_security" class="col-sm-2 control-label">安保</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_security" name="xiaoqu_add_security">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+</script>
+
+<script id="area-edit" type="text/x-jquery-tmpl">
+ <form class="form-horizontal" id="area_add_form" dest="/area_add">
+                                <div class="form-group">
+                                    <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_name" name="area_add_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_xiaoqu" class="col-sm-2 control-label">所辖小区</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="area_add_xiaoqu" name="area_add_xiaoqu">
+                                            <option value="">浦沿A</option>
+                                            <option value="">浦沿B</option>
+                                            <option value="">浦沿C</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_account" class="col-sm-2 control-label">区账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_account" name="area_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="area_add_pw" name="area_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_manager_name" class="col-sm-2 control-label">区经理姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_manager_name" name="area_add_manager_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_phone" class="col-sm-2 control-label">区域手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_phone" name="area_add_phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+</script>
+
+<script id="wuye-keeper-edit" type="text/x-jquery-tmpl">
+ <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_keeper_add">
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_account" class="col-sm-2 control-label">账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_account" name="wuye_keeper_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="wuye_keeper_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_xiaoqu" class="col-sm-2 control-label">所属小区</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="wuye_keeper_add_xiaoqu" name="wuye_keeper_add_xiaoqu">
+                                            <option value="">浦沿A</option>
+                                            <option value="">浦沿B</option>
+                                            <option value="">浦沿C</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_name" class="col-sm-2 control-label">管家姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_name" name="wuye_keeper_add_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_phone" class="col-sm-2 control-label">管家手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_phone" name="wuye_keeper_add_phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+</script>
+
+<script id="mansion-keeper-edit" type="text/x-jquery-tmpl">
+<form class="form-horizontal" id="masion_keeper_add_form" dest="/masion_keeper_add">
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_account" class="col-sm-2 control-label">账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_account" name="masion_keeper_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="masion_keeper_add_pw" name="masion_keeper_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_company" class="col-sm-2 control-label">所属公司</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_company" name="masion_keeper_add_company">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_xiaoqu" class="col-sm-2 control-label">所属业务经理</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="masion_keeper_add_xiaoqu" name="masion_keeper_add_xiaoqu">
+                                            <option value="">李xx</option>
+                                            <option value="">张xx</option>
+                                            <option value="">高xx</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_phone" class="col-sm-2 control-label">管家手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_phone" name="masion_keeper_add_phone">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+</script>
+
+<script id="mansion-manager-edit" type="text/x-jquery-tmpl">
+<form class="form-horizontal" id="mansion_manager_add_form" dest="/mansion_manager_add">
+                                <div class="form-group">
+                                    <label for="mansion_manager_add_account" class="col-sm-2 control-label">账号*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="mansion_manager_add_account" name="mansion_manager_add_account">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mansion_manager_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="mansion_manager_add_pw" name="mansion_manager_add_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mansion_manager_add_phone" class="col-sm-2 control-label">管家手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="mansion_manager_add_phone" name="mansion_manager_add_phone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+</script>
+
+{% endverbatim %}
+
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
 <script type="text/javascript">
     // 百度地图API功能
@@ -878,6 +1175,23 @@
 
 <script>
     ;(function(){
+        var editUrlMap={
+            "#xiaoqu-edit":"",
+            "#area-edit":"",
+            "#mansion-keeper-edit":"",
+            "#mansion-manager-edit":"",
+            "#wuye-keeper-edit":""
+        };
+
+        var cancelUrlMap={
+            "xiaoqu":"",
+            "area":"",
+            "mansion-keeper":"",
+            "mansion-manager":"",
+            "wuye-keeper":""
+        };
+
+
         //保存地图上选中的点
         $("#save-point").bind("click",function(e){
             e.preventDefault();
@@ -979,6 +1293,85 @@
                     });
 
         });
+
+        var dialogOpts = {
+            title:"编辑信息",
+            width:"800",
+            height:"500"
+        };
+
+
+        $(document).delegate(".btn-edit","click",function(e){
+            e.preventDefault();
+            var _id=$(this).data("target");
+            var _form=$(this).data("form");
+            $.get(
+                    "",//TODO:修改url
+                    {id:_id},
+                    function(data){
+                        if(data.status==200){
+                            console.log("get success");
+                            //添加dialog
+                            $(_form).tmpl(data.content).dialog(dialogOpts);
+                        }else{
+                            console.log("get failed");
+                        }
+                    }
+            )
+            .error(function(){
+                console.log("error");
+            });
+        });
+
+
+        $(document).delegate(".btn-activate","click",function(e){
+            e.preventDefault();
+            var _id=$(this).data("target");
+            var _form=$(this).data("form");
+            var _url=editUrlMap[_form];
+            $.post(
+                    _url,//TODO:修改url
+                    {id:_id},
+                    function(data){
+                        if(data.status==200){
+                            console.log("post success");
+                            //TODO: 修改对应的表格状态
+                        }else{
+                            console.log("post failed");
+                        }
+                    }
+            )
+                    .error(function(){
+                        console.log("error");
+                    });
+        });
+
+        $(document).delegate(".btn-cancel","click",function(e){
+            e.preventDefault();
+            var _id=$(this).data("target");
+            var _type=$(this).data("type");
+            var _url=cancelUrlMap[_type];
+
+
+            $.post(
+                    _url,//TODO:修改url
+                    {id:_id},
+                    function(data){
+                        if(data.status==200){
+                            console.log("post success");
+                            //TODO: 修改对应的表格状态
+                        }else{
+                            console.log("post failed");
+                        }
+                    }
+            )
+            .error(function(){
+                console.log("error");
+            });
+        });
+
+
+
     })();
 
 </script>
