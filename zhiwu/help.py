@@ -1,4 +1,116 @@
+# -*- coding: utf-8 -*-
 from models import *
+
+
+def get_search_room_list(rooms):
+    p = []
+    for i in rooms:
+        images = RoomPicture.objects.filter(roomNumber=i.roomNumber)
+        p.append({"room": i, "images": images})
+    return p
+
+
+# 判断身份
+def is_root(status):
+    return True
+    # todo
+
+
+def is_manager(status):
+    return True
+    # todo
+
+
+def is_second_manager(status):
+    return True
+    # todo
+
+
+# 后台管理界面得到相应的列表
+def get_community_list(community=""):
+    try:
+        c = Community.objects.filter(name=community)
+        return c
+    except Exception, e:
+        print e
+        return []
+
+
+def get_manager_list(user=""):
+    try:
+        m = Manager.objects.filter(user__icontains=user)
+        return m
+    except Exception, e:
+        print e
+        return []
+
+
+def get_second_manager_list(manager):
+    try:
+        m = Manager.objects.filter(manager=manager)
+        return m
+    except Exception, e:
+        print e
+        return []
+
+
+def get_roomNumber():
+    return 'roomNumber'
+
+
+def get_room_list_by_manager(manager=""):
+    try:
+        room_list = Room.objects.filter(contactPerson=manager)
+        return room_list
+    except Exception, e:
+        print e
+        return []
+
+
+def get_environment(environment):
+    try:
+        em = RoomEvaluation.objects.get(name=environment)
+        return em
+    except Exception, e:
+        print e
+        return None
+
+
+def get_room_picture(room):
+    try:
+        rp = RoomPicture.objects.filter(roomNumber=room)
+        return rp
+    except Exception, e:
+        print e
+        return []
+
+
+def get_room_evaluation(room):
+    try:
+        re = RoomEvaluation.objects.get(roomNumber=room)
+        return re
+    except Exception, e:
+        print e
+        return None
+
+
+def get_room_configuration(room):
+    try:
+        rc = RoomConfiguration.objects.get(roomNumber=room)
+        return rc
+    except Exception, e:
+        print e
+        return None
+
+
+def get_room_description(room):
+    try:
+        rd = RoomDescription.objects.get(roomNumber=room)
+        return rd
+    except Exception, e:
+        print e
+        return None
+
 
 def get_second_manager(user, pw):
     try:
@@ -69,12 +181,12 @@ def description_modify(roomNumber, roomType, decoration,
         return False
 
 
-def configuration_add( roomNumber, level, elevator, canZhuo,
-                       shaFa, shuZhuo, yiZi, yiGui, chunag,
-                       kongTiao, xiYiJi, reShuiQi, bingXiang,
-                       dianShiJi, xiYouYanJi, ranQiZao):
+def configuration_add(roomNumber, level, elevator, canZhuo,
+                      shaFa, shuZhuo, yiZi, yiGui, chunag,
+                      kongTiao, xiYiJi, reShuiQi, bingXiang,
+                      dianShiJi, xiYouYanJi, ranQiZao):
     try:
-        room =Room.objects.get(roomNumber=roomNumber)
+        room = Room.objects.get(roomNumber=roomNumber)
         RoomConfiguration.objects.create(roomNumber=room,
                                          level=level,
                                          elevator=elevator,
@@ -104,23 +216,23 @@ def configuration_modify(roomNumber, level, elevator, canZhuo,
                          kongTiao, xiYiJi, reShuiQi, bingXiang,
                          dianShiJi, xiYouYanJi, ranQiZao):
     try:
-        room =Room.objects.get(roomNumber=roomNumber)
+        room = Room.objects.get(roomNumber=roomNumber)
         p = RoomConfiguration.objects.get(roomNumber=room)
-        p.level=level
-        p.elevator=elevator
-        p.canZhuo=canZhuo
-        p.shaFa=shaFa
-        p.shuZhuo=shuZhuo
-        p.yiZi=yiZi
-        p.yiGui=yiGui
-        p.chunag=chunag
-        p.kongTiao=kongTiao
-        p.xiYiJi=xiYiJi
-        p.reShuiQi=reShuiQi
-        p.bingXiang=bingXiang
-        p.dianShiJi=dianShiJi
-        p.xiYouYanJi=xiYouYanJi
-        p.ranQiZao=ranQiZao
+        p.level = level
+        p.elevator = elevator
+        p.canZhuo = canZhuo
+        p.shaFa = shaFa
+        p.shuZhuo = shuZhuo
+        p.yiZi = yiZi
+        p.yiGui = yiGui
+        p.chunag = chunag
+        p.kongTiao = kongTiao
+        p.xiYiJi = xiYiJi
+        p.reShuiQi = reShuiQi
+        p.bingXiang = bingXiang
+        p.dianShiJi = dianShiJi
+        p.xiYouYanJi = xiYouYanJi
+        p.ranQiZao = ranQiZao
         p.save()
         print "room configuration modify success!"
         return True
@@ -180,6 +292,140 @@ def room_picture_delete(roomNumber, picture_addr):
         return False
 
 
+def room_logout(roomNumber):
+    try:
+        p = Room.objects.get(roomNumber=roomNumber)
+        p.exist = False
+        p.save(update_fields=['exist'])
+        print "room logout success!"
+        return True
+    except Exception, e:
+        print "room logout error:"
+        print e
+        return False
+
+
+def room_active(roomNumber):
+    try:
+        p = Room.objects.get(roomNumber=roomNumber)
+        p.exist = True
+        p.save(update_fields=['exist'])
+        print "room active success!"
+        return True
+    except Exception, e:
+        print "room acitve error:"
+        print e
+        return False
+
+def room_content_add(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
+               room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
+               room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
+               level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
+               bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
+               light, wind, sound, requirement, suitable,achieve):
+    try:
+        if not roomNumber.strip():
+            roomNumber=get_roomNumber()
+        room_defaults = {'longitude':room_longitude, 'latitude':room_latitude, 'community':room_community, \
+                        'shi':room_shi,'ting':room_ting, 'wei':room_wei, 'rent':room_rent, 'area':room_area,\
+                       'direction':room_direction, 'DateToLive':room_DateToLive,'lookAble':room_lookAble,\
+                       'contactPerson':room_contactPerson, 'environment':room_environment,'sold':False,'exist':False,'achieve':False}
+        rent_defaults = {'rentDate':rentDate}
+        configuration_defaults = {'level': level,'elevator': elevator,'canZhuo': canZhuo,'shaFa': shaFa,'shuZhuo': shuZhuo,\
+                                  'yiZi': yiZi,'yiGui': yiGui, 'chuang':chuang, 'kongTiao': kongTiao,'xiYiJi': xiYiJi,\
+                                  'reShuiQi': reShuiQi, 'bingXiang': bingXiang, 'dianShiJi': dianShiJi, 'xiYouYanJi': xiYouYanJi,\
+                                  'ranQiZao':ranQiZao}
+        description_defaults = {'roomType': roomType,'decoration':decoration,'configuration': configuration,'cook': cook, \
+                'light': light,'wind': wind,'sound': sound,'requirement': requirement,'suitable': suitable}
+        p1,created1 = Room.objects.update_or_create(roomNumber=roomNumber,defaults=room_defaults)
+        p1.achieve = achieve
+        p1.save(update_fields=['achieve'])
+        p2,created2 = RoomRented.objects.update_or_create(roomNumber=p1,defaults=rent_defaults)
+        p4,created4 = RoomConfiguration.objects.update_or_create(roomNumber=p1,defaults=configuration_defaults)
+        p5,created5 = RoomDescription.objects.update_or_create(roomNumber=p1,defaults=description_defaults)
+        #picture
+        picture_list=picture.split(';^_^;')
+        p3=RoomPicture.objects.filter(roomNumber=p1)
+        if p3.count() != 0:
+            for pic in p3 :
+                room_picture_delete(roomNumber,pic.picture)
+        for pic in picture_list:
+            room_picture_add(p1,pic)
+        print "room content add success"
+        return True
+    except Exception, e:
+        print  "room content add error:"
+        print e
+        return False
+
+def room_save(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
+               room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
+               room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
+               level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
+               bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
+               light, wind, sound, requirement, suitable):
+    try:
+        p=room_content_add(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
+               room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
+               room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
+               level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
+               bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
+               light, wind, sound, requirement, suitable,False)
+        if p:
+            print "save success!"
+        return True
+    except Exception, e:
+        print "save error:"
+        print e
+        return False
+
+
+def room_sub(roomNumber,room_longitude,room_latitude,room_community,room_shi,\
+                             room_ting, room_wei,room_rent,room_area,room_direction,room_DateToLive,\
+                              room_lookAble,room_contactPerson,room_environment,rentDate,picture,\
+                        level,elevator,canZhuo,shaFa,shuZhuo,yiZi,yiGui,chuang,kongTiao,xiYiJi,reShuiQi,\
+                        bingXiang,dianShiJi,xiYouYanJi,ranQiZao,roomType,decoration,configuration,cook,\
+                        light,wind,sound,requirement,suitable):
+    try:
+        p=room_content_add(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
+               room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
+               room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
+               level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
+               bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
+               light, wind, sound, requirement, suitable,True)
+        if p:
+            print 'submit success!'
+        return True
+    except Exception, e:
+        print "submit error:"
+        print e
+        return False
+
+def room_evaluation(roomNumber,text):
+    try:
+        p=Room.objects.get(roomNumber=roomNumber)
+        RoomEvaluation.objects.create(roomNumber=p,text=text)
+        print "evaluation success!"
+        return True
+    except Exception, e:
+        print "evaluation error:"
+        print e
+        return False
+
+
+def room_sold(roomNumber):
+    try:
+        p = Room.objects.get(roomNumber=roomNumber)
+        p.sold = True
+        p.save(update_fields=['sold'])
+        print "room sold success!"
+        return True
+    except Exception, e:
+        print "room sold error:"
+        print e
+        return False
+
+
 def room_add(roomNumber, longitude, latitude,
              shi, ting, wei, rent, area, direction,
              DateToLive, losuccessAble, contactPerson, community, environment):
@@ -210,8 +456,8 @@ def room_add(roomNumber, longitude, latitude,
 
 
 def room_modify(roomNumber, longitude, latitude,
-             shi, ting, wei, rent, area, direction,
-             DateToLive, losuccessAble, contactPerson, community, environment):
+                shi, ting, wei, rent, area, direction,
+                DateToLive, losuccessAble, contactPerson, community, environment):
     try:
         SecondManager.objects.get(user=contactPerson)
         Community.objects.get(name=community)
@@ -292,29 +538,44 @@ def room_rented_cancel(roomNumber):
         return False
 
 
-def community_add(name, item):
+def community_add_or_modify(name, lng, lat, area, district, business, keyword, type, year, level, facilitiy, green, security,):
     try:
-        Community.objects.create(name=name,
-                                 item=item)
-        print "community add success!"
+        community_default = {'name': name,
+                             'lng': lng,
+                             'lat': lat,
+                             'area': area,
+                             'district': district,
+                             'business': business,
+                             'keyword': keyword,
+                             'type': type,
+                             'year': year,
+                             'level': level,
+                             'facilitiy': facilitiy,
+                             'green': green,
+                             'security': security}
+        p, created = Community.objects.update_or_create(name=name, defaults=community_default)
+        if created:
+            print "community add success!"
+        else:
+            print "community modify success!"
         return True
     except Exception, e:
-        print "community add error:"
+        print "community add or modify error:"
         print e
         return False
 
 
-def community_modify(name, item):
-    try:
-        p = Community.objects.get(name=name)
-        p.item = item
-        p.save()
-        print "community modify success!"
-        return True
-    except Exception, e:
-        print "community modify error:"
-        print e
-        return False
+# def community_modify(name, item):
+#     try:
+#         p = Community.objects.get(name=name)
+#         p.item = item
+#         p.save()
+#         print "community modify success!"
+#         return True
+#     except Exception, e:
+#         print "community modify error:"
+#         print e
+#         return False
 
 
 def community_delete(name):
@@ -374,37 +635,41 @@ def environment_delete(name):
         return False
 
 
-def manager_add(user, pw, name, phone, status, district):
+def manager_add_or_modify(user, pw, name, phone, status, district):
     try:
-        Manager.objects.create(user=user,
-                               pw=pw,
-                               name=name,
-                               phone=phone,
-                               status=status,
-                               district=district)
-        print "Manager_add success!"
+        manager_default = {'user': user,
+                           'pw': pw,
+                           'name': name,
+                           'phone': phone,
+                           'status': status,
+                           'district': district}
+        p, created = Manager.objects.update_or_create(user=user,defaults=manager_default)
+        if created:
+            print "Manager add success!"
+        else:
+            print "Manager modify success!"
         return True
     except Exception, e:
-        print "Manager add error:"
+        print "Manager add or modify error:"
         print e
         return False
 
 
-def manager_modify(user, pw, name, phone, status, district):
-    try:
-        p = Manager.objects.get(user=user)
-        p.pw = pw
-        p.name = name
-        p.phone = phone
-        p.status = status
-        p.district = district
-        p.save()
-        print "manager modify success!"
-        return True
-    except Exception, e:
-        print "manager modify error:"
-        print e
-        return False
+# def manager_modify(user, pw, name, phone, status, district):
+#     try:
+#         p = Manager.objects.get(user=user)
+#         p.pw = pw
+#         p.name = name
+#         p.phone = phone
+#         p.status = status
+#         p.district = district
+#         p.save()
+#         print "manager modify success!"
+#         return True
+#     except Exception, e:
+#         print "manager modify error:"
+#         print e
+#         return False
 
 
 def manager_delete(user):
@@ -423,10 +688,11 @@ def manager_logout(user):
     try:
         p = Manager.objects.get(user=user)
         p.exist = False
-        print "manager delete success!"
+        p.save(update_fields=['exist'])
+        print "manager logout success!"
         return True
     except Exception, e:
-        print "manager delete error:"
+        print "manager logout error:"
         print e
         return False
 
@@ -435,28 +701,51 @@ def manager_active(user):
     try:
         p = Manager.objects.get(user=user)
         p.exist = True
-        print "manager delete success!"
+        p.save(update_fields=['exist'])
+        print "manager active success!"
         return True
     except Exception, e:
-        print "manager delete error:"
+        print "manager acitve error:"
         print e
         return False
 
 
-def second_manager_add(manager_user, user, pw, name, phone, company, status):
+def manager_pw(user, oldpw, newpw):
+    try:
+        p = Manager.objects.get(user=user)
+        if p.pw == oldpw:
+            p.pw = newpw
+            p.save(update_fields=['pw'])
+            print 'pwd modify success'
+            return True
+        else:
+            print 'pwd is not correct'
+            return False
+    except Exception, e:
+        print 'pwd modify error:'
+        print e
+        return False
+
+
+def second_manager_add_or_modify(manager_user, user, pw, name, phone, company, status):
     try:
         manager = Manager.objects.get(user=manager_user)
-        SecondManager.objects.create(manager=manager,
-                                     user=user,
-                                     pw=pw,
-                                     name=name,
-                                     phone=phone,
-                                     company=company,
-                                     status=status)
-        print "SecondManager add success!"
+        smanager_default = {'manager': manager,
+                            'user': user,
+                            'pw': pw,
+                            'name': name,
+                            'phone': phone,
+                            'company': company,
+                            'status': status}
+
+        p, created = SecondManager.objects.update_or_create(user=user, defaults=smanager_default)
+        if created:
+            print "SecondManager add success!"
+        else:
+            print "SecondManager modify success!"
         return True
     except Exception, e:
-        print "SecondManager add error:"
+        print "SecondManager add or modify error:"
         print e
         return False
 
@@ -482,10 +771,11 @@ def second_manager_logout(user):
     try:
         p = SecondManager.objects.get(user=user)
         p.exist = False
-        print "second_manager delete success!"
+        p.save(update_fields=['exist'])
+        print "second_manager logout success!"
         return True
     except Exception, e:
-        print "second_manager delete error:"
+        print "second_manager logout error:"
         print e
         return False
 
@@ -494,9 +784,30 @@ def second_manager_active(user):
     try:
         p = SecondManager.objects.get(user=user)
         p.exist = True
-        print "second_manager delete success!"
+        p.save(update_fields=['exist'])
+        print "second_manager active success!"
         return True
     except Exception, e:
-        print "second_manager delete error:"
+        print "second_manager active error:"
         print e
         return False
+
+
+def second_manager_pw(user, oldpw, newpw):
+    try:
+        p = SecondManager.objects.get(user=user)
+        if p.pw == oldpw:
+            p.pw = newpw
+            p.save(update_fields=['pw'])
+            print 'pwd modify success'
+            return True
+        else:
+            print 'pwd is not correct'
+            return False
+    except Exception, e:
+        print 'pwd modify error:'
+        print e
+        return False
+
+
+
