@@ -696,7 +696,7 @@ def upload_image(request):
             result = {
                 'files': [{
                     'url': "/media/upload/" + folder + "/" + file_name + "." + file_ext,
-                    'thumbnailUrl': file_addr,
+                    'thumbnailUrl': "/media/upload/" + folder + "/" + file_name + "." + file_ext,
                     'name': file_name+'.'+file_ext,
                     'size': image.size
                 }]

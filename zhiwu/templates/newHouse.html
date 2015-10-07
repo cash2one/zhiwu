@@ -465,14 +465,14 @@
         <td>
             <span class="preview">
                 {% if (file.thumbnailUrl) { %}
-                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}"></a>
+                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img src="{%=file.thumbnailUrl%}" height="80"></a>
                 {% } %}
             </span>
         </td>
         <td>
             <p class="name">
                 {% if (file.url) { %}
-                    <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                    <a class="picLink" href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
                 {% } else { %}
                     <span>{%=file.name%}</span>
                 {% } %}
@@ -521,19 +521,28 @@
         //为新增form,save或者submit添加ajax
         $(".btn-post").bind("click",function(e){
             e.preventDefault();
-            var form = $(this).parents("form");
-            var dest;
+//            var form = $(this).parents("form");
+//            var dest;
 
-            if($(this).data("type")==="save"){
-                dest=form.attr("dest-save");
-            }else{
-                dest=form.attr("dest-submit");
-            }
+//            if($(this).data("type")==="save"){
+//                dest=form.attr("dest-save");
+//            }else{
+//                dest=form.attr("dest-submit");
+//            }
 
-            var content=form.serialize();
+
+            var urlArr=[];
+            $(".picLink").each(function(){
+               urlArr.push($(this).attr("href"));
+            });
+
+            var urlStr=urlArr.join(";^_^;");
+
+
+            var content=$("#step1-form").serialize()+"&"+$("#step3-form").serialize()+"&imgUrl="+urlStr;
 
             $.post(
-                dest,
+                "/add_new_house",
                 content,
                 function(data){
                     if(data.status==200){
