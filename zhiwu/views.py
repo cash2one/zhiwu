@@ -490,7 +490,7 @@ def mansion_keeper_add_or_modify(request):
 
 
 def wuye_add_or_modify(request):
-    return post_second_manager_add_or_modify(request, 'mansion')
+    return post_second_manager_add_or_modify(request, 'wuye')
 
 
 def post_second_manager_add_or_modify(request, status):
@@ -503,7 +503,7 @@ def post_second_manager_add_or_modify(request, status):
                 pw = form.cleaned_data['second_manager_pw']
                 name = form.cleaned_data['second_manager_name']
                 phone = form.cleaned_data['second_manager_phone']
-                company = form.cleaned_data['second_manager_phone']
+                company = form.cleaned_data['second_manager_company']
                 p = second_manager_add_or_modify(manager, user, pw, name, phone, company, status)
                 if p:
                     return JsonResponse(success)
@@ -537,7 +537,7 @@ def mansion_keeper_search(request):
 
 def second_manager_search(request, status):
     company = request.GET.get('second_manager_search_company', "")
-    wuye_list = SecondManager.objects.filter(company=company,
+    wuye_list = SecondManager.objects.filter(company__icontains=company,
                                              status=status,
                                              exist=True)
     wuye_list = serializers.serialize('json', wuye_list)
