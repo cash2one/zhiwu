@@ -688,14 +688,14 @@ def upload_image(request):
                 os.mkdir(settings.MEDIA_ROOT + "upload/" + folder)
             file_name = time.strftime('%Y%m%d%H%M%S')
             file_ext = image.name.split('.')[-1]
-            file_addr = "/media/upload/" + folder + "/" + file_name + "." + file_ext
+            file_addr = settings.MEDIA_ROOT+"upload/" + folder + "/" + file_name + "." + file_ext
             destination = open(file_addr, 'wb+')
             for chunk in image.chunks():
                 destination.write(chunk)
             destination.close()
             result = {
                 'files': [{
-                    'url': file_addr,
+                    'url': "/media/upload/" + folder + "/" + file_name + "." + file_ext,
                     'thumbnailUrl': file_addr,
                     'name': file_name+'.'+file_ext,
                     'size': image.size
