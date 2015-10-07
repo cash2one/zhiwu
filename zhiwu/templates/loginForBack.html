@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+    {% include './common/header.html' %}
+
+    <style>
+
+        .container{
+            margin:0 0;
+            padding:0 0;
+            min-width:1170px;
+            min-height:800px;
+        }
+
+        .login-panel{
+            background-color: rgba(95,137,118,0.7);
+            border-radius: 10px;
+            position: absolute;
+            padding:25px;
+            left:50%;
+            margin-left:-350px;
+            top:25%;
+            width:700px;
+            height:350px;
+            color:white;
+            -webkit-transition: left 1s,opacity .1s;
+            -moz-transition: left 1s,opacity .1s;
+            -o-transition: left 1s,opacity .1s;
+            -ms-transition: left 1s,opacity .1s;
+            transition: left 1s,opacity .1s;
+        }
+
+        .login-panel .title{
+            font-size:30px;
+            line-height: 100px;
+            height:100px;
+            color:#f5f5f5;
+            text-align:center;
+        }
+
+        body{
+            background: white;
+        }
+    </style>
+
+
+    <title>租房网后台登陆</title>
+</head>
+<body>
+
+<div class="container">
+    <div class="login-panel">
+        <div class="title">登陆到后台管理</div>
+
+        <form class="form-horizontal" action="/backend_login" method="post">
+
+            <div class="form-group">
+                <label for="account" class="col-sm-2 control-label">账号</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="account" name="account">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="password" name="password">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="identity" class="col-sm-2 control-label">登陆身份</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="identity" id="identity">
+                        <option value="root">超级管理员</option>
+                        <option value="level1">一级管理员</option>
+                        <option value="level2">二级管理员</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-info">
+                        <span class="glyphicon glyphicon-search"></span>
+                        登陆
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+{% include './common/script.html' %}
+</html>
