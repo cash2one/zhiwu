@@ -700,7 +700,15 @@ def upload_image(request):
             for chunk in image.chunks():
                 destination.write(chunk)
             destination.close()
-            return JsonResponse({'file_addr': file_addr})
+            result = {
+                'files': [{
+                    'url': file_addr,
+                    'thumbnailUrl': '',
+                    'name': file_name+'.'+file_ext,
+                    'size': image.size
+                }]
+            }
+            return JsonResponse({'file_addr': result})
         except Exception, e:
             print "image upload error:"
             print e
