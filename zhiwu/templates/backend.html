@@ -307,7 +307,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-info btn-get">搜索</button>
+                                    <button class="btn btn-info btn-get" data-type="area">搜索</button>
                                 </div>
                             </form>
 
@@ -402,7 +402,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-info btn-get">搜索</button>
+                                    <button class="btn btn-info btn-get" data-type="wuye-keeper">搜索</button>
                                 </div>
                             </form>
 
@@ -547,7 +547,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button class="btn btn-default btn-get">搜索</button>
+                                        <button class="btn btn-default btn-get" data-type="house">搜索</button>
                                     </div>
                                 </div>
                             </form>
@@ -688,7 +688,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-info btn-get">搜索</button>
+                                    <button class="btn btn-info btn-get" data-type="mansion-manager">搜索</button>
                                 </div>
                             </form>
 
@@ -770,7 +770,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-info btn-get">搜索</button>
+                                    <button class="btn btn-info btn-get" data-type="mansion-keeper">搜索</button>
                                 </div>
                             </form>
 
@@ -834,7 +834,7 @@
 
 {% verbatim %}
 <script id="xiaoqu-edit" type="text/x-jquery-tmpl">
-<form class="form-horizontal" id="xiaoqu_add_form" dest="/xiaoqu_add">
+<form class="form-horizontal" id="xiaoqu_add_form" dest="/community_add/">
                                 <div class="form-group">
                                     <label for="xiaoqu_add_name" class="col-sm-2 control-label">详细小区名称*</label>
                                     <div class="col-sm-10">
@@ -847,7 +847,7 @@
                                         <div id="edit-xiaoqu-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
                                         <button class="btn btn-success" id="save-point">保存当前位置</button>
                                         <input type="hidden" class="form-control" id="xiaoqu_add_lng" name="xiaoqu_add_lng" value="${lng}">
-                                        <input type="hidden" class="form-control" id="xiaoqu_add_lat" name="xiaoqu_add_lat" value="${lat}>
+                                        <input type="hidden" class="form-control" id="xiaoqu_add_lat" name="xiaoqu_add_lat" value="${lat}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1113,7 +1113,7 @@
 </script>
 
 <script id="area-search" type="text/x-jquery-tmpl">
-<tr data-target="areaid">
+<tr data-target="${pk}">
                                     <th>古荡</th>
                                     <th>Q3748</th>
                                     <th>古荡小区</th>
@@ -1130,7 +1130,7 @@
 </script>
 
 <script id="wuye-keeper-search" type="text/x-jquery-tmpl">
-<tr data-target="wuyekeeperid">
+<tr data-target="${pk}">
                                     <th>Q3748</th>
                                     <th>JKLFJD9</th>
                                     <th>古荡校区</th>
@@ -1146,7 +1146,7 @@
 </script>
 
 <script id="mansion-manager-search" type="text/x-jquery-tmpl">
-<tr data-target="mansionmanagerid">
+<tr data-target="${pk}">
                                     <th>Q3748</th>
                                     <th>JKLFJD9</th>
                                     <th>3725892739</th>
@@ -1160,7 +1160,7 @@
 </script>
 
 <script id="mansion-keeper-search" type="text/x-jquery-tmpl">
-<tr data-target="mansionkeeperid">
+<tr data-target="${pk}">
                                     <th>Q3748</th>
                                     <th>JKLFJD9</th>
                                     <th>租房网</th>
@@ -1176,7 +1176,7 @@
 
 
 <script id="house-search" type="text/x-jquery-tmpl">
-<tr data-target="HZ01">
+<tr data-target="${pk}">
                                     <th>1</th>
                                     <th>2015-09-30</th>
                                     <th>古荡小区</th>
@@ -1302,9 +1302,9 @@
                     content,
                     function(data){
                         if(data.code==1){
-                            console.log("post success");
+                            alert("保存成功！");
                         }else{
-                            console.log("post failed");
+                            alert("保存失败！");
                         }
                     }
             )
@@ -1338,7 +1338,7 @@
                     if(data.code==1){
                         console.log("get success");
                         //添加dialog
-                        $(_tmplID).tmpl(data.content).dialog(dialogOpts);
+                        $(_tmplID).tmpl(data.context).dialog(dialogOpts);
                     }else{
                         console.log("get failed");
                     }

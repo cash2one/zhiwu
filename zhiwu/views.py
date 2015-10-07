@@ -273,7 +273,7 @@ def manager_search(request, status):
 
 def get_manager_search(request):
     try:
-        user = request.GET.get('manager_account')
+        user = request.GET.get('id')
         m = Manager.objects.get(user=user)
         result = {'code': 1,
                   'context': {'user': m.user,
@@ -291,7 +291,7 @@ def get_manager_search(request):
 
 def get_second_manager_search(request):
     try:
-        user = request.GET.get('second_manager_account')
+        user = request.GET.get('id')
         m = SecondManager.objects.get(user=user)
         result = {'code': 1,
                   'context': {'manager': m.manager.user,
@@ -310,7 +310,7 @@ def get_second_manager_search(request):
 
 def get_community(request):
     try:
-        name = request.GET.get('community_name')
+        name = request.GET.get('id')
         c = Community.objects.get(name=name)
         result = {'code': 1,
                   'context': {'name': c.name,
