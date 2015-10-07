@@ -175,9 +175,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="xiaoqu_add_facilitiy" class="col-sm-2 control-label">配套设施</label>
+                                    <label for="xiaoqu_add_facility" class="col-sm-2 control-label">配套设施</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="xiaoqu_add_facilitiy" name="xiaoqu_add_facilitiy">
+                                        <input type="text" class="form-control" id="xiaoqu_add_facility" name="xiaoqu_add_facility">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -893,9 +893,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="xiaoqu_add_facilitiy" class="col-sm-2 control-label">配套设施</label>
+                                    <label for="xiaoqu_add_facility" class="col-sm-2 control-label">配套设施</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="xiaoqu_add_facilitiy" name="xiaoqu_add_facilitiy" value="${facility}">
+                                        <input type="text" class="form-control" id="xiaoqu_add_facility" name="xiaoqu_add_facility" value="${facility}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1114,7 +1114,7 @@
 
 <script id="area-search" type="text/x-jquery-tmpl">
 <tr data-target="${pk}">
-                                    <th>古荡</th>
+                                    <th>${pk}</th>
                                     <th>Q3748</th>
                                     <th>古荡小区</th>
                                     <th>JKLFJD9</th>
@@ -1263,6 +1263,14 @@
         });
 
 
+        $("#edit-save-point").bind("click",function(e){
+            e.preventDefault();
+            var p = edit_marker.getPosition();
+            $("#xiaoqu_add_lng").val(p.lng);
+            $("#xiaoqu_add_lat").val(p.lat);
+        });
+
+
         //为查询form添加ajax
         $(document).delegate(".btn-get","click",function(e){
             e.preventDefault();
@@ -1339,6 +1347,21 @@
                         console.log("get success");
                         //添加dialog
                         $(_tmplID).tmpl(data.context).dialog(dialogOpts);
+                        if(_tmplID=="#xiaoqu-edit"){
+                            //    地图创建
+                            var edit_map = new BMap.Map("edit-xiaoqu-map");    // 创建Map实例
+                            edit_map.centerAndZoom(new BMap.Point(data.context.lng,data.context.lat),15);
+
+                            //    添加控件
+                            var edit_top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+                            var edit_top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+                            edit_map.addControl(edit_top_left_control);
+                            edit_map.addControl(edit_top_left_navigation);
+
+                            var edit_marker = new BMap.Marker(new BMap.Point(data.context.lng,data.context.lat));  // 创建标注
+                            edit_map.addOverlay(edit_marker);              // 将标注添加到地图中
+                            edit_marker.enableDragging();
+                        }
                     }else{
                         console.log("get failed");
                     }
