@@ -250,6 +250,7 @@ def post_area_search(request):
         return manager_search(request, 'area')
     except Exception, e:
         print e
+        return JsonResponse(fail)
 
 
 def post_mansion_manager_search(request):
@@ -257,16 +258,16 @@ def post_mansion_manager_search(request):
         return manager_search(request, 'mansion')
     except Exception, e:
         print e
+        return JsonResponse(fail)
 
 
 def manager_search(request, status):
-    # return JsonResponse([], safe=False)
-
     district = request.GET.get('manager_search_district', "")
-    result = Manager.objects.filter(district__icontains=district,
+    m_list = Manager.objects.filter(district__icontains=district,
                                     status=status,
                                     exist=True)
-    result = serializers.serialize('json', result)
+    result = {'code': 1,
+              'context': serializers.serialize('json', m_list)}
     return JsonResponse(result, safe=False)
 
 
@@ -526,11 +527,19 @@ def post_second_manager_add_or_modify(request, status):
 
 
 def wuye_search(request):
-    return second_manager_search(request, 'wuye')
+    try:
+        return second_manager_search(request, 'wuye')
+    except Exception, e:
+        print e
+        return JsonResponse(fail)
 
 
 def mansion_keeper_search(request):
-    return second_manager_search(request, 'mansion')
+    try:
+        return second_manager_search(request, 'mansion')
+    except Exception, e:
+        print e
+        return JsonResponse(fail)
 
 
 def second_manager_search(request, status):
@@ -539,7 +548,9 @@ def second_manager_search(request, status):
                                              status=status,
                                              exist=True)
     wuye_list = serializers.serialize('json', wuye_list)
-    return JsonResponse(wuye_list, safe=False)
+    result = {'code': 1,
+              'context': wuye_list}
+    return JsonResponse(result, safe=False)
 #
 #
 # def post_second_manager_add(request):
@@ -931,10 +942,13 @@ def post_community_search(request):
     try:
         kw = request.GET.get('xiaoqu_search_name')
         c_list = get_community_list(kw)
-        result = serializers.serialize('json', c_list)
+        c_list = serializers.serialize('json', c_list)
+        result = {'code': 1,
+                  'context': c_list}
         return JsonResponse(result, safe=False)
     except Exception, e:
         print e
+        return JsonResponse(fail)
 
 
 # 小区删除

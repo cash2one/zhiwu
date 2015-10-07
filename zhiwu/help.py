@@ -36,6 +36,15 @@ def get_community_list(community=""):
         return []
 
 
+def get_community_list_by_manager(manager=""):
+    try:
+        c = Community.objects.filter(manager=manager)
+        return c
+    except Exception, e:
+        print e
+        return []
+
+
 def get_manager_list(user=""):
     try:
         m = Manager.objects.filter(user__icontains=user)
