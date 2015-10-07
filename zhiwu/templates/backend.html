@@ -232,27 +232,8 @@
                                     <th>安保</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr data-target="xiaoquid">
-                                    <th>古荡小区</th>
-                                    <th>古荡</th>
-                                    <th>西湖区</th>
-                                    <th>黄龙商圈</th>
-                                    <th>haha</th>
-                                    <th>洋房</th>
-                                    <th>5年</th>
-                                    <th>高档</th>
-                                    <th>地铁</th>
-                                    <th>多</th>
-                                    <th>安全</th>
-                                    <th class="btn-group">
-                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#" class="btn-edit">编辑</a></li>
-                                            <li><a href="#" class="btn-operate" data-type="cancel">删除</a></li>
-                                        </ul>
-                                    </th>
-                                </tr>
+                                <tbody id="xiaoqu-search-result">
+
                                 </tbody>
                             </table>
                         </div>
@@ -342,20 +323,8 @@
                                     <th>区域手机</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr data-target="areaid">
-                                    <th>古荡</th>
-                                    <th>Q3748</th>
-                                    <th>古荡小区</th>
-                                    <th>JKLFJD9</th>
-                                    <th>张三</th>
-                                    <th>3725892739</th>
-                                    <th>
-                                        <button class="btn btn-default btn-edit">编辑</button>
-                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
-                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
-                                    </th>
-                                </tr>
+                                <tbody id="area-search-result">
+
                                 </tbody>
                             </table>
                         </div>
@@ -448,19 +417,8 @@
                                     <th>管家手机</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr data-target="wuyekeeperid">
-                                    <th>Q3748</th>
-                                    <th>JKLFJD9</th>
-                                    <th>古荡校区</th>
-                                    <th>张三</th>
-                                    <th>3725892739</th>
-                                    <th>
-                                        <button class="btn btn-default btn-edit">编辑</button>
-                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
-                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
-                                    </th>
-                                </tr>
+                                <tbody id="wuye-keeper-search-result">
+
                                 </tbody>
                             </table>
                         </div>
@@ -612,27 +570,8 @@
                                     <th>操作</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr data-target="HZ01">
-                                    <th>1</th>
-                                    <th>2015-09-30</th>
-                                    <th>古荡小区</th>
-                                    <th>两室一厅</th>
-                                    <th>3000/月</th>
-                                    <th>2015-12-01</th>
-                                    <th>haha</th>
-                                    <th>haha</th>
-                                    <th>有</th>
-                                    <th class="hs-status">已发布</th>
-                                    <th class="btn-group">
-                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="/editHouse?houseNumber=id">编辑</a></li>
-                                            <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
-                                            <li><a href="#" class="btn-operate" data-type="activate">激活</a></li>
-                                        </ul>
-                                    </th>
-                                </tr>
+                                <tbody id="house-search-result">
+
                                 </tbody>
                             </table>
                         </div>
@@ -762,17 +701,8 @@
                                     <th>业务经理手机</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr data-target="mansionmanagerid">
-                                    <th>Q3748</th>
-                                    <th>JKLFJD9</th>
-                                    <th>3725892739</th>
-                                    <th>
-                                        <button class="btn btn-default btn-edit">编辑</button>
-                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
-                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
-                                    </th>
-                                </tr>
+                                <tbody id="mansion-manager-search-result">
+
                                 </tbody>
                             </table>
                         </div>
@@ -855,19 +785,8 @@
                                     <th>管家手机</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr data-target="mansionkeeperid">
-                                    <th>Q3748</th>
-                                    <th>JKLFJD9</th>
-                                    <th>租房网</th>
-                                    <th>张三</th>
-                                    <th>3725892739</th>
-                                    <th>
-                                        <button class="btn btn-default btn-edit">编辑</button>
-                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
-                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
-                                    </th>
-                                </tr>
+                                <tbody id="mansion-keeper-search-result">
+
                                 </tbody>
                             </table>
                         </div>
@@ -1168,6 +1087,120 @@
                             </form>
 </script>
 
+
+<script id="xiaoqu-search" type="text/x-jquery-tmpl">
+<tr data-target="xiaoquid">
+                                    <th>古荡小区</th>
+                                    <th>古荡</th>
+                                    <th>西湖区</th>
+                                    <th>黄龙商圈</th>
+                                    <th>haha</th>
+                                    <th>洋房</th>
+                                    <th>5年</th>
+                                    <th>高档</th>
+                                    <th>地铁</th>
+                                    <th>多</th>
+                                    <th>安全</th>
+                                    <th class="btn-group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#" class="btn-edit">编辑</a></li>
+                                            <li><a href="#" class="btn-operate" data-type="cancel">删除</a></li>
+                                        </ul>
+                                    </th>
+                                </tr>
+
+</script>
+
+<script id="area-search" type="text/x-jquery-tmpl">
+<tr data-target="areaid">
+                                    <th>古荡</th>
+                                    <th>Q3748</th>
+                                    <th>古荡小区</th>
+                                    <th>JKLFJD9</th>
+                                    <th>张三</th>
+                                    <th>3725892739</th>
+                                    <th>
+                                        <button class="btn btn-default btn-edit">编辑</button>
+                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
+                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
+                                    </th>
+                                </tr>
+
+</script>
+
+<script id="wuye-keeper-search" type="text/x-jquery-tmpl">
+<tr data-target="wuyekeeperid">
+                                    <th>Q3748</th>
+                                    <th>JKLFJD9</th>
+                                    <th>古荡校区</th>
+                                    <th>张三</th>
+                                    <th>3725892739</th>
+                                    <th>
+                                        <button class="btn btn-default btn-edit">编辑</button>
+                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
+                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
+                                    </th>
+                                </tr>
+
+</script>
+
+<script id="mansion-manager-search" type="text/x-jquery-tmpl">
+<tr data-target="mansionmanagerid">
+                                    <th>Q3748</th>
+                                    <th>JKLFJD9</th>
+                                    <th>3725892739</th>
+                                    <th>
+                                        <button class="btn btn-default btn-edit">编辑</button>
+                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
+                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
+                                    </th>
+                                </tr>
+
+</script>
+
+<script id="mansion-keeper-search" type="text/x-jquery-tmpl">
+<tr data-target="mansionkeeperid">
+                                    <th>Q3748</th>
+                                    <th>JKLFJD9</th>
+                                    <th>租房网</th>
+                                    <th>张三</th>
+                                    <th>3725892739</th>
+                                    <th>
+                                        <button class="btn btn-default btn-edit">编辑</button>
+                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
+                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
+                                    </th>
+                                </tr>
+</script>
+
+
+<script id="house-search" type="text/x-jquery-tmpl">
+<tr data-target="HZ01">
+                                    <th>1</th>
+                                    <th>2015-09-30</th>
+                                    <th>古荡小区</th>
+                                    <th>两室一厅</th>
+                                    <th>3000/月</th>
+                                    <th>2015-12-01</th>
+                                    <th>haha</th>
+                                    <th>haha</th>
+                                    <th>有</th>
+                                    <th class="hs-status">已发布</th>
+                                    <th class="btn-group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/editHouse?houseNumber=id">编辑</a></li>
+                                            <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
+                                            <li><a href="#" class="btn-operate" data-type="activate">激活</a></li>
+                                        </ul>
+                                    </th>
+                                </tr>
+
+</script>
+
+
+
 {% endverbatim %}
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
@@ -1196,19 +1229,27 @@
 <script>
     ;(function(){
         var editUrlMap={
-            "#xiaoqu-edit":"",
-            "#area-edit":"",
-            "#mansion-keeper-edit":"",
-            "#mansion-manager-edit":"",
-            "#wuye-keeper-edit":""
+            "#xiaoqu-edit":"{% url 'get_community'%}",
+            "#area-edit":"{% url 'get_manager'%}",
+            "#mansion-keeper-edit":"{% url 'get_second_manager'%}",
+            "#mansion-manager-edit":"{% url 'get_manager'%}",
+            "#wuye-keeper-edit":"{% url 'get_second_manager'%}"
         };
 
-        var otherUrlMap={
-            "xiaoqu":"",
-            "area":"",
-            "mansion-keeper":"",
-            "mansion-manager":"",
-            "wuye-keeper":""
+        var cancelUrlMap={
+            "#xiaoqu-edit":"{% url 'community_delete'%}",
+            "#area-edit":"{% url 'manager_delete'%}",
+            "#mansion-keeper-edit":"{% url 'second_manager_logout'%}",
+            "#mansion-manager-edit":"{% url 'manager_delete'%}",
+            "#wuye-keeper-edit":"{% url 'second_manager_logout'%}"
+        };
+
+
+        var activateUrlMap={
+            "#area-edit":"{% url 'manager_active'%}",
+            "#mansion-keeper-edit":"{% url 'second_manager_active'%}",
+            "#mansion-manager-edit":"{% url 'manager_active'%}",
+            "#wuye-keeper-edit":"{% url 'second_manager_active'%}"
         };
 
 
@@ -1323,9 +1364,10 @@
         //编辑按钮，获取对应信息并添加到dialog
         $(document).delegate(".btn-edit","click",function(e){
             e.preventDefault();
-            var _id=$(this).parent("tr").data("target");//该条目id
-            var _tmplID=$(this).parent("table").data("tmpl");
+            var _id=$(this).parents("tr").data("target");//该条目id
+            var _tmplID=$(this).parents("table").data("tmpl");
             var _url=editUrlMap[_tmplID];
+
             $.get(
                 _url,//TODO:修改url
                 {id:_id},
