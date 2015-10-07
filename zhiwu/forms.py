@@ -19,7 +19,7 @@ class CommunityForm(forms.Form):
     xiaoqu_add_type = forms.CharField()
     xiaoqu_add_year = forms.CharField()
     xiaoqu_add_level = forms.CharField()
-    xiaoqu_add_facilitiy = forms.CharField()
+    xiaoqu_add_facility = forms.CharField()
     xiaoqu_add_green = forms.CharField()
     xiaoqu_add_security = forms.CharField()
 
