@@ -210,7 +210,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-info btn-get">搜索</button>
+                                    <button class="btn btn-info btn-get" data-type="xiaoqu">搜索</button>
                                 </div>
                             </form>
 
@@ -1089,18 +1089,18 @@
 
 
 <script id="xiaoqu-search" type="text/x-jquery-tmpl">
-<tr data-target="xiaoquid">
-                                    <th>古荡小区</th>
-                                    <th>古荡</th>
-                                    <th>西湖区</th>
-                                    <th>黄龙商圈</th>
-                                    <th>haha</th>
-                                    <th>洋房</th>
-                                    <th>5年</th>
-                                    <th>高档</th>
-                                    <th>地铁</th>
-                                    <th>多</th>
-                                    <th>安全</th>
+<tr data-target="${pk}">
+                                    <th>${pk}</th>
+                                    <th>${fields.area}</th>
+                                    <th>${fields.district}</th>
+                                    <th>${fields.business}</th>
+                                    <th>${fields.keyword}</th>
+                                    <th>${fields.type}</th>
+                                    <th>${fields.year}</th>
+                                    <th>${fields.level}</th>
+                                    <th>${fields.facility}</th>
+                                    <th>${fields.green}</th>
+                                    <th>${fields.security}</th>
                                     <th class="btn-group">
                                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
                                         <ul class="dropdown-menu">
@@ -1204,6 +1204,7 @@
 {% endverbatim %}
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
+<script src="/js/jquery.tmpl.min.js"></script>
 <script type="text/javascript">
     // 百度地图API功能
 
@@ -1266,6 +1267,9 @@
         $(document).delegate(".btn-get","click",function(e){
             e.preventDefault();
             var form = $(this).parents("form");
+            var type=$(this).data("type");
+            var _tmpl="#"+type+"-search";
+            var _wrapper="#"+type+"-search-result";
             var dest = form.attr("dest");
             var content=form.serialize();
 
@@ -1275,6 +1279,7 @@
                 function(data){
                     if(data.code==1){
                         console.log("get success");
+                        $(_tmpl).tmpl(JSON.parse(data["context"])).appendTo(_wrapper);
                     }else{
                         console.log("get failed");
                     }
@@ -1312,48 +1317,6 @@
 
         //添加日期输入启动datetimepicker
         $('#source_manager_search_time').datepicker({  dateFormat: "yy-mm-dd" });
-
-        //房源下架
-//        $("#hs-list-wrapper").delegate(".hs-offline","click",function(e){
-//            var _id=$(this).data("target");
-//
-//            $.post(
-//                    "",//TODO:修改url
-//                    {roomNumber:_id},
-//                    function(data){
-//                        if(data.code==1){
-//                            //TODO:修改房源状态
-//                            console.log("post success");
-//                        }else{
-//                            console.log("post failed");
-//                        }
-//                    }
-//            )
-//                    .error(function(){
-//                        console.log("error");
-//                    });
-//        });
-
-        //房源激活
-//        $("#hs-list-wrapper").delegate(".hs-activate","click",function(e){
-//            var _id=$(this).data("target");
-//
-//            $.post(
-//                    "",//TODO:修改url
-//                    {roomNumber:_id},
-//                    function(data){
-//                        if(data.code==1){
-//                            console.log("post success");
-//                        }else{
-//                            console.log("post failed");
-//                        }
-//                    }
-//            )
-//                    .error(function(){
-//                        console.log("error");
-//                    });
-//
-//        });
 
         var dialogOpts = {
             title:"编辑信息",

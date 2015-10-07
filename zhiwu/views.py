@@ -945,7 +945,7 @@ def post_community_search(request):
         c_list = serializers.serialize('json', c_list)
         result = {'code': 1,
                   'context': c_list}
-        return JsonResponse(result, safe=False)
+        return JsonResponse(result)
     except Exception, e:
         print e
         return JsonResponse(fail)
