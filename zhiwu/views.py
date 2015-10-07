@@ -33,14 +33,7 @@ def home(request):
 #     # return HttpResponse("hello world",status=200)
 
 def test(request):
-    if request.method == 'POST':
-        # ff = RoomEvaluationForm(request.POST)
-        # print "test"
-        # post_room_evaluation(request)
-        return HttpResponse(status=102)
-    else:
-        ff = RoomEvaluationForm()
-    return render(request, "home.html", {'ff': ff})
+    return render(request, "home.html")
 
 
 def search(request):
@@ -695,7 +688,7 @@ def upload_image(request):
                 os.mkdir(settings.MEDIA_ROOT + "upload/" + folder)
             file_name = time.strftime('%Y%m%d%H%M%S')
             file_ext = image.name.split('.')[-1]
-            file_addr = settings.MEDIA_ROOT + "upload/" + folder + "/" + file_name + "." + file_ext
+            file_addr = "/media/upload/" + folder + "/" + file_name + "." + file_ext
             destination = open(file_addr, 'wb+')
             for chunk in image.chunks():
                 destination.write(chunk)
