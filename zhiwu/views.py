@@ -274,56 +274,63 @@ def get_manager_search(request):
     try:
         user = request.GET.get('manager_account')
         m = Manager.objects.get(user=user)
-        result = {'user': m.user,
-                  'pw': m.pw,
-                  'name': m.name,
-                  'phone': m.phone,
-                  'status': m.status,
-                  'district': m.district,
-                  'exist': m.exist}
+        result = {'code': 1,
+                  'context': {'user': m.user,
+                              'pw': m.pw,
+                              'name': m.name,
+                              'phone': m.phone,
+                              'status': m.status,
+                              'district': m.district,
+                              'exist': m.exist}}
         return JsonResponse(result)
     except Exception, e:
         print e
+        return JsonResponse(fail)
 
 
 def get_second_manager_search(request):
     try:
         user = request.GET.get('second_manager_account')
         m = SecondManager.objects.get(user=user)
-        result = {'manager': m.manager.user,
-                  'user': m.user,
-                  'pw': m.pw,
-                  'name': m.name,
-                  'phone': m.phone,
-                  'company': m.company,
-                  'status': m.status,
-                  'exist': m.exist}
+        result = {'code': 1,
+                  'context': {'manager': m.manager.user,
+                               'user': m.user,
+                               'pw': m.pw,
+                               'name': m.name,
+                               'phone': m.phone,
+                               'company': m.company,
+                               'status': m.status,
+                               'exist': m.exist}}
         return JsonResponse(result)
     except Exception, e:
         print e
+        return JsonResponse(fail)
+
 
 def get_community(request):
     try:
         name = request.GET.get('community_name')
-        c =Community.objects.get(name=name)
-        result = {'name': c.name,
-                  'item': c.item,
-                  'lng': c.lng,
-                  'lat': c.lat,
-                  'area': c.area,
-                  'district': c.district,
-                  'business': c.business,
-                  'keyword': c.keyword,
-                  'type': c.type,
-                  'year': c.year,
-                  'level': c.level,
-                  'facilitiy': c.facilitiy,
-                  'green': c.green,
-                  'security': c.security,}
+        c = Community.objects.get(name=name)
+        result = {'code': 1,
+                  'context': {'name': c.name,
+                              'item': c.item,
+                              'lng': c.lng,
+                              'lat': c.lat,
+                              'area': c.area,
+                              'district': c.district,
+                              'business': c.business,
+                              'keyword': c.keyword,
+                              'type': c.type,
+                              'year': c.year,
+                              'level': c.level,
+                              'facilitiy': c.facilitiy,
+                              'green': c.green,
+                              'security': c.security}}
         return JsonResponse(result)
     except Exception, e:
         print e
-        
+        return JsonResponse(fail)
+
 
 def post_area_add_or_modify(request):
     return post_manager_add_or_modify(request, "area")
