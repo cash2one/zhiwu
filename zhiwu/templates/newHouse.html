@@ -542,7 +542,7 @@
             var content=$("#step1-form").serialize()+"&"+$("#step3-form").serialize()+"&imgUrl="+urlStr;
 
             $.post(
-                "/add_new_house",
+                "{% url 'roominfo_save' %}",
                 content,
                 function(data){
                     if(data.status==200){

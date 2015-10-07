@@ -88,10 +88,13 @@ urlpatterns = [
         url(r'^second_manager_active/', 'zhiwu.views.post_second_manager_active', name='second_manager_active'),
         url(r'^second_manager_pw/', 'zhiwu.views.post_second_manager_pw', name='second_manager_pw'),
 
+        url(r'roominfo_save/', 'zhiwu.views.post_roominfo_save', name='roominfo_save'),
+        url(r'roominfo_submit/', 'zhiwu.views.post_roominfo_submit', name='roominfo_sub'),
+
         url(r'^room_logout/', 'zhiwu.views.post_room_logout', name='room_logout'),
         url(r'^room_active/', 'zhiwu.views.post_room_active', name='room_active'),
-        url(r'^room_save/', 'zhiwu.views.post_room_save', name='room_save'),
-        url(r'^room_sub/', 'zhiwu.views.post_room_sub', name='room_sub'),
+        # url(r'^room_save/', 'zhiwu.views.post_room_save', name='room_save'),
+        # url(r'^room_sub/', 'zhiwu.views.post_room_sub', name='room_sub'),
         url(r'^room_sold/', 'zhiwu.views.post_room_sold', name='room_sold'),
         url(r'^room_evaluation/', 'zhiwu.views.post_room_evaluation', name='room_evaluation'),
 

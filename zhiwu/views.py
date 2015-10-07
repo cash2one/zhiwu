@@ -33,7 +33,18 @@ def home(request):
 #     # return HttpResponse("hello world",status=200)
 
 def test(request):
-    return render(request, "home.html")
+    if request.method == 'POST':
+        list={}
+        for key in request.POST:
+            print key
+            valuelist = request.POST.get(key)
+            list[str(key)] = valuelist
+            print valuelist
+        print list[key]
+        print list
+    else:
+        ff = ManagerForm()
+    return render(request, "home.html", {'ff': ff})
 
 
 def search(request):
@@ -745,134 +756,191 @@ def post_room_active(request):
         print 'not post'
 
 
-def post_room_save(request):
-    if request.method == 'POST':  # 当提交表单时
-        form = RoomForm(request.POST)  # form 包含提交的数据
-        if form.is_valid():  # 如果提交的数据合法
-            try:
-                roomNumber = form.cleaned_data['room_roomNumber']
-                # 房屋信息
-                room_longitude = form.cleaned_data['room_longitude']
-                room_latitude = form.cleaned_data['room_latitude']
-                room_community = form.cleaned_data['room_community']
-                room_shi = form.cleaned_data['room_shi']
-                room_ting = form.cleaned_data['room_ting']
-                room_wei = form.cleaned_data['room_wei']
-                room_rent = form.cleaned_data['room_rent']
-                room_area = form.cleaned_data['room_area']
-                room_direction = form.cleaned_data['room_direction']
-                room_DateToLive = form.cleaned_data['room_DateToLive']
-                room_lookAble = form.cleaned_data['room_lookAble']
-                room_contactPerson = form.cleaned_data['room_contactPerson']
-                room_environment = form.cleaned_data['room_environment']
-                # 出租信息
-                rentDate = form.cleaned_data['rentDate']
-                # 房屋图片
-                picture = form.cleaned_data['picture']
-                # 房屋配置
-                level = form.cleaned_data['level']
-                elevator = form.cleaned_data['elevator']
-                canZhuo = form.cleaned_data['canZhuo']
-                shaFa = form.cleaned_data['shaFa']
-                shuZhuo = form.cleaned_data['shuZhuo']
-                yiZi = form.cleaned_data['yiZi']
-                yiGui = form.cleaned_data['yiGui']
-                chuang = form.cleaned_data['chuang']
-                kongTiao = form.cleaned_data['kongTiao']
-                xiYiJi = form.cleaned_data['xiYiJi']
-                reShuiQi = form.cleaned_data['reShuiQi']
-                bingXiang = form.cleaned_data['bingXiang']
-                dianShiJi = form.cleaned_data['dianShiJi']
-                xiYouYanJi = form.cleaned_data['xiYouYanJi']
-                ranQiZao = form.cleaned_data['ranQiZao']
-                # 房屋描述
-                roomType = form.cleaned_data['roomType']
-                decoration = form.cleaned_data['decoration']
-                configuration = form.cleaned_data['configuration']
-                cook = form.cleaned_data['cook']
-                light = form.cleaned_data['light']
-                wind = form.cleaned_data['wind']
-                sound = form.cleaned_data['sound']
-                requirement = form.cleaned_data['requirement']
-                suitable = form.cleaned_data['suitable']
-                p = room_save(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
-                              room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
-                              room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
-                              level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
-                              bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
-                              light, wind, sound, requirement, suitable)
-                return HttpResponse(status=1)
-            except Exception, e:
-                print e
-                return HttpResponse(status=0)
-    else:  # 当正常访问时
-        print 'not post'
+def post_roominfo_save(request):
+    p, num = post_roominfo_add_or_modify(request)
+    if p:
+        return JsonResponse(success)
+    else:
+        return JsonResponse(fail)
 
 
-def post_room_sub(request):
-    if request.method == 'POST':  # 当提交表单时
-        form = RoomForm(request.POST)  # form 包含提交的数据
-        if form.is_valid():  # 如果提交的数据合法
-            try:
-                roomNumber = form.cleaned_data['room_roomNumber']
-                # 房屋信息
-                room_longitude = form.cleaned_data['room_longitude']
-                room_latitude = form.cleaned_data['room_latitude']
-                room_community = form.cleaned_data['room_community']
-                room_shi = form.cleaned_data['room_shi']
-                room_ting = form.cleaned_data['room_ting']
-                room_wei = form.cleaned_data['room_wei']
-                room_rent = form.cleaned_data['room_rent']
-                room_area = form.cleaned_data['room_area']
-                room_direction = form.cleaned_data['room_direction']
-                room_DateToLive = form.cleaned_data['room_DateToLive']
-                room_lookAble = form.cleaned_data['room_lookAble']
-                room_contactPerson = form.cleaned_data['room_contactPerson']
-                room_environment = form.cleaned_data['room_environment']
-                # 出租信息
-                rentDate = form.cleaned_data['rentDate']
-                # 房屋图片
-                picture = form.cleaned_data['picture']
-                # 房屋配置
-                level = form.cleaned_data['level']
-                elevator = form.cleaned_data['elevator']
-                canZhuo = form.cleaned_data['canZhuo']
-                shaFa = form.cleaned_data['shaFa']
-                shuZhuo = form.cleaned_data['shuZhuo']
-                yiZi = form.cleaned_data['yiZi']
-                yiGui = form.cleaned_data['yiGui']
-                chuang = form.cleaned_data['chuang']
-                kongTiao = form.cleaned_data['kongTiao']
-                xiYiJi = form.cleaned_data['xiYiJi']
-                reShuiQi = form.cleaned_data['reShuiQi']
-                bingXiang = form.cleaned_data['bingXiang']
-                dianShiJi = form.cleaned_data['dianShiJi']
-                xiYouYanJi = form.cleaned_data['xiYouYanJi']
-                ranQiZao = form.cleaned_data['ranQiZao']
-                # 房屋描述
-                roomType = form.cleaned_data['roomType']
-                decoration = form.cleaned_data['decoration']
-                configuration = form.cleaned_data['configuration']
-                cook = form.cleaned_data['cook']
-                light = form.cleaned_data['light']
-                wind = form.cleaned_data['wind']
-                sound = form.cleaned_data['sound']
-                requirement = form.cleaned_data['requirement']
-                suitable = form.cleaned_data['suitable']
-                p = room_sub(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
-                             room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
-                             room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
-                             level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
-                             bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
-                             light, wind, sound, requirement, suitable)
-                return HttpResponse(status=1)
-            except Exception, e:
-                print e
-                return HttpResponse(status=0)
-    else:  # 当正常访问时
-        print 'not post'
+def post_roominfo_submit(request):
+    p, num = post_roominfo_add_or_modify(request)
+    if p:
+        try:
+            room = RoomInfo.objects.get(roomNumber=num)
+            room.exist = True
+            return JsonResponse(success)
+        except Exception, e:
+            print "post_roominfo_submit error:"
+            print e
+            return JsonResponse(fail)
+    else:
+        return JsonResponse(fail)
 
 
+def post_roominfo_add_or_modify(request):
+    if request.method == 'POST':
+        try:
+            # todo 需要修改
+            manager = 'u1'
+            roominfo_default = {}
+            url_list = []
+            for key in request.POST:
+                value = request.POST.get(key)
+                roominfo_default[str(key)] = value
+            url_list = str(roominfo_default['imgUrl'])
+            url_list = url_list.split(';^_^;')
+            if '' in url_list:
+                url_list.remove('')
+            roominfo_default.pop('imgUrl')
+            if 'roomNumber' not in roominfo_default:
+                roomNumber = get_roomNumber()
+                roominfo_default['roomNumber'] = roomNumber
+            else:
+                roomNumber = roominfo_default['roomNumber']
+            roominfo_default['contactPerson'] = manager
+            add_or_modify_result = roominfo_add_or_modify(roominfo_default)
+            if add_or_modify_result:
+                for i in url_list:
+                    room_picture_add(roomNumber, i)
+            return True, roomNumber
+        except Exception, e:
+            print "post_roominfo_add_or_modify error:"
+            print e
+            return False, None
+    else:
+        return False, None
+#
+#
+# def post_room_save(request):
+#     if request.method == 'POST':  # 当提交表单时
+#         form = RoomForm(request.POST)  # form 包含提交的数据
+#         if form.is_valid():  # 如果提交的数据合法
+#             try:
+#                 roomNumber = form.cleaned_data['room_roomNumber']
+#                 # 房屋信息
+#                 room_longitude = form.cleaned_data['room_longitude']
+#                 room_latitude = form.cleaned_data['room_latitude']
+#                 room_community = form.cleaned_data['room_community']
+#                 room_shi = form.cleaned_data['room_shi']
+#                 room_ting = form.cleaned_data['room_ting']
+#                 room_wei = form.cleaned_data['room_wei']
+#                 room_rent = form.cleaned_data['room_rent']
+#                 room_area = form.cleaned_data['room_area']
+#                 room_direction = form.cleaned_data['room_direction']
+#                 room_DateToLive = form.cleaned_data['room_DateToLive']
+#                 room_lookAble = form.cleaned_data['room_lookAble']
+#                 room_contactPerson = form.cleaned_data['room_contactPerson']
+#                 room_environment = form.cleaned_data['room_environment']
+#                 # 出租信息
+#                 rentDate = form.cleaned_data['rentDate']
+#                 # 房屋图片
+#                 picture = form.cleaned_data['picture']
+#                 # 房屋配置
+#                 level = form.cleaned_data['level']
+#                 elevator = form.cleaned_data['elevator']
+#                 canZhuo = form.cleaned_data['canZhuo']
+#                 shaFa = form.cleaned_data['shaFa']
+#                 shuZhuo = form.cleaned_data['shuZhuo']
+#                 yiZi = form.cleaned_data['yiZi']
+#                 yiGui = form.cleaned_data['yiGui']
+#                 chuang = form.cleaned_data['chuang']
+#                 kongTiao = form.cleaned_data['kongTiao']
+#                 xiYiJi = form.cleaned_data['xiYiJi']
+#                 reShuiQi = form.cleaned_data['reShuiQi']
+#                 bingXiang = form.cleaned_data['bingXiang']
+#                 dianShiJi = form.cleaned_data['dianShiJi']
+#                 xiYouYanJi = form.cleaned_data['xiYouYanJi']
+#                 ranQiZao = form.cleaned_data['ranQiZao']
+#                 # 房屋描述
+#                 roomType = form.cleaned_data['roomType']
+#                 decoration = form.cleaned_data['decoration']
+#                 configuration = form.cleaned_data['configuration']
+#                 cook = form.cleaned_data['cook']
+#                 light = form.cleaned_data['light']
+#                 wind = form.cleaned_data['wind']
+#                 sound = form.cleaned_data['sound']
+#                 requirement = form.cleaned_data['requirement']
+#                 suitable = form.cleaned_data['suitable']
+#                 p = room_save(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
+#                               room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
+#                               room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
+#                               level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
+#                               bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
+#                               light, wind, sound, requirement, suitable)
+#                 return HttpResponse(status=1)
+#             except Exception, e:
+#                 print e
+#                 return HttpResponse(status=0)
+#     else:  # 当正常访问时
+#         print 'not post'
+#
+#
+# def post_room_sub(request):
+#     if request.method == 'POST':  # 当提交表单时
+#         form = RoomForm(request.POST)  # form 包含提交的数据
+#         if form.is_valid():  # 如果提交的数据合法
+#             try:
+#                 roomNumber = form.cleaned_data['room_roomNumber']
+#                 # 房屋信息
+#                 room_longitude = form.cleaned_data['room_longitude']
+#                 room_latitude = form.cleaned_data['room_latitude']
+#                 room_community = form.cleaned_data['room_community']
+#                 room_shi = form.cleaned_data['room_shi']
+#                 room_ting = form.cleaned_data['room_ting']
+#                 room_wei = form.cleaned_data['room_wei']
+#                 room_rent = form.cleaned_data['room_rent']
+#                 room_area = form.cleaned_data['room_area']
+#                 room_direction = form.cleaned_data['room_direction']
+#                 room_DateToLive = form.cleaned_data['room_DateToLive']
+#                 room_lookAble = form.cleaned_data['room_lookAble']
+#                 room_contactPerson = form.cleaned_data['room_contactPerson']
+#                 room_environment = form.cleaned_data['room_environment']
+#                 # 出租信息
+#                 rentDate = form.cleaned_data['rentDate']
+#                 # 房屋图片
+#                 picture = form.cleaned_data['picture']
+#                 # 房屋配置
+#                 level = form.cleaned_data['level']
+#                 elevator = form.cleaned_data['elevator']
+#                 canZhuo = form.cleaned_data['canZhuo']
+#                 shaFa = form.cleaned_data['shaFa']
+#                 shuZhuo = form.cleaned_data['shuZhuo']
+#                 yiZi = form.cleaned_data['yiZi']
+#                 yiGui = form.cleaned_data['yiGui']
+#                 chuang = form.cleaned_data['chuang']
+#                 kongTiao = form.cleaned_data['kongTiao']
+#                 xiYiJi = form.cleaned_data['xiYiJi']
+#                 reShuiQi = form.cleaned_data['reShuiQi']
+#                 bingXiang = form.cleaned_data['bingXiang']
+#                 dianShiJi = form.cleaned_data['dianShiJi']
+#                 xiYouYanJi = form.cleaned_data['xiYouYanJi']
+#                 ranQiZao = form.cleaned_data['ranQiZao']
+#                 # 房屋描述
+#                 roomType = form.cleaned_data['roomType']
+#                 decoration = form.cleaned_data['decoration']
+#                 configuration = form.cleaned_data['configuration']
+#                 cook = form.cleaned_data['cook']
+#                 light = form.cleaned_data['light']
+#                 wind = form.cleaned_data['wind']
+#                 sound = form.cleaned_data['sound']
+#                 requirement = form.cleaned_data['requirement']
+#                 suitable = form.cleaned_data['suitable']
+#                 p = room_sub(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
+#                              room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
+#                              room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
+#                              level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
+#                              bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
+#                              light, wind, sound, requirement, suitable)
+#                 return HttpResponse(status=1)
+#             except Exception, e:
+#                 print e
+#                 return HttpResponse(status=0)
+#     else:  # 当正常访问时
+#         print 'not post'
+#
+#
 def post_room_sold(request):
     if request.method == 'POST':  # 当提交表单时
         form = RoomShortForm(request.POST)  # form 包含提交的数据

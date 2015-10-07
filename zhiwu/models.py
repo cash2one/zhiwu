@@ -4,6 +4,54 @@ from django.db import models
 # Create your models here.
 
 
+class RoomInfo(models.Model):
+    roomNumber = models.CharField(max_length=10, primary_key=True) # 新加的
+    contactPerson = models.CharField(max_length=30)
+    addr_xiaoqu = models.CharField(max_length=30)
+    addr_building = models.CharField(max_length=30)
+    addr_unit = models.CharField(max_length=30)
+    addr_floor = models.CharField(max_length=30)
+    addr_room = models.CharField(max_length=30)
+    payway = models.CharField(max_length=30)
+    type_room = models.CharField(max_length=30)
+    type_livingroom = models.CharField(max_length=30)
+    type_toilet = models.CharField(max_length=30)
+    stay_intime = models.DateField()
+    see = models.CharField(max_length=30, default='off')
+    floor_level = models.CharField(max_length=30)
+    total_floor = models.CharField(max_length=30)
+    elevator = models.CharField(max_length=30, default='off')
+    canzhuo = models.CharField(max_length=30, default='off')
+    sofa = models.CharField(max_length=30, default='off')
+    desk = models.CharField(max_length=30, default='off')
+    chair = models.CharField(max_length=30, default='off')
+    closet = models.CharField(max_length=30, default='off')
+    bed = models.CharField(max_length=30, default='off')
+    aircon = models.CharField(max_length=30, default='off')
+    washer = models.CharField(max_length=30, default='off')
+    waterheater = models.CharField(max_length=30, default='off')
+    refregister = models.CharField(max_length=30, default='off')
+    tv = models.CharField(max_length=30, default='off')
+    cookerhood = models.CharField(max_length=30, default='off')
+    gascooker = models.CharField(max_length=30, default='off')
+    original_house_type = models.CharField(max_length=200)
+    decorate_level = models.CharField(max_length=200)
+    config_level = models.CharField(max_length=200)
+    can_cook = models.CharField(max_length=200)
+    lighting = models.CharField(max_length=200)
+    ventilate = models.CharField(max_length=200)
+    noise = models.CharField(max_length=200)
+    landlord_req = models.CharField(max_length=200)
+    fit_people = models.CharField(max_length=200)
+    # imgUrl = models.CharField(max_length=30)
+    sold = models.BooleanField(default=False)
+    exist = models.BooleanField(default=False)
+    achieve = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.roomNumber
+
+
 class Environment(models.Model):
     # 小区环境
     name = models.CharField(max_length=30, primary_key=True)

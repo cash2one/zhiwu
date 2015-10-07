@@ -63,8 +63,24 @@ def get_second_manager_list(manager):
         return []
 
 
+def roominfo_add_or_modify(roominfo_default):
+    try:
+        roomNumber = roominfo_default['roomNumber']
+        p, created = RoomInfo.objects.update_or_create(roomNumber=roomNumber, defaults=roominfo_default)
+        if p:
+            print 'room info add success!'
+        else:
+            print 'room info modify success!'
+        return True
+    except Exception, e:
+        print 'roominfo_add_or_modify error:'
+        print e
+        return False
+
+
 def get_roomNumber():
-    return 'roomNumber'
+    num = RoomInfo.objects.count() + 10001
+    return 'HZ'+str(num)
 
 
 def get_room_list_by_manager(manager=""):
@@ -278,7 +294,7 @@ def evaluation_delete(roomNumber, time):
 
 def room_picture_add(roomNumber, picture_addr):
     try:
-        room = Room.objects.get(roomNumber=roomNumber)
+        room = RoomInfo.objects.get(roomNumber=roomNumber)
         RoomPicture.objects.create(roomNumber=room, picture=picture_addr)
         print "room picture add success!"
         return True
