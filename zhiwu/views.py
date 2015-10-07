@@ -703,12 +703,12 @@ def upload_image(request):
             result = {
                 'files': [{
                     'url': file_addr,
-                    'thumbnailUrl': '',
+                    'thumbnailUrl': file_addr,
                     'name': file_name+'.'+file_ext,
                     'size': image.size
                 }]
             }
-            return JsonResponse({'file_addr': result})
+            return JsonResponse(result)
         except Exception, e:
             print "image upload error:"
             print e
