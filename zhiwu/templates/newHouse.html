@@ -119,7 +119,7 @@
                                     <span class="btn btn-success fileinput-button">
                                         <i class="glyphicon glyphicon-plus"></i>
                                         <span>添加照片</span>
-                                        <input type="file" name="files[]" multiple>
+                                        <input type="file" name="imageData" multiple>
                                     </span>
                                     <button type="submit" class="btn btn-primary start">
                                         <i class="glyphicon glyphicon-upload"></i>
@@ -557,18 +557,18 @@
         $('#fileupload').fileupload({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
-            url: 'server/php/'
+            url: '/upload_image/'
         });
 
-        // Enable iframe cross-domain access via redirect option:
-        $('#fileupload').fileupload(
-                'option',
-                'redirect',
-                window.location.href.replace(
-                        /\/[^\/]*$/,
-                        '/cors/result.html?%s'
-                )
-        );
+//        // Enable iframe cross-domain access via redirect option:
+//        $('#fileupload').fileupload(
+//                'option',
+//                'redirect',
+//                window.location.href.replace(
+//                        /\/[^\/]*$/,
+//                        '/cors/result.html?%s'
+//                )
+//        );
 
         if (window.location.hostname === 'blueimp.github.io') {
             // Demo settings:
@@ -580,7 +580,7 @@
                 disableImageResize: /Android(?!.*Chrome)|Opera/
                         .test(window.navigator.userAgent),
                 maxFileSize: 999000,
-                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/is
             });
             // Upload server status check for browsers with CORS support:
             if ($.support.cors) {
@@ -600,8 +600,10 @@
             $.ajax({
                 // Uncomment the following to send cross-domain cookies:
                 //xhrFields: {withCredentials: true},
-                url: $('#fileupload').fileupload('option', 'url'),
-                dataType: 'json',
+                url: $('#fileupload').fileupload({
+                    url: '/upload_image/'
+                }),
+                dataType: 'json',wai
                 context: $('#fileupload')[0]
             }).always(function () {
                 $(this).removeClass('fileupload-processing');
