@@ -29,7 +29,7 @@ def is_second_manager(status):
 # 后台管理界面得到相应的列表
 def get_community_list(community=""):
     try:
-        c = Community.objects.filter(name=community)
+        c = Community.objects.filter(name__icontains=community)
         return c
     except Exception, e:
         print e
@@ -547,7 +547,7 @@ def room_rented_cancel(roomNumber):
         return False
 
 
-def community_add_or_modify(name, lng, lat, area, district, business, keyword, type, year, level, facilitiy, green, security,):
+def community_add_or_modify(name, lng, lat, area, district, business, keyword, type, year, level, facility, green, security,):
     try:
         community_default = {'name': name,
                              'lng': lng,
@@ -559,7 +559,7 @@ def community_add_or_modify(name, lng, lat, area, district, business, keyword, t
                              'type': type,
                              'year': year,
                              'level': level,
-                             'facilitiy': facilitiy,
+                             'facility': facility,
                              'green': green,
                              'security': security}
         p, created = Community.objects.update_or_create(name=name, defaults=community_default)

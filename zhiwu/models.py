@@ -27,7 +27,7 @@ class Community(models.Model):
     type = models.CharField(max_length=100)
     year = models.CharField(max_length=100)
     level = models.CharField(max_length=100)
-    facilitiy = models.CharField(max_length=100)
+    facility = models.CharField(max_length=100)
     green = models.CharField(max_length=100)
     security = models.CharField(max_length=100)
 

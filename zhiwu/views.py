@@ -324,7 +324,7 @@ def get_community(request):
                               'type': c.type,
                               'year': c.year,
                               'level': c.level,
-                              'facilitiy': c.facilitiy,
+                              'facility': c.facility,
                               'green': c.green,
                               'security': c.security}}
         return JsonResponse(result)
@@ -922,11 +922,11 @@ def post_community_add(request):
             type = form.cleaned_data['xiaoqu_add_type']
             year = form.cleaned_data['xiaoqu_add_year']
             level = form.cleaned_data['xiaoqu_add_level']
-            facilitiy = form.cleaned_data['xiaoqu_add_facilitiy']
+            facility = form.cleaned_data['xiaoqu_add_facility']
             green = form.cleaned_data['xiaoqu_add_green']
             security = form.cleaned_data['xiaoqu_add_security']
             p = community_add_or_modify(name, lng, lat, area, district, business,
-                                        keyword, type, year, level, facilitiy, green, security)
+                                        keyword, type, year, level, facility, green, security)
             if p:
                 return JsonResponse(success)
             else:
