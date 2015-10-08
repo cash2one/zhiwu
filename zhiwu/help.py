@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import *
+from PIL import Image
 
 
 def get_search_room_list(rooms):
@@ -836,4 +837,18 @@ def second_manager_pw(user, oldpw, newpw):
         return False
 
 
+def watermark(img_source, img_water, img_new, offset_x, offset_y):
+    try:
+        im = Image.open(img_source)
+        wm = Image.open(img_water)
+        layer = Image.new('RGBA', im.size, (0, 0, 0, 0))
+        layer.paste(wm, (im.size[0] - offset_x, im.size[1] - offset_y))
+        newIm = Image.composite(layer, im, layer)
+        newIm.save(img_new)
+    except Exception, e:
+        print "watermark error:"
+        print e
+        return False
+    else:
+        return True
 
