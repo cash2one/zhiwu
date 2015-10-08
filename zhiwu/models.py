@@ -64,6 +64,7 @@ class Environment(models.Model):
 
 class Community(models.Model):
     # 小区信息
+    manager = models.CharField(max_length=30)
     name = models.CharField(max_length=30, primary_key=True)
     item = models.CharField(max_length=100)
     lng = models.FloatField()

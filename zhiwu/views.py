@@ -981,6 +981,7 @@ def post_community_add(request):
     if request.method == 'POST':
         form = CommunityForm(request.POST)
         if form.is_valid():
+            manager = form.cleaned_data['xiaoqu_add_manager']
             name = form.cleaned_data['xiaoqu_add_name']
             lng = form.cleaned_data['xiaoqu_add_lng']
             lat = form.cleaned_data['xiaoqu_add_lat']
@@ -988,14 +989,14 @@ def post_community_add(request):
             district = form.cleaned_data['xiaoqu_add_district']
             business = form.cleaned_data['xiaoqu_add_business']
             keyword = form.cleaned_data['xiaoqu_add_keyword']
-            type = form.cleaned_data['xiaoqu_add_type']
+            type_ = form.cleaned_data['xiaoqu_add_type']
             year = form.cleaned_data['xiaoqu_add_year']
             level = form.cleaned_data['xiaoqu_add_level']
             facility = form.cleaned_data['xiaoqu_add_facility']
             green = form.cleaned_data['xiaoqu_add_green']
             security = form.cleaned_data['xiaoqu_add_security']
-            p = community_add_or_modify(name, lng, lat, area, district, business,
-                                        keyword, type, year, level, facility, green, security)
+            p = community_add_or_modify(name, manager, lng, lat, area, district, business,
+                                        keyword, type_, year, level, facility, green, security)
             if p:
                 return JsonResponse(success)
             else:

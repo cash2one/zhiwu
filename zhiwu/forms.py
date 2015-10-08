@@ -9,6 +9,7 @@ class CommunityDeleteForm(forms.Form):
 
 
 class CommunityForm(forms.Form):
+    xiaoqu_add_manager = forms.CharField()
     xiaoqu_add_name = forms.CharField()
     xiaoqu_add_lng = forms.FloatField()
     xiaoqu_add_lat = forms.FloatField()

@@ -563,16 +563,17 @@ def room_rented_cancel(roomNumber):
         return False
 
 
-def community_add_or_modify(name, lng, lat, area, district, business, keyword, type, year, level, facility, green, security,):
+def community_add_or_modify(name, manager, lng, lat, area, district, business, keyword, type_, year, level, facility, green, security,):
     try:
         community_default = {'name': name,
+                             'manager': manager,
                              'lng': lng,
                              'lat': lat,
                              'area': area,
                              'district': district,
                              'business': business,
                              'keyword': keyword,
-                             'type': type,
+                             'type': type_,
                              'year': year,
                              'level': level,
                              'facility': facility,
