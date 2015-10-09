@@ -851,9 +851,9 @@
                                     <label class="col-sm-2 control-label">详细位置点选*</label>
                                     <div class="col-sm-10">
                                         <div id="edit-xiaoqu-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
-                                        <button class="btn btn-success" id="save-point">保存当前位置</button>
-                                        <input type="hidden" class="form-control" id="xiaoqu_add_lng" name="xiaoqu_add_lng" value="${lng}">
-                                        <input type="hidden" class="form-control" id="xiaoqu_add_lat" name="xiaoqu_add_lat" value="${lat}">
+                                        <button class="btn btn-success" id="edit-save-point">保存当前位置</button>
+                                        <input type="hidden" class="form-control" id="edit_xiaoqu_add_lng" name="xiaoqu_add_lng" value="${lng}">
+                                        <input type="hidden" class="form-control" id="edit_xiaoqu_add_lat" name="xiaoqu_add_lat" value="${lat}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1261,9 +1261,10 @@
 
         $("#edit-save-point").bind("click",function(e){
             e.preventDefault();
+            e.stopPropagation();
             var p = edit_marker.getPosition();
-            $("#xiaoqu_add_lng").val(p.lng);
-            $("#xiaoqu_add_lat").val(p.lat);
+            $("#edit_xiaoqu_add_lng").val(p.lng);
+            $("#edit_xiaoqu_add_lat").val(p.lat);
         });
 
 
