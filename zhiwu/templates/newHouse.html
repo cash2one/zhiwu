@@ -83,12 +83,12 @@
                             <label class="col-sm-2 control-label">随时可看</label>
                             <div class="col-sm-10">
                                 <label for="see_yes" class="radio-inline">
-                                    <input type="radio" name="see" id="see_yes"/>
+                                    <input type="radio" name="see" id="see_yes" value="yes"/>
                                     是
                                 </label>
 
                                 <label for="see_no" class="radio-inline">
-                                    <input type="radio" name="see" id="see_no"/>
+                                    <input type="radio" name="see" id="see_no" value="no"/>
                                     否
                                 </label>
                             </div>
@@ -175,12 +175,12 @@
                                 <label class="col-sm-2 control-label">电梯</label>
                                 <div class="col-sm-10">
                                     <label for="elevator_yes" class="radio-inline">
-                                        <input type="radio" name="elevator" id="elevator_yes"/>
+                                        <input type="radio" name="elevator" id="elevator_yes" value="yes"/>
                                         有电梯
                                     </label>
 
                                     <label for="elevator_no" class="radio-inline">
-                                        <input type="radio" name="elevator" id="elevator_no"/>
+                                        <input type="radio" name="elevator" id="elevator_no" value="no"/>
                                         无电梯
                                     </label>
                                 </div>
@@ -536,7 +536,7 @@
                urlArr.push($(this).attr("href"));
             });
 
-            var urlStr=urlArr.join(";^_^;");
+            var urlStr=urlArr.join("^_^");
 
 
             var content=$("#step1-form").serialize()+"&"+$("#step3-form").serialize()+"&imgUrl="+urlStr;

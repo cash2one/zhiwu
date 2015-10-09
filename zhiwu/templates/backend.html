@@ -321,12 +321,12 @@
                             <table class="table table-striped" data-tmpl="#area-edit">
                                 <thead>
                                 <tr>
-                                    <th>区域名</th>
                                     <th>区账号</th>
-                                    <th>所辖小区</th>
                                     <th>密码</th>
+                                    <th>区域名</th>
                                     <th>区经理姓名</th>
                                     <th>区域手机</th>
+                                    <th>状态</th>
                                 </tr>
                                 </thead>
                                 <tbody id="area-search-result">
@@ -925,45 +925,35 @@
 </script>
 
 <script id="area-edit" type="text/x-jquery-tmpl">
- <form class="form-horizontal" id="area_add_form" dest="/area_add">
-                                <div class="form-group">
-                                    <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="area_add_name" name="area_add_name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="area_add_xiaoqu" class="col-sm-2 control-label">所辖小区</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" id="area_add_xiaoqu" name="area_add_xiaoqu">
-                                            <option value="">浦沿A</option>
-                                            <option value="">浦沿B</option>
-                                            <option value="">浦沿C</option>
-                                        </select>
-                                    </div>
-                                </div>
+ <form class="form-horizontal" id="area_add_form" dest="/area_add_or_modify/">
                                 <div class="form-group">
                                     <label for="area_add_account" class="col-sm-2 control-label">区账号</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="area_add_account" name="area_add_account">
+                                        <input type="text" class="form-control" id="area_add_account" name="manager_account" value="${user}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="area_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="area_add_pw" name="area_add_pw">
+                                        <input type="password" class="form-control" id="area_add_pw" name="manager_pw" value=${pw}>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_name" name="manager_district" value=${district}>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="area_add_manager_name" class="col-sm-2 control-label">区经理姓名</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="area_add_manager_name" name="area_add_manager_name">
+                                        <input type="text" class="form-control" id="area_add_manager_name" name="manager_name" value=${name}>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="area_add_phone" class="col-sm-2 control-label">区域手机</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="area_add_phone" name="area_add_phone">
+                                        <input type="text" class="form-control" id="area_add_phone" name="manager_phone" value="${phone}">
                                     </div>
                                 </div>
 
@@ -976,7 +966,7 @@
 </script>
 
 <script id="wuye-keeper-edit" type="text/x-jquery-tmpl">
- <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_keeper_add">
+ <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_add_or_modify">
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
@@ -1121,11 +1111,11 @@
 <script id="area-search" type="text/x-jquery-tmpl">
 <tr data-target="${pk}">
                                     <th>${pk}</th>
-                                    <th>Q3748</th>
-                                    <th>古荡小区</th>
-                                    <th>JKLFJD9</th>
-                                    <th>张三</th>
-                                    <th>3725892739</th>
+                                    <th>${fields.pw}</th>
+                                    <th>${fields.district}</th>
+                                    <th>${fields.name}</th>
+                                    <th>${fields.phone}</th>
+                                    <th>{{if fields.exist}}正在使用{{/if}}</th>
                                     <th>
                                         <button class="btn btn-default btn-edit">编辑</button>
                                         <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
