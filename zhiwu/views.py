@@ -268,7 +268,7 @@ def post_mansion_manager_search(request):
 def manager_search(request, status):
     district = request.GET.get('manager_search_district', "")
     m_list = Manager.objects.filter(district__icontains=district,
-                                    exist=True)
+                                    status = status)
     result = {'code': 1,
               'context': serializers.serialize('json', m_list)}
     return JsonResponse(result, safe=False)
@@ -563,7 +563,7 @@ def mansion_keeper_search(request):
 def second_manager_search(request, status):
     company = request.GET.get('second_manager_search_company', "")
     wuye_list = SecondManager.objects.filter(company__icontains=company,
-                                             exist=True)
+                                             status=status)
     wuye_list = serializers.serialize('json', wuye_list)
     result = {'code': 1,
               'context': wuye_list}
