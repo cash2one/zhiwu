@@ -67,8 +67,8 @@ urlpatterns = [
         url(r'^mansion_manager_search/', 'zhiwu.views.post_mansion_manager_search', name='mansion_manager_search'),
         url(r'^get_manager/', 'zhiwu.views.post_get_manager_search', name='get_manager'),
         url(r'^get_second_manager/', 'zhiwu.views.post_get_second_manager_search', name='get_second_manager'),
-        url(r'^get_community', 'zhiwu.views.post_get_community', name='get_community'),
-        url(r'^get_community_list_by_manager', 'zhiwu.views.post_get_community_list_by_manager', name='get_community_list_by_manager'),
+        url(r'^get_community/', 'zhiwu.views.post_get_community', name='get_community'),
+        url(r'^get_community_list_by_manager/', 'zhiwu.views.post_get_community_list_by_manager', name='get_community_list_by_manager'),
 
 
 
