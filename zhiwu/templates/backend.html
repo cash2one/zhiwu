@@ -1320,9 +1320,9 @@
         //为新增form添加ajax
         $(document).delegate(".btn-post","click",function(e){
             e.preventDefault();
-            var p = edit_marker.getPosition();
-            $("#edit_xiaoqu_add_lng").val(p.lng);
-            $("#edit_xiaoqu_add_lat").val(p.lat);
+{#            var p = edit_marker.getPosition();#}
+{#            $("#edit_xiaoqu_add_lng").val(p.lng);#}
+{#            $("#edit_xiaoqu_add_lat").val(p.lat);#}
             var form = $(this).parents("form");
             var dest = form.attr("dest");
             var content=form.serialize();
