@@ -103,7 +103,7 @@ class ManagerForm(forms.Form):
 
 
 class ManagerUserForm(forms.Form):
-    manager_account = forms.CharField()
+    id = forms.CharField()
 
 
 class SecondManagerForm(forms.Form):
@@ -117,7 +117,7 @@ class SecondManagerForm(forms.Form):
 
 
 class SecondManagerUserForm(forms.Form):
-    second_manager_account = forms.CharField()
+    id = forms.CharField()
 
 
 class ManagerPwdChange(forms.Form):
