@@ -434,7 +434,7 @@ def post_manager_delete(request):
         form = ManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['manager_account']
+                user = form.cleaned_data['id']
                 p = manager_delete(user)
                 if p:
                     print 'delete success!'
@@ -458,7 +458,7 @@ def post_manager_logout(request):
     if request.method == 'POST':  # 当提交表单时
         form = ManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
-            user = form.cleaned_data['manager_account']
+            user = form.cleaned_data['id']
             p = manager_logout(user)
             if p:
                 return JsonResponse(success)
@@ -476,7 +476,7 @@ def post_manager_active(request):
         form = ManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['manager_account']
+                user = form.cleaned_data['id']
                 p = manager_active(user)
                 if p:
                     return JsonResponse(success)
@@ -623,7 +623,7 @@ def post_second_manager_delete(request):
         form = SecondManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['second_manager_account']
+                user = form.cleaned_data['id']
                 p = SecondManager.objects.get(user=user)
                 p.delete()
                 print 'delete success!'
@@ -646,7 +646,7 @@ def post_second_manager_logout(request):
         form = SecondManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['second_manager_account']
+                user = form.cleaned_data['id']
                 p = second_manager_logout(user)
                 if p:
                     return JsonResponse(success)
@@ -665,7 +665,7 @@ def post_second_manager_active(request):
         form = SecondManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['second_manager_account']
+                user = form.cleaned_data['id']
                 p = second_manager_active(user)
                 if p:
                     return JsonResponse(success)

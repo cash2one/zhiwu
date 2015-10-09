@@ -87,6 +87,7 @@ urlpatterns = [
         # url(r'^second_manager_add/', 'zhiwu.views.post_second_manager_add', name='second_manager_add'),
         # url(r'^second_manager_modify/', 'zhiwu.views.post_second_manager_modify', name='second_manager_modify'),
         url(r'^second_manager_logout/', 'zhiwu.views.post_second_manager_logout', name='second_manager_logout'),
+        url(r'^second_manager_delete/', 'zhiwu.views.post_second_manager_delete', name='second_manager_delete'),
         url(r'^second_manager_active/', 'zhiwu.views.post_second_manager_active', name='second_manager_active'),
         url(r'^second_manager_pw/', 'zhiwu.views.post_second_manager_pw', name='second_manager_pw'),
 
