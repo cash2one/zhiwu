@@ -318,6 +318,7 @@ def get_community(request):
         c = Community.objects.get(name=name)
         result = {'code': 1,
                   'context': {'name': c.name,
+                              'manager': c.manager,
                               'item': c.item,
                               'lng': c.lng,
                               'lat': c.lat,

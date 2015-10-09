@@ -847,6 +847,12 @@
                                         <input type="text" class="form-control" id="xiaoqu_add_name" name="xiaoqu_add_name" value="${name}">
                                     </div>
                                 </div>
+                                 <div class="form-group">
+                                    <label for="xiaoqu_add_manager" class="col-sm-2 control-label">小区管理负责人</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_manager" name="xiaoqu_add_manager" value=${manager}>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">详细位置点选*</label>
                                     <div class="col-sm-10">
@@ -1298,6 +1304,9 @@
         //为新增form添加ajax
         $(document).delegate(".btn-post","click",function(e){
             e.preventDefault();
+            var p = edit_marker.getPosition();
+            $("#edit_xiaoqu_add_lng").val(p.lng);
+            $("#edit_xiaoqu_add_lat").val(p.lat);
             var form = $(this).parents("form");
             var dest = form.attr("dest");
             var content=form.serialize();
@@ -1346,7 +1355,7 @@
                         $(_tmplID).tmpl(data.context).dialog(dialogOpts);
                         if(_tmplID=="#xiaoqu-edit"){
                             //    地图创建
-                            var edit_map = new BMap.Map("edit-xiaoqu-map");    // 创建Map实例
+                            edit_map = new BMap.Map("edit-xiaoqu-map");    // 创建Map实例
                             edit_map.centerAndZoom(new BMap.Point(data.context.lng,data.context.lat),15);
 
                             //    添加控件
@@ -1355,7 +1364,7 @@
                             edit_map.addControl(edit_top_left_control);
                             edit_map.addControl(edit_top_left_navigation);
 
-                            var edit_marker = new BMap.Marker(new BMap.Point(data.context.lng,data.context.lat));  // 创建标注
+                            edit_marker = new BMap.Marker(new BMap.Point(data.context.lng,data.context.lat));  // 创建标注
                             edit_map.addOverlay(edit_marker);              // 将标注添加到地图中
                             edit_marker.enableDragging();
                         }
@@ -1372,10 +1381,9 @@
         //下架/注销等按钮
         $(document).delegate(".btn-operate","click",function(e){
             e.preventDefault();
-            var _id=$(this).parent("tr").data("target");//该条目id
-            var _tmplID=$(this).parent("table").data("tmpl");
-            var _type=$(this).data("type")==="activate";
-            var _url=editUrlMap[_tmplID];
+            var _id=$(this).parents("tr").data("target");//该条目id
+            var _tmplID=$(this).parents("table").data("tmpl");
+            var _url=$(this).data("type")==="activate"?activateUrlMap[_tmplID]:cancelUrlMap[_tmplID];
 
             $.post(
                     _url,
