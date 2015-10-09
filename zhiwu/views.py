@@ -275,7 +275,7 @@ def manager_search(request, status):
     return JsonResponse(result, safe=False)
 
 
-def get_manager_search(request):
+def post_get_manager_search(request):
     try:
         user = request.GET.get('id')
         m = Manager.objects.get(user=user)
@@ -293,7 +293,7 @@ def get_manager_search(request):
         return JsonResponse(fail)
 
 
-def get_second_manager_search(request):
+def post_get_second_manager_search(request):
     try:
         user = request.GET.get('id')
         m = SecondManager.objects.get(user=user)
@@ -312,7 +312,21 @@ def get_second_manager_search(request):
         return JsonResponse(fail)
 
 
-def get_community(request):
+def post_get_community_list_by_manager(request):
+    try:
+        manager = request.GET.get('id')
+        c_list = Community.objects.filter(manager=manager)
+        c_list = serializers.serialize('json', c_list)
+        result = {'code': 1,
+                  'context': c_list}
+        return JsonResponse(result, safe=False)
+    except Exception, e:
+        print 'post_get_community_list_by_manager error:'
+        print e
+        return JsonResponse(fail)
+
+
+def post_get_community(request):
     try:
         name = request.GET.get('id')
         c = Community.objects.get(name=name)
@@ -421,7 +435,7 @@ def post_manager_delete(request):
         form = ManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['manager_account']
+                user = form.cleaned_data['id']
                 p = manager_delete(user)
                 if p:
                     print 'delete success!'
@@ -445,7 +459,7 @@ def post_manager_logout(request):
     if request.method == 'POST':  # 当提交表单时
         form = ManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
-            user = form.cleaned_data['manager_account']
+            user = form.cleaned_data['id']
             p = manager_logout(user)
             if p:
                 return JsonResponse(success)
@@ -463,7 +477,7 @@ def post_manager_active(request):
         form = ManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['manager_account']
+                user = form.cleaned_data['id']
                 p = manager_active(user)
                 if p:
                     return JsonResponse(success)
@@ -610,7 +624,7 @@ def post_second_manager_delete(request):
         form = SecondManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['second_manager_account']
+                user = form.cleaned_data['id']
                 p = SecondManager.objects.get(user=user)
                 p.delete()
                 print 'delete success!'
@@ -633,7 +647,7 @@ def post_second_manager_logout(request):
         form = SecondManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['second_manager_account']
+                user = form.cleaned_data['id']
                 p = second_manager_logout(user)
                 if p:
                     return JsonResponse(success)
@@ -652,7 +666,7 @@ def post_second_manager_active(request):
         form = SecondManagerUserForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                user = form.cleaned_data['second_manager_account']
+                user = form.cleaned_data['id']
                 p = second_manager_active(user)
                 if p:
                     return JsonResponse(success)
@@ -1016,7 +1030,7 @@ def post_community_search(request):
         c_list = serializers.serialize('json', c_list)
         result = {'code': 1,
                   'context': c_list}
-        return JsonResponse(result)
+        return JsonResponse(result, safe=False)
     except Exception, e:
         print e
         return JsonResponse(fail)

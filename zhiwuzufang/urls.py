@@ -65,9 +65,11 @@ urlpatterns = [
         url(r'^mansion_manager_add_or_modify/', 'zhiwu.views.post_mansion_manager_add_or_modify', name='mansion_add_or_modify'),
         url(r'^area_search/', 'zhiwu.views.post_area_search', name='area_search'),
         url(r'^mansion_manager_search/', 'zhiwu.views.post_mansion_manager_search', name='mansion_manager_search'),
-        url(r'^get_manager/', 'zhiwu.views.get_manager_search', name='get_manager'),
-        url(r'^get_second_manager/', 'zhiwu.views.get_second_manager_search', name='get_second_manager'),
-        url(r'^get_community', 'zhiwu.views.get_community', name='get_community'),
+        url(r'^get_manager/', 'zhiwu.views.post_get_manager_search', name='get_manager'),
+        url(r'^get_second_manager/', 'zhiwu.views.post_get_second_manager_search', name='get_second_manager'),
+        url(r'^get_community', 'zhiwu.views.post_get_community', name='get_community'),
+        url(r'^get_community_list_by_manager', 'zhiwu.views.post_get_community_list_by_manager', name='get_community_list_by_manager'),
+
 
 
         url(r'^manager_delete/', 'zhiwu.views.post_manager_delete', name='manager_delete'),
@@ -85,6 +87,7 @@ urlpatterns = [
         # url(r'^second_manager_add/', 'zhiwu.views.post_second_manager_add', name='second_manager_add'),
         # url(r'^second_manager_modify/', 'zhiwu.views.post_second_manager_modify', name='second_manager_modify'),
         url(r'^second_manager_logout/', 'zhiwu.views.post_second_manager_logout', name='second_manager_logout'),
+        url(r'^second_manager_delete/', 'zhiwu.views.post_second_manager_delete', name='second_manager_delete'),
         url(r'^second_manager_active/', 'zhiwu.views.post_second_manager_active', name='second_manager_active'),
         url(r'^second_manager_pw/', 'zhiwu.views.post_second_manager_pw', name='second_manager_pw'),
 
