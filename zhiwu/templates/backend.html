@@ -352,7 +352,9 @@
                                     <div class="col-sm-10">
                                         <select class="form-control" id="wuye_keeper_add_manager" name="second_manager_manager">
                                             {% for i in managers %}
-                                                <option value="{{ i.name }}">{{ i.name }}</option>
+                                                {% if i.status == 'area' %}
+                                                    <option value="{{ i.user }}">{{ i.user }}</option>
+                                                {% endif %}
                                             {% endfor %}
                                         </select>
                                     </div>
