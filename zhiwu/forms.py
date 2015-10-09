@@ -5,7 +5,7 @@ from django.forms import ModelForm
 
 
 class CommunityDeleteForm(forms.Form):
-    xiaoqu_delete_name = forms.CharField()
+    id = forms.CharField()
 
 
 class CommunityForm(forms.Form):

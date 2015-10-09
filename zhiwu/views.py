@@ -268,7 +268,6 @@ def post_mansion_manager_search(request):
 def manager_search(request, status):
     district = request.GET.get('manager_search_district', "")
     m_list = Manager.objects.filter(district__icontains=district,
-                                    status=status,
                                     exist=True)
     result = {'code': 1,
               'context': serializers.serialize('json', m_list)}
@@ -564,7 +563,6 @@ def mansion_keeper_search(request):
 def second_manager_search(request, status):
     company = request.GET.get('second_manager_search_company', "")
     wuye_list = SecondManager.objects.filter(company__icontains=company,
-                                             status=status,
                                              exist=True)
     wuye_list = serializers.serialize('json', wuye_list)
     result = {'code': 1,
@@ -1041,7 +1039,7 @@ def post_community_delete(request):
     if request.method == "POST":
         form = CommunityDeleteForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data["xiaoqu_delete_name"]
+            name = form.cleaned_data["id"]
             p = community_delete(name)
             if p:
                 return JsonResponse(success)
