@@ -351,9 +351,9 @@
                                     <label for="wuye_keeper_add_manager" class="col-sm-2 control-label">所属区域管理员</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" id="wuye_keeper_add_manager" name="second_manager_manager">
-                                            <option value="u1">u1</option>
-                                            <option value="u2">管理员2</option>
-                                            <option value="u3">管理员3</option>
+                                            {% for i in managers %}
+                                                <option value="{{ i.name }}">{{ i.name }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
@@ -361,9 +361,7 @@
                                     <label for="wuye_keeper_add_xiaoqu" class="col-sm-2 control-label">所属小区</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" id="wuye_keeper_add_xiaoqu" name="second_manager_company">
-                                            <option value="a1">小区1</option>
-                                            <option value="a2">小区2</option>
-                                            <option value="a3">小区3</option>
+
                                         </select>
                                     </div>
                                 </div>
@@ -408,9 +406,12 @@
                                 <tr>
                                     <th>账号</th>
                                     <th>密码</th>
+                                    <th>所属区域管理员</th>
                                     <th>所属小区</th>
                                     <th>管家姓名</th>
                                     <th>管家手机</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody id="wuye-keeper-search-result">
@@ -790,8 +791,9 @@
                                 <tr>
                                     <th>账号</th>
                                     <th>密码</th>
-                                    <th>所属公司</th>
                                     <th>所属业务经理</th>
+                                    <th>所属公司</th>
+                                    <th>管家姓名</th>
                                     <th>管家手机</th>
                                     <th>状态</th>
                                     <th>操作</th>
@@ -1076,7 +1078,7 @@
 </script>
 
 <script id="mansion-manager-edit" type="text/x-jquery-tmpl">
-<form class="form-horizontal" id="mansion_manager_add_form" dest="/mansion_manager_add_or_modify">
+<form class="form-horizontal" id="mansion_manager_add_form" dest="/mansion_manager_add_or_modify/">
                                 <div class="form-group">
                                     <label for="mansion_manager_add_account" class="col-sm-2 control-label">账号*</label>
                                     <div class="col-sm-10">
@@ -1161,11 +1163,13 @@
 
 <script id="wuye-keeper-search" type="text/x-jquery-tmpl">
 <tr data-target="${pk}">
-                                    <th>Q3748</th>
-                                    <th>JKLFJD9</th>
-                                    <th>古荡校区</th>
-                                    <th>张三</th>
-                                    <th>3725892739</th>
+                                    <th>${pk}</th>
+                                    <th>${fields.pw}</th>
+                                    <th>${fields.}</th>
+                                    <th>${fields.district}</th>
+                                    <th>${fields.name}</th>
+                                    <th>${fields.phone}</th>
+                                    <th>{{if fields.exist}}正在使用{{else}}已注销{{/if}}</th>
                                     <th>
                                         <button class="btn btn-default btn-edit">编辑</button>
                                         <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
@@ -1233,6 +1237,9 @@
 </script>
 
 
+<script id="community-list-option" type="text/x-jquery-tmpl">
+    <option value="${name}">${name}</option>
+</script>
 
 {% endverbatim %}
 
@@ -1430,6 +1437,27 @@
                         console.log("error");
                     });
         });
+
+        $("#wuye_keeper_add_manager").bind("change",function(e){
+//            console.log($(this).val());
+            var value=$(this).val();
+
+            $.get(
+                    "{% url 'get_community_list_by_manager' %}",
+                    {id:value},
+                    function(data){
+                        if(data.code==1){
+                            console.log("post success");
+                            $("#community-list-option").tmpl(data).appendTo("#wuye_keeper_add_xiaoqu");
+                        }else{
+                            console.log("post failed");
+                        }
+                    }
+            )
+                    .error(function(){
+                        console.log("error");
+                    });
+        })
     })();
 
 </script>
