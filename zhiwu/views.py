@@ -275,7 +275,7 @@ def manager_search(request, status):
     return JsonResponse(result, safe=False)
 
 
-def get_manager_search(request):
+def post_get_manager_search(request):
     try:
         user = request.GET.get('id')
         m = Manager.objects.get(user=user)
@@ -293,7 +293,7 @@ def get_manager_search(request):
         return JsonResponse(fail)
 
 
-def get_second_manager_search(request):
+def post_get_second_manager_search(request):
     try:
         user = request.GET.get('id')
         m = SecondManager.objects.get(user=user)
@@ -312,7 +312,21 @@ def get_second_manager_search(request):
         return JsonResponse(fail)
 
 
-def get_community(request):
+def post_get_community_list_by_manager(request):
+    try:
+        manager = request.GET.get('id')
+        c_list = Community.objects.filter(manager=manager)
+        c_list = serializers.serialize('json', c_list)
+        result = {'code': 1,
+                  'context': c_list}
+        return JsonResponse(result, safe=False)
+    except Exception, e:
+        print 'post_get_community_list_by_manager error:'
+        print e
+        return JsonResponse(fail)
+
+
+def post_get_community(request):
     try:
         name = request.GET.get('id')
         c = Community.objects.get(name=name)
@@ -1015,7 +1029,7 @@ def post_community_search(request):
         c_list = serializers.serialize('json', c_list)
         result = {'code': 1,
                   'context': c_list}
-        return JsonResponse(result)
+        return JsonResponse(result, safe=False)
     except Exception, e:
         print e
         return JsonResponse(fail)
