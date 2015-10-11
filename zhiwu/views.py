@@ -33,18 +33,38 @@ def home(request):
 #     # return HttpResponse("hello world",status=200)
 
 def test(request):
-    if request.method == 'POST':
-        list={}
-        for key in request.POST:
-            print key
-            valuelist = request.POST.get(key)
-            list[str(key)] = valuelist
-            print valuelist
-        print list[key]
-        print list
-    else:
-        ff = ManagerForm()
-    return render(request, "home.html", {'ff': ff})
+    room  = RoomInfo.objects.get(roomNumber='HZ10001')
+    return render(request, "home.html", {'room': room})
+
+
+def check_root(request):
+    try:
+        user = request.session.get('user')
+        status = request.session.get('status')
+        if status == 'root':
+            return True, user, status
+        else:
+            return False, None, None
+    except Exception, e:
+        print 'check root error:'
+        print e
+        return False, None, None
+
+
+def check_manager(request):
+    try:
+        user = request.session.get('user')
+        status = request.session.get('status')
+        if status == 'manager':
+            return True, user, status
+        else:
+            return False, None, None
+    except Exception, e:
+        print 'check root error:'
+        print e
+        return False, None, None
+
+
 
 
 def search(request):
@@ -81,11 +101,12 @@ def home_search(request):
     location = request.GET.get("home_location", None)
     longitude = request.GET.get("longitude", None)
     latitude = request.GET.get("latitude", None)
-    rooms = Room.objects.filter(community=location)
+    # rooms = Room.objects.filter(community=location)
+    rooms = RoomInfo.objects.all()
     dis = 0.010
     if len(rooms) == 0:
-        rooms = Room.objects.filter(longitude__range=(longitude - dis, longitude + dis),
-                                    latitude__range=(latitude - dis, latitude + dis))
+        rooms = RoomInfo.objects.filter(longitude__range=(longitude - dis, longitude + dis),
+                                        latitude__range=(latitude - dis, latitude + dis))
     room_list = get_search_room_list(rooms)
     return render(request, "search.html", {"rooms": room_list})
 
@@ -107,9 +128,11 @@ def room_detail(request):
     try:
         roomNum = request.GET.get('roomNumber')
         room = RoomInfo.objects.get(roomNumber=roomNum)
+        cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
         return render(request, "detail.html", {"room": room,
-                                               "picture": roomP})
+                                               "picture": roomP,
+                                               "contactPerson": cp})
     except Exception, e:
         print e
         return HttpResponseNotFound()
@@ -208,7 +231,8 @@ def admin_second_manager(request):
 def new_house(request):
     user = request.session.get("user")
     status = request.session.get("status", "")
-    communities = Community.objects.all()
+    sm=SecondManager.objects.get(user=user)
+    communities = Community.objects.filter(manager=sm.manager)
     if is_second_manager(status):
         return render(request, "newHouse.html", {"user": user,
                                                  "status": status,
