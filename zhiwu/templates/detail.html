@@ -58,17 +58,17 @@
 
     <div class="room-info">
         <div class="room-xiaoqu room-part">
-            芍药居 芍药居9号院
+            {{room.addr_xiaoqu}}
         </div>
 
         <div class="room-lookable room-part">
-            随时可看
+            {% if room.see == "on" %}随时可看{% else %}预约可看{% endif %}
         </div>
 
-        <div class="room-number room-part">HZ0001</div>
+        <div class="room-number room-part">{{ room.roomNumber }}</div>
 
         <div class="room-keyinfo room-part">
-            <span class="bigger">2</span>室<span class="bigger">1</span>厅<span class="bigger">1</span>卫<br/>
+            <span class="bigger">{{room.type_room}}</span>室<span class="bigger">{{room.type_livingroom}}</span>厅<span class="bigger">{{room.type_toilet}}</span>卫<br/>
             押一付三<br/>
             <span class="bigger">2700</span>/月<br/>
             <span class="glyphicon glyphicon-home" id="home-icon" aria-hidden="true"></span>
@@ -78,31 +78,32 @@
         <div class="room-moreinfo1 room-part">
             面积：<span class="bigger">27</span> m2<br/>
             朝向：朝南<br/>
-            <span class="bigger">11/13层</span><br/>
+            <span class="bigger">{{room.floor_level}}/{{room.total_floor}}层</span><br/>
             有电梯
         </div>
 
         <div class="room-moreinfo2 room-part">
-            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;&nbsp;最早可入住时间&nbsp;:&nbsp;2015&nbsp;年&nbsp;9&nbsp;月&nbsp;30&nbsp;日<br/>
+            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;&nbsp;最早可入住时间&nbsp;:&nbsp;{{room.stay_intime}}
+            <!--2015&nbsp;年&nbsp;9&nbsp;月&nbsp;30&nbsp;日<br/>-->
         </div>
 
 
         <div class="room-config-info room-part">
             <span class="title"> <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>&nbsp;房屋配置</span><br/>
             <span class="content">
-                餐桌&nbsp
-                沙发&nbsp
-                书桌&nbsp
-                椅子&nbsp
-                衣柜&nbsp
-                床&nbsp
-                空调&nbsp
-                洗衣机&nbsp
-                热水器&nbsp
-                冰箱&nbsp
-                电视机&nbsp
-                油烟机&nbsp
-                燃气灶&nbsp
+                {% if room.canzhuo == "on" %}餐桌&nbsp{% endif %}
+                {% if room.sofa == "on" %}沙发&nbsp{% endif %}
+                {% if room.desk == "on" %}书桌&nbsp{% endif %}
+                {% if room.chair == "on" %}椅子&nbsp{% endif %}
+                {% if room.closet == "on" %}衣柜&nbsp{% endif %}
+                {% if room.bed == "on" %}床&nbsp{% endif %}
+                {% if room.aircon == "on" %}空调&nbsp{% endif %}
+                {% if room.washer == "on" %}洗衣机&nbsp{% endif %}
+                {% if room.waterheater == "on" %}热水器&nbsp{% endif %}
+                {% if room.refregister == "on" %}冰箱&nbsp{% endif %}
+                {% if room.tv == "on" %}电视机&nbsp{% endif %}
+                {% if room.cookerhood == "on" %}油烟机&nbsp{% endif %}
+                {% if room.gascooker == "on" %}燃气灶&nbsp{% endif %}
             </span>
         </div>
 
@@ -112,14 +113,14 @@
             </div>
 
             <div class="room-master-desc">
-                <div class="room-master-name">户小姐</div>
+                <div class="room-master-name">{{room.contactPerson}}</div>
                 <div class="room-master-type">转租客（和转租客签约）</div>
             </div>
         </div>
 
         <div class="room-btn room-part">
-            <button class="btn btn-collect"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;收藏</button>
-            <button class="btn btn-book"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>&nbsp;预约</button>
+            <button class="btn btn-collect" data-target="{{room.roomNumber}}"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;收藏</button>
+            <button class="btn btn-book" data-target="{{room.roomNumber}}"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>&nbsp;预约</button>
         </div>
     </div>
 
@@ -128,23 +129,23 @@
         <div class="room-detail-section">
             <div class="room-detail-title"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>房源描述</div>
             <div class="room-detail-content">
-                <div class="detail-item"><span class="detail-item-key">此房原户型</span><span class="detail-item-value">二室一厅</span>
+                <div class="detail-item"><span class="detail-item-key">此房原户型</span><span class="detail-item-value">{{room.original_house_type}}</span>
                 </div>
-                <div class="detail-item"><span class="detail-item-key">装修档次</span><span class="detail-item-value">精装修</span>
+                <div class="detail-item"><span class="detail-item-key">装修档次</span><span class="detail-item-value">{{room.decorate_level}}</span>
                 </div>
-                <div class="detail-item"><span class="detail-item-key">房屋配置如何</span><span class="detail-item-value">配置完全</span>
+                <div class="detail-item"><span class="detail-item-key">房屋配置如何</span><span class="detail-item-value">{{room.config_level}}</span>
                 </div>
-                <div class="detail-item"><span class="detail-item-key">是否可以做饭</span><span class="detail-item-value">可以做饭</span>
+                <div class="detail-item"><span class="detail-item-key">是否可以做饭</span><span class="detail-item-value">{{room.can_cook}}</span>
                 </div>
-                <div class="detail-item"><span class="detail-item-key">采光</span><span class="detail-item-value">采光明亮</span>
+                <div class="detail-item"><span class="detail-item-key">采光</span><span class="detail-item-value">{{room.lighting}}</span>
                 </div>
-                <div class="detail-item"><span class="detail-item-key">通风</span><span class="detail-item-value">通风很好</span>
+                <div class="detail-item"><span class="detail-item-key">通风</span><span class="detail-item-value">{{room.ventilate}}</span>
                 </div>
-                <div class="detail-item"><span class="detail-item-key">噪声</span><span class="detail-item-value">安静</span>
+                <div class="detail-item"><span class="detail-item-key">噪声</span><span class="detail-item-value">{{room.noise}}</span>
                 </div>
-                <div class="detail-item"><span class="detail-item-key">房东要求</span><span class="detail-item-value">长租</span>
+                <div class="detail-item"><span class="detail-item-key">房东要求</span><span class="detail-item-value">{{room.landlord_req}}</span>
                 </div>
-                <div class="detail-item"><span class="detail-item-key">适宜居住人群</span><span class="detail-item-value">上班族</span>
+                <div class="detail-item"><span class="detail-item-key">适宜居住人群</span><span class="detail-item-value">{{room.fit_people}}</span>
                 </div>
 
             </div>
