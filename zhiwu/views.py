@@ -109,7 +109,7 @@ def home_search(request):
                                         latitude__range=(latitude - dis, latitude + dis))
     room_list = get_search_room_list(rooms)
     # room_list = serializers.serialize('json', room_list)
-    return render(request, "home.html", {"rooms": json.dumps(room_list)})
+    return render(request, "search.html", {"rooms": json.dumps(room_list)})
 
 
 def map_search(request):
