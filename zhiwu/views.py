@@ -106,22 +106,13 @@ def map_search(request):
 def room_detail(request):
     try:
         roomNum = request.GET.get('roomNumber')
-        room = Room.objects.get(roomNumber=roomNum)
+        room = RoomInfo.objects.get(roomNumber=roomNum)
         roomP = get_room_picture(room)
-        roomC = get_room_configuration(room)
-        roomD = get_room_description(room)
-        roomE = get_room_evaluation(room)
-        environ = get_environment(room.environment)
         return render(request, "detail.html", {"room": room,
-                                               "picture": roomP,
-                                               "configuration": roomC,
-                                               "description": roomD,
-                                               "evaluation": roomE,
-                                               "ecvironment": environ})
+                                               "picture": roomP})
     except Exception, e:
         print e
-        return render(request, "detail.html")
-        # return HttpResponse(status=404)
+        return HttpResponseNotFound()
 
 
 def admin_manager_login(request):

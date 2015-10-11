@@ -6,6 +6,7 @@ from django.db import models
 
 class RoomInfo(models.Model):
     roomNumber = models.CharField(max_length=10, primary_key=True) # 新加的
+    price = models.IntegerField()
     contactPerson = models.CharField(max_length=30)
     addr_xiaoqu = models.CharField(max_length=30)
     addr_building = models.CharField(max_length=30)
