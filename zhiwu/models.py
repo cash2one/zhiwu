@@ -8,9 +8,10 @@ class RoomInfo(models.Model):
     roomNumber = models.CharField(max_length=10, primary_key=True) # 新加的
     price = models.IntegerField()
     # 11
-    mianji = models.IntegerField()
-    orientation = models.CharField(max_length=30)
-    balcony = models.CharField(max_length=30)
+    orientation = models.CharField(max_length=30, null=True)
+    balcony = models.CharField(max_length=30, null=True)
+    mianji = models.IntegerField(null=True)
+
     # 11
     contactPerson = models.CharField(max_length=30)
     addr_xiaoqu = models.CharField(max_length=30)
@@ -23,13 +24,13 @@ class RoomInfo(models.Model):
     type_livingroom = models.CharField(max_length=30)
     type_toilet = models.CharField(max_length=30)
     # 2
-    stay_intime = models.DateField()
+    stay_intime = models.DateField(null=True)
     # 2
     see = models.CharField(max_length=30, default='off')
     # 22
-    floor_level = models.CharField(max_length=30)
-    total_floor = models.CharField(max_length=30)
-    elevator = models.CharField(max_length=30, default='off')
+    floor_level = models.CharField(max_length=30, null=True)
+    total_floor = models.CharField(max_length=30, null=True)
+    elevator = models.CharField(max_length=30, default='off', null=True)
     # 22
     canzhuo = models.CharField(max_length=30, default='off')
     sofa = models.CharField(max_length=30, default='off')

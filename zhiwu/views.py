@@ -231,12 +231,12 @@ def admin_second_manager(request):
 def new_house(request):
     user = request.session.get("user")
     status = request.session.get("status", "")
-    sm=SecondManager.objects.get(user=user)
-    communities = Community.objects.filter(manager=sm.manager)
+    # sm=SecondManager.objects.get(user=user)
+    # communities = Community.objects.filter(manager=sm.manager)
     if is_second_manager(status):
         return render(request, "newHouse.html", {"user": user,
-                                                 "status": status,
-                                                 "communities": communities})
+                                                 "status": status,})
+                                                 # "communities": communities})
     else:
         return HttpResponseRedirect(reverse("manager_login"))
 
