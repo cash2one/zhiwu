@@ -33,8 +33,8 @@ def home(request):
 #     # return HttpResponse("hello world",status=200)
 
 def test(request):
-    room  = RoomInfo.objects.get(roomNumber='HZ10001')
-    return render(request, "home.html", {'room': room})
+    room  = RoomInfo.objects.all()
+    return render(request, "home.html", {'room': json.dumps(serializers.serialize('json',room))})
 
 
 def check_root(request):
@@ -108,7 +108,8 @@ def home_search(request):
         rooms = RoomInfo.objects.filter(longitude__range=(longitude - dis, longitude + dis),
                                         latitude__range=(latitude - dis, latitude + dis))
     room_list = get_search_room_list(rooms)
-    return render(request, "search.html", {"rooms": room_list})
+    # room_list = serializers.serialize('json', room_list)
+    return render(request, "home.html", {"rooms": json.dumps(room_list)})
 
 
 def map_search(request):

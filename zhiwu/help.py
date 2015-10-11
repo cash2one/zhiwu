@@ -1,13 +1,29 @@
 # -*- coding: utf-8 -*-
 from models import *
 from PIL import Image
+import random
 
 
 def get_search_room_list(rooms):
     p = []
     for i in rooms:
-        images = RoomPicture.objects.filter(roomNumber=i.roomNumber)
-        p.append({"room": i, "images": images})
+        pictures = RoomPicture.objects.filter(roomNumber=i.roomNumber)
+        images = []
+        for j in pictures:
+            images.append(j.picture)
+        room = {'roomNumber': i.roomNumber,
+                'price': i.price,
+                'lng': 120+float(random.uniform(-0.1, 0.1)),
+                'lat': 30+float(random.uniform(-0.1, 0.1)),
+                'status':random.choice ( ['mansion', 'area'] ),
+                'elevator': i.elevator,
+                'see': i.see,
+                'addr_xiaoqu': i.addr_xiaoqu,
+                'type_room': i.type_room,
+                'type_livingroom': i.type_livingroom,
+                'type_toilet': i.type_toilet,
+                'images': images}
+        p.append(room)
     return p
 
 
