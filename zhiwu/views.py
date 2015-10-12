@@ -819,7 +819,7 @@ def post_roominfo_add_or_modify(request):
                 value = request.POST.get(key)
                 roominfo_default[str(key)] = value
             url_list = str(roominfo_default['imgUrl'])
-            url_list = url_list.split(';^_^;')
+            url_list = url_list.split('^_^')
             if '' in url_list:
                 url_list.remove('')
             roominfo_default.pop('imgUrl')
