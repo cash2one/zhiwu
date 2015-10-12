@@ -129,3 +129,56 @@ class SecondManagerPwdChange(forms.Form):
     sencond_manager_account=forms.CharField(required=False)
     second_manager_oldpw=forms.CharField(widget=forms.PasswordInput)
     second_manager_newpw=forms.CharField(widget=forms.PasswordInput)
+
+class TenantForm(forms.Form):
+    tenant_id = forms.CharField()
+    tenant_pw = forms.CharField(widget=forms.PasswordInput)
+    tenant_name = forms.CharField(max_length=30)
+    tenant_phone = forms.CharField(max_length=11)
+    tenant_profession = forms.CharField(max_length=30, required=False)
+
+class TenantLoginForm(forms.Form):
+    tenant_id = forms.CharField()
+    tenant_pw = forms.CharField(widget=forms.PasswordInput)
+
+class TenantUserForm(forms.Form):
+    tenant_id = forms.CharField()
+
+# class RequirementForm(forms.Form): 用于test
+#    # requireId = models.AutoField(primary_key=True);
+#     user = forms.CharField()
+#     priceMin = forms.IntegerField()
+#     priceMax = forms.IntegerField()
+#     #基本房屋信息
+#     addr_xiaoqu = forms.CharField(max_length=30,required=False)
+#     payway = forms.CharField(max_length=30,required=False)
+#     type_room = forms.CharField(max_length=30,required=False)
+#     type_livingroom = forms.CharField(max_length=30,required=False)
+#     type_toilet = forms.CharField(max_length=30,required=False)
+#     floor_level = forms.CharField(max_length=30,required=False)
+#     level = forms.IntegerField()
+#     #房屋配置
+#     elevator = forms.CharField(max_length=30, required=False)
+#     canzhuo = forms.CharField(max_length=30, required=False)
+#     sofa = forms.CharField(max_length=30, required=False)
+#     desk = forms.CharField(max_length=30, required=False)
+#     chair = forms.CharField(max_length=30, required=False)
+#     closet = forms.CharField(max_length=30,required=False)
+#     bed = forms.CharField(max_length=30, required=False)
+#     aircon = forms.CharField(max_length=30, required=False)
+#     washer = forms.CharField(max_length=30,required=False)
+#     waterheater = forms.CharField(max_length=30,required=False)
+#     refregister = forms.CharField(max_length=30, required=False)
+#     tv = forms.CharField(max_length=30, required=False)
+#     cookerhood = forms.CharField(max_length=30, required=False)
+#     gascooker = forms.CharField(max_length=30, required=False)
+#     #房源描述
+#     original_house_type = forms.CharField(max_length=200,required=False)
+#     decorate_level = forms.CharField(max_length=200,required=False)
+#     config_level = forms.CharField(max_length=200,required=False)
+#     can_cook = forms.CharField(max_length=200,required=False)
+#     lighting = forms.CharField(max_length=200,required=False)
+#     ventilate = forms.CharField(max_length=200,required=False)
+#     noise = forms.CharField(max_length=200,required=False)
+
+
