@@ -13,9 +13,9 @@ def get_search_room_list(rooms):
             images.append(j.picture)
         room = {'roomNumber': i.roomNumber,
                 'price': i.price,
-                'lng': 120+float(random.uniform(-0.1, 0.1)),
-                'lat': 30+float(random.uniform(-0.1, 0.1)),
-                'status':random.choice ( ['mansion', 'area'] ),
+                'lng': i.lng,
+                'lat': i.lat,
+                'status': random.choice(['mansion', 'area']),
                 'elevator': i.elevator,
                 'see': i.see,
                 'addr_xiaoqu': i.addr_xiaoqu,
@@ -286,7 +286,7 @@ def configuration_modify(roomNumber, level, elevator, canZhuo,
 
 def evaluation_add(roomNumber, text):
     try:
-        room = Room.objects.get(roomNumber=roomNumber)
+        room = RoomInfo.objects.get(roomNumber=roomNumber)
         RoomEvaluation.objects.create(roomNumber=room, text=text)
         print "evaluation add success!"
         return True
@@ -296,10 +296,33 @@ def evaluation_add(roomNumber, text):
         return False
 
 
-def evaluation_delete(roomNumber, time):
+def evaluation_pass(_id):
     try:
-        room = Room.objects.get(roomNumber=roomNumber)
-        p = RoomEvaluation.objects.get(roomNumber=room, creatTime=time)
+        p = RoomEvaluation.objects.get(id=_id)
+        p.ifpass = True
+        print "evaluation pass success!"
+        return True
+    except Exception, e:
+        print "evaluation pass error:"
+        print e
+        return False
+
+
+def evaluation_no_pass(_id):
+    try:
+        p = RoomEvaluation.objects.get(id=_id)
+        p.ifpass = False
+        print "evaluation no pass success!"
+        return True
+    except Exception, e:
+        print "evaluation no pass error:"
+        print e
+        return False
+
+
+def evaluation_delete(_id):
+    try:
+        p = RoomEvaluation.objects.get(id=_id)
         p.delete()
         print "evaluation delete success!"
         return True
@@ -334,22 +357,22 @@ def room_picture_delete(roomNumber, picture_addr):
         return False
 
 
-def room_logout(roomNumber):
+def roominfo_logout(roomNumber):
     try:
-        p = Room.objects.get(roomNumber=roomNumber)
+        p = RoomInfo.objects.get(roomNumber=roomNumber)
         p.exist = False
         p.save(update_fields=['exist'])
-        print "room logout success!"
+        print "roominfo logout success!"
         return True
     except Exception, e:
-        print "room logout error:"
+        print "roominfo logout error:"
         print e
         return False
 
 
-def room_active(roomNumber):
+def roominfo_active(roomNumber):
     try:
-        p = Room.objects.get(roomNumber=roomNumber)
+        p = RoomInfo.objects.get(roomNumber=roomNumber)
         p.exist = True
         p.save(update_fields=['exist'])
         print "room active success!"
@@ -443,21 +466,33 @@ def room_sub(roomNumber,room_longitude,room_latitude,room_community,room_shi,\
         print e
         return False
 
-def room_evaluation(roomNumber,text):
-    try:
-        p=Room.objects.get(roomNumber=roomNumber)
-        RoomEvaluation.objects.create(roomNumber=p,text=text)
-        print "evaluation success!"
-        return True
-    except Exception, e:
-        print "evaluation error:"
-        print e
-        return False
+# def evaluation_add(roomNumber, text):
+#     try:
+#         p = RoomInfo.objects.get(roomNumber=roomNumber)
+#         RoomEvaluation.objects.create(roomNumber=p, text=text)
+#         print "evaluation success!"
+#         return True
+#     except Exception, e:
+#         print "evaluation error:"
+#         print e
+#         return False
+#
+#
+# def evaluation_delete(roomNumber, text):
+#     try:
+#         p = RoomInfo.objects.get(roomNumber=roomNumber)
+#         RoomEvaluation.objects.create(roomNumber=p, text=text)
+#         print "evaluation success!"
+#         return True
+#     except Exception, e:
+#         print "evaluation error:"
+#         print e
+#         return False
 
 
-def room_sold(roomNumber):
+def roominfo_sold(roomNumber):
     try:
-        p = Room.objects.get(roomNumber=roomNumber)
+        p = RoomInfo.objects.get(roomNumber=roomNumber)
         p.sold = True
         p.save(update_fields=['sold'])
         print "room sold success!"

@@ -7,6 +7,8 @@ from django.db import models
 class RoomInfo(models.Model):
     roomNumber = models.CharField(max_length=10, primary_key=True) # 新加的
     price = models.IntegerField()
+    lng = models.FloatField()
+    lat = models.FloatField()
     # 11
     orientation = models.CharField(max_length=30, null=True)
     balcony = models.CharField(max_length=30, null=True)
@@ -133,7 +135,8 @@ class RoomPicture(models.Model):
 class RoomEvaluation(models.Model):
     # 租客评价
     roomNumber = models.ForeignKey(Room)
-    creatTime = models.DateTimeField(auto_now_add=True)
+    createTime = models.DateTimeField(auto_now_add=True)
+    ifpass = models.BooleanField(default=False)
     text = models.TextField()
 
 

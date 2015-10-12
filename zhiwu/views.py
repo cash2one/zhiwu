@@ -33,8 +33,8 @@ def home(request):
 #     # return HttpResponse("hello world",status=200)
 
 def test(request):
-    room  = RoomInfo.objects.all()
-    return render(request, "home.html", {'room': json.dumps(serializers.serialize('json',room))})
+    room = RoomPicture.objects.all()
+    return render(request, "home.html", {'rooms': json.dumps(serializers.serialize('json', room))})
 
 
 def check_root(request):
@@ -77,19 +77,19 @@ def work_search(request):
                 "drive": {"10": 0.03, "15": 0.050, "30": 0.100}}
     time_get = request.GET.get("time", None)
     way = request.GET.get("way", None)
-    longitude = request.GET.get("longitude", None)
-    latitude = request.GET.get("latitude", None)
+    longitude = request.GET.get("lng", None)
+    latitude = request.GET.get("lat", None)
     if time is None or way is None or longitude is None and latitude is None:
-        return HttpResponse(status=404)
+        return HttpResponseNotFound()
     else:
         try:
             dis = distance.get(way).get(time_get)
         except:
-            return HttpResponse(status=404)
+            return HttpResponseNotFound()
         if dis is None:
-            return HttpResponse(status=404)
-        rooms = Room.objects.filter(longitude__range=(longitude - dis, longitude + dis),
-                                    latitude__range=(latitude - dis, latitude + dis))
+            return HttpResponseNotFound()
+        rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
+                                        lat__range=(latitude - dis, latitude + dis))
         room_list = get_search_room_list(rooms)
         return render(request, "search.html", {"rooms": room_list})
 
@@ -99,8 +99,8 @@ def home_search(request):
     # longitude = models.FloatField(default=120.200)
     # latitude = models.FloatField(default=30.3)
     location = request.GET.get("home_location", None)
-    longitude = request.GET.get("longitude", None)
-    latitude = request.GET.get("latitude", None)
+    longitude = request.GET.get("lng", None)
+    latitude = request.GET.get("lat", None)
     # rooms = Room.objects.filter(community=location)
     rooms = RoomInfo.objects.all()
     dis = 0.010
@@ -115,10 +115,10 @@ def home_search(request):
 def map_search(request):
     # longitude = models.FloatField(default=120.200)
     # latitude = models.FloatField(default=30.3)
-    longitude_l = request.GET.get("longitude_left", None)
-    latitude_l = request.GET.get("latitude_left", None)
-    longitude_r = request.GET.get("longitude_right", None)
-    latitude_r = request.GET.get("latitude_right", None)
+    longitude_l = request.GET.get("lng_left", None)
+    latitude_l = request.GET.get("lat_left", None)
+    longitude_r = request.GET.get("lng_right", None)
+    latitude_r = request.GET.get("lat_right", None)
     rooms = Room.objects.filter(longitude__range=(longitude_l, longitude_r),
                                 latitude__range=(latitude_l, latitude_r))
     room_list = get_search_room_list(rooms)
@@ -752,38 +752,48 @@ def upload_image(request):
     return render(request, "home.html", {"r": fb})
 
 
-def post_room_logout(request):
+def post_roominfo_logout(request):
     if request.method == 'POST':  # 当提交表单时
         form = RoomShortForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                roomNumber = form.cleaned_data['room_roomNumber']
-                p = room_logout(roomNumber)
+                roomNumber = form.cleaned_data['roomNumber']
+                p = roominfo_logout(roomNumber)
                 if p:
                     print 'logout success!'
-                return HttpResponse(status=1)
+                    return JsonResponse(success)
+                else:
+                    print 'logout fail'
+                    return JsonResponse(fail)
             except Exception, e:
+                print "roominfo logout error:"
                 print e
-                return HttpResponse(status=0)
+                return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
+        return HttpResponseNotFound()
 
 
-def post_room_active(request):
+def post_roominfo_active(request):
     if request.method == 'POST':  # 当提交表单时
         form = RoomShortForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
                 roomNumber = form.cleaned_data['room_roomNumber']
-                p = room_active(roomNumber)
+                p = roominfo_active(roomNumber)
                 if p:
                     print 'active success!'
-                return HttpResponse(status=1)
+                    return JsonResponse(success)
+                else:
+                    print 'active fail!'
+                    return JsonResponse(fail)
             except Exception, e:
+                print 'active error:'
                 print e
-                return HttpResponse(status=0)
+                return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
+        return HttpResponseNotFound
 
 
 def post_roominfo_save(request):
@@ -799,7 +809,7 @@ def post_roominfo_submit(request):
     if p:
         try:
             room = RoomInfo.objects.get(roomNumber=num)
-            room.exist = True
+            room.achieve = True
             return JsonResponse(success)
         except Exception, e:
             print "post_roominfo_submit error:"
@@ -977,33 +987,124 @@ def post_room_sold(request):
         if form.is_valid():  # 如果提交的数据合法
             try:
                 roomNumber = form.cleaned_data['room_roomNumber']
-                p = room_sold(roomNumber)
+                p = roominfo_sold(roomNumber)
                 if p:
                     print 'room has been sold '
-                return HttpResponse(status=1)
+                    return JsonResponse(success)
+                else:
+                    return JsonResponse(fail)
             except Exception, e:
+                print 'post roominfo sold error:'
                 print e
-                return HttpResponse(status=0)
+                return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
+        return HttpResponseNotFound()
 
 
-def post_room_evaluation(request):
+def post_evaluation_add(request):
     if request.method == 'POST':  # 当提交表单时
         form = RoomEvaluationForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
                 roomNumber = form.cleaned_data['roomNumber']
                 text = form.cleaned_data['text']
-                p = room_evaluation(roomNumber, text)
+                p = evaluation_add(roomNumber, text)
                 if p:
-                    print 'evaluation success '
-                return HttpResponse(status=1)
+                    print 'evaluation success'
+                    return JsonResponse(success)
+                else:
+                    print 'evaluation fail'
+                    return JsonResponse(fail)
             except Exception, e:
+                print 'evaluation error:'
                 print e
-                return HttpResponse(status=0)
+                return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
+        return HttpResponseNotFound()
+
+
+def post_evaluation_pass(request):
+    if request.method == 'POST':
+        form = RoomEvaluationForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                e_id = form.cleaned_data['id']
+                p = evaluation_pass(e_id)
+                if p:
+                    print 'evaluation pass success'
+                    return JsonResponse(success)
+                else:
+                    print 'evaluation pass fail'
+                    return JsonResponse(fail)
+            except Exception, e:
+                print 'evaluation pass error:'
+                print e
+                return JsonResponse(fail)
+    else:
+        print 'not post'
+        return HttpResponseNotFound()
+
+
+def post_evaluation_no_pass(request):
+    if request.method == 'POST':
+        form = RoomEvaluationForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                e_id = form.cleaned_data['id']
+                p = evaluation_no_pass(e_id)
+                if p:
+                    print 'evaluation no pass success'
+                    return JsonResponse(success)
+                else:
+                    print 'evaluation no pass fail'
+                    return JsonResponse(fail)
+            except Exception, e:
+                print 'evaluation no pass error:'
+                print e
+                return JsonResponse(fail)
+    else:
+        print 'not post'
+        return HttpResponseNotFound()
+
+
+def post_evaluation_delete(request):
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomEvaluationForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                e_id = form.cleaned_data['id']
+                p = evaluation_delete(e_id)
+                if p:
+                    print 'evaluation success'
+                    return JsonResponse(success)
+                else:
+                    print 'evaluation fail'
+                    return JsonResponse(fail)
+            except Exception, e:
+                print 'evaluation error:'
+                print e
+                return JsonResponse(fail)
+    else:  # 当正常访问时
+        print 'not post'
+        return HttpResponseNotFound()
+
+
+def post_evaluation_search(request):
+    try:
+        page = int(request.GET.get('p', 1))
+        e = RoomEvaluation.objects.order_by('createTime')[page*10-10:page*10]
+        count = RoomEvaluation.objects.count()
+        e = serializers.serialize('json', e)
+        result = {'code': 1,
+                  'count': count,
+                  'context': e}
+        return JsonResponse(result, safe=False)
+    except Exception, e:
+        print 'post evaluation search error:'
+        print e
+        return JsonResponse(fail)
 
 
 # 增加一条小区信息
@@ -1040,7 +1141,7 @@ def post_community_add(request):
 # 小区查询，返回一个jason 列表
 def post_community_search(request):
     try:
-        kw = request.GET.get('xiaoqu_search_name')
+        kw = request.GET.get('xiaoqu_search_name', '')
         c_list = get_community_list(kw)
         c_list = serializers.serialize('json', c_list)
         result = {'code': 1,

@@ -85,12 +85,13 @@ class RoomForm(forms.Form):
 
 class RoomEvaluationForm(forms.Form):
     # 租客评价
-    roomNumber = forms.CharField()
-    text = forms.CharField(widget=forms.Textarea)
+    roomNumber = forms.CharField(required=False)
+    text = forms.CharField(widget=forms.Textarea, required=False)
+    id = forms.IntegerField(required=False)
 
 
 class RoomShortForm(forms.Form):
-    room_roomNumber = forms.CharField()
+    roomNumber = forms.CharField()
 
 
 class ManagerForm(forms.Form):
@@ -125,10 +126,12 @@ class ManagerPwdChange(forms.Form):
     manager_oldpw=forms.CharField(widget=forms.PasswordInput)
     manager_newpw=forms.CharField(widget=forms.PasswordInput)
 
+
 class SecondManagerPwdChange(forms.Form):
     sencond_manager_account=forms.CharField(required=False)
     second_manager_oldpw=forms.CharField(widget=forms.PasswordInput)
     second_manager_newpw=forms.CharField(widget=forms.PasswordInput)
+
 
 class TenantForm(forms.Form):
     tenant_id = forms.CharField()
@@ -137,9 +140,11 @@ class TenantForm(forms.Form):
     tenant_phone = forms.CharField(max_length=11)
     tenant_profession = forms.CharField(max_length=30, required=False)
 
+
 class TenantLoginForm(forms.Form):
     tenant_id = forms.CharField()
     tenant_pw = forms.CharField(widget=forms.PasswordInput)
+
 
 class TenantUserForm(forms.Form):
     tenant_id = forms.CharField()

@@ -91,15 +91,23 @@ urlpatterns = [
         url(r'^second_manager_active/', 'zhiwu.views.post_second_manager_active', name='second_manager_active'),
         url(r'^second_manager_pw/', 'zhiwu.views.post_second_manager_pw', name='second_manager_pw'),
 
-        url(r'roominfo_save/', 'zhiwu.views.post_roominfo_save', name='roominfo_save'),
-        url(r'roominfo_submit/', 'zhiwu.views.post_roominfo_submit', name='roominfo_sub'),
+        # 新建房源操作
+        url(r'^roominfo_save/', 'zhiwu.views.post_roominfo_save', name='roominfo_save'),
+        url(r'^roominfo_submit/', 'zhiwu.views.post_roominfo_submit', name='roominfo_sub'),
+        url(r'^roominfo_logout/', 'zhiwu.views.post_roominfo_logout', name='roominfo_logout'),
+        url(r'^roominfo_active/', 'zhiwu.views.post_roominfo_active', name='roominfo_active'),
+        url(r'^roominfo_sold/', 'zhiwu.views.post_room_sold', name='roominfo_sold'),
 
-        url(r'^room_logout/', 'zhiwu.views.post_room_logout', name='room_logout'),
-        url(r'^room_active/', 'zhiwu.views.post_room_active', name='room_active'),
+        # 评论
+        url(r'^evaluation_add/', 'zhiwu.views.post_evaluation_add', name='evaluation_add'),
+        url(r'^evaluation_pass/', 'zhiwu.views.post_evaluation_pass', name='evaluation_pass'),
+        url(r'^evaluation_no_pass/', 'zhiwu.views.post_evaluation_no_pass', name='evaluation_no_pass'),
+        url(r'^evaluation_delete/', 'zhiwu.views.post_evaluation_delete', name='evaluation_delete'),
+        url(r'^evaluation_search/', 'zhiwu.views.post_evaluation_search', name='evaluation_search'),
+
+
         # url(r'^room_save/', 'zhiwu.views.post_room_save', name='room_save'),
         # url(r'^room_sub/', 'zhiwu.views.post_room_sub', name='room_sub'),
-        url(r'^room_sold/', 'zhiwu.views.post_room_sold', name='room_sold'),
-        url(r'^room_evaluation/', 'zhiwu.views.post_room_evaluation', name='room_evaluation'),
 
         url(r'^upload_image/', 'zhiwu.views.upload_image', name='upload_image'),
         url(r'^community_add/', 'zhiwu.views.post_community_add', name='community_add'),
