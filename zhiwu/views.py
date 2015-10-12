@@ -130,6 +130,7 @@ def room_detail(request):
         roomNum = request.GET.get('roomNumber')
         room = RoomInfo.objects.get(roomNumber=roomNum)
         cp = SecondManager.objects.get(user=room.contactPerson)
+        cp = []
         roomP = get_room_picture(room)
         return render(request, "detail.html", {"room": room,
                                                "picture": roomP,
