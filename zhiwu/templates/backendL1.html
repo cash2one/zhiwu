@@ -2,7 +2,7 @@
 {% extends './common/baseForBack.html' %}
 
 <!--title-->
-{% block title %}后台管理{% endblock %}
+{% block title %}二级后台管理{% endblock %}
 
 <!--sp_header-->
 {% block sp_header %}
@@ -17,7 +17,7 @@
         <div class="col-xs-2" id="myScrollspy">
             <ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="70">
 
-                <li class="active">
+                <li>
                     <a href="#wuye_keeper_manager">
                         物业人员管理
                     </a>
@@ -26,7 +26,6 @@
                         <li><a href="#wuye_keeper_manager_search">物业管家查找</a></li>
                     </ul>
                 </li>
-
                 <li>
                     <a href="#mansion_keeper_list">
                         公寓管家管理
@@ -36,7 +35,6 @@
                         <li><a href="#mansion_keeper_search">公寓管家查询</a></li>
                     </ul>
                 </li>
-
                 <li>
                     <a href="#source_manager">
                         房源管理
@@ -46,50 +44,66 @@
                         <li><a href="#source_manager_search">房源查找</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a href="#comment_list">
+                        评论管理
+                    </a>
+                </li>
+
+
+
             </ul>
         </div>
-
         <div class="col-xs-offset-3 col-xs-9">
-
             <div class="section" id="wuye_keeper_manager">
                 <div class="title-l1">物业人员管理</div>
                 <div class="section-content">
                     <div class="section" id="wuye_keeper_manager_add">
                         <div class="title-l2">物业管家新增</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_keeper_add">
+                            <form class="form-horizontal" id="wuye_keeper_add_form" dest="{% url 'wuye_add_or_modify' %}">
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="wuye_keeper_add_account" name="wuye_keeper_add_account">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_account" name="second_manager_account">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="wuye_keeper_add_pw">
+                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="second_manager_pw">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="wuye_keeper_add_manager" class="col-sm-2 control-label">所属区域管理员</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control select-listener" id="wuye_keeper_add_manager" name="second_manager_manager">
+                                            {% for i in managers %}
+                                            {% if i.status == 'area' %}
+                                            <option value="{{ i.user }}">{{ i.user }}</option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_xiaoqu" class="col-sm-2 control-label">所属小区</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" id="wuye_keeper_add_xiaoqu" name="wuye_keeper_add_xiaoqu">
-                                            <option value="">浦沿A</option>
-                                            <option value="">浦沿B</option>
-                                            <option value="">浦沿C</option>
+                                        <select class="form-control" id="wuye_keeper_add_xiaoqu" name="second_manager_company">
+
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_name" class="col-sm-2 control-label">管家姓名</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="wuye_keeper_add_name" name="wuye_keeper_add_name">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_name" name="second_manager_name">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_phone" class="col-sm-2 control-label">管家手机</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="wuye_keeper_add_phone" name="wuye_keeper_add_phone">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_phone" name="second_manager_phone">
                                     </div>
                                 </div>
 
@@ -104,41 +118,33 @@
                     <div class="section" id="wuye_keeper_manager_search">
                         <div class="title-l2">物业管家查找</div>
                         <div class="section-content">
-                            <form class="form-inline" id="wuye_keeper_search_form" dest="/wuye_keeper_search">
+                            <form class="form-inline" id="wuye_keeper_search_form" dest="{% url 'wuye_search' %}">
                                 <div class="form-group">
-                                    <label for="wuye_keeper_search_account" class="control-label">账号*</label>
-                                    <input type="text" class="form-control" id="wuye_keeper_search_account" name="wuye_keeper_search_account">
+                                    <label for="wuye_keeper_search_account" class="control-label">小区</label>
+                                    <input type="text" class="form-control" id="wuye_keeper_search_account" name="second_manager_search_company">
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-info btn-get">搜索</button>
+                                    <button class="btn btn-info btn-get" data-type="wuye-keeper">搜索</button>
                                 </div>
                             </form>
 
 
-                            <table class="table table-striped">
+                            <table class="table table-striped" data-tmpl="#wuye-keeper-edit">
                                 <thead>
                                 <tr>
                                     <th>账号</th>
                                     <th>密码</th>
+                                    <th>所属区域管理员</th>
                                     <th>所属小区</th>
                                     <th>管家姓名</th>
                                     <th>管家手机</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <th>Q3748</th>
-                                    <th>JKLFJD9</th>
-                                    <th>古荡校区</th>
-                                    <th>张三</th>
-                                    <th>3725892739</th>
-                                    <th>
-                                        <button class="btn btn-default">编辑</button>
-                                        <button class="btn btn-danger">注销</button>
-                                        <button class="btn btn-success">激活</button>
-                                    </th>
-                                </tr>
+                                <tbody id="wuye-keeper-search-result">
+
                                 </tbody>
                             </table>
                         </div>
@@ -152,39 +158,49 @@
                     <div class="section" id="mansion_keeper_add">
                         <div class="title-l2">公寓管家新增</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="masion_keeper_add_form" dest="/masion_keeper_add">
+                            <form class="form-horizontal" id="masion_keeper_add_form" dest="{% url 'mansion_keeper_add_or_modify' %}">
                                 <div class="form-group">
                                     <label for="masion_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="masion_keeper_add_account" name="masion_keeper_add_account">
+                                        <input type="text" class="form-control" id="masion_keeper_add_account" name="second_manager_account">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="masion_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="masion_keeper_add_pw" name="masion_keeper_add_pw">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="masion_keeper_add_company" class="col-sm-2 control-label">所属公司</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="masion_keeper_add_company" name="masion_keeper_add_company">
+                                        <input type="password" class="form-control" id="masion_keeper_add_pw" name="second_manager_pw">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="masion_keeper_add_xiaoqu" class="col-sm-2 control-label">所属业务经理</label>
                                     <div class="col-sm-10">
-                                        <select class="form-control" id="masion_keeper_add_xiaoqu" name="masion_keeper_add_xiaoqu">
-                                            <option value="">李xx</option>
-                                            <option value="">张xx</option>
-                                            <option value="">高xx</option>
+                                        <select class="form-control" id="masion_keeper_add_xiaoqu" name="second_manager_manager">
+                                            {% for i in managers %}
+                                            {% if i.status == 'mansion' %}
+                                            <option value="{{ i.user }}">{{ i.user }}</option>
+                                            {% endif %}
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="masion_keeper_add_company" class="col-sm-2 control-label">所属公司</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_company" name="second_manager_company">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_name" class="col-sm-2 control-label">管家姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_name" name="second_manager_name">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="masion_keeper_add_phone" class="col-sm-2 control-label">管家手机</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="masion_keeper_add_phone" name="masion_keeper_add_phone">
+                                        <input type="text" class="form-control" id="masion_keeper_add_phone" name="second_manager_phone">
                                     </div>
                                 </div>
 
@@ -199,41 +215,33 @@
                     <div class="section" id="mansion_keeper_search">
                         <div class="title-l2">公寓管家查询</div>
                         <div class="section-content">
-                            <form class="form-inline" id="masion_keeper_search_form" dest="/masion_keeper_search">
+                            <form class="form-inline" id="masion_keeper_search_form" dest="{% url 'mansion_keeper_search' %}">
                                 <div class="form-group">
-                                    <label for="masion_keeper_search_account" class="control-label">账号*</label>
-                                    <input type="text" class="form-control" id="masion_keeper_search_account" name="masion_keeper_search_account">
+                                    <label for="masion_keeper_search_account" class="control-label">公司*</label>
+                                    <input type="text" class="form-control" id="masion_keeper_search_account" name="second_manager_search_company">
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-info btn-get">搜索</button>
+                                    <button class="btn btn-info btn-get" data-type="mansion-keeper">搜索</button>
                                 </div>
                             </form>
 
 
-                            <table class="table table-striped">
+                            <table class="table table-striped" data-tmpl="#mansion-keeper-edit">
                                 <thead>
                                 <tr>
                                     <th>账号</th>
                                     <th>密码</th>
-                                    <th>所属公司</th>
                                     <th>所属业务经理</th>
+                                    <th>所属公司</th>
+                                    <th>管家姓名</th>
                                     <th>管家手机</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <th>Q3748</th>
-                                    <th>JKLFJD9</th>
-                                    <th>租房网</th>
-                                    <th>张三</th>
-                                    <th>3725892739</th>
-                                    <th>
-                                        <button class="btn btn-default">编辑</button>
-                                        <button class="btn btn-danger">注销</button>
-                                        <button class="btn btn-success">激活</button>
-                                    </th>
-                                </tr>
+                                <tbody id="mansion-keeper-search-result">
+
                                 </tbody>
                             </table>
                         </div>
@@ -247,125 +255,337 @@
                     <div class="section" id="source_manager_submit">
                         <div class="title-l2">房源发布</div>
                         <div class="section-content">
-                            <a class="btn btn-success" href="newHouse.html">发布新的房源</a>
+                            <a class="btn btn-success" href="/new_house">发布新的房源</a>
                         </div>
                     </div>
-                    <div class="section" id="source_manager_search">
-                        <div class="title-l2">房源查询</div>
-                        <div class="section-content">
-                            <form class="form-horizontal" id="source_manager_search_form" dest="/source_manager_search">
+                    <!--<div class="section" id="source_manager_search">-->
+                    <!--<div class="title-l2">房源查询</div>-->
+                    <!--<div class="section-content">-->
+                    <!--<form class="form-horizontal" id="source_manager_search_form" dest="/source_manager_search">-->
+                    <!--<div class="form-group">-->
+                    <!--<label for="source_manager_search_no" class="col-sm-2 control-label">房源编号</label>-->
+                    <!--<div class="col-sm-10">-->
+                    <!--<input type="text" class="form-control" id="source_manager_search_no" name="source_manager_search_no">-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                    <!--<label for="source_manager_search_time" class="col-sm-2 control-label">发布时间</label>-->
+                    <!--<div class="col-sm-10">-->
+                    <!--<input type="text" class="form-control" id="source_manager_search_time" name="source_manager_search_time">-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label for="source_manager_search_time" class="col-sm-2 control-label">发布时间</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="input-group date source_manager_search_time_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input class="form-control" size="16" type="text" value="" readonly>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="hidden" id="source_manager_search_time" value="" /><br/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+                    <!--<div class="form-group">-->
+                    <!--<label for="source_manager_search_xiaoqu" class="col-sm-2 control-label">小区</label>-->
+                    <!--<div class="col-sm-10">-->
+                    <!--<input type="text" class="form-control" id="source_manager_search_xiaoqu" name="source_manager_search_xiaoqu">-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                    <!--<label for="source_manager_search_type" class="col-sm-2 control-label">户型</label>-->
+                    <!--<div class="col-sm-10">-->
+                    <!--<input type="text" class="form-control" id="source_manager_search_type" name="source_manager_search_type">-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                    <!--<label for="source_manager_search_price" class="col-sm-2 control-label">价格</label>-->
+                    <!--<div class="col-sm-10">-->
+                    <!--<input type="text" class="form-control" id="source_manager_search_price" name="source_manager_search_price">-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                    <!--<label for="source_manager_search_intime" class="col-sm-2 control-label">入住时间</label>-->
+                    <!--<div class="col-sm-10">-->
+                    <!--<input type="text" class="form-control" id="source_manager_search_intime" name="source_manager_search_intime">-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label for="source_manager_search_intime" class="col-sm-2 control-label">入住时间</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="input-group date source_manager_search_intime_wp col-sm-10" data-date="" data-date-format="yyyy-mm-dd" data-link-field="source_manager_search_time" data-link-format="yyyy-mm-dd">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input class="form-control" size="16" type="text" value="" readonly>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="hidden" id="source_manager_search_intime" value="" /><br/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                    <!--<div class="form-group">-->
+                    <!--<label for="source_manager_search_submitter" class="col-sm-2 control-label">物业/发布员</label>-->
+                    <!--<div class="col-sm-10">-->
+                    <!--<input type="text" class="form-control" id="source_manager_search_submitter" name="source_manager_search_submitter">-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                    <!--<label for="source_manager_search_manager" class="col-sm-2 control-label">物业管家/二房东管家</label>-->
+                    <!--<div class="col-sm-10">-->
+                    <!--<input type="text" class="form-control" id="source_manager_search_manager" name="source_manager_search_manager">-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                    <!--<label for="source_manager_search_photo" class="col-sm-2 control-label">有无照片</label>-->
+                    <!--<div class="col-sm-10" id="source_manager_search_photo">-->
+                    <!--<label for="photo_yes" class="radio-inline">-->
+                    <!--<input type="radio" name="photo_yes" id="photo_yes"/>-->
+                    <!--有照片-->
+                    <!--</label>-->
+
+                    <!--<label for="photo_no" class="radio-inline">-->
+                    <!--<input type="radio" name="photo_no" id="photo_no"/>-->
+                    <!--无照片-->
+                    <!--</label>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                    <!--<label for="source_manager_search_status" class="col-sm-2 control-label">状态</label>-->
+                    <!--<div class="col-sm-10">-->
+                    <!--<input type="text" class="form-control" id="source_manager_search_status" name="source_manager_search_status">-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                    <!--<label for="source_manager_search_keyword" class="col-sm-2 control-label">关键字</label>-->
+                    <!--<div class="col-sm-10">-->
+                    <!--<input type="text" class="form-control" id="source_manager_search_keyword" name="source_manager_search_keyword">-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                    <!--<div class="col-sm-offset-2 col-sm-10">-->
+                    <!--<button class="btn btn-default btn-get" data-type="house">搜索</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</form>-->
+
+
+
+                    <!--<table class="table table-striped">-->
+                    <!--<thead>-->
+                    <!--<tr>-->
+                    <!--<th>房源编号</th>-->
+                    <!--<th>发布时间</th>-->
+                    <!--<th>小区</th>-->
+                    <!--<th>户型</th>-->
+                    <!--<th>价格</th>-->
+                    <!--<th>入住时间</th>-->
+                    <!--<th>物业/发布员</th>-->
+                    <!--<th>物业管家/二房东管家</th>-->
+                    <!--<th>有无照片</th>-->
+                    <!--<th>状态</th>-->
+                    <!--<th>操作</th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody id="house-search-result">-->
+
+                    <!--</tbody>-->
+                    <!--</table>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+
+            <div class="section" id="comment_list">
+                <div class="title-l1">评论审核</div>
+                <div class="section-content">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>房源</th>
+                            <th>评论内容</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th><a href="/room_detail" target="_blank">HZ001</a></th>
+                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
+                            <th>未审核</th>
+                            <th>
+                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
+                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+<!--sp_script-->
+{% block sp_script %}
+
+
+{% verbatim %}
+
+<script id="wuye-keeper-edit" type="text/x-jquery-tmpl">
+ <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_add_or_modify/">
                                 <div class="form-group">
-                                    <label for="source_manager_search_no" class="col-sm-2 control-label">房源编号</label>
+                                    <label for="wuye_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_no" name="source_manager_search_no">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_account" name="second_manager_account" value="${user}" disabled>
+                                        <input type="hidden" name="second_manager_account" value="${user}">
                                     </div>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="source_manager_search_time" class="col-sm-2 control-label">发布时间</label>
+                                    <label for="wuye_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_time" name="source_manager_search_time">
+                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="second_manager_pw" value="${pw}">
                                     </div>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="source_manager_search_xiaoqu" class="col-sm-2 control-label">小区</label>
+                                    <label for="wuye_keeper_add_manager" class="col-sm-2 control-label">所属区域管理员</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_xiaoqu" name="source_manager_search_xiaoqu">
+                                        <select class="form-control select-listener" id="edit_wuye_keeper_add_manager" name="second_manager_manager">
+
+                                        </select>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="source_manager_search_type" class="col-sm-2 control-label">户型</label>
+                                    <label for="wuye_keeper_add_xiaoqu" class="col-sm-2 control-label">所属小区</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_type" name="source_manager_search_type">
+                                        <select class="form-control" id="edit_wuye_keeper_add_xiaoqu" name="second_manager_company">
+
+                                        </select>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="source_manager_search_price" class="col-sm-2 control-label">价格</label>
+                                    <label for="wuye_keeper_add_name" class="col-sm-2 control-label">管家姓名</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_price" name="source_manager_search_price">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_name" name="second_manager_name" value="${name}">
                                     </div>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="source_manager_search_intime" class="col-sm-2 control-label">入住时间</label>
+                                    <label for="wuye_keeper_add_phone" class="col-sm-2 control-label">管家手机</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_intime" name="source_manager_search_intime">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="source_manager_search_submitter" class="col-sm-2 control-label">物业/发布员</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_submitter" name="source_manager_search_submitter">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="source_manager_search_manager" class="col-sm-2 control-label">物业管家/二房东管家</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_manager" name="source_manager_search_manager">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="source_manager_search_photo" class="col-sm-2 control-label">有无照片</label>
-                                    <div class="col-sm-10" id="source_manager_search_photo">
-                                        <label for="photo_yes" class="radio-inline">
-                                            <input type="radio" name="photo_yes" id="photo_yes"/>
-                                            有照片
-                                        </label>
-
-                                        <label for="photo_no" class="radio-inline">
-                                            <input type="radio" name="photo_no" id="photo_no"/>
-                                            无照片
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="source_manager_search_status" class="col-sm-2 control-label">状态</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_status" name="source_manager_search_status">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="source_manager_search_keyword" class="col-sm-2 control-label">关键字</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="source_manager_search_keyword" name="source_manager_search_keyword">
+                                        <input type="text" class="form-control" id="wuye_keeper_add_phone" name="second_manager_phone" value="${phone}">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
-                                        <button class="btn btn-default btn-get">搜索</button>
+                                        <button class="btn btn-success btn-post">保存</button>
                                     </div>
                                 </div>
                             </form>
+</script>
+
+<script id="mansion-keeper-edit" type="text/x-jquery-tmpl">
+<form class="form-horizontal" id="masion_keeper_add_form" dest="/mansion_keeper_add_or_modify/">
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_account" class="col-sm-2 control-label">账号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_account" name="second_manager_account" value="${user}" disabled>
+                                        <input type="hidden" name="second_manager_account" value="${user}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_pw" class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="masion_keeper_add_pw" name="second_manager_pw" value="${pw}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_xiaoqu" class="col-sm-2 control-label">所属业务经理</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" id="edit_masion_keeper_add_xiaoqu" name="second_manager_manager">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_company" class="col-sm-2 control-label">所属公司</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_company" name="second_manager_company" value="${company}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_name" class="col-sm-2 control-label">管家姓名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_name" name="second_manager_name" value="${name}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="masion_keeper_add_phone" class="col-sm-2 control-label">管家手机</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="masion_keeper_add_phone" name="second_manager_phone" value="${phone}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+</script>
 
 
-
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th>房源编号</th>
-                                    <th>发布时间</th>
-                                    <th>小区</th>
-                                    <th>户型</th>
-                                    <th>价格</th>
-                                    <th>入住时间</th>
-                                    <th>物业/发布员</th>
-                                    <th>物业管家/二房东管家</th>
-                                    <th>有无照片</th>
-                                    <th>状态</th>
-                                    <th>操作</th>
+<script id="wuye-keeper-search" type="text/x-jquery-tmpl">
+<tr data-target="${pk}">
+                                    <th>${pk}</th>
+                                    <th>${fields.pw}</th>
+                                    <th>${fields.manager}</th>
+                                    <th>${fields.company}</th>
+                                    <th>${fields.name}</th>
+                                    <th>${fields.phone}</th>
+                                    <th>{{if fields.exist}}正在使用{{else}}已注销{{/if}}</th>
+                                    <th>
+                                        <button class="btn btn-default btn-edit">编辑</button>
+                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
+                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
+                                    </th>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
+
+</script>
+
+<script id="mansion-keeper-search" type="text/x-jquery-tmpl">
+<tr data-target="${pk}">
+                                    <th>${pk}</th>
+                                    <th>${fields.pw}</th>
+                                    <th>${fields.manager}</th>
+                                    <th>${fields.company}</th>
+                                    <th>${fields.name}</th>
+                                    <th>${fields.phone}</th>
+                                    <th>{{if fields.exist}}正在使用{{else}}已注销{{/if}}</th>
+                                    <th>
+                                        <button class="btn btn-default btn-edit">编辑</button>
+                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
+                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
+                                    </th>
+                                </tr>
+</script>
+
+
+<script id="house-search" type="text/x-jquery-tmpl">
+<tr data-target="${pk}">
                                     <th>1</th>
                                     <th>2015-09-30</th>
                                     <th>古荡小区</th>
@@ -378,40 +598,51 @@
                                     <th class="hs-status">已发布</th>
                                     <th class="btn-group">
                                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
-
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" data-target="HZ01" class="hs-offline">下架</a></li>
-                                            <li><a href="#" data-target="HZ01" class="hs-activate">激活</a></li>
-                                            <!--<li><a href="#">导出</a></li>-->
-                                            <!--<li><a href="#">直接统计</a></li>-->
+                                            <li><a href="/editHouse?houseNumber=id">编辑</a></li>
+                                            <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
+                                            <li><a href="#" class="btn-operate" data-type="activate">激活</a></li>
                                         </ul>
                                     </th>
                                 </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+</script>
 
 
+<script id="community-list-option" type="text/x-jquery-tmpl">
+    <option value="${pk}">${pk}</option>
+</script>
 
-        </div>
-    </div>
-</div>
+{% endverbatim %}
 
+<script src="/js/jquery.tmpl.min.js"></script>
 
-{% endblock %}
-
-<!--sp_script-->
-{% block sp_script %}
 
 <script>
     ;(function(){
+        var editUrlMap={
+            "#mansion-keeper-edit":"{% url 'get_second_manager'%}",
+            "#wuye-keeper-edit":"{% url 'get_second_manager'%}"
+        };
+
+        var cancelUrlMap={
+            "#mansion-keeper-edit":"{% url 'second_manager_logout'%}",
+            "#wuye-keeper-edit":"{% url 'second_manager_logout'%}"
+        };
+
+
+        var activateUrlMap={
+            "#mansion-keeper-edit":"{% url 'second_manager_active'%}",
+            "#wuye-keeper-edit":"{% url 'second_manager_active'%}"
+        };
+
         //为查询form添加ajax
-        $(".btn-get").bind("click",function(e){
+        $(document).delegate(".btn-get","click",function(e){
             e.preventDefault();
             var form = $(this).parents("form");
+            var type=$(this).data("type");
+            var _tmpl="#"+type+"-search";
+            var _wrapper="#"+type+"-search-result";
             var dest = form.attr("dest");
             var content=form.serialize();
 
@@ -419,8 +650,11 @@
                     dest,
                     content,
                     function(data){
-                        if(data.status==200){
+                        if(data.code==1){
                             console.log("get success");
+//                        $("#house-item").tmpl(rawData).appendTo('#search-result-container');
+                            $(_wrapper).empty();
+                            $(_tmpl).tmpl(JSON.parse(data.context)).appendTo(_wrapper);
                         }else{
                             console.log("get failed");
                         }
@@ -432,8 +666,9 @@
         });
 
         //为新增form添加ajax
-        $(".btn-post").bind("click",function(e){
+        $(document).delegate(".btn-post","click",function(e){
             e.preventDefault();
+
             var form = $(this).parents("form");
             var dest = form.attr("dest");
             var content=form.serialize();
@@ -442,10 +677,10 @@
                     dest,
                     content,
                     function(data){
-                        if(data.status==200){
-                            console.log("post success");
+                        if(data.code==1){
+                            alert("保存成功！");
                         }else{
-                            console.log("post failed");
+                            alert("保存失败！");
                         }
                     }
             )
@@ -459,18 +694,57 @@
         //添加日期输入启动datetimepicker
         $('#source_manager_search_time').datepicker({  dateFormat: "yy-mm-dd" });
 
+        var dialogOpts = {
+            title:"编辑信息",
+            width:"800",
+            height:"500"
+        };
 
-        //下架
-        $("#hs-list-wrapper").delegate(".hs-offline","click",function(e){
-            var _id=$(this).data("target");
+        //编辑按钮，获取对应信息并添加到dialog
+        $(document).delegate(".btn-edit","click",function(e){
+            e.preventDefault();
+            var _id=$(this).parents("tr").data("target");//该条目id
+            var _tmplID=$(this).parents("table").data("tmpl");
+            var _url=editUrlMap[_tmplID];
+
+            $.get(
+                    _url,//TODO:修改url
+                    {id:_id},
+                    function(data){
+                        if(data.code==1){
+                            console.log("get success");
+                            //添加dialog
+                            $(_tmplID).tmpl(data.context).dialog(dialogOpts);
+                            if(_tmplID=="#wuye-keeper-edit"){
+                                $("#edit_wuye_keeper_add_manager").append($.parseHTML($("#wuye_keeper_add_manager").html()));
+                            }
+                            if(_tmplID=="#mansion-keeper-edit"){
+                                $("#edit_masion_keeper_add_xiaoqu").append($.parseHTML($("#masion_keeper_add_xiaoqu").html()));
+                            }
+                        }else{
+                            console.log("get failed");
+                        }
+                    }
+            )
+                    .error(function(){
+                        console.log("error");
+                    });
+        });
+
+        //下架/注销等按钮
+        $(document).delegate(".btn-operate","click",function(e){
+            e.preventDefault();
+            var _id=$(this).parents("tr").data("target");//该条目id
+            var _tmplID=$(this).parents("table").data("tmpl");
+            var _url=$(this).data("type")==="activate"?activateUrlMap[_tmplID]:cancelUrlMap[_tmplID];
 
             $.post(
-                    "{% url 'room_collection' %}",//TODO:修改url
-                    {roomNumber:_id},
+                    _url,
+                    {id:_id},
                     function(data){
-                        if(data.status==200){
-                            //TODO:修改房源状态
+                        if(data.code==1){
                             console.log("post success");
+                            //TODO: 修改对应的表格状态
                         }else{
                             console.log("post failed");
                         }
@@ -481,16 +755,18 @@
                     });
         });
 
-        //激活
-        $("#hs-list-wrapper").delegate(".hs-activate","click",function(e){
-            var _id=$(this).data("target");
+        $(document).delegate(".select-listener","change",function(e){
+//            console.log($(this).val());
+            var value=$(this).val();
+            var wrapper=$(this).attr("id").indexOf("edit_")==-1?"#wuye_keeper_add_xiaoqu":"#edit_wuye_keeper_add_xiaoqu";
 
-            $.post(
-                    "{% url 'room_collection' %}",//TODO:修改url
-                    {roomNumber:_id},
+            $.get(
+                    "{% url 'get_community_list_by_manager' %}",
+                    {id:value},
                     function(data){
-                        if(data.status==200){
+                        if(data.code==1){
                             console.log("post success");
+                            $("#community-list-option").tmpl(JSON.parse(data.context)).appendTo(wrapper);
                         }else{
                             console.log("post failed");
                         }
@@ -499,8 +775,7 @@
                     .error(function(){
                         console.log("error");
                     });
-
-        });
+        })
     })();
 
 </script>

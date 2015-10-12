@@ -45,7 +45,7 @@
                         <div class="form-group">
                             <label for="payway" class="col-sm-2 control-label">租金/付款方式</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="keeper-add-name">元/月
+                                <input type="text" class="form-control inline-input" id="keeper-add-name" name="price">元/月
                                 <select name="payway" id="payway" class="form-control inline-input">
                                     <!--<option value="">押金方式</option>-->
                                     <option value="ya1fu1">押一付一</option>
@@ -71,6 +71,43 @@
                                 卫
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">朝向</label>
+                            <div class="col-sm-10">
+                                <select name="orientation" id="orientation" class="form-control inline-input">
+                                    <!--<option value="">押金方式</option>-->
+                                    <option value="东">东</option>
+                                    <option value="南">南</option>
+                                    <option value="西">西</option>
+                                    <option value="北">北</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">是否有阳台</label>
+                            <div class="col-sm-10">
+                                <label for="balcony_yes" class="radio-inline">
+                                    <input type="radio" name="balcony" id="balcony_yes" value="yes"/>
+                                    有
+                                </label>
+
+                                <label for="balcony_no" class="radio-inline">
+                                    <input type="radio" name="balcony" id="balcony_no" value="no"/>
+                                    无
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">面积</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control inline-input" id="mianji" name="mianji"/>
+                                平方米
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <label for="stay_intime" class="col-sm-2 control-label">最早可入住时间</label>
@@ -545,8 +582,9 @@
                 "{% url 'roominfo_save' %}",
                 content,
                 function(data){
-                    if(data.status==200){
+                    if(data.code==1){
                         console.log("post success");
+                        alert("保存成功！");
                     }else{
                         console.log("post failed");
                     }

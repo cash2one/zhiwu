@@ -6,6 +6,13 @@ from django.db import models
 
 class RoomInfo(models.Model):
     roomNumber = models.CharField(max_length=10, primary_key=True) # 新加的
+    price = models.IntegerField()
+    # 11
+    orientation = models.CharField(max_length=30, null=True)
+    balcony = models.CharField(max_length=30, null=True)
+    mianji = models.IntegerField(null=True)
+
+    # 11
     contactPerson = models.CharField(max_length=30)
     addr_xiaoqu = models.CharField(max_length=30)
     addr_building = models.CharField(max_length=30)
@@ -16,11 +23,15 @@ class RoomInfo(models.Model):
     type_room = models.CharField(max_length=30)
     type_livingroom = models.CharField(max_length=30)
     type_toilet = models.CharField(max_length=30)
-    stay_intime = models.DateField()
+    # 2
+    stay_intime = models.DateField(null=True)
+    # 2
     see = models.CharField(max_length=30, default='off')
-    floor_level = models.CharField(max_length=30)
-    total_floor = models.CharField(max_length=30)
-    elevator = models.CharField(max_length=30, default='off')
+    # 22
+    floor_level = models.CharField(max_length=30, null=True)
+    total_floor = models.CharField(max_length=30, null=True)
+    elevator = models.CharField(max_length=30, default='off', null=True)
+    # 22
     canzhuo = models.CharField(max_length=30, default='off')
     sofa = models.CharField(max_length=30, default='off')
     desk = models.CharField(max_length=30, default='off')
@@ -115,7 +126,7 @@ class RoomRented(models.Model):
 
 class RoomPicture(models.Model):
     # 房屋照片
-    roomNumber = models.ForeignKey(Room)
+    roomNumber = models.ForeignKey(RoomInfo)
     picture = models.CharField(max_length=100)
 
 

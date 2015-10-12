@@ -42,17 +42,8 @@ def test(request):
             print valuelist
         print list[key]
         print list
-        # roominfo_default={'roomNumber':'room2','contactPerson':'Gao',
-        #                   'addr_xiaoqu':'古荡','addr_building':'4幢','addr_unit':'1单元','addr_floor':'2',
-        #                   'addr_room':'201','payway':'三月一付','type_room':'1','type_livingroom':'1',
-        #                   'type_toilet':'1','stay_intime':'2015-10-01','elevator':'on','canzhuo':'on',
-        #                   'closet':'on'
-        #                  }
-        # roominfo_add_or_modify(roominfo_default)
-        #search_roomInfo_requirement(-1,'room1')
-        read_msg('111','room1')
     else:
-        ff = TenantForm()
+        ff = ManagerForm()
     return render(request, "home.html", {'ff': ff})
 
 
@@ -1050,80 +1041,6 @@ def post_community_delete(request):
         if form.is_valid():
             name = form.cleaned_data["id"]
             p = community_delete(name)
-            if p:
-                return JsonResponse(success)
-            else:
-                return JsonResponse(fail)
-        else:
-            return JsonResponse(fail)
-    else:
-        return HttpResponseNotFound()
-
-#增加需求
-def post_requirement_add(request):
-    if request.method == 'POST':
-        try:
-            requirement_default = {}
-            for key in request.POST:
-                value = request.POST.get(key)
-                requirement_default[str(key)] = value
-            tenantId = str(requirement_default['user'])
-            requirement_default.pop('user')
-            add_result = add_requirement(tenantId,requirement_default)
-            if add_result:
-                return True
-        except Exception, e:
-            print "post_requirement_add error:"
-            print e
-            return False
-    else:
-        return False
-
-#租户注册
-def post_tenant_add(request):
-    if request.method == 'POST':  # 当提交表单时
-        form = TenantForm(request.POST)  # form 包含提交的数据
-        if form.is_valid():  # 如果提交的数据合法
-            try:
-                tenantId = form.cleaned_data['tenant_id']
-                pw = form.cleaned_data['tenant_pw']
-                name = form.cleaned_data['tenant_name']
-                phone = form.cleaned_data['tenant_phone']
-                profession = form.cleaned_data['tenant_profession']
-                p = tenant_add(tenantId,pw,name,phone,profession)
-                if p:
-                    print 'register success!'
-                return HttpResponse(status=1)
-            except Exception, e:
-                print e
-                return HttpResponse(status=0)
-    else:  # 当正常访问时
-        print 'not post'
-
-def post_tenant_login(request):
-    if request.method == "POST":
-        form = TenantLoginForm(request.POST)
-        if form.is_valid():
-            try:
-                id = form.cleaned_data['tenant_id']
-                pw = form.cleaned_data['tenant_pw']
-                p=tenant_login(id,pw)
-                if p:
-                    request.session['tenantId'] = id
-                    request.session['pw'] = pw
-                    return HttpResponseRedirect("tenant/")
-                else:
-                    return HttpResponse(status=-1)
-            except Exception, e:
-                print e
-    return render(request, "tenant_login.html")
-
-def post_tenant_logout(request):
-    if request.method == 'POST':  # 当提交表单时
-        form = TenantUserForm(request.POST)  # form 包含提交的数据
-        if form.is_valid():  # 如果提交的数据合法
-            id = form.cleaned_data['tenant_id']
-            p = tenant_logout(id)
             if p:
                 return JsonResponse(success)
             else:
