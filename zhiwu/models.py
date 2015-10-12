@@ -126,7 +126,7 @@ class RoomRented(models.Model):
 
 class RoomPicture(models.Model):
     # 房屋照片
-    roomNumber = models.ForeignKey(Room)
+    roomNumber = models.ForeignKey(RoomInfo)
     picture = models.CharField(max_length=100)
 
 
