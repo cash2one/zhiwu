@@ -852,3 +852,145 @@ def watermark(img_source, img_water, img_new, offset_x, offset_y):
     else:
         return True
 
+#租户、需求、消息
+def tenant_add(tenantId,pw,name,phone,profession):
+    try:
+        if Tenant.objects.filter(tenantId = tenantId):
+            print("This user name has been registered")
+            return False
+        else:
+            Tenant.objects.create(tenantId=tenantId,
+                                  pw=pw,
+                                  name=name,
+                                  phone=phone,
+                                  profession=profession)
+            print "register success!"
+            return True
+    except Exception, e:
+        print "register error:"
+        print e
+        return False
+
+def tenant_login(tenantId,pw):
+    try:
+        p = Tenant.objects.get(tenantId=tenantId,pw=pw)
+        p.exist = True
+        p.save(update_fields=['exist'])
+        print "room login success!"
+        return True
+    except Exception, e:
+        print "room login error:"
+        print e
+        return False
+
+def tenant_logout(tenantId):
+    try:
+        p = Tenant.objects.get(tenantId=tenantId)
+        p.exist = False
+        p.save(update_fields=['exist'])
+        print "room logout success!"
+        return True
+    except Exception, e:
+        print "room logout error:"
+        print e
+        return False
+
+def add_requirement(tenantId,requirement_default):
+    try:
+        user = Tenant.objects.get(tenantId=tenantId)
+        p = Requirement(user=user,**requirement_default)
+        p.save()
+        if p:
+            print 'requirement add success!'
+            return True
+        else:
+            print 'requirement add error!'
+            return False
+    except Exception, e:
+        print 'requirement add error:'
+        print e
+        return False
+
+def add_msg(tenantId,roomNumber):
+    try:
+        toWho = Tenant.objects.get(tenantId=tenantId)
+        room = RoomInfo.objects.get(roomNumber = roomNumber)
+        p,created = Message.objects.get_or_create(toWho=toWho,
+                                   room=room)
+        p.save()
+        if created:
+            print 'message add success!'
+            return True
+        else:
+            print 'message has added!'
+    except Exception, e:
+        print 'message add error:'
+        print e
+        return False
+
+def read_msg(tenantId,roomNumber):
+    try:
+        toWho = Tenant.objects.get(tenantId=tenantId)
+        room = RoomInfo.objects.get(roomNumber = roomNumber)
+        msg = Message.objects.get(toWho=toWho,room = room)
+        msg.read = True
+        msg.save()
+        print 'message has been read'
+        return True
+    except Exception, e:
+        print 'message read error:'
+        print e
+        return False
+
+
+#每次增加需求或者增改roomInfo时候调用该函数。调用时，若是增加需求，则roomNumber传入''；若是增改roomInfo，则requireId传-1
+def search_roomInfo_requirement(requireId,roomNumber):
+    try:
+        if requireId > 0 :
+            requirements = Requirement.objects.filter(requireId=requireId)
+        else:
+            requirements = Requirement.objects.all()
+        if  roomNumber != '':
+            rooms = RoomInfo.objects.filter(roomNumber=roomNumber)
+        else:
+            rooms = RoomInfo.objects.all()
+        for requirement in requirements:
+            for room in rooms:
+                weight=match_roomInfo_requirement(requirement,room)
+                if weight > 10:
+                    add_msg(requirement.user.tenantId,room.roomNumber)
+        print 'search completed'
+    except Exception, e:
+        print 'search error:'
+        print e
+
+def match_roomInfo_requirement(requirement,room):#具体匹配
+    weight = 0;
+    #requirement有价格区间priceMin,priceMax
+    if requirement.payway == room.payway:
+        weight+= 3;
+    if requirement.addr_xiaoqu == room.addr_xiaoqu:
+        weight+= 2;
+    #basic info
+    basicInfo = ['type_room','type_livingroom','type_toilet','floor_level']
+    for basic in basicInfo:
+        if getattr(requirement,basic) == getattr(room,basic):
+            weight+= 1;
+    #configuration
+    configuration = ['elevator','canzhuo','sofa','desk','chair','closet','bed','aircon','washer',\
+                     'waterheater','refregister','tv','cookerhood','gascooker']
+    for config in configuration:
+        if getattr(requirement,config) == 'on' and getattr(room,config) == 'on':
+            weight+=0.5;
+    #房屋描述，词、句匹配
+    #...
+    #print weight
+    return weight;
+
+
+
+
+
+
+
+

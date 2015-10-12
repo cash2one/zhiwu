@@ -211,3 +211,55 @@ class SecondManager(models.Model):
 #
 #     def __unicode__(self):
 #         return self.name
+class Tenant(models.Model):
+    tenantId = models.CharField(max_length=30, primary_key=True)
+    pw = models.CharField(max_length=30)
+    name = models.CharField(max_length=30)
+    phone = models.CharField(max_length=11)
+    profession = models.CharField(max_length=30, default='off')
+    exist = models.BooleanField(default=False)
+    def __unicode__(self):
+        return self.name
+
+class Message(models.Model): #消息只增加不删除
+    toWho = models.ForeignKey(Tenant,on_delete=models.CASCADE)
+    room = models.ForeignKey(RoomInfo,on_delete=models.CASCADE)
+    read = models.BooleanField(default=False)
+
+class Requirement(models.Model): #需求只增加不删除
+    requireId = models.AutoField(primary_key=True);
+    user = models.ForeignKey(Tenant,on_delete=models.CASCADE)
+    priceMin = models.IntegerField()
+    priceMax = models.IntegerField()
+    #基本房屋信息
+    addr_xiaoqu = models.CharField(max_length=30)
+    payway = models.CharField(max_length=30)
+    type_room = models.CharField(max_length=30)
+    type_livingroom = models.CharField(max_length=30)
+    type_toilet = models.CharField(max_length=30)
+    floor_level = models.CharField(max_length=30)
+    level = models.IntegerField()
+    #房屋配置
+    elevator = models.CharField(max_length=30, default='off')
+    canzhuo = models.CharField(max_length=30, default='off')
+    sofa = models.CharField(max_length=30, default='off')
+    desk = models.CharField(max_length=30, default='off')
+    chair = models.CharField(max_length=30, default='off')
+    closet = models.CharField(max_length=30, default='off')
+    bed = models.CharField(max_length=30, default='off')
+    aircon = models.CharField(max_length=30, default='off')
+    washer = models.CharField(max_length=30, default='off')
+    waterheater = models.CharField(max_length=30, default='off')
+    refregister = models.CharField(max_length=30, default='off')
+    tv = models.CharField(max_length=30, default='off')
+    cookerhood = models.CharField(max_length=30, default='off')
+    gascooker = models.CharField(max_length=30, default='off')
+    #房源描述
+    original_house_type = models.CharField(max_length=200)
+    decorate_level = models.CharField(max_length=200)
+    config_level = models.CharField(max_length=200)
+    can_cook = models.CharField(max_length=200)
+    lighting = models.CharField(max_length=200)
+    ventilate = models.CharField(max_length=200)
+    noise = models.CharField(max_length=200)
+
