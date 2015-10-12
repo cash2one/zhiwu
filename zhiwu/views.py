@@ -129,11 +129,11 @@ def room_detail(request):
     try:
         roomNum = request.GET.get('roomNumber')
         room = RoomInfo.objects.get(roomNumber=roomNum)
-        cp = SecondManager.objects.get(user=room.contactPerson)
+        #cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
         return render(request, "detail.html", {"room": room,
-                                               "picture": roomP,
-                                               "contactPerson": cp})
+                                               "picture": roomP})
+                                               #"contactPerson": cp})
     except Exception, e:
         print e
         return HttpResponseNotFound()
