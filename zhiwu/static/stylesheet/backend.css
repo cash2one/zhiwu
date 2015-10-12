@@ -12,9 +12,9 @@ body{
     left:10%;
 }
 
-.nav-stacked li a{
-    background: #eee;
-}
+/*.nav-stacked li a{*/
+    /*background: #eee;*/
+/*}*/
 
 .second-level-menu{
     list-style: none;

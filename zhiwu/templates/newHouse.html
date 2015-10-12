@@ -21,15 +21,15 @@
             <div class="section" id="step1">
                 <div class="title-l1">基本简介</div>
                 <div class="section-content">
-                    <form class="form-horizontal" id="step1-form" dest-save="/" dest-submit="/">
+                    <form class="form-horizontal" id="step1-form">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">小区地址</label>
                             <div class="col-sm-10">
                                 <select data-placeholder="选择小区" class="form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
                                     <option value=""></option>
-                                    <option value="古荡小区">古荡小区</option>
-                                    <option value="求是新村">求是新村</option>
-                                    <option value="平安花园">平安花园</option>
+                                    <option value="古荡小区" id="古荡小区"data-lng="120.200" data-lat="30.300">古荡小区</option>
+                                    <option value="求是新村" id="求是新村" data-lng="120.220" data-lat="30.320">求是新村</option>
+                                    <option value="平安花园" id="平安花园" data-lng="120.240" data-lat="30.340">平安花园</option>
                                 </select>
                                 小区名称
                                 <input type="text" class="form-control inline-input" id="addr_building" name="addr_building"/>
@@ -42,6 +42,16 @@
                                 室
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">详细位置点选*</label>
+                            <div class="col-sm-10">
+                                <div id="house-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
+                                <input type="hidden" class="form-control" id="house_lng" name="house_lng" value="">
+                                <input type="hidden" class="form-control" id="house_lat" name="house_lat" value="">
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label for="payway" class="col-sm-2 control-label">租金/付款方式</label>
                             <div class="col-sm-10">
@@ -538,7 +548,36 @@
     </tr>
 {% } %}
 </script>
+
+<script id="xiaoqu-option-tmpl" type="text/x-tmpl">
+    <option value="{%=name%}" data-lng="120.200" data-lat="30.300">古荡小区</option>
+</script>
+
 {% endverbatim %}
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
+<script src="/js/jquery.tmpl.min.js"></script>
+<script type="text/javascript">
+    // 百度地图API功能
+
+    //    地图创建
+    var map = new BMap.Map("house-map");    // 创建Map实例
+    //    var mPoint = new BMap.Point(116.404, 39.915);
+    //    map.enableScrollWheelZoom(false);
+    //    map.centerAndZoom(mPoint,15);
+    map.centerAndZoom("杭州",15);
+
+    //    添加控件
+    var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+    var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+    map.addControl(top_left_control);
+    map.addControl(top_left_navigation);
+
+//    var marker = new BMap.Marker(new BMap.Point(120.169848,30.276734));  // 创建标注
+//    map.addOverlay(marker);              // 将标注添加到地图中
+//    marker.enableDragging();
+
+</script>
 
 
 <script src="//blueimp.github.io/JavaScript-Templates/js/tmpl.min.js"></script>
@@ -558,15 +597,10 @@
         //为新增form,save或者submit添加ajax
         $(".btn-post").bind("click",function(e){
             e.preventDefault();
-//            var form = $(this).parents("form");
-//            var dest;
 
-//            if($(this).data("type")==="save"){
-//                dest=form.attr("dest-save");
-//            }else{
-//                dest=form.attr("dest-submit");
-//            }
-
+            var p = marker.getPosition();
+            $("#house_lng").val(p.lng);
+            $("#house_lat").val(p.lat);
 
             var urlArr=[];
             $(".picLink").each(function(){
@@ -574,7 +608,6 @@
             });
 
             var urlStr=urlArr.join("^_^");
-
 
             var content=$("#step1-form").serialize()+"&"+$("#step3-form").serialize()+"&imgUrl="+urlStr;
 
@@ -600,19 +633,22 @@
         $("#addr_xiaoqu").chosen();
 
 
+        $("#addr_xiaoqu").bind("change",function(){
+//           console.log("change");
 
-//        $("#fileupload").fileupload({
-//            url:"/upload_image/",//文件上传地址，当然也可以直接写在input的data-url属性内
-////            formData:{param1:"p1",param2:"p2"},//如果需要额外添加参数可以在这里添加
-//            maxFileSize: 999000,
-//            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-//            done:function(e,result){
-//                //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
-//                //注意result要和jquery的ajax的data参数区分，这个对象包含了整个请求信息
-//                //返回的数据在result.result中，假设我们服务器返回了一个json对象
-//                console.log("done");
-//            }
-//        })
+            var _option=$("#"+$(this).val());
+            var _lng=_option.data("lng");
+            var _lat=_option.data("lat");
+
+            map.centerAndZoom(new BMap.Point(_lng,_lat),18);
+
+            map.clearOverlays();
+            window.marker = new BMap.Marker(new BMap.Point(_lng,_lat));  // 创建标注
+            map.addOverlay(window.marker);              // 将标注添加到地图中
+            window.marker.enableDragging();
+        });
+
+
 
     })();
 </script>

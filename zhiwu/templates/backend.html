@@ -16,34 +16,45 @@
     <div class="row">
         <div class="col-xs-2" id="myScrollspy">
             <ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="70">
+
                 <li class="active">
+                    <a href="#business_manager">
+                        商圈环境管理
+                    </a>
+                    <!--<ul class="second-level-menu">-->
+                        <!--<li><a href="#business_manager_add">商圈新增</a></li>-->
+                        <!--<li><a href="#business_manager_search">商圈查找</a></li>-->
+                    <!--</ul>-->
+                </li>
+
+                <li>
                     <a href="#xiaoqu_manager">
                         小区库管理
                     </a>
-                    <ul class="second-level-menu">
-                        <li><a href="#xiaoqu_manager_add">小区新增</a></li>
-                        <li><a href="#xiaoqu_manager_search">小区查找</a></li>
-                    </ul>
+                    <!--<ul class="second-level-menu">-->
+                        <!--<li><a href="#xiaoqu_manager_add">小区新增</a></li>-->
+                        <!--<li><a href="#xiaoqu_manager_search">小区查找</a></li>-->
+                    <!--</ul>-->
                 </li>
 
                 <li>
                     <a href="#area_manager">
                         区域管理
                     </a>
-                    <ul class="second-level-menu">
-                        <li><a href="#area_manager_add">区域及账号建设</a></li>
-                        <li><a href="#area_manager_search">区域查找及修改</a></li>
-                    </ul>
+                    <!--<ul class="second-level-menu">-->
+                        <!--<li><a href="#area_manager_add">区域及账号建设</a></li>-->
+                        <!--<li><a href="#area_manager_search">区域查找及修改</a></li>-->
+                    <!--</ul>-->
                 </li>
 
                 <li>
                     <a href="#wuye_keeper_manager">
                         物业人员管理
                     </a>
-                    <ul class="second-level-menu">
-                        <li><a href="#wuye_keeper_manager_add">物业管家新增</a></li>
-                        <li><a href="#wuye_keeper_manager_search">物业管家查找</a></li>
-                    </ul>
+                    <!--<ul class="second-level-menu">-->
+                        <!--<li><a href="#wuye_keeper_manager_add">物业管家新增</a></li>-->
+                        <!--<li><a href="#wuye_keeper_manager_search">物业管家查找</a></li>-->
+                    <!--</ul>-->
                 </li>
 
 
@@ -52,10 +63,10 @@
                     <a href="#source_manager">
                         房源管理
                     </a>
-                    <ul class="second-level-menu">
-                        <li><a href="#source_manager_submit">房源发布</a></li>
-                        <li><a href="#source_manager_search">房源查找</a></li>
-                    </ul>
+                    <!--<ul class="second-level-menu">-->
+                        <!--<li><a href="#source_manager_submit">房源发布</a></li>-->
+                        <!--<li><a href="#source_manager_search">房源查找</a></li>-->
+                    <!--</ul>-->
                 </li>
 
                 <!--<li>-->
@@ -77,10 +88,10 @@
                     <a href="#mansion_manager_list">
                         公寓经理管理
                     </a>
-                    <ul class="second-level-menu">
-                        <li><a href="#mansion_manager_add">公寓经理新增</a></li>
-                        <li><a href="#mansion_manager_search">公寓经理查询</a></li>
-                    </ul>
+                    <!--<ul class="second-level-menu">-->
+                        <!--<li><a href="#mansion_manager_add">公寓经理新增</a></li>-->
+                        <!--<li><a href="#mansion_manager_search">公寓经理查询</a></li>-->
+                    <!--</ul>-->
                 </li>
 
 
@@ -88,10 +99,10 @@
                     <a href="#mansion_keeper_list">
                         公寓管家管理
                     </a>
-                    <ul class="second-level-menu">
-                        <li><a href="#mansion_keeper_add">公寓管家新增</a></li>
-                        <li><a href="#mansion_keeper_search">公寓管家查询</a></li>
-                    </ul>
+                    <!--<ul class="second-level-menu">-->
+                        <!--<li><a href="#mansion_keeper_add">公寓管家新增</a></li>-->
+                        <!--<li><a href="#mansion_keeper_search">公寓管家查询</a></li>-->
+                    <!--</ul>-->
                 </li>
 
                 <li>
@@ -109,6 +120,59 @@
             </ul>
         </div>
         <div class="col-xs-offset-3 col-xs-9">
+
+            <div class="section" id="business_manager">
+                <div class="title-l1">商圈管理</div>
+                <div class="section-content">
+                    <div class="section" id="business_manager_add">
+                        <div class="title-l2">商圈新增</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="business_add_form" dest="{% url 'community_add' %}">
+                                <div class="form-group">
+                                    <label for="business_add_name" class="col-sm-2 control-label">名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="business_add_name" name="business_add_name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="section" id="business_manager_search">
+                        <div class="title-l2">商圈查询</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="business_search_form" dest="{% url 'community_search' %}">
+                                <div class="form-group">
+                                    <label for="business_search_name" class="control-label">商圈名称*</label>
+                                    <input type="text" class="form-control" id="business_search_name" name="business_search_name">
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get" data-type="business">搜索</button>
+                                </div>
+                            </form>
+
+
+
+                            <table class="table table-striped" data-tmpl="#business-edit">
+                                <thead>
+                                <tr>
+
+                                </tr>
+                                </thead>
+                                <tbody id="business-search-result">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="section" id="xiaoqu_manager">
                 <div class="title-l1">小区库管理</div>
@@ -133,9 +197,9 @@
                                     <label class="col-sm-2 control-label">详细位置点选*</label>
                                     <div class="col-sm-10">
                                         <div id="xiaoqu-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
-                                        <button class="btn btn-success" id="save-point">保存当前位置</button>
-                                        <input type="hidden" class="form-control" id="xiaoqu_add_lng" name="xiaoqu_add_lng">
-                                        <input type="hidden" class="form-control" id="xiaoqu_add_lat" name="xiaoqu_add_lat">
+                                        <!--<button class="btn btn-success" id="save-point">保存当前位置</button>-->
+                                        <input type="hidden" class="form-control" id="xiaoqu_add_lng" name="xiaoqu_add_lng" value="120.169848">
+                                        <input type="hidden" class="form-control" id="xiaoqu_add_lat" name="xiaoqu_add_lat" value="30.276734">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -869,7 +933,6 @@
                                     <label class="col-sm-2 control-label">详细位置点选*</label>
                                     <div class="col-sm-10">
                                         <div id="edit-xiaoqu-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
-                                        <button class="btn btn-success" id="edit-save-point">保存当前位置</button>
                                         <input type="hidden" class="form-control" id="edit_xiaoqu_add_lng" name="xiaoqu_add_lng" value="${lng}">
                                         <input type="hidden" class="form-control" id="edit_xiaoqu_add_lat" name="xiaoqu_add_lat" value="${lat}">
                                     </div>
@@ -1282,6 +1345,9 @@
 
 <script>
     ;(function(){
+        var marker=window.marker;
+        var edit_marker=window.edit_marker;
+
         var editUrlMap={
             "#xiaoqu-edit":"{% url 'get_community'%}",
             "#area-edit":"{% url 'get_manager'%}",
@@ -1406,7 +1472,7 @@
                         $(_tmplID).tmpl(data.context).dialog(dialogOpts);
                         if(_tmplID=="#xiaoqu-edit"){
                             //    地图创建
-                            edit_map = new BMap.Map("edit-xiaoqu-map");    // 创建Map实例
+                            var edit_map = new BMap.Map("edit-xiaoqu-map");    // 创建Map实例
                             edit_map.centerAndZoom(new BMap.Point(data.context.lng,data.context.lat),15);
 
                             //    添加控件
