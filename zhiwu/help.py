@@ -13,8 +13,8 @@ def get_search_room_list(rooms):
             images.append(j.picture)
         room = {'roomNumber': i.roomNumber,
                 'price': i.price,
-                'lng': 120+float(random.uniform(-0.1, 0.1)),
-                'lat': 30+float(random.uniform(-0.1, 0.1)),
+                'lng': 120.2+float(random.uniform(-0.05, 0.05)),
+                'lat': 30.3+float(random.uniform(-0.05, 0.05)),
                 'status':random.choice ( ['mansion', 'area'] ),
                 'elevator': i.elevator,
                 'see': i.see,

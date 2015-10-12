@@ -7,6 +7,15 @@
 <!--sp_header-->
 {% block sp_header %}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<style>
+    .carousel-control.right{
+        background-image:none;
+    }
+
+    .carousel-control.left{
+        background-image:none;
+    }
+</style>
 {% endblock %}
 
 <!--content-->
@@ -114,14 +123,14 @@
                     </label>
 
 
-                    <label for="manager" class="checkbox-inline">
-                        <input type="radio" name="acheive_way" id="manager"/>
+                    <label for="mansion" class="checkbox-inline">
+                        <input type="radio" name="acheive_way" id="mansion"/>
                         物业公司房源
                     </label>
 
 
-                    <label for="freeproxy" class="checkbox-inline">
-                        <input type="radio" name="acheive_way" id="freeproxy"/>
+                    <label for="area" class="checkbox-inline">
+                        <input type="radio" name="acheive_way" id="area"/>
                         0中介费品牌公寓
                     </label>
                 </div>
@@ -205,7 +214,7 @@
                             不限
                         </label>
 
-                        <label for="photo-yesr" class="checkbox-inline">
+                        <label for="photo-yes" class="checkbox-inline">
                             <input type="radio" name="photo" id="photo-yes"/>
                             有照片
                         </label>
@@ -248,15 +257,34 @@
 <script id="house-item" type="text/x-jquery-tmpl">
 {{if isValid}}
 <div class="result-box col-lg-6">
-    <a href="/room_detail" target="_blank">
+    <a href="/room_detail/?roomNumber=${roomNumber}" target="_blank">
         <div class="result-image thumbnail" data-target="${roomNumber}">
-            <img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>
+
+            <div id="myCarousel${roomNumber}" class="carousel slide" style="height:200px;overflow:hidden">
+               <div class="carousel-inner">
+                    {{each(i,image) images}}
+                        <div class="item {{if i==0 }}active{{/if}}">
+                         <img src="${image}" alt="First slide" style="overflow:hidden;margin:0 auto;">
+                      </div>
+                    {{/each}}
+               </div>
+
+               <a class="left carousel-control" href="#myCarousel${roomNumber}" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel${roomNumber}" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
             <div class="result-desc">
                 <div class="result-title">
-                    ${roomNumber}:${community}
+                    ${addr_xiaoqu}
                 </div>
                 <div class="result-type">
-                    ${shi}室${ting}厅${wei}卫
+                    ${type_room}室${type_livingroom}厅${type_toilet}卫
                 </div>
                 <div class="collect result-item {{if isCollected}}active{{/if}}" data-target="${roomNumber}">
                     <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
@@ -264,7 +292,7 @@
             </div>
 
             <div class="price-tag result-item">
-                ${rent}￥
+                ${price}￥
             </div>
         </div>
     </a>
@@ -276,130 +304,19 @@
 
 <script type="text/javascript">
 
-    //存储源数据
-    var rawData=[
-        {
-            roomNumber:"HZ01",
-            community:"古荡小区",
-            longitude:116.407845,
-            latitude:39.914101,
-            shi:1,
-            ting:1,
-            wei:1,
-            rent:1200,
-            isCollected:true,
-            achvWay:"manager",
-            isValid:true,
-            lookable:false,
-            photo:true,
-            elevator:true
-        },
-        {
-            roomNumber:"HZ02",
-            community:"花园小区",
-            longitude:116.407845,
-            latitude:39.915101,
-            shi:1,
-            ting:1,
-            wei:1,
-            rent:1700,
-            isCollected:false,
-            achvWay:"manager",
-            isValid:true,
-            lookable:true,
-            photo:true,
-            elevator:true
-        },
-        {
-            roomNumber:"HZ03",
-            community:"哈哈小区",
-            longitude:116.407845,
-            latitude:39.916101,
-            shi:2,
-            ting:1,
-            wei:1,
-            rent:2500,
-            isCollected:false,
-            achvWay:"manager",
-            isValid:true,
-            lookable:false,
-            photo:true,
-            elevator:false
-        },
-        {
-            roomNumber:"HZ04",
-            community:"求是小区",
-            longitude:116.407845,
-            latitude:39.917101,
-            shi:2,
-            ting:1,
-            wei:1,
-            rent:4000,
-            isCollected:false,
-            achvWay:"manager",
-            isValid:true,
-            lookable:true,
-            photo:true,
-            elevator:false
-        },
-        {
-            roomNumber:"HZ05",
-            community:"你好小区",
-            longitude:116.407845,
-            latitude:39.918101,
-            shi:3,
-            ting:1,
-            wei:1,
-            rent:6000,
-            isCollected:false,
-            achvWay:"freeproxy",
-            isValid:true,
-            lookable:true,
-            photo:true,
-            elevator:false
-        }
-    ];
+    var rawData={{ rooms|safe }};
 
-
-    var newData=[
-        {
-            roomNumber:"HZ06",
-            community:"古荡小区",
-            longitude:116.408845,
-            latitude:39.914101,
-            shi:1,
-            ting:1,
-            wei:1,
-            rent:1200,
-            isCollected:true,
-            achvWay:"manager",
-            isValid:true
-        },
-        {
-            roomNumber:"HZ07",
-            community:"花园小区",
-            longitude:116.406845,
-            latitude:39.915101,
-            shi:1,
-            ting:1,
-            wei:1,
-            rent:1700,
-            isCollected:false,
-            achvWay:"manager",
-            isValid:true
-        }
-    ];
-
-
-
+    for(var i=0;i<rawData.length;i++){
+        rawData[i].isCollected=false;
+        rawData[i].isValid=true;
+    }
 
 //    百度地图初始化
 
-//    地图创建
     var map = new BMap.Map("allmap");    // 创建Map实例
-    map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
+    map.centerAndZoom(new BMap.Point(120.200, 30.300), 12);  // 初始化地图,设置中心点坐标和地图级别
     map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
-    map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
+    map.setCurrentCity("杭州");          // 设置地图显示的城市 此项是必须设置的
     map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 
 //    添加控件
@@ -413,7 +330,6 @@
         this._point = point;
         this._text = text;
         this._id = id;
-//        this._overText = mouseoverText;
     }
     ComplexCustomOverlay.prototype = new BMap.Overlay();
     ComplexCustomOverlay.prototype.initialize = function(map){
@@ -462,7 +378,7 @@
 //        };
 
         div.onclick = function(){
-            window.open("/room_detail?roomNumber="+this._id);
+            window.open("/room_detail?roomNumber="+this.id.split("overlay")[1]);
         };
 
         map.getPanes().labelPane.appendChild(div);
@@ -500,6 +416,8 @@
         $("#more-way-section").slideUp();
     });
 
+
+
 </script>
 
 <script>
@@ -507,10 +425,10 @@
 
 //        页面初始化搜索结果以及地图
 
-        var point = new BMap.Point(116.404, 39.915);
-        map.centerAndZoom(point, 16);
+
 
         function freshResult(){
+            $(".carousel").carousel('pause');
             //TODO:确定中心点和显示范围
 
             //清空并添加结果框
@@ -521,7 +439,7 @@
             map.clearOverlays();
             for(var i=0;i<rawData.length;i++){
                 if(rawData[i].isValid){
-                    var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(rawData[i].longitude,rawData[i].latitude), rawData[i].rent,rawData[i].roomNumber);
+                    var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(rawData[i].lng,rawData[i].lat), rawData[i].price,rawData[i].roomNumber);
                     map.addOverlay(myCompOverlay);
                 }
             }
@@ -630,7 +548,7 @@
                         //没有限制
                         elevator = -1;
                     } else {
-                        elevator = _target.id==="elevator-yes";
+                        elevator = _target.id==="elevator-yes"?"yes":"no";
                     }
                     break;
                 case "photo":
@@ -638,7 +556,7 @@
                         //没有限制
                         photo = -1;
                     } else {
-                        photo = _target.id==="photo-yes";
+                        photo = _target.id==="photo-yes"?true:false;
                     }
                     break;
                 case "lookable":
@@ -646,7 +564,7 @@
                         //没有限制
                         lookable_type = -1;
                     } else {
-                        lookable_type = _target.id==="freelook";
+                        lookable_type = _target.id==="freelook"?"yes":"no";
                     }
                     break;
                 default:
@@ -656,12 +574,12 @@
             //根据界限变量去遍历数组，筛选内容
             for(var i=0;i<rawData.length;i++){
                 rawData[i].isValid=true;
-                if((price_upper!=-1&&rawData[i].rent>price_upper)
-                        ||(price_lower!=-1&&rawData[i].rent<=price_lower)
-                        ||(room_type!=-1&&rawData[i].shi!=room_type)
-                        ||(achive_type!=-1&&rawData[i].achvWay!=achive_type)
-                        ||(lookable_type!=-1&&rawData[i].lookable!==lookable_type)
-                        ||(photo!=-1&&rawData[i].photo!==photo)
+                if((price_upper!=-1&&rawData[i].price>price_upper)
+                        ||(price_lower!=-1&&rawData[i].price<=price_lower)
+                        ||(room_type!=-1&&rawData[i].type_room!=room_type)
+                        ||(achive_type!=-1&&rawData[i].status!=achive_type)
+                        ||(lookable_type!=-1&&rawData[i].see!==lookable_type)
+                        ||(photo!=-1&&((typeof rawData[i].images[0] === "undefined")===photo))
                         ||(elevator!=-1&&rawData[i].elevator!==elevator)){
                     rawData[i].isValid=false;
                 }
