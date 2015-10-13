@@ -44,7 +44,9 @@ urlpatterns = [
             url(r'^client_back_comment/', 'zhiwu.views.client_back_comment', name='client_back_comment'),
 
         # 后台登陆
-            url(r'^manager_login/', 'zhiwu.views.admin_manager_login', name='manager_login'),
+            url(r'^admin_login/', 'zhiwu.views.admin_login', name='admin_login'),
+        # 后台注销
+            url(r'^admin_logout/', 'zhiwu.views.admin_logout', name='admin_logout'),
 
         # 一级管理
             url(r'^admin_root/', 'zhiwu.views.admin_root', name='admin_root'),

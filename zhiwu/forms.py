@@ -30,9 +30,9 @@ class ImageForm(forms.Form):
 
 
 class AdminLogin(forms.Form):
-    login_user = forms.CharField()
-    login_pw = forms.CharField(widget=forms.PasswordInput)
-    login_type = forms.CharField(required=False)
+    account = forms.CharField(required=False)
+    password = forms.CharField(widget=forms.PasswordInput, required=False)
+    identity = forms.CharField(required=False)
 
 
 class RoomForm(forms.Form):
