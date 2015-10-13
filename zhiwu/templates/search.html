@@ -304,6 +304,7 @@
 
 <script type="text/javascript">
 
+//    接受房源数据，并作初始化处理
     var rawData={{ rooms|safe }};
 
     for(var i=0;i<rawData.length;i++){
@@ -604,12 +605,12 @@
             var ne = bounds.getNorthEast();
 
             $.post(
-                    "/map_search",
+                    "{% url 'map_search' %}",
                     {
-                        swx:sw.lng,//左下角坐标
-                        swy:sw.lat,
-                        nex:ne.lng,//右上角坐标
-                        ney:ne.lat
+                        lng_left:sw.lng,//左下角坐标
+                        lat_left:sw.lat,
+                        lng_right:ne.lng,//右上角坐标
+                        lat_right:ne.lat
                     },
                     function(data){
                         if(data.status==200){

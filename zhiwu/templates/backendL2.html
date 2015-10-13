@@ -71,8 +71,11 @@
                                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
 
                                         <ul class="dropdown-menu">
-                                            <li><a href="#" data-target="HZ01" class="hs-offline">下架</a></li>
-                                            <li><a href="#" data-target="HZ01" class="hs-activate">激活</a></li>
+                                            <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
+                                            <li><a href="#" class="btn-operate" data-type="activate">上架</a></li>
+                                            <li><a href="#" class="btn-operate" data-type="sold">售出</a></li>
+                                            <li><a href="#" class="btn-edit">编辑</a></li>
+
                                             <!--<li><a href="#">导出</a></li>-->
                                             <!--<li><a href="#">直接统计</a></li>-->
                                         </ul>
@@ -95,46 +98,26 @@
 
 <script>
     ;(function(){
-        //下架
-        $("#hs-list-wrapper").delegate(".hs-offline","click",function(e){
-            var _id=$(this).data("target");
+        //下架/注销等按钮
+        $(document).delegate(".btn-operate","click",function(e){
+            e.preventDefault();
+            var _id=$(this).parents("tr").data("target");//该条目id
+            var _url=$(this).data("type")==="activate"?"{% url 'roominfo_active' %}":($(this).data("type")==="cancel"?"{% url 'roominfo_logout' %}":"{% url 'roominfo_sold' %}");
 
             $.post(
-                "{% url 'room_collection' %}",//TODO:修改url
-                {roomNumber:_id},
-                function(data){
-                    if(data.status==200){
-                        //TODO:修改房源状态
-                        console.log("post success");
-                    }else{
-                        console.log("post failed");
+                    _url,
+                    {id:_id},
+                    function(data){
+                        if(data.code==1){
+                            console.log("post success");
+                        }else{
+                            console.log("post failed");
+                        }
                     }
-                }
             )
-            .error(function(){
-                console.log("error");
-            });
-        });
-
-        //激活
-        $("#hs-list-wrapper").delegate(".hs-activate","click",function(e){
-            var _id=$(this).data("target");
-
-            $.post(
-                "{% url 'room_collection' %}",//TODO:修改url
-                {roomNumber:_id},
-                function(data){
-                    if(data.status==200){
-                        console.log("post success");
-                    }else{
-                        console.log("post failed");
-                    }
-                }
-            )
-            .error(function(){
-                console.log("error");
-            });
-
+                    .error(function(){
+                        console.log("error");
+                    });
         });
     })();
 </script>
