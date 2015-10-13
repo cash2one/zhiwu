@@ -613,8 +613,8 @@
                         lat_right:ne.lat
                     },
                     function(data){
-                        if(data.status==200){
-                            rawData=data.newData;
+                        if(data.code==1){
+//                            rawData={{ data.rooms|safe }};
                             freshResult();
                             console.log("post success");
                         }else{

@@ -224,7 +224,7 @@ def admin_second_manager(request):
     else:
         return HttpResponseRedirect(reverse("manager_login"))
     rooms = Room.objects.filter(contactPerson=smu)
-    return render(request, "backendL2.html", {"second_managers": rooms,
+    return render(request, "backendL2.html", {"rooms": rooms,
                                               "status": status,
                                               "user": user})
 

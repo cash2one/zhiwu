@@ -81,6 +81,44 @@
                                         </ul>
                                     </th>
                                 </tr>
+
+                                {% for i in rooms %}
+                                    <tr data-target="{{i.roomNumber}}">
+                                        <th>{{i.roomNumber}}</th>
+                                        <th>{{i.DateToLive}}</th>
+                                        <th>{{i.area}}</th>
+                                        <th>{{i.shi}}室{{i.ting}}厅{{i.wei}}卫</th>
+                                        <th>{{i.rent}}/月</th>
+                                        <th>{{i.DateToLive}}</th>
+                                        <th>{{i.contactPerson}}</th>
+                                        <th>{{i.contactPerson}}</th>
+                                        <th>有</th>
+                                        <th>
+                                            {% if i.sold == true %}
+                                                已售出
+                                            {% elif i.exist == true %}
+                                                已上架
+                                            {% elif i.achieve == true %}
+                                                待上架
+                                            {% elif %}
+                                                待编辑
+                                            {% endif %}
+                                        </th>
+                                        <th class="btn-group">
+                                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
+                                                <li><a href="#" class="btn-operate" data-type="activate">上架</a></li>
+                                                <li><a href="#" class="btn-operate" data-type="sold">售出</a></li>
+                                                <li><a href="#" class="btn-edit">编辑</a></li>
+
+                                                <!--<li><a href="#">导出</a></li>-->
+                                                <!--<li><a href="#">直接统计</a></li>-->
+                                            </ul>
+                                        </th>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
