@@ -130,10 +130,12 @@ def room_detail(request):
     try:
         roomNum = request.GET.get('roomNumber')
         room = RoomInfo.objects.get(roomNumber=roomNum)
-        #cp = SecondManager.objects.get(user=room.contactPerson)
-        #cp = []
+        evaluation = RoomEvaluation.objects.filter(roomNumber=roomNum).order_by('createTime')
+        cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
         return render(request, "detail.html", {"room": room,
+                                               "evaluation": evaluation,
+                                               "contactPerson": cp,
                                                "picture": roomP})
     except Exception, e:
         print e
@@ -217,7 +219,7 @@ def admin_manager(request):
         return HttpResponseRedirect(reverse("admin_login"))
         # return render(request, "backendL1.html")
     m_list = get_second_manager_list(manager)
-    m_list = json.dumps(serializers.serialize('json', m_list))
+    # m_list = json.dumps(serializers.serialize('json', m_list))
     return render(request, "backendL1.html", {"second_managers": m_list,
                                               "status": status,
                                               "identity": identity,
@@ -231,7 +233,7 @@ def admin_second_manager(request):
     if not is_second_manager(identity):
         return HttpResponseRedirect(reverse("admin_login"))
     rooms = RoomInfo.objects.filter(contactPerson=user)
-    rooms = json.dumps(serializers.serialize('json', rooms))
+    # rooms = json.dumps(serializers.serialize('json', rooms))
     return render(request, "backendL2.html", {"rooms": rooms,
                                               "identity": identity,
                                               "status": status,
@@ -239,6 +241,7 @@ def admin_second_manager(request):
 
 
 def new_house(request):
+    roomNumber = request.GET.get("roomNumber", "")
     user = request.session.get("user")
     status = request.session.get("status", "")
     identity = request.session.get("identity", "")
@@ -246,9 +249,22 @@ def new_house(request):
     communities = Community.objects.filter(manager=sm.manager)
     communities = json.dumps(serializers.serialize('json', communities))
     if is_second_manager(identity):
-        return render(request, "newHouse.html", {"user": user,
-                                                 "status": status,
-                                                 "communities": communities})
+        if roomNumber != "":
+            return render(request, "newHouse.html", {"user": user,
+                                                     "status": status,
+                                                     "communities": communities})
+        else:
+            roominfo = RoomInfo.objects.get(roomNumber=roomNumber)
+            pictures = RoomPicture.objects.filter(roomNumber=roominfo)
+            images = []
+            for i in pictures:
+                data = {'image': i.picture, 'size': os.path.getsize('./zhiwu'+i.picture)}
+                images.append(data)
+            return render(request, "editHouse.html", {"user": user,
+                                                      "status": status,
+                                                      "room": roominfo,
+                                                      "images": images,
+                                                      "communities": communities})
     else:
         return HttpResponseRedirect(reverse("admin_login"))
 

@@ -12,6 +12,7 @@ def get_search_room_list(rooms):
         for j in pictures:
             images.append(j.picture)
         room = {'roomNumber': i.roomNumber,
+                'stay_intime': i.stay_intime,
                 'price': i.price,
                 'lng': i.lng,
                 'lat': i.lat,
