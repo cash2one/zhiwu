@@ -410,11 +410,11 @@
                 </div>
             </div>
 
-            <div class="section" id="keeper-list">
-                <!--这一部分应该是自动生成的-->
-                <div class="title-l1">自动生成小区环境</div>
-                <div class="section-content">
-                    <div class="section" id="keeper-add">
+{#            <div class="section" id="keeper-list">#}
+{#                <!--这一部分应该是自动生成的-->#}
+{#                <div class="title-l1">自动生成小区环境</div>#}
+{#                <div class="section-content">#}
+{#                    <div class="section" id="keeper-add">#}
                         <!--<form class="form-horizontal" id="keeper-add-form">-->
                             <!--<div class="form-group">-->
                                 <!--<label for="keeper-add-account" class="col-sm-2 control-label">小区所在商圈</label>-->
@@ -458,9 +458,9 @@
                                 <!--</div>-->
                             <!--</div>-->
                         <!--</form>-->
-                    </div>
-                </div>
-            </div>
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
 
         </div>
     </div>
@@ -598,7 +598,10 @@
         $(".btn-post").bind("click",function(e){
             e.preventDefault();
 
-            var p = marker.getPosition();
+            var type=$(this).data("type");
+            var dest=type=="save"?{% url 'roominfo_save' %}:{% url 'roominfo_sub' %}
+
+            var p = window.marker.getPosition();
             $("#house_lng").val(p.lng);
             $("#house_lat").val(p.lat);
 
@@ -612,7 +615,7 @@
             var content=$("#step1-form").serialize()+"&"+$("#step3-form").serialize()+"&imgUrl="+urlStr;
 
             $.post(
-                "{% url 'roominfo_save' %}",
+                dest,
                 content,
                 function(data){
                     if(data.code==1){

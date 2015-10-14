@@ -1290,6 +1290,7 @@
     map.addControl(top_left_navigation);
 
     var marker = new BMap.Marker(new BMap.Point(120.169848,30.276734));  // 创建标注
+    var edit_marker = new BMap.Marker(new BMap.Point(120.169848,30.276734));  // 创建标注
     map.addOverlay(marker);              // 将标注添加到地图中
     marker.enableDragging();
 
@@ -1385,6 +1386,10 @@
             var p = marker.getPosition();
             $("#xiaoqu_add_lng").val(p.lng);
             $("#xiaoqu_add_lat").val(p.lat);
+
+            var p = edit_marker.getPosition();
+            $("#edit_xiaoqu_add_lng").val(p.lng);
+            $("#edit_xiaoqu_add_lat").val(p.lat);
 
             $.post(
                     dest,

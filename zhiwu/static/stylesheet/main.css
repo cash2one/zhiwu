@@ -127,7 +127,7 @@ hr{
     font-size: 25px;
     font-weight: 600;
     padding:10px 15px;
-    width:300px;
+    width:280px;
     height:50px;
     background: #ff5a5f;
     color:white;
@@ -137,7 +137,7 @@ hr{
     font-size: 25px;
     font-weight: 600;
     padding:10px 15px;
-    width:135px;
+    width:155px;
     height:50px;
     top:5px;
     right:5px;
@@ -223,18 +223,18 @@ hr{
     line-height: 50px;
     text-align: center;
     font-weight: 600;
-    padding:15px 20px;
+    padding:25px 20px;
     width:235px;
-    height:80px;
-    top:265px;
+    height:100px;
+    top:405px;
     right:5px;
-    background: #F4A460;
     color:white;
+    background: rgba(135,166,153,1);
 }
 
 .room-info .room-btn button{
     padding:10px 20px;
-    background-color: #F4A460;
+    background: rgba(135,166,153,1);
     border: 3px solid white;
     border-radius: 5px;
 }
@@ -246,8 +246,8 @@ hr{
 .room-info .room-master{
     font-size: 16px;
     font-weight: 600;
-    padding:15px 20px;
-    width:300px;
+    padding:25px 20px;
+    width:200px;
     height:100px;
     top:405px;
     left:5px;
@@ -278,11 +278,11 @@ hr{
     text-align: center;
     font-weight: 600;
     padding:15px 20px;
-    width:135px;
-    height:100px;
-    top:405px;
+    width:235px;
+    height:80px;
+    top:265px;
     right:5px;
-    background: rgba(135,166,153,1);
+    background: #F4A460;
     color:white;
 }
 
@@ -372,19 +372,23 @@ hr{
 .room-detail-wrapper .room-detail-section{
     margin-top:25px;
     width:600px;
+    border:5px solid white;
+    border-radius: 2px;
+    padding:20px 30px;
+    background: rgba(135,166,153,1);
 }
 
 .room-detail-wrapper .room-detail-section-fulllength{
     width:100%;
 }
 
-.room-detail-section .room-detail-title{
-    color:#ff5a5f;
+.room-detail-wrapper .room-detail-section .room-detail-title{
+    color:white;
     font-size:18px;
 }
 
 .room-detail-section .room-detail-title .glyphicon{
-    color:#ff5a5f;
+    color:white;
     margin-right:5px;
 }
 
@@ -442,12 +446,12 @@ hr{
 
 .room-detail-content .detail-item{
     display: inline-block;
-    width:560px;
+    width:100%;
     position: relative;
     font-size:16px;
     line-height:30px;
     padding:10px;
-    border-bottom:1px dotted #DEDEDE;
+    border-bottom:1px dashed white;
 }
 
 /*.room-detail-content .detail-item:nth-child(2n-1){*/
@@ -456,12 +460,13 @@ hr{
 
 .room-detail-content .detail-item .detail-item-key{
     width:35%;
-    color:grey;
+    color:white;
 }
 
 .room-detail-content .detail-item .detail-item-value{
     position: absolute;
     left:35%;
+    color:white;
 }
 
 

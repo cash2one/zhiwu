@@ -880,7 +880,7 @@ def post_roominfo_active(request):
         form = RoomShortForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                roomNumber = form.cleaned_data['room_roomNumber']
+                roomNumber = form.cleaned_data['roomNumber']
                 p = roominfo_active(roomNumber)
                 if p:
                     print 'active success!'
@@ -911,6 +911,7 @@ def post_roominfo_submit(request):
         try:
             room = RoomInfo.objects.get(roomNumber=num)
             room.achieve = True
+            room.save()
             return JsonResponse(success)
         except Exception, e:
             print "post_roominfo_submit error:"
@@ -944,7 +945,9 @@ def post_roominfo_add_or_modify(request):
             if add_or_modify_result:
                 for i in url_list:
                     room_picture_add(roomNumber, i)
-            return True, roomNumber
+                return True, roomNumber
+            else:
+                return False, None
         except Exception, e:
             print "post_roominfo_add_or_modify error:"
             print e
@@ -1086,7 +1089,7 @@ def post_room_sold(request):
         form = RoomShortForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
             try:
-                roomNumber = form.cleaned_data['room_roomNumber']
+                roomNumber = form.cleaned_data['roomNumber']
                 p = roominfo_sold(roomNumber)
                 if p:
                     print 'room has been sold '

@@ -46,7 +46,7 @@
                     </a>
                     <ul class="second-level-menu">
                         <li><a href="#source_manager_submit">房源发布</a></li>
-                        <li><a href="#source_manager_search">房源查找</a></li>
+{#                        <li><a href="#source_manager_search">房源查找</a></li>#}
                     </ul>
                 </li>
             </ul>
@@ -106,18 +106,18 @@
                         </div>
                     </div>
                     <div class="section" id="wuye_keeper_manager_search">
-                        <div class="title-l2">物业管家查找</div>
+                        <div class="title-l2">物业管家列表</div>
                         <div class="section-content">
-                            <form class="form-inline" id="wuye_keeper_search_form" dest="{% url 'wuye_search' %}">
-                                <div class="form-group">
-                                    <label for="wuye_keeper_search_account" class="control-label">小区</label>
-                                    <input type="text" class="form-control" id="wuye_keeper_search_account" name="second_manager_search_company">
-                                </div>
-
-                                <div class="form-group">
-                                    <button class="btn btn-info btn-get" data-type="wuye-keeper">搜索</button>
-                                </div>
-                            </form>
+{#                            <form class="form-inline" id="wuye_keeper_search_form" dest="{% url 'wuye_search' %}">#}
+{#                                <div class="form-group">#}
+{#                                    <label for="wuye_keeper_search_account" class="control-label">小区</label>#}
+{#                                    <input type="text" class="form-control" id="wuye_keeper_search_account" name="second_manager_search_company">#}
+{#                                </div>#}
+{##}
+{#                                <div class="form-group">#}
+{#                                    <button class="btn btn-info btn-get" data-type="wuye-keeper">搜索</button>#}
+{#                                </div>#}
+{#                            </form>#}
 
 
                             <table class="table table-striped" data-tmpl="#wuye-keeper-edit">
@@ -220,7 +220,7 @@
                         </div>
                     </div>
                     <div class="section" id="mansion_keeper_search">
-                        <div class="title-l2">公寓管家查询</div>
+                        <div class="title-l2">公寓管家列表</div>
                         <div class="section-content">
                             <!--<form class="form-inline" id="masion_keeper_search_form" dest="{% url 'mansion_keeper_search' %}">-->
                                 <!--<div class="form-group">-->
@@ -518,15 +518,20 @@
                     {id:_id},
                     function(data){
                         if(data.code==1){
-                            console.log("post success");
+{#                            console.log("post success");#}
+                            alert("操作成功！");
                             //TODO: 修改对应的表格状态
+
                         }else{
-                            console.log("post failed");
+                            alert("操作失败！");
+
+{#                            console.log("post failed");#}
                         }
                     }
             )
                     .error(function(){
-                        console.log("error");
+                        alert("发送失败！");
+{#                        console.log("error");#}
                     });
         });
 
