@@ -84,8 +84,12 @@ urlpatterns = [
         url(r'^manager_active/', 'zhiwu.views.post_manager_active', name='manager_active'),
         url(r'^manager_pw/', 'zhiwu.views.post_manager_pw', name='manager_pw'),
 
-        url(r'^wuye_add_or_modify/', 'zhiwu.views.wuye_add_or_modify', name='wuye_add_or_modify'),
-        url(r'^mansion_keeper_add_or_modify/', 'zhiwu.views.mansion_keeper_add_or_modify', name='mansion_keeper_add_or_modify'),
+        url(r'^wuye_add/', 'zhiwu.views.wuye_add', name='wuye_add'),
+        url(r'^mansion_keeper_add/', 'zhiwu.views.mansion_keeper_add', name='mansion_keeper_add'),
+
+
+        url(r'^wuye_modify/', 'zhiwu.views.wuye_modify', name='wuye_modify'),
+        url(r'^mansion_keeper_modify/', 'zhiwu.views.mansion_keeper_modify', name='mansion_keeper_modify'),
 
         url(r'^wuye_search/', 'zhiwu.views.wuye_search', name='wuye_search'),
         url(r'^mansion_keeper_search/', 'zhiwu.views.mansion_keeper_search', name='mansion_keeper_search'),

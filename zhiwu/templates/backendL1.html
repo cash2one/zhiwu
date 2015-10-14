@@ -18,7 +18,7 @@
             <ul class="nav nav-pills nav-stacked" data-spy="affix" data-offset-top="70">
 
 
-                {% if state == "area" %}
+                {% if status == "area" %}
                 <li>
                     <a href="#wuye_keeper_manager">
                         物业人员管理
@@ -29,7 +29,7 @@
                     </ul>
                 </li>
                 {% endif %}
-                {% if state == "mansion" %}
+                {% if status == "mansion" %}
                 <li>
                     <a href="#mansion_keeper_list">
                         公寓管家管理
@@ -52,7 +52,7 @@
             </ul>
         </div>
         <div class="col-xs-offset-3 col-xs-9">
-            {#{% if state == "area" %}#}
+            {% if status == "area" %}
 
             <div class="section" id="wuye_keeper_manager">
                 <div class="title-l1">物业人员管理</div>
@@ -60,7 +60,7 @@
                     <div class="section" id="wuye_keeper_manager_add">
                         <div class="title-l2">物业管家新增</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="wuye_keeper_add_form" dest="{% url 'wuye_add_or_modify' %}">
+                            <form class="form-horizontal" id="wuye_keeper_add_form" dest="{% url 'wuye_add' %}">
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
@@ -160,10 +160,10 @@
                     </div>
                 </div>
             </div>
-            {#{% endif %}#}
+            {% endif %}
 
 
-            {#{% if state == "mansion" %}#}
+            {% if status == "mansion" %}
 
             <div class="section" id="mansion_keeper_list">
                 <div class="title-l1">公寓管家管理</div>
@@ -171,7 +171,7 @@
                     <div class="section" id="mansion_keeper_add">
                         <div class="title-l2">公寓管家新增</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="masion_keeper_add_form" dest="{% url 'mansion_keeper_add_or_modify' %}">
+                            <form class="form-horizontal" id="masion_keeper_add_form" dest="{% url 'mansion_keeper_add' %}">
                                 <div class="form-group">
                                     <label for="masion_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
@@ -278,7 +278,7 @@
                 </div>
             </div>
 
-            {#{% endif %}#}
+            {% endif %}
             <div class="section" id="source_manager">
                 <div class="title-l1">房源管理</div>
                 <div class="section-content">
@@ -306,7 +306,7 @@
 {% verbatim %}
 
 <script id="wuye-keeper-edit" type="text/x-jquery-tmpl">
- <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_add_or_modify/">
+ <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_add/">
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
@@ -358,7 +358,7 @@
 </script>
 
 <script id="mansion-keeper-edit" type="text/x-jquery-tmpl">
-<form class="form-horizontal" id="masion_keeper_add_form" dest="/mansion_keeper_add_or_modify/">
+<form class="form-horizontal" id="masion_keeper_add_form" dest="/mansion_keeper_add/">
                                 <div class="form-group">
                                     <label for="masion_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
