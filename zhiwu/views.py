@@ -204,6 +204,7 @@ def admin_root(request):
         e = RoomEvaluation.objects.order_by('createTime')[0:10]
         count = RoomEvaluation.objects.count()
         return render(request, "backend.html", {"managers": m_list,
+                                                "managers_js": json.dumps(serializers.serialize(m_list)),
                                                 "evaluation_count": count,
                                                 "status": status,
                                                 "identity": identity,

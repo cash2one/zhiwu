@@ -136,7 +136,7 @@ class RoomEvaluation(models.Model):
     # 租客评价
     roomNumber = models.ForeignKey(RoomInfo)
     createTime = models.DateTimeField(auto_now_add=True)
-    ifpass = models.BooleanField(default=False)
+    ifpass = models.NullBooleanField(null=True)
     text = models.TextField()
 
 

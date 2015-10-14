@@ -294,7 +294,7 @@ def configuration_modify(roomNumber, level, elevator, canZhuo,
 def evaluation_add(roomNumber, text):
     try:
         room = RoomInfo.objects.get(roomNumber=roomNumber)
-        RoomEvaluation.objects.create(roomNumber=room, text=text)
+        RoomEvaluation.objects.create(roomNumber=room, text=text, ifpass=None)
         print "evaluation add success!"
         return True
     except Exception, e:
