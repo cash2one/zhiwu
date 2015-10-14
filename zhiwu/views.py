@@ -15,7 +15,9 @@ import time
 import os
 # Create your views here.
 
-
+rename = {"code":0, "msg":"用户已经存在"}
+not_valid = {"code":0, "msg":"信息不合法"}
+not_exist = {"code":0, "msg":"用户不存在"}
 success = {"code": 1}
 fail = {"code": 0}
 
@@ -134,6 +136,8 @@ def room_detail(request):
         cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
         return render(request, "detail.html", {"room": room,
+                                               "lat": json.dumps(room.lat),
+                                               "lng": json.dumps(room.lng),
                                                "evaluation": evaluation,
                                                "contactPerson": cp,
                                                "picture": roomP})
@@ -424,12 +428,12 @@ def post_manager_add(request, status):
                 if p:
                     return JsonResponse(success)
                 else:
-                    return JsonResponse(fail)
+                    return JsonResponse(rename)
             except Exception, e:
                 print e
-                return JsonResponse(fail)
+                return JsonResponse(not_valid)
         else:
-            return JsonResponse(fail)
+            return JsonResponse(not_valid)
     else:  # 当正常访问时
         return HttpResponseNotFound()
 
@@ -448,12 +452,12 @@ def post_manager_modify(request, status):
                 if p:
                     return JsonResponse(success)
                 else:
-                    return JsonResponse(fail)
+                    return JsonResponse(not_exist)
             except Exception, e:
                 print e
-                return JsonResponse(fail)
+                return JsonResponse(not_valid)
         else:
-            return JsonResponse(fail)
+            return JsonResponse(not_valid)
     else:  # 当正常访问时
         return HttpResponseNotFound()
 
@@ -615,12 +619,12 @@ def post_second_manager_add(request, status):
                 if p:
                     return JsonResponse(success)
                 else:
-                    return JsonResponse(fail)
+                    return JsonResponse(rename)
             except Exception, e:
                 print e
-                return JsonResponse(fail)
+                return JsonResponse(not_valid)
         else:
-            return JsonResponse(fail)
+            return JsonResponse(not_valid)
     else:  # 当正常访问时
         print 'not post'
         return HttpResponseNotFound()
@@ -641,12 +645,12 @@ def post_second_manager_modify(request, status):
                 if p:
                     return JsonResponse(success)
                 else:
-                    return JsonResponse(fail)
+                    return JsonResponse(not_exist)
             except Exception, e:
                 print e
-                return JsonResponse(fail)
+                return JsonResponse(not_valid)
         else:
-            return JsonResponse(fail)
+            return JsonResponse(not_valid)
     else:  # 当正常访问时
         print 'not post'
         return HttpResponseNotFound()
