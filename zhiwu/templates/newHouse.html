@@ -27,12 +27,9 @@
                             <div class="col-sm-10">
                                 <select data-placeholder="选择小区" class="form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
                                     <option value=""></option>
-                                    {% for i in community_list %}
+                                    {% for i in communities %}
                                         <option {% if i.name == room.addr_xiaoqu %} selected {% endif %} value="{{ i.name }}" id="{{ i.name }}" data-lng="{{ i.lng }}" data-lat="{{ i.lat }}">{{ i.name }}</option>
                                     {% endfor %}
-                                    <option value="古荡小区" id="古荡小区"data-lng="120.200" data-lat="30.300">古荡小区</option>
-                                    <option value="求是新村" id="求是新村" data-lng="120.220" data-lat="30.320">求是新村</option>
-                                    <option value="平安花园" id="平安花园" data-lng="120.240" data-lat="30.340">平安花园</option>
                                 </select>
                                 小区名称
                                 <input type="text" class="form-control inline-input" id="addr_building" name="addr_building"/>

@@ -56,51 +56,25 @@
                                 </tr>
                                 </thead>
                                 <tbody id="hs-list-wrapper">
-                                <tr data-target="HZ001">
-                                    <th>1</th>
-                                    <th>2015-09-30</th>
-                                    <th>古荡小区</th>
-                                    <th>两室一厅</th>
-                                    <th>3000/月</th>
-                                    <th>2015-12-01</th>
-                                    <th>haha</th>
-                                    <th>haha</th>
-                                    <th>有</th>
-                                    <th class="hs-status">已发布</th>
-                                    <th class="btn-group">
-                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
-
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
-                                            <li><a href="#" class="btn-operate" data-type="activate">上架</a></li>
-                                            <li><a href="#" class="btn-operate" data-type="sold">售出</a></li>
-                                            <li><a href="#" class="btn-edit">编辑</a></li>
-
-                                            <!--<li><a href="#">导出</a></li>-->
-                                            <!--<li><a href="#">直接统计</a></li>-->
-                                        </ul>
-                                    </th>
-                                </tr>
-
-                                {% for i in rooms %}
-                                    <tr data-target="{{i.roomNumber}}">
-                                        <th>{{i.roomNumber}}</th>
-                                        <th>{{i.DateToLive}}</th>
-                                        <th>{{i.area}}</th>
-                                        <th>{{i.shi}}室{{i.ting}}厅{{i.wei}}卫</th>
-                                        <th>{{i.rent}}/月</th>
-                                        <th>{{i.DateToLive}}</th>
-                                        <th>{{i.contactPerson}}</th>
-                                        <th>{{i.contactPerson}}</th>
-                                        <th>有</th>
+                                {% for i in rms %}
+                                    <tr data-target="{{i.info.roomNumber}}">
+                                        <th>{{i.info.roomNumber}}</th>
+                                        <th>{{i.info.stay_intime}}</th>
+                                        <th>{{i.info.addr_xiaoqu}}</th>
+                                        <th>{{i.info.type_room}}室{{i.info.type_livingroom}}厅{{i.info.type_toilet}}卫</th>
+                                        <th>{{i.info.price}}/月</th>
+                                        <th>{{i.info.stay_intime}}</th>
+                                        <th>{{i.info.contactPerson}}</th>
+                                        <th>{{i.info.contactPerson}}</th>
+                                        <th>{% if i.picture == True %}有{% else %}无{% endif %}</th>
                                         <th>
-                                            {% if i.sold == true %}
+                                            {% if i.info.sold == True %}
                                                 已售出
-                                            {% elif i.exist == true %}
+                                            {% elif i.info.exist == True %}
                                                 已上架
-                                            {% elif i.achieve == true %}
+                                            {% elif i.info.achieve == True %}
                                                 待上架
-                                            {% elif %}
+                                            {% else %}
                                                 待编辑
                                             {% endif %}
                                         </th>

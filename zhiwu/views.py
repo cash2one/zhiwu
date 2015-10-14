@@ -224,8 +224,10 @@ def admin_manager(request):
         return HttpResponseRedirect(reverse("admin_login"))
         # return render(request, "backendL1.html")
     m_list = get_second_manager_list(manager)
+    c_list = get_community_list_by_manager(user)
     # m_list = json.dumps(serializers.serialize('json', m_list))
     return render(request, "backendL1.html", {"second_managers": m_list,
+                                              "community_list": c_list,
                                               "status": status,
                                               "identity": identity,
                                               "user": user})
@@ -251,10 +253,10 @@ def new_house(request):
     status = request.session.get("status", "")
     identity = request.session.get("identity", "")
     sm = SecondManager.objects.get(user=user)
-    communities = Community.objects.filter(manager=sm.manager)
-    communities = json.dumps(serializers.serialize('json', communities))
+    communities = Community.objects.filter(manager=sm.manager.user)
+    #communities = json.dumps(serializers.serialize('json', communities))
     if is_second_manager(identity):
-        if roomNumber != "":
+        if roomNumber == "":
             return render(request, "newHouse.html", {"user": user,
                                                      "status": status,
                                                      "communities": communities})
@@ -915,7 +917,7 @@ def post_roominfo_submit(request):
         return JsonResponse(fail)
 
 
-def post_roominfo_add_or_modify(request, manager):
+def post_roominfo_add_or_modify(request):
     if request.method == 'POST':
         try:
             manager = request.session.get('user', '')

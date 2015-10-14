@@ -1382,6 +1382,10 @@
             var dest = form.attr("dest");
             var content=form.serialize();
 
+            var p = marker.getPosition();
+            $("#xiaoqu_add_lng").val(p.lng);
+            $("#xiaoqu_add_lat").val(p.lat);
+
             $.post(
                     dest,
                     content,
