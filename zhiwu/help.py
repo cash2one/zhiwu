@@ -307,6 +307,7 @@ def evaluation_pass(_id):
     try:
         p = RoomEvaluation.objects.get(id=_id)
         p.ifpass = True
+        p.save()
         print "evaluation pass success!"
         return True
     except Exception, e:
@@ -319,6 +320,7 @@ def evaluation_no_pass(_id):
     try:
         p = RoomEvaluation.objects.get(id=_id)
         p.ifpass = False
+        p.save()
         print "evaluation no pass success!"
         return True
     except Exception, e:
