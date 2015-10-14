@@ -322,7 +322,7 @@
 
     //    地图创建
     var map = new BMap.Map("room-detail-map");    // 创建Map实例
-    var mPoint = new BMap.Point(116.404, 39.915);
+    var mPoint = new BMap.Point({{ lng|safe }}, {{ lat|safe }});
 //    map.enableScrollWheelZoom(false);
     map.centerAndZoom(mPoint,15);
 
@@ -362,7 +362,7 @@
                     {% url 'evaluation_add' %},
                     {
                         text:_text,
-                        roomNubmer:_num
+                        roomNumber:_num
                     },
                     function(data){
                         if(data.code==1){

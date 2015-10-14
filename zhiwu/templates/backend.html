@@ -1003,7 +1003,11 @@
                                     <label for="wuye_keeper_add_manager" class="col-sm-2 control-label">所属区域管理员</label>
                                     <div class="col-sm-10">
                                         <select class="form-control select-listener" id="edit_wuye_keeper_add_manager" name="second_manager_manager">
-
+                                            {{ each(i,m) manager_list}}
+                                                {{ if i.status == "area" }}
+                                                    <option value="${i.user}">${i.user}</option>
+                                                {{ /if }}
+                                            {{ /each }}
                                         </select>
                                     </div>
                                 </div>
@@ -1055,7 +1059,11 @@
                                     <label for="masion_keeper_add_xiaoqu" class="col-sm-2 control-label">所属业务经理</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" id="edit_masion_keeper_add_xiaoqu" name="second_manager_manager">
-
+                                            {{ each(i,m) manager_list}}
+                                                {{ if i.status == "mansion" }}
+                                                    <option value="${i.user}">${i.user}</option>
+                                                {{ /if }}
+                                            {{ /each }}
                                         </select>
                                     </div>
                                 </div>
@@ -1224,45 +1232,19 @@
                                 </tr>
 </script>
 
-
-<script id="house-search" type="text/x-jquery-tmpl">
-<tr data-target="${pk}">
-                                    <th>1</th>
-                                    <th>2015-09-30</th>
-                                    <th>古荡小区</th>
-                                    <th>两室一厅</th>
-                                    <th>3000/月</th>
-                                    <th>2015-12-01</th>
-                                    <th>haha</th>
-                                    <th>haha</th>
-                                    <th>有</th>
-                                    <th class="hs-status">已发布</th>
-                                    <th class="btn-group">
-                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="/editHouse?houseNumber=id">编辑</a></li>
-                                            <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
-                                            <li><a href="#" class="btn-operate" data-type="activate">激活</a></li>
-                                        </ul>
-                                    </th>
-                                </tr>
-
-</script>
-
-
 <script id="community-list-option" type="text/x-jquery-tmpl">
     <option value="${pk}">${pk}</option>
 </script>
 
 
 <script id="comment-tmpl" type="text/x-jquery-tmpl">
-    <tr class="comment-item" data-target="${}">
-                            <th><a href="/room_detail/?roomNubmer=${}" target="_blank">${}</a></th>
-                            <th style="width:50%;">${}</th>
-                            <th>未审核</th>
+    <tr class="comment-item" data-target="${fields.roomNumber}">
+                            <th><a href="/room_detail/?roomNubmer=${fields.roomNumber}" target="_blank">${fields.roomNumber}</a></th>
+                            <th style="width:50%;">${fields.text}</th>
+                            <th>{{if fields.ifpass}} 已通过 {{else}} 未通过 {{/if}}</th>
                             <th>
                                 <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
-                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
+                                <button class="btn btn-warning btn-operate" data-type="cancel">驳回</button>
                                 <button class="btn btn-success btn-operate" data-type="activate">通过</button>
                             </th>
                         </tr>
@@ -1298,8 +1280,8 @@
 
 <script>
     ;(function(){
-        var marker=window.marker;
-        var edit_marker=window.edit_marker;
+        var marker;
+        var edit_marker;
 
         var editUrlMap={
             "#xiaoqu-edit":"{% url 'get_community'%}",
@@ -1448,12 +1430,12 @@
                             edit_map.addOverlay(edit_marker);              // 将标注添加到地图中
                             edit_marker.enableDragging();
                         }
-                        if(_tmplID=="#wuye-keeper-edit"){
-                            $("#edit_wuye_keeper_add_manager").append($.parseHTML($("#wuye_keeper_add_manager").html()));
-                        }
-                        if(_tmplID=="#mansion-keeper-edit"){
-                            $("#edit_masion_keeper_add_xiaoqu").append($.parseHTML($("#masion_keeper_add_xiaoqu").html()));
-                        }
+{#                        if(_tmplID=="#wuye-keeper-edit"){#}
+{#                            $("#edit_wuye_keeper_add_manager").append($.parseHTML($("#wuye_keeper_add_manager").html()));#}
+{#                        }#}
+{#                        if(_tmplID=="#mansion-keeper-edit"){#}
+{#                            $("#edit_masion_keeper_add_xiaoqu").append($.parseHTML($("#masion_keeper_add_xiaoqu").html()));#}
+{#                        }#}
                     }else{
                         console.log("get failed");
                     }
@@ -1524,6 +1506,7 @@
             $("#Pagination").pagination(num_entries, {
                 num_edge_entries: 1, //边缘页数
                 num_display_entries: 1, //主体页数
+                maxentries:
                 callback: pageselectCallback,
                 items_per_page:5 //每页显示1项
             });
@@ -1532,11 +1515,12 @@
         function pageselectCallback(page_index, jq){
 {#            var ipp=5;//item per page#}
             $("#comment-result").empty();
+            var _p=page_index+1;
 
 
             $.get(
                     "{% url 'evaluation_search' %}",
-                    {p:page_index},
+                    {p:_p},
                     function(data){
                         if(data.code==1){
                             $("#comment-tmpl").tmpl(JSON.parse(data.context)).appendTo($("#comment-result"));
