@@ -240,8 +240,11 @@ def admin_second_manager(request):
     if not is_second_manager(identity):
         return HttpResponseRedirect(reverse("admin_login"))
     rooms = RoomInfo.objects.filter(contactPerson=user)
+    rms = []
+    for i in rooms:
+        rms.append({"info":i,"picture":RoomPicture.objects.filter(roomNumber=i).exists()})
     # rooms = json.dumps(serializers.serialize('json', rooms))
-    return render(request, "backendL2.html", {"rooms": rooms,
+    return render(request, "backendL2.html", {"rooms": rms,
                                               "identity": identity,
                                               "status": status,
                                               "user": user})
