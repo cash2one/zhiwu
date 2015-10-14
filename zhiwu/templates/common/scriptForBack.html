@@ -5,3 +5,28 @@
 <script src="/js/chosen.jquery.min.js"></script>
 <script src="/js/jquery.md5.js"></script>
 
+<script>
+    ;(function(){
+        $("#modify-submit").bind("click",function(){
+           $.post(
+                    {% url 'evaluation_add' %},
+                    {
+                        text:_text,
+                        roomNubmer:_num
+                    },
+                    function(data){
+                        if(data.code==1){
+                            console.log("post success");
+                            alert("评论发布成功，正在等待管理员审核！");
+                        }else{
+                            console.log("post failed");
+                            alert("评论发布失败！");
+                        }
+                    }
+            )
+            .error(function(){
+                console.log("error");
+            });
+        });
+    })();
+</script>

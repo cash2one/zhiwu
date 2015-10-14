@@ -33,6 +33,7 @@
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
+
             <div class="item active">
                 <img src="https://z2.muscache.com/ac/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=xx_large&output-format=jpg&output-quality=70" width="100%" height="100%" alt="...">
             </div>
@@ -65,7 +66,7 @@
             {% if room.see == "on" %}随时可看{% else %}预约可看{% endif %}
         </div>
 
-        <div class="room-number room-part">{{ room.roomNumber }}</div>
+        <div class="room-number room-part" id="room-number">{{ room.roomNumber }}</div>
 
         <div class="room-keyinfo room-part">
             <span class="bigger">{{room.type_room}}</span>室<span class="bigger">{{room.type_livingroom}}</span>厅<span class="bigger">{{room.type_toilet}}</span>卫<br/>
@@ -295,7 +296,7 @@
                 <div class="comment-avatar" style="background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);-moz-background-size:100% 100%;background-size:100% 100%;"></div>
                 <div class="comment-content" style="background: #f5f5f5;border:none;padding:0;">
                     <textarea name="comment" id="comment" cols="20" rows="10" placeholder="留下你的足迹或者评论吧~" class="form-control"></textarea>
-                    <button class="btn btn-pink" style="position: absolute;top:0px;right:0px;"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;提交我的评论</button>
+                    <button id="comment-submit" class="btn btn-pink" style="position: absolute;top:0px;right:0px;"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;提交我的评论</button>
                 </div>
             </div>
 
@@ -348,6 +349,30 @@
 
             var searchItem=$(this).data("type");
             local.searchNearby(searchItem,mPoint,1000);
+        });
+
+        $("#comment-submit").bind("click",function(e){
+            var _text=$("#comment").val();
+            var _num=$("#room-number").text();
+            $.post(
+                    {% url 'evaluation_add' %},
+                    {
+                        text:_text,
+                        roomNubmer:_num
+                    },
+                    function(data){
+                        if(data.code==1){
+                            console.log("post success");
+                            alert("评论发布成功，正在等待管理员审核！");
+                        }else{
+                            console.log("post failed");
+                            alert("评论发布失败！");
+                        }
+                    }
+            )
+            .error(function(){
+                console.log("error");
+            });
         });
     });
 </script>

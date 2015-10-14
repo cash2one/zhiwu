@@ -131,11 +131,11 @@ def room_detail(request):
         roomNum = request.GET.get('roomNumber')
         room = RoomInfo.objects.get(roomNumber=roomNum)
         evaluation = RoomEvaluation.objects.filter(roomNumber=roomNum).order_by('createTime')
-        cp = SecondManager.objects.get(user=room.contactPerson)
+        #cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
         return render(request, "detail.html", {"room": room,
                                                "evaluation": evaluation,
-                                               "contactPerson": cp,
+                                               #"contactPerson": cp,
                                                "picture": roomP})
     except Exception, e:
         print e
@@ -199,6 +199,7 @@ def admin_root(request):
         community_list = get_community_list()
         return render(request, "backend.html", {"managers": m_list,
                                                 "status": status,
+                                                "identity": identity,
                                                 "user": user,
                                                 "communities": community_list})
     else:

@@ -126,7 +126,11 @@
                                 <div class="form-group">
                                     <label for="xiaoqu_add_manager" class="col-sm-2 control-label">小区管理负责人</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="xiaoqu_add_manager" name="xiaoqu_add_manager">
+                                        <select class="form-control" id="xiaoqu_add_manager" name="xiaoqu_add_manager">
+                                            {% for i in managers %}
+                                                <option value="{{ i.user }}">{{ i.user }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -253,7 +257,7 @@
                     <div class="section" id="area_manager_add">
                         <div class="title-l2">区域及账号建设</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="area_add_form" dest="{% url 'area_add_or_modify' %}">
+                            <form class="form-horizontal" id="area_add_form" dest="{% url 'area_add' %}">
                                 <div class="form-group">
                                     <label for="area_add_account" class="col-sm-2 control-label">区账号</label>
                                     <div class="col-sm-10">
@@ -334,7 +338,7 @@
                     <div class="section" id="wuye_keeper_manager_add">
                         <div class="title-l2">物业管家新增</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="wuye_keeper_add_form" dest="{% url 'wuye_add_or_modify' %}">
+                            <form class="form-horizontal" id="wuye_keeper_add_form" dest="{% url 'wuye_add' %}">
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
@@ -351,6 +355,8 @@
                                     <label for="wuye_keeper_add_manager" class="col-sm-2 control-label">所属区域管理员</label>
                                     <div class="col-sm-10">
                                         <select class="form-control select-listener" id="wuye_keeper_add_manager" name="second_manager_manager">
+                                                                                        <option value="">请选择管理员</option>
+
                                             {% for i in managers %}
                                                 {% if i.status == 'area' %}
                                                     <option value="{{ i.user }}">{{ i.user }}</option>
@@ -363,7 +369,6 @@
                                     <label for="wuye_keeper_add_xiaoqu" class="col-sm-2 control-label">所属小区</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" id="wuye_keeper_add_xiaoqu" name="second_manager_company">
-
                                         </select>
                                     </div>
                                 </div>
@@ -639,7 +644,7 @@
                     <div class="section" id="mansion_manager_add">
                         <div class="title-l2">公寓经理新增</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="mansion_manager_add_form" dest="{% url 'mansion_add_or_modify' %}">
+                            <form class="form-horizontal" id="mansion_manager_add_form" dest="{% url 'mansion_add' %}">
                                 <div class="form-group">
                                     <label for="mansion_manager_add_account" class="col-sm-2 control-label">账号*</label>
                                     <div class="col-sm-10">
@@ -721,7 +726,7 @@
                     <div class="section" id="mansion_keeper_add">
                         <div class="title-l2">公寓管家新增</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="masion_keeper_add_form" dest="{% url 'mansion_keeper_add_or_modify' %}">
+                            <form class="form-horizontal" id="masion_keeper_add_form" dest="{% url 'mansion_keeper_add' %}">
                                 <div class="form-group">
                                     <label for="masion_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
@@ -830,116 +835,7 @@
                         </tbody>
                     </table>
                     <div id="Pagination" class="pagination"><!-- 这里显示分页 --></div>
-                    <table id="hidden-comment-result" style="display:none;">
-                        <tr class="comment-item" data-target="HZ001">
-                            <th><a href="/room_detail" target="_blank">HZ001</a></th>
-                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
-                            <th>未审核</th>
-                            <th>
-                                <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
-                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
-                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
-                            </th>
-                        </tr>
 
-                        <tr class="comment-item">
-                            <th><a href="/room_detail" target="_blank">HZ002</a></th>
-                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
-                            <th>未审核</th>
-                            <th>
-                                <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
-                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
-                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
-                            </th>
-                        </tr>
-
-                        <tr class="comment-item">
-                            <th><a href="/room_detail" target="_blank">HZ003</a></th>
-                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
-                            <th>未审核</th>
-                            <th>
-                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
-                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
-                            </th>
-                        </tr>
-
-                        <tr class="comment-item">
-                            <th><a href="/room_detail" target="_blank">HZ004</a></th>
-                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
-                            <th>未审核</th>
-                            <th>
-                                <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
-                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
-                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
-                            </th>
-                        </tr>
-
-                        <tr class="comment-item">
-                            <th><a href="/room_detail" target="_blank">HZ005</a></th>
-                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
-                            <th>未审核</th>
-                            <th>
-                                <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
-                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
-                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
-                            </th>
-                        </tr>
-
-                        <tr class="comment-item">
-                            <th><a href="/room_detail" target="_blank">HZ006</a></th>
-                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
-                            <th>未审核</th>
-                            <th>
-                                <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
-                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
-                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
-                            </th>
-                        </tr>
-
-                        <tr class="comment-item">
-                            <th><a href="/room_detail" target="_blank">HZ007</a></th>
-                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
-                            <th>未审核</th>
-                            <th>
-                                <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
-                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
-                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
-                            </th>
-                        </tr>
-
-                        <tr class="comment-item">
-                            <th><a href="/room_detail" target="_blank">HZ008</a></th>
-                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
-                            <th>未审核</th>
-                            <th>
-                                <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
-                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
-                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
-                            </th>
-                        </tr>
-
-                        <tr class="comment-item">
-                            <th><a href="/room_detail" target="_blank">HZ009</a></th>
-                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
-                            <th>未审核</th>
-                            <th>
-                                <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
-                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
-                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
-                            </th>
-                        </tr>
-
-                        <tr class="comment-item">
-                            <th><a href="/room_detail" target="_blank">HZ0010</a></th>
-                            <th style="width:50%;">真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子真的很喜欢这个房子</th>
-                            <th>未审核</th>
-                            <th>
-                                <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
-                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
-                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
-                            </th>
-                        </tr>
-                    </table>
                 </div>
             </div>
 
@@ -1047,7 +943,7 @@
 </script>
 
 <script id="area-edit" type="text/x-jquery-tmpl">
- <form class="form-horizontal" id="area_add_form" dest="/area_add_or_modify/">
+ <form class="form-horizontal" id="area_add_form" dest="/area_modify/">
                                 <div class="form-group">
                                     <label for="area_add_account" class="col-sm-2 control-label">区账号</label>
                                     <div class="col-sm-10">
@@ -1089,7 +985,7 @@
 </script>
 
 <script id="wuye-keeper-edit" type="text/x-jquery-tmpl">
- <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_add_or_modify/">
+ <form class="form-horizontal" id="wuye_keeper_add_form" dest="/wuye_modify/">
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
@@ -1141,7 +1037,7 @@
 </script>
 
 <script id="mansion-keeper-edit" type="text/x-jquery-tmpl">
-<form class="form-horizontal" id="masion_keeper_add_form" dest="/mansion_keeper_add_or_modify/">
+<form class="form-horizontal" id="masion_keeper_add_form" dest="/mansion_keeper_modify/">
                                 <div class="form-group">
                                     <label for="masion_keeper_add_account" class="col-sm-2 control-label">账号</label>
                                     <div class="col-sm-10">
@@ -1193,7 +1089,7 @@
 </script>
 
 <script id="mansion-manager-edit" type="text/x-jquery-tmpl">
-<form class="form-horizontal" id="mansion_manager_add_form" dest="/mansion_manager_add_or_modify/">
+<form class="form-horizontal" id="mansion_manager_add_form" dest="/mansion_manager_modify/">
                                 <div class="form-group">
                                     <label for="mansion_manager_add_account" class="col-sm-2 control-label">账号*</label>
                                     <div class="col-sm-10">
@@ -1356,6 +1252,20 @@
 
 <script id="community-list-option" type="text/x-jquery-tmpl">
     <option value="${pk}">${pk}</option>
+</script>
+
+
+<script id="comment-tmpl" type="text/x-jquery-tmpl">
+    <tr class="comment-item" data-target="${}">
+                            <th><a href="/room_detail/?roomNubmer=${}" target="_blank">${}</a></th>
+                            <th style="width:50%;">${}</th>
+                            <th>未审核</th>
+                            <th>
+                                <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
+                                <button class="btn btn-danger btn-operate" data-type="cancel">驳回</button>
+                                <button class="btn btn-success btn-operate" data-type="activate">通过</button>
+                            </th>
+                        </tr>
 </script>
 
 {% endverbatim %}
@@ -1559,8 +1469,11 @@
                         if(data.code==1){
                             console.log("post success");
                             //TODO: 修改对应的表格状态
+                            alert("操作成功！");
                         }else{
                             console.log("post failed");
+                            alert("操作失败！");
+
                         }
                     }
             )
@@ -1608,12 +1521,29 @@
         }();
 
         function pageselectCallback(page_index, jq){
-            var ipp=5;
+{#            var ipp=5;//item per page#}
             $("#comment-result").empty();
-            for(var i= 0;i<ipp;i++){
-                var new_content = $("#hidden-comment-result tr.comment-item:eq("+((page_index)*ipp+i)+")").clone();
-                $("#comment-result").append(new_content); //装载对应分页的内容
-            }
+
+
+            $.get(
+                    "{% url 'evaluation_search' %}",
+                    {p:page_index},
+                    function(data){
+                        if(data.code==1){
+                            $("#comment-tmpl").tmpl(JSON.parse(data.context)).appendTo($("#comment-result"));
+                        }else{
+                            console.log("get failed");
+                        }
+                    }
+            )
+            .error(function(){
+                console.log("error");
+            });
+
+{#            for(var i= 0;i<ipp;i++){#}
+{#                var new_content = $("#hidden-comment-result tr.comment-item:eq("+((page_index)*ipp+i)+")").clone();#}
+{#                $("#comment-result").append(new_content); //装载对应分页的内容#}
+{#            }#}
             return false;
         }
 
