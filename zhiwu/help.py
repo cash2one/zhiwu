@@ -294,7 +294,7 @@ def configuration_modify(roomNumber, level, elevator, canZhuo,
 def evaluation_add(roomNumber, text):
     try:
         room = RoomInfo.objects.get(roomNumber=roomNumber)
-        RoomEvaluation.objects.create(roomNumber=room, text=text)
+        RoomEvaluation.objects.create(roomNumber=room, text=text, ifpass=None)
         print "evaluation add success!"
         return True
     except Exception, e:
@@ -307,6 +307,7 @@ def evaluation_pass(_id):
     try:
         p = RoomEvaluation.objects.get(id=_id)
         p.ifpass = True
+        p.save()
         print "evaluation pass success!"
         return True
     except Exception, e:
@@ -319,6 +320,7 @@ def evaluation_no_pass(_id):
     try:
         p = RoomEvaluation.objects.get(id=_id)
         p.ifpass = False
+        p.save()
         print "evaluation no pass success!"
         return True
     except Exception, e:
