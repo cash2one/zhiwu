@@ -563,10 +563,10 @@
 
     //    地图创建
     var map = new BMap.Map("house-map");    // 创建Map实例
-    //    var mPoint = new BMap.Point(116.404, 39.915);
+    var mPoint = new BMap.Point({{ lng|safe }},{{ lat|safe }});
     //    map.enableScrollWheelZoom(false);
     //    map.centerAndZoom(mPoint,15);
-    map.centerAndZoom("杭州",15);
+    map.centerAndZoom(mPoint,15);
 
     //    添加控件
     var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
@@ -574,9 +574,9 @@
     map.addControl(top_left_control);
     map.addControl(top_left_navigation);
 
-    var marker = new BMap.Marker(new BMap.Point(120.169848,30.276734));  // 创建标注
-//    map.addOverlay(marker);              // 将标注添加到地图中
-//    marker.enableDragging();
+    var marker = new BMap.Marker(mPoint);  // 创建标注
+    map.addOverlay(marker);              // 将标注添加到地图中
+    marker.enableDragging();
 
 </script>
 
@@ -600,9 +600,9 @@
             e.preventDefault();
 
             var type=$(this).data("type");
-            var dest=type=="save"?{% url 'roominfo_save' %}:{% url 'roominfo_sub' %}
+            var dest=type=="save"?{% url 'roominfo_save' %}:{% url 'roominfo_sub' %};
 
-            var p = window.marker.getPosition();
+            var p = marker.getPosition();
             $("#house_lng").val(p.lng);
             $("#house_lat").val(p.lat);
 
