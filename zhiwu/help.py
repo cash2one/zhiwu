@@ -853,9 +853,11 @@ def second_manager_add_or_modify(manager_user, user, pw, name, phone, company, s
         return False
 
 
-def second_manager_modify(user, pw, name, phone, company, status):
+def second_manager_modify(manager_user, user, pw, name, phone, company, status):
     try:
+        manager = Manager.objects.get(user=manager_user)
         p = SecondManager.objects.get(user=user)
+        p.manager = manager
         p.pw = pw
         p.name = name
         p.phone = phone
@@ -866,6 +868,24 @@ def second_manager_modify(user, pw, name, phone, company, status):
         return True
     except Exception, e:
         print "SecondManager modify error:"
+        print e
+        return False
+
+
+def second_manager_add(manager_user, user, pw, name, phone, company, status):
+    try:
+        manager = Manager.objects.get(user=manager_user)
+        SecondManager.objects.create(user=user,
+                                     manager=manager,
+                                     pw=pw,
+                                     name=name,
+                                     phone=phone,
+                                     company=company,
+                                     status=status)
+        print "SecondManager add success!"
+        return True
+    except Exception, e:
+        print "SecondManager add error:"
         print e
         return False
 

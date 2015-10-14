@@ -584,15 +584,23 @@ def post_manager_pw(request):
         print 'not post'
 
 
-def mansion_keeper_add_or_modify(request):
-    return post_second_manager_add_or_modify(request, 'mansion')
+def mansion_keeper_add(request):
+    return post_second_manager_add(request, 'mansion')
 
 
-def wuye_add_or_modify(request):
-    return post_second_manager_add_or_modify(request, 'wuye')
+def mansion_keeper_modify(request):
+    return post_second_manager_modify(request, 'mansion')
 
 
-def post_second_manager_add_or_modify(request, status):
+def wuye_add(request):
+    return post_second_manager_add(request, 'wuye')
+
+
+def wuye_modify(request):
+    return post_second_manager_modify(request, 'wuye')
+
+
+def post_second_manager_add(request, status):
     if request.method == 'POST':  # 当提交表单时
         form = SecondManagerForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
@@ -603,7 +611,33 @@ def post_second_manager_add_or_modify(request, status):
                 name = form.cleaned_data['second_manager_name']
                 phone = form.cleaned_data['second_manager_phone']
                 company = form.cleaned_data['second_manager_company']
-                p = second_manager_add_or_modify(manager, user, pw, name, phone, company, status)
+                p = second_manager_add(manager, user, pw, name, phone, company, status)
+                if p:
+                    return JsonResponse(success)
+                else:
+                    return JsonResponse(fail)
+            except Exception, e:
+                print e
+                return JsonResponse(fail)
+        else:
+            return JsonResponse(fail)
+    else:  # 当正常访问时
+        print 'not post'
+        return HttpResponseNotFound()
+
+
+def post_second_manager_modify(request, status):
+    if request.method == 'POST':  # 当提交表单时
+        form = SecondManagerForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                manager = form.cleaned_data['second_manager_manager']
+                user = form.cleaned_data['second_manager_account']
+                pw = form.cleaned_data['second_manager_pw']
+                name = form.cleaned_data['second_manager_name']
+                phone = form.cleaned_data['second_manager_phone']
+                company = form.cleaned_data['second_manager_company']
+                p = second_manager_modify(manager, user, pw, name, phone, company, status)
                 if p:
                     return JsonResponse(success)
                 else:
