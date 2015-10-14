@@ -63,8 +63,12 @@ urlpatterns = [
 
     # Part2:Post ajax
 
-        url(r'^area_add_or_modify/', 'zhiwu.views.post_area_add_or_modify', name='area_add_or_modify'),
-        url(r'^mansion_manager_add_or_modify/', 'zhiwu.views.post_mansion_manager_add_or_modify', name='mansion_add_or_modify'),
+        url(r'^area_add/', 'zhiwu.views.post_area_add', name='area_add'),
+        url(r'^area_modify/', 'zhiwu.views.post_area_modify', name='area_add_or_modify'),
+
+        url(r'^mansion_manager_add/', 'zhiwu.views.post_mansion_manager_add', name='mansion_add'),
+        url(r'^mansion_manager_modify/', 'zhiwu.views.post_mansion_manager_modify', name='mansion_modify'),
+
         url(r'^area_search/', 'zhiwu.views.post_area_search', name='area_search'),
         url(r'^mansion_manager_search/', 'zhiwu.views.post_mansion_manager_search', name='mansion_manager_search'),
         url(r'^get_manager/', 'zhiwu.views.post_get_manager_search', name='get_manager'),
