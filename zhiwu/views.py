@@ -202,8 +202,9 @@ def admin_root(request):
         m_list = get_manager_list()
         community_list = get_community_list()
         e = RoomEvaluation.objects.order_by('createTime')[0:10]
+        count = RoomEvaluation.objects.count()
         return render(request, "backend.html", {"managers": m_list,
-                                                "evaluation": e,
+                                                "evaluation_count": count,
                                                 "status": status,
                                                 "identity": identity,
                                                 "user": user,

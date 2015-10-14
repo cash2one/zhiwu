@@ -1238,7 +1238,7 @@
 
 
 <script id="comment-tmpl" type="text/x-jquery-tmpl">
-    <tr class="comment-item" data-target="${fields.roomNumber}">
+    <tr class="comment-item" data-target="${pk}">
                             <th><a href="/room_detail/?roomNubmer=${fields.roomNumber}" target="_blank">${fields.roomNumber}</a></th>
                             <th style="width:50%;">${fields.text}</th>
                             <th>{{if fields.ifpass}} 已通过 {{else}} 未通过 {{/if}}</th>
@@ -1501,14 +1501,13 @@
         //回调函数在用户每次点击分页链接的时候执行
         //参数page_index{int整型}表示当前的索引页
         var initPagination = function() {
-            var num_entries = $("#hidden-comment-result tr.comment-item").length;
+            var num_entries = {{ evaluation_count }};
             // 创建分页
             $("#Pagination").pagination(num_entries, {
                 num_edge_entries: 1, //边缘页数
                 num_display_entries: 1, //主体页数
-                maxentries:
                 callback: pageselectCallback,
-                items_per_page:5 //每页显示1项
+                items_per_page:10 //每页显示1项
             });
         }();
 
