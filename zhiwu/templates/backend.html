@@ -845,6 +845,19 @@
 </div>
 
 
+<div id="xiaoqu-edit-dialog" style="display: none;">
+    <form class="form-horizontal" id="xiaoqu_add_form" dest="/community_add/">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">详细位置点选*</label>
+            <div class="col-sm-10">
+                <div id="edit-xiaoqu-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
+            </div>
+        </div>
+
+        <div id="xiaoqu-edit-wrapper"></div>
+    </form>
+</div>
+
 {% endblock %}
 
 <!--sp_script-->
@@ -853,7 +866,7 @@
 
 {% verbatim %}
 <script id="xiaoqu-edit" type="text/x-jquery-tmpl">
-<form class="form-horizontal" id="xiaoqu_add_form" dest="/community_add/">
+
                                 <div class="form-group">
                                     <label for="xiaoqu_add_name" class="col-sm-2 control-label">详细小区名称*</label>
                                     <div class="col-sm-10">
@@ -866,14 +879,10 @@
                                         <input type="text" class="form-control" id="xiaoqu_add_manager" name="xiaoqu_add_manager" value=${manager}>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">详细位置点选*</label>
-                                    <div class="col-sm-10">
-                                        <div id="edit-xiaoqu-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
-                                        <input type="hidden" class="form-control" id="edit_xiaoqu_add_lng" name="xiaoqu_add_lng" value="${lng}">
-                                        <input type="hidden" class="form-control" id="edit_xiaoqu_add_lat" name="xiaoqu_add_lat" value="${lat}">
-                                    </div>
-                                </div>
+
+                                <input type="hidden" class="form-control" id="edit_xiaoqu_add_lng" name="xiaoqu_add_lng" value="${lng}">
+                                <input type="hidden" class="form-control" id="edit_xiaoqu_add_lat" name="xiaoqu_add_lat" value="${lat}">
+
                                 <div class="form-group">
                                     <label for="xiaoqu_add_area" class="col-sm-2 control-label">所属区域*</label>
                                     <div class="col-sm-10">
@@ -939,7 +948,6 @@
                                         <button class="btn btn-success btn-post">保存</button>
                                     </div>
                                 </div>
-                            </form>
 </script>
 
 <script id="area-edit" type="text/x-jquery-tmpl">
@@ -1003,11 +1011,11 @@
                                     <label for="wuye_keeper_add_manager" class="col-sm-2 control-label">所属区域管理员</label>
                                     <div class="col-sm-10">
                                         <select class="form-control select-listener" id="edit_wuye_keeper_add_manager" name="second_manager_manager">
-                                            {{ each(i,m) manager_list}}
-                                                {{ if i.status == "area" }}
-                                                    <option value="${i.user}">${i.user}</option>
-                                                {{ /if }}
-                                            {{ /each }}
+                                            {{each m_list}}
+                                                {{if $value.status == "area" }}
+                                                    <option value="${$value.pk}" {{if $value.pk == manager}}selected{{/if}}>${$value.pk}</option>
+                                                {{/if}}
+                                            {{/each}}
                                         </select>
                                     </div>
                                 </div>
@@ -1059,11 +1067,11 @@
                                     <label for="masion_keeper_add_xiaoqu" class="col-sm-2 control-label">所属业务经理</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" id="edit_masion_keeper_add_xiaoqu" name="second_manager_manager">
-                                            {{ each(i,m) manager_list}}
-                                                {{ if i.status == "mansion" }}
-                                                    <option value="${i.user}">${i.user}</option>
-                                                {{ /if }}
-                                            {{ /each }}
+                                            {{each m_list}}
+                                                {{if $value.status == "mansion" }}
+                                                    <option value="${$value.pk}" {{if $value.pk == manager}}selected{{/if}}>${$value.pk}</option>
+                                                {{/if}}
+                                            {{/each}}
                                         </select>
                                     </div>
                                 </div>
@@ -1260,9 +1268,6 @@
 
     //    地图创建
     var map = new BMap.Map("xiaoqu-map");    // 创建Map实例
-//    var mPoint = new BMap.Point(116.404, 39.915);
-    //    map.enableScrollWheelZoom(false);
-//    map.centerAndZoom(mPoint,15);
     map.centerAndZoom("杭州",15);
 
     //    添加控件
@@ -1272,16 +1277,34 @@
     map.addControl(top_left_navigation);
 
     var marker = new BMap.Marker(new BMap.Point(120.169848,30.276734));  // 创建标注
-    var edit_marker = new BMap.Marker(new BMap.Point(120.169848,30.276734));  // 创建标注
     map.addOverlay(marker);              // 将标注添加到地图中
     marker.enableDragging();
+
+    //    编辑地图创建
+    var edit_map = new BMap.Map("edit-xiaoqu-map");    // 创建Map实例
+    edit_map.centerAndZoom("杭州",15);
+
+    //    添加控件
+    var edit_top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+    var edit_top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+    edit_map.addControl(edit_top_left_control);
+    edit_map.addControl(edit_top_left_navigation);
+
+    var edit_marker = new BMap.Marker(new BMap.Point(120.169848,30.276734));  // 创建标注
+    edit_map.addOverlay(edit_marker);              // 将标注添加到地图中
+    edit_marker.enableDragging();
 
 </script>
 
 <script>
     ;(function(){
 
-        var m_list;
+        var m_list=JSON.parse({{ managers_js|safe }});
+        var _managers=[];
+
+        for(var i=0;i<m_list.length;i++){
+            _managers.push({pk:m_list[i].pk,status:m_list[i].fields.status});
+        }
 
         var editUrlMap={
             "#xiaoqu-edit":"{% url 'get_community'%}",
@@ -1363,16 +1386,16 @@
 
             var form = $(this).parents("form");
             var dest = form.attr("dest");
+
+            var p1 = marker.getPosition();
+            $("#xiaoqu_add_lng").val(p1.lng);
+            $("#xiaoqu_add_lat").val(p1.lat);
+
+            var p2 = edit_marker.getPosition();
+            $("#edit_xiaoqu_add_lng").val(p2.lng);
+            $("#edit_xiaoqu_add_lat").val(p2.lat);
+
             var content=form.serialize();
-
-            var p = marker.getPosition();
-            $("#xiaoqu_add_lng").val(p.lng);
-            $("#xiaoqu_add_lat").val(p.lat);
-
-            var p = edit_marker.getPosition();
-            $("#edit_xiaoqu_add_lng").val(p.lng);
-            $("#edit_xiaoqu_add_lat").val(p.lat);
-
             $.post(
                     dest,
                     content,
@@ -1414,28 +1437,24 @@
                     if(data.code==1){
                         console.log("get success");
                         //添加dialog
-                        $(_tmplID).tmpl(data.context).dialog(dialogOpts);
                         if(_tmplID=="#xiaoqu-edit"){
-                            //    地图创建
-                            var edit_map = new BMap.Map("edit-xiaoqu-map");    // 创建Map实例
-                            edit_map.centerAndZoom(new BMap.Point(data.context.lng,data.context.lat),15);
+                            $("#xiaoqu-edit-wrapper").empty();
 
-                            //    添加控件
-                            var edit_top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
-                            var edit_top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
-                            edit_map.addControl(edit_top_left_control);
-                            edit_map.addControl(edit_top_left_navigation);
-
+                            edit_map.centerAndZoom(new BMap.Point(data.context.lng-0.02,data.context.lat+0.01),15);
                             edit_marker = new BMap.Marker(new BMap.Point(data.context.lng,data.context.lat));  // 创建标注
+                            edit_map.clearOverlays();
                             edit_map.addOverlay(edit_marker);              // 将标注添加到地图中
                             edit_marker.enableDragging();
+
+                            $(_tmplID).tmpl(data.context).appendTo("#xiaoqu-edit-wrapper");
+                            $("#xiaoqu-edit-dialog").dialog(dialogOpts);
+                        }else{
+                            if(_tmplID=="#mansion-keeper-edit"||_tmplID=="#wuye-keeper-edit"){
+                                $(_tmplID).tmpl($.extend(data.context,{m_list:_managers})).dialog(dialogOpts);
+                            }else{
+                                $(_tmplID).tmpl(data.context).dialog(dialogOpts);
+                            }
                         }
-{#                        if(_tmplID=="#wuye-keeper-edit"){#}
-{#                            $("#edit_wuye_keeper_add_manager").append($.parseHTML($("#wuye_keeper_add_manager").html()));#}
-{#                        }#}
-{#                        if(_tmplID=="#mansion-keeper-edit"){#}
-{#                            $("#edit_masion_keeper_add_xiaoqu").append($.parseHTML($("#masion_keeper_add_xiaoqu").html()));#}
-{#                        }#}
                     }else{
                         console.log("get failed");
                     }
@@ -1484,6 +1503,7 @@
                     function(data){
                         if(data.code==1){
                             console.log("post success");
+                            $(wrapper).empty();
                             $("#community-list-option").tmpl(JSON.parse(data.context)).appendTo(wrapper);
                         }else{
                             console.log("post failed");

@@ -282,6 +282,8 @@ def new_house(request):
             return render(request, "editHouse.html", {"user": user,
                                                       "status": status,
                                                       "room": roominfo,
+                                                      "lat": json.dumps(roominfo.lat),
+                                                      "lng": json.dumps(roominfo.lng),
                                                       "files": images,
                                                       "communities": communities})
     else:
