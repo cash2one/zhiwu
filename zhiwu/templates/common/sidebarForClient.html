@@ -1,24 +1,24 @@
 <div class="col-xs-2">
     <ul class="nav nav-pills nav-stacked">
-        <li>
-            <a href="clientBackend.html">
+        <li {% if route == "console" %}class="active" {% endif %}>
+            <a href="{% url 'client_back' %}">
                 我的控制台
             </a>
         </li>
-        <li class="active">
-            <a href="myList.html">
+        <li {% if route == "list" %}class="active" {% endif %}>
+            <a href="{% url 'client_back_list' %}">
                 选房清单
             </a>
         </li>
 
-        <li>
-            <a href="myAccount.html">
+        <li {% if route == "account" %}class="active" {% endif %}>
+            <a href="{% url 'client_back_account' %}">
                 账号管理
             </a>
         </li>
 
-        <li>
-            <a href="serviceContact.html">
+        <li {% if route == "comment" %}class="active" {% endif %}>
+            <a href="{% url 'client_back_comment' %}">
                 咨询客服/投诉与举报
             </a>
         </li>

@@ -40,7 +40,7 @@ urlpatterns = [
         # 客户后台
             url(r'^client_back/', 'zhiwu.views.client_back', name='client_back'),
             url(r'^client_back_list/', 'zhiwu.views.client_back_list', name='client_back_list'),
-            url(r'^client_back_account/', 'zhiwu.views.client_back_account', name='client_back_comment'),
+            url(r'^client_back_account/', 'zhiwu.views.client_back_account', name='client_back_account'),
             url(r'^client_back_comment/', 'zhiwu.views.client_back_comment', name='client_back_comment'),
 
         # 后台登陆

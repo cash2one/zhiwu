@@ -288,19 +288,19 @@ def new_house(request):
 
 
 def client_back(request):
-    return render(request, "clientBackend.html")
+    return render(request, "clientBackend.html",{"route":"console"})
 
 
 def client_back_account(request):
-    return render(request, "myAccount.html")
+    return render(request, "myAccount.html",{"route":"account"})
 
 
 def client_back_list(request):
-    return render(request, "mylist.html")
+    return render(request, "mylist.html",{"route":"list"})
 
 
 def client_back_comment(request):
-    return render(request, "serviceContact.html")
+    return render(request, "serviceContact.html",{"route":"comment"})
 
 
 def room_collection(request):
