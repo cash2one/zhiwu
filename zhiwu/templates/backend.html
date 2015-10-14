@@ -1241,7 +1241,7 @@
     <tr class="comment-item" data-target="${pk}">
                             <th><a href="/room_detail/?roomNubmer=${fields.roomNumber}" target="_blank">${fields.roomNumber}</a></th>
                             <th style="width:50%;">${fields.text}</th>
-                            <th>{{if fields.ifpass}} 已通过 {{else}} 未通过 {{/if}}</th>
+                            <th>{{if fields.ifpass == null}} 未审核 {{else}} {{if fields.ifpass == false}} 未通过 {{else}}已通过{{/if}}{{/if}}</th>
                             <th>
                                 <button class="btn btn-danger btn-operate" data-type="delete">删除</button>
                                 <button class="btn btn-warning btn-operate" data-type="cancel">驳回</button>
@@ -1280,8 +1280,8 @@
 
 <script>
     ;(function(){
-        var marker;
-        var edit_marker;
+
+        var m_list;
 
         var editUrlMap={
             "#xiaoqu-edit":"{% url 'get_community'%}",
