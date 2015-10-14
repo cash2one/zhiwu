@@ -201,7 +201,7 @@ def admin_root(request):
     if is_root(identity):
         m_list = get_manager_list()
         community_list = get_community_list()
-        e = RoomEvaluation.objects.order_by('createTime')[0:10]
+        e = RoomEvaluation.objects.order_by('-createTime')[0:10]
         count = RoomEvaluation.objects.count()
         return render(request, "backend.html", {"managers": m_list,
                                                 "managers_js": json.dumps(serializers.serialize('json', m_list)),
@@ -1206,7 +1206,7 @@ def post_evaluation_delete(request):
 def post_evaluation_search(request):
     try:
         page = int(request.GET.get('p', 1))
-        e = RoomEvaluation.objects.order_by('createTime')[page*10-10:page*10]
+        e = RoomEvaluation.objects.order_by('-createTime')[page*10-10:page*10]
         count = RoomEvaluation.objects.count()
         e = serializers.serialize('json', e)
         result = {'code': 1,
