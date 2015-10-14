@@ -268,12 +268,17 @@ def new_house(request):
             pictures = RoomPicture.objects.filter(roomNumber=roominfo)
             images = []
             for i in pictures:
-                data = {'image': i.picture, 'size': os.path.getsize('./zhiwu'+i.picture)}
+                data = {
+                    'url': i.picture,
+                    'thumbnailUrl': i.picture,
+                    'name': i.picture.split('/')[-1],
+                    'size':  os.path.getsize('./zhiwu'+i.picture)
+                }
                 images.append(data)
             return render(request, "editHouse.html", {"user": user,
                                                       "status": status,
                                                       "room": roominfo,
-                                                      "images": images,
+                                                      "files": images,
                                                       "communities": communities})
     else:
         return HttpResponseRedirect(reverse("admin_login"))
