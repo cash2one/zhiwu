@@ -12,6 +12,7 @@ def get_search_room_list(rooms):
         for j in pictures:
             images.append(j.picture)
         room = {'roomNumber': i.roomNumber,
+                'stay_intime': i.stay_intime,
                 'price': i.price,
                 'lng': i.lng,
                 'lat': i.lat,
@@ -28,19 +29,25 @@ def get_search_room_list(rooms):
 
 
 # 判断身份
-def is_root(status):
-    return True
-    # todo
+def is_root(identity):
+    if identity == 'root':
+        return True
+    else:
+        return False
 
 
-def is_manager(status):
-    return True
-    # todo
+def is_manager(identity):
+    if identity == 'manager':
+        return True
+    else:
+        return False
 
 
-def is_second_manager(status):
-    return True
-    # todo
+def is_second_manager(identity):
+    if identity == 'second_manager':
+        return True
+    else:
+        return False
 
 
 # 后台管理界面得到相应的列表
@@ -73,7 +80,7 @@ def get_manager_list(user=""):
 
 def get_second_manager_list(manager):
     try:
-        m = Manager.objects.filter(manager=manager)
+        m = SecondManager.objects.filter(manager=manager)
         return m
     except Exception, e:
         print e
@@ -617,6 +624,9 @@ def room_rented_cancel(roomNumber):
 
 def community_add_or_modify(name, manager, lng, lat, area, district, business, keyword, type_, year, level, facility, green, security,):
     try:
+        if not Manager.objects.filter(user=manager).exists():
+            print 'there is no the manager: '+manager
+            return False
         community_default = {'name': name,
                              'manager': manager,
                              'lng': lng,

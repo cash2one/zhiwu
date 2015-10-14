@@ -53,7 +53,7 @@
     <div class="login-panel">
         <div class="title">登陆到后台管理</div>
 
-        <form class="form-horizontal" action="/backend_login" method="post">
+        <form class="form-horizontal" action="{% url 'admin_login' %}" method="post">
 
             <div class="form-group">
                 <label for="account" class="col-sm-2 control-label">账号</label>
@@ -65,7 +65,7 @@
             <div class="form-group">
                 <label for="password" class="col-sm-2 control-label">密码</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="password" name="password">
+                    <input type="password" class="form-control" id="password" name="password">
                 </div>
             </div>
 
@@ -74,8 +74,8 @@
                 <div class="col-sm-10">
                     <select class="form-control" name="identity" id="identity">
                         <option value="root">超级管理员</option>
-                        <option value="level1">一级管理员</option>
-                        <option value="level2">二级管理员</option>
+                        <option value="manager">一级管理员</option>
+                        <option value="second_manager">二级管理员</option>
                     </select>
                 </div>
             </div>

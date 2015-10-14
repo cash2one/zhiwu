@@ -134,7 +134,7 @@ class RoomPicture(models.Model):
 
 class RoomEvaluation(models.Model):
     # 租客评价
-    roomNumber = models.ForeignKey(Room)
+    roomNumber = models.ForeignKey(RoomInfo)
     createTime = models.DateTimeField(auto_now_add=True)
     ifpass = models.BooleanField(default=False)
     text = models.TextField()

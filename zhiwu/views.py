@@ -99,14 +99,15 @@ def home_search(request):
     # longitude = models.FloatField(default=120.200)
     # latitude = models.FloatField(default=30.3)
     location = request.GET.get("home_location", None)
-    longitude = request.GET.get("lng", None)
-    latitude = request.GET.get("lat", None)
+    longitude = float(request.GET.get("lng", None))
+    latitude = float(request.GET.get("lat", None))
     # rooms = Room.objects.filter(community=location)
     rooms = RoomInfo.objects.all()
+    rooms = []
     dis = 0.010
     if len(rooms) == 0:
-        rooms = RoomInfo.objects.filter(longitude__range=(longitude - dis, longitude + dis),
-                                        latitude__range=(latitude - dis, latitude + dis))
+        rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
+                                        lat__range=(latitude - dis, latitude + dis))
     room_list = get_search_room_list(rooms)
     # room_list = serializers.serialize('json', room_list)
     return render(request, "search.html", {"rooms": json.dumps(room_list)})
@@ -119,8 +120,8 @@ def map_search(request):
     latitude_l = request.GET.get("lat_left", None)
     longitude_r = request.GET.get("lng_right", None)
     latitude_r = request.GET.get("lat_right", None)
-    rooms = Room.objects.filter(longitude__range=(longitude_l, longitude_r),
-                                latitude__range=(latitude_l, latitude_r))
+    rooms = Room.objects.filter(lng__range=(longitude_l, longitude_r),
+                                lat__range=(latitude_l, latitude_r))
     room_list = get_search_room_list(rooms)
     return JsonResponse(room_list)
 
@@ -129,59 +130,71 @@ def room_detail(request):
     try:
         roomNum = request.GET.get('roomNumber')
         room = RoomInfo.objects.get(roomNumber=roomNum)
-        #cp = SecondManager.objects.get(user=room.contactPerson)
-        #cp = []
+        evaluation = RoomEvaluation.objects.filter(roomNumber=roomNum).order_by('createTime')
+        cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
         return render(request, "detail.html", {"room": room,
+                                               "evaluation": evaluation,
+                                               "contactPerson": cp,
                                                "picture": roomP})
     except Exception, e:
         print e
         return HttpResponseNotFound()
 
 
-def admin_manager_login(request):
+def admin_login(request):
     if request.method == "POST":
         form = AdminLogin(request.POST)
         if form.is_valid():
             try:
-                user = form.cleaned_data['login_user']
-                pw = form.cleaned_data['login_pw']
-                status = form.cleaned_data['login_type']
-                if status == "manager":
+                user = form.cleaned_data['account']
+                pw = form.cleaned_data['password']
+                identity = form.cleaned_data['identity']
+                if identity == "manager":
                     tag, m = get_manager(user, pw)
-                elif status == "second_manager":
+                elif identity == "second_manager":
                     tag, m = get_second_manager(user, pw)
-                elif status == "root":
+                elif identity == "root":
                     request.session['user'] = "root"
                     request.session['status'] = "root"
-                    return HttpResponseRedirect("admin_manager/")
+                    request.session['identity'] = "root"
+                    print 'root login'
+                    return HttpResponseRedirect(reverse('admin_root'))
                     # todo 完善root的数据库
                 else:
-                    return HttpResponse(status=-1)
+                    return JsonResponse(fail)
                     # 身份不正确
                 if tag:
                     request.session['user'] = m.user
                     request.session['status'] = m.status
-                    if m.status == "manager":
-                        return HttpResponseRedirect("admin_manager/")
+                    request.session['identity'] = identity
+                    if identity == "manager":
+                        print 'manager login'
+                        return HttpResponseRedirect(reverse('admin_manager'))
                     else:
-                        return HttpResponseRedirect("admin_second_manager/")
+                        print 'second manager login'
+                        return HttpResponseRedirect(reverse('admin_second_manager'))
                 else:
-                    return HttpResponse(status=0)
+                    return JsonResponse(fail)
                     # 账号密码错误
             except Exception, e:
+                print 'admin manager login error:'
                 print e
-    return render(request, "manager_login.html")
+                return HttpResponseNotFound()
+    else:
+        return render(request, "loginForBack.html")
 
 
-def admin_login(request):
-    return render(request, "index.html")
+def admin_logout(request):
+    request.session.clear()
+    return HttpResponseRedirect(reverse('admin_login'))
 
 
 def admin_root(request):
+    identity = request.session.get("identity", "")
     status = request.session.get("status", "")
     user = request.session.get("user", "")
-    if is_root(status):
+    if is_root(identity):
         m_list = get_manager_list()
         community_list = get_community_list()
         return render(request, "backend.html", {"managers": m_list,
@@ -189,57 +202,71 @@ def admin_root(request):
                                                 "user": user,
                                                 "communities": community_list})
     else:
-        return HttpResponseRedirect(reverse("manager_login"))
+        return HttpResponseRedirect(reverse("admin_login"))
 
 
 def admin_manager(request):
-    managerget = request.GET.get("manager", "")
     status = request.session.get("status", "")
+    identity = request.session.get("identity", "")
     user = request.session.get("user", "")
-    if is_manager(status):
-        mu = request.session.get("user", "")
-    elif is_root(status) and managerget != "":
-        mu = managerget
-    else:
-        return HttpResponseRedirect(reverse("manager_login"))
+    if not is_manager(identity):
+        return HttpResponseRedirect(reverse("admin_login"))
     try:
-        manager = Manager.objects.get(user=mu)
-    except:
-        # return HttpResponseRedirect(reverse("manager_login"))
-        return render(request, "backendL1.html")
+        manager = Manager.objects.get(user=user)
+    except Exception, e:
+        print "admin manager error:"
+        print e
+        return HttpResponseRedirect(reverse("admin_login"))
+        # return render(request, "backendL1.html")
     m_list = get_second_manager_list(manager)
+    # m_list = json.dumps(serializers.serialize('json', m_list))
     return render(request, "backendL1.html", {"second_managers": m_list,
                                               "status": status,
+                                              "identity": identity,
                                               "user": user})
 
 
 def admin_second_manager(request):
-    secondmanagerget = request.GET.get("second_manager", "")
     status = request.session.get("status", "")
+    identity = request.session.get("identity", "")
     user = request.session.get("user", "")
-    if is_second_manager(status):
-        smu = request.session.get("user", "")
-    elif (is_root(status) or is_manager(status)) and secondmanagerget != "":
-        smu = secondmanagerget
-    else:
-        return HttpResponseRedirect(reverse("manager_login"))
-    rooms = Room.objects.filter(contactPerson=smu)
+    if not is_second_manager(identity):
+        return HttpResponseRedirect(reverse("admin_login"))
+    rooms = RoomInfo.objects.filter(contactPerson=user)
+    # rooms = json.dumps(serializers.serialize('json', rooms))
     return render(request, "backendL2.html", {"rooms": rooms,
+                                              "identity": identity,
                                               "status": status,
                                               "user": user})
 
 
 def new_house(request):
+    roomNumber = request.GET.get("roomNumber", "")
     user = request.session.get("user")
     status = request.session.get("status", "")
-    # sm=SecondManager.objects.get(user=user)
-    # communities = Community.objects.filter(manager=sm.manager)
-    if is_second_manager(status):
-        return render(request, "newHouse.html", {"user": user,
-                                                 "status": status,})
-                                                 # "communities": communities})
+    identity = request.session.get("identity", "")
+    sm = SecondManager.objects.get(user=user)
+    communities = Community.objects.filter(manager=sm.manager)
+    communities = json.dumps(serializers.serialize('json', communities))
+    if is_second_manager(identity):
+        if roomNumber != "":
+            return render(request, "newHouse.html", {"user": user,
+                                                     "status": status,
+                                                     "communities": communities})
+        else:
+            roominfo = RoomInfo.objects.get(roomNumber=roomNumber)
+            pictures = RoomPicture.objects.filter(roomNumber=roominfo)
+            images = []
+            for i in pictures:
+                data = {'image': i.picture, 'size': os.path.getsize('./zhiwu'+i.picture)}
+                images.append(data)
+            return render(request, "editHouse.html", {"user": user,
+                                                      "status": status,
+                                                      "room": roominfo,
+                                                      "images": images,
+                                                      "communities": communities})
     else:
-        return HttpResponseRedirect(reverse("manager_login"))
+        return HttpResponseRedirect(reverse("admin_login"))
 
 
 def client_back(request):
@@ -818,11 +845,10 @@ def post_roominfo_submit(request):
         return JsonResponse(fail)
 
 
-def post_roominfo_add_or_modify(request):
+def post_roominfo_add_or_modify(request, manager):
     if request.method == 'POST':
         try:
-            # todo 需要修改
-            manager = 'u1'
+            manager = request.session.get('user', '')
             roominfo_default = {}
             url_list = []
             for key in request.POST:
