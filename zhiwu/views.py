@@ -394,16 +394,23 @@ def post_get_community(request):
         return JsonResponse(fail)
 
 
-def post_area_add_or_modify(request):
-    return post_manager_add_or_modify(request, "area")
+def post_area_add(request):
+    return post_manager_add(request, "area")
+
+def post_area_modify(request):
+    return post_manager_modify(request, "area")
 
 
-def post_mansion_manager_add_or_modify(request):
-    return post_manager_add_or_modify(request, "mansion")
+def post_mansion_manager_add(request):
+    return post_manager_add(request, "mansion")
+
+
+def post_mansion_manager_modify(request):
+    return post_manager_modify(request, "mansion")
 
 
 # code from here
-def post_manager_add_or_modify(request, status):
+def post_manager_add(request, status):
     if request.method == 'POST':  # 当提交表单时
         form = ManagerForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法
@@ -413,7 +420,31 @@ def post_manager_add_or_modify(request, status):
                 name = form.cleaned_data['manager_name']
                 phone = form.cleaned_data['manager_phone']
                 district = form.cleaned_data['manager_district']
-                p = manager_add_or_modify(user, pw, name, phone, status, district)
+                p = manager_add(user, pw, name, phone, status, district)
+                if p:
+                    return JsonResponse(success)
+                else:
+                    return JsonResponse(fail)
+            except Exception, e:
+                print e
+                return JsonResponse(fail)
+        else:
+            return JsonResponse(fail)
+    else:  # 当正常访问时
+        return HttpResponseNotFound()
+
+
+def post_manager_modify(request, status):
+    if request.method == 'POST':  # 当提交表单时
+        form = ManagerForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                user = form.cleaned_data['manager_account']
+                pw = form.cleaned_data['manager_pw']
+                name = form.cleaned_data['manager_name']
+                phone = form.cleaned_data['manager_phone']
+                district = form.cleaned_data['manager_district']
+                p = manager_modify(user, pw, name, phone, status, district)
                 if p:
                     return JsonResponse(success)
                 else:

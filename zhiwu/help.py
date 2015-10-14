@@ -731,7 +731,7 @@ def manager_add_or_modify(user, pw, name, phone, status, district):
                            'phone': phone,
                            'status': status,
                            'district': district}
-        p, created = Manager.objects.update_or_create(user=user,defaults=manager_default)
+        p, created = Manager.objects.update(user=user,defaults=manager_default)
         if created:
             print "Manager add success!"
         else:
@@ -742,22 +742,37 @@ def manager_add_or_modify(user, pw, name, phone, status, district):
         print e
         return False
 
+def manager_add(user, pw, name, phone, status, district):
+    try:
+        Manager.objects.create(user=user,
+                               pw=pw,
+                               name=name,
+                               phone=phone,
+                               status=status,
+                               district=district)
+        print "manager add success!"
+        return True
+    except Exception, e:
+        print "manager add error:"
+        print e
+        return False
 
-# def manager_modify(user, pw, name, phone, status, district):
-#     try:
-#         p = Manager.objects.get(user=user)
-#         p.pw = pw
-#         p.name = name
-#         p.phone = phone
-#         p.status = status
-#         p.district = district
-#         p.save()
-#         print "manager modify success!"
-#         return True
-#     except Exception, e:
-#         print "manager modify error:"
-#         print e
-#         return False
+
+def manager_modify(user, pw, name, phone, status, district):
+    try:
+        p = Manager.objects.get(user=user)
+        p.pw = pw
+        p.name = name
+        p.phone = phone
+        p.status = status
+        p.district = district
+        p.save()
+        print "manager modify success!"
+        return True
+    except Exception, e:
+        print "manager modify error:"
+        print e
+        return False
 
 
 def manager_delete(user):
