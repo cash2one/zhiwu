@@ -132,7 +132,7 @@ def room_detail(request):
     try:
         roomNum = request.GET.get('roomNumber')
         room = RoomInfo.objects.get(roomNumber=roomNum)
-        evaluation = RoomEvaluation.objects.filter(roomNumber=roomNum).order_by('createTime')
+        evaluation = RoomEvaluation.objects.filter(roomNumber=roomNum, ifpass=True).order_by('createTime')
         #cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
         return render(request, "detail.html", {"room": room,
