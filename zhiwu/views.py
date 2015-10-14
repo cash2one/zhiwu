@@ -105,7 +105,7 @@ def home_search(request):
     latitude = float(request.GET.get("lat", None))
     # rooms = Room.objects.filter(community=location)
     rooms = RoomInfo.objects.all()
-    rooms = []
+    # rooms = []
     dis = 0.010
     if len(rooms) == 0:
         rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
@@ -201,7 +201,9 @@ def admin_root(request):
     if is_root(identity):
         m_list = get_manager_list()
         community_list = get_community_list()
+        e = RoomEvaluation.objects.order_by('createTime')[0:10]
         return render(request, "backend.html", {"managers": m_list,
+                                                "evaluation": e,
                                                 "status": status,
                                                 "identity": identity,
                                                 "user": user,
