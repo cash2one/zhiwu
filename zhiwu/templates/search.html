@@ -615,6 +615,10 @@
                     function(data){
                         if(data.code==1){
                             rawData=data.newData;
+                            for(var i=0;i<rawData.length;i++){
+                                rawData[i].isCollected=false;
+                                rawData[i].isValid=true;
+                            }
                             freshResult();
                             console.log("post success");
                         }else{
