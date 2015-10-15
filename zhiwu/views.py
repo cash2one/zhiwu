@@ -137,7 +137,7 @@ def map_search(request):
         print rooms
         room_list = get_search_room_list(rooms)
         result = {"code": 1,
-                  "context": room_list}
+                  "newData": room_list}
         return JsonResponse(result, safe=False)
     except Exception, e:
         print "map search error:"
