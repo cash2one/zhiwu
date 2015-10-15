@@ -95,7 +95,7 @@ def work_search(request):
             rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
                                             lat__range=(latitude - dis, latitude + dis))
             room_list = get_search_room_list(rooms)
-            return render(request, "search.html", {"rooms": room_list})
+            return render(request, "search.html", {"rooms": json.dumps(room_list)})
     except Exception, e:
         print "work search error:"
         print e
