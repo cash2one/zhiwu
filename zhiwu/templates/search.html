@@ -614,7 +614,7 @@
                     },
                     function(data){
                         if(data.code==1){
-                            rawData={{ data.newData|safe }};
+                            rawData=data.newData;
                             freshResult();
                             console.log("post success");
                         }else{
