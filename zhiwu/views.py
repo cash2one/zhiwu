@@ -5,6 +5,7 @@ from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.conf import settings
+from django.db.models import Q
 from django.core.urlresolvers import reverse
 from django.core import serializers
 from .forms import *
@@ -67,65 +68,81 @@ def check_manager(request):
         return False, None, None
 
 
-
-
 def search(request):
     return render(request, "search.html")
 
 
 def work_search(request):
-    distance = {"walk": {"10": 0.010, "15": 0.015, "30": 0.030},
-                "bus": {"10": 0.02, "15": 0.025, "30": 0.050},
-                "drive": {"10": 0.03, "15": 0.050, "30": 0.100}}
-    time_get = request.GET.get("time", None)
-    way = request.GET.get("way", None)
-    longitude = request.GET.get("lng", None)
-    latitude = request.GET.get("lat", None)
-    if time is None or way is None or longitude is None and latitude is None:
+    try:
+        distance = {"walk": {"5": 0.005, "10": 0.010, "15": 0.015, "20": 0.020, "30": 0.030, "45": 0.045, "60": 0.060},
+                    "bus": {"5": 0.010, "10": 0.020, "15": 0.025, "20": 0.040, "30": 0.50, "45": 0.075, "60": 0.100},
+                    "drive": {"5": 0.020, "10": 0.03, "15": 0.050, "20": 0.080, "30": 0.100, "45": 0.150, "60": 0.200}}
+        work_location = request.GET.get("work_location", None)
+        time_get = request.GET.get("time", None)
+        way = request.GET.get("way", None)
+        longitude = float(request.GET.get("lng", None))
+        latitude = float(request.GET.get("lat", None))
+        if time is None or way is None or longitude is None and latitude is None:
+            print "get 信息不全:"
+            return HttpResponseNotFound()
+        else:
+            try:
+                dis = distance.get(way).get(time_get)
+            except:
+                return HttpResponseNotFound()
+            if dis is None:
+                return HttpResponseNotFound()
+            rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
+                                            lat__range=(latitude - dis, latitude + dis))
+            room_list = get_search_room_list(rooms)
+            return render(request, "search.html", {"rooms": room_list})
+    except Exception, e:
+        print "work search error:"
+        print e
         return HttpResponseNotFound()
-    else:
-        try:
-            dis = distance.get(way).get(time_get)
-        except:
-            return HttpResponseNotFound()
-        if dis is None:
-            return HttpResponseNotFound()
-        rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
-                                        lat__range=(latitude - dis, latitude + dis))
-        room_list = get_search_room_list(rooms)
-        return render(request, "search.html", {"rooms": room_list})
 
 
 def home_search(request):
-    # home_location
-    # longitude = models.FloatField(default=120.200)
-    # latitude = models.FloatField(default=30.3)
     location = request.GET.get("home_location", None)
-    longitude = float(request.GET.get("lng", None))
-    latitude = float(request.GET.get("lat", None))
-    # rooms = Room.objects.filter(community=location)
-    rooms = RoomInfo.objects.all()
-    # rooms = []
+    longitude = request.GET.get("lng", "120.170245")
+    latitude = request.GET.get("lat", "30.278905")
+    if longitude is None or longitude == "":
+        longitude = 120.170245
+    else:
+        longitude = float(longitude)
+    if latitude is None or latitude == "":
+        latitude = 30.278905
+    else:
+        latitude = float(latitude)
+    cs = Community.objects.filter(Q(name__icontains=location) | Q(keyword__icontains=location))
+    rooms = RoomInfo.objects.filter(addr_xiaoqu__in=cs)
     dis = 0.010
     if len(rooms) == 0:
         rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
                                         lat__range=(latitude - dis, latitude + dis))
     room_list = get_search_room_list(rooms)
-    # room_list = serializers.serialize('json', room_list)
     return render(request, "search.html", {"rooms": json.dumps(room_list)})
 
 
 def map_search(request):
-    # longitude = models.FloatField(default=120.200)
-    # latitude = models.FloatField(default=30.3)
-    longitude_l = request.GET.get("lng_left", None)
-    latitude_l = request.GET.get("lat_left", None)
-    longitude_r = request.GET.get("lng_right", None)
-    latitude_r = request.GET.get("lat_right", None)
-    rooms = Room.objects.filter(lng__range=(longitude_l, longitude_r),
-                                lat__range=(latitude_l, latitude_r))
-    room_list = get_search_room_list(rooms)
-    return JsonResponse(room_list)
+    try:
+        # longitude = models.FloatField(default=120.200)
+        # latitude = models.FloatField(default=30.3)
+        longitude_l = request.POST.get("lng_left", None)
+        latitude_l = request.POST.get("lat_left", None)
+        longitude_r = request.POST.get("lng_right", None)
+        latitude_r = request.POST.get("lat_right", None)
+        rooms = RoomInfo.objects.filter(lng__range=(longitude_l, longitude_r),
+                                        lat__range=(latitude_l, latitude_r))
+        print rooms
+        room_list = get_search_room_list(rooms)
+        result = {"code": 1,
+                  "context": room_list}
+        return JsonResponse(result, safe=False)
+    except Exception, e:
+        print "map search error:"
+        print e
+        return JsonResponse(fail)
 
 
 def room_detail(request):
@@ -133,13 +150,13 @@ def room_detail(request):
         roomNum = request.GET.get('roomNumber')
         room = RoomInfo.objects.get(roomNumber=roomNum)
         evaluation = RoomEvaluation.objects.filter(roomNumber=roomNum, ifpass=True).order_by('createTime')
-        #cp = SecondManager.objects.get(user=room.contactPerson)
+        cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
         return render(request, "detail.html", {"room": room,
                                                "lat": json.dumps(room.lat),
                                                "lng": json.dumps(room.lng),
                                                "evaluation": evaluation,
-                                               #"contactPerson": cp,
+                                               "contactPerson": cp,
                                                "picture": roomP})
     except Exception, e:
         print e
