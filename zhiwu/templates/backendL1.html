@@ -70,7 +70,8 @@
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="second_manager_pw">
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="wuye_keeper_add_pw" name="second_manager_pw">
                                     </div>
                                 </div>
                                 <input type="hidden" value="{{ user }}" name="second_manager_manager"/>
@@ -124,7 +125,6 @@
                                 <thead>
                                 <tr>
                                     <th>账号</th>
-                                    <th>密码</th>
                                     <th>所属区域管理员</th>
                                     <th>所属小区</th>
                                     <th>管家姓名</th>
@@ -137,7 +137,6 @@
                                     {% for i in second_managers %}
                                         <tr data-target="{{i.user}}">
                                             <th>{{i.user}}</th>
-                                            <th>{{i.pw}}</th>
                                             <th>{{i.manager}}</th>
                                             <th>{{i.company}}</th>
                                             <th>{{i.name}}</th>
@@ -177,7 +176,8 @@
                                 <div class="form-group">
                                     <label for="masion_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="masion_keeper_add_pw" name="second_manager_pw">
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="masion_keeper_add_pw" name="second_manager_pw">
                                     </div>
                                 </div>
 
@@ -238,7 +238,6 @@
                                 <thead>
                                 <tr>
                                     <th>账号</th>
-                                    <th>密码</th>
                                     <th>所属业务经理</th>
                                     <th>所属公司</th>
                                     <th>管家姓名</th>
@@ -251,7 +250,6 @@
                                     {% for i in second_managers %}
                                         <tr data-target="{{i.user}}}">
                                             <th>{{i.user}}</th>
-                                            <th>{{i.pw}}</th>
                                             <th>{{i.manager}}</th>
                                             <th>{{i.company}}</th>
                                             <th>{{i.name}}</th>
@@ -311,7 +309,8 @@
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="second_manager_pw" value="${pw}">
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="wuye_keeper_add_pw" name="second_manager_pw">
                                     </div>
                                 </div>
 
@@ -356,7 +355,8 @@
                                 <div class="form-group">
                                     <label for="masion_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="masion_keeper_add_pw" name="second_manager_pw" value="${pw}">
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="masion_keeper_add_pw" name="second_manager_pw">
                                     </div>
                                 </div>
 

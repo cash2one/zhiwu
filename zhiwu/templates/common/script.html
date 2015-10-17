@@ -7,6 +7,11 @@
 
 <script>
     ;(function(){
+
+{#        $(document).delegate("input[type=password]","focusout",function(){#}
+{#           $(this).next().val($.md5($(this).val()));#}
+{#        });#}
+
         $("#searched-in-home").bind("click",function(){
             $(".navbar-form-work").hide();
             $(".navbar-form-home").show();

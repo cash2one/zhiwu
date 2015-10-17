@@ -619,10 +619,10 @@
                 content,
                 function(data){
                     if(data.code==1){
-                        console.log("post success");
                         alert("保存成功！");
+                        window.open("/admin_second_manager","_self");
                     }else{
-                        console.log("post failed");
+                        alert("保存失败！");
                     }
                 }
             )

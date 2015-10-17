@@ -243,6 +243,10 @@
     <div class="search-map" id="search-map">
         <div id="allmap" style="height:100%"></div>
     </div>
+
+    <div id="ifMapSearch">
+        <input type="checkbox" id="map_search_check" name="map_search_check"/>&nbsp;&nbsp;移动地图时搜索
+    </div>
 </div>
 
 {% endblock %}
@@ -403,6 +407,11 @@
         radioClass: 'iradio_flat-red'
     });
 
+    $("#map_search_check").iCheck({
+            checkboxClass: 'icheckbox_flat-red'
+        });
+
+
     $('#intime').datepicker({  dateFormat: "yy-mm-dd" });
 
     $("#more-way-btn").bind("click",function(){
@@ -510,6 +519,42 @@
             intime=-1;
 
 
+        function checkForm(){
+            //根据界限变量去遍历数组，筛选内容
+            for(var i=0;i<rawData.length;i++){
+                rawData[i].isValid=true;
+                if((price_upper!=-1&&rawData[i].price>price_upper)
+                        ||(price_lower!=-1&&rawData[i].price<=price_lower)
+                        ||(room_type!=-1&&rawData[i].type_room!=room_type)
+                        ||(achive_type!=-1&&rawData[i].status!=achive_type)
+                        ||(lookable_type!=-1&&rawData[i].see!==lookable_type)
+                        ||(photo!=-1&&((typeof rawData[i].images[0] === "undefined")===photo))
+                        ||(elevator!=-1&&rawData[i].elevator!==elevator)
+                        ||(intime!=-1&&checkTime(rawData[i].stay_intime,intime))){
+                    rawData[i].isValid=false;
+                }
+            }
+        }
+
+        function checkTime(a,b){
+            var arr1= a.split("-");
+            var arr2= b.split("-");
+
+            var n1= Number(arr1[0])*100+Number(arr1[1])*10+Number(arr1[2]);
+            var n2= Number(arr2[0])*100+Number(arr2[1])*10+Number(arr2[2]);
+
+            return n1>=n2;
+
+        }
+
+        $("#intime").bind("change",function(){
+            intime=$(this).val();
+
+            checkForm();
+            freshResult();
+        });
+
+
         $('.form-listen input').on('ifChecked', function(e){
             //设定搜索的界限,-1表示没有限制
             var _target= e.target;
@@ -572,19 +617,7 @@
                     break;
             }
 
-            //根据界限变量去遍历数组，筛选内容
-            for(var i=0;i<rawData.length;i++){
-                rawData[i].isValid=true;
-                if((price_upper!=-1&&rawData[i].price>price_upper)
-                        ||(price_lower!=-1&&rawData[i].price<=price_lower)
-                        ||(room_type!=-1&&rawData[i].type_room!=room_type)
-                        ||(achive_type!=-1&&rawData[i].status!=achive_type)
-                        ||(lookable_type!=-1&&rawData[i].see!==lookable_type)
-                        ||(photo!=-1&&((typeof rawData[i].images[0] === "undefined")===photo))
-                        ||(elevator!=-1&&rawData[i].elevator!==elevator)){
-                    rawData[i].isValid=false;
-                }
-            }
+            checkForm();
 
             //重新添加内容，并更新地图
             freshResult();
@@ -597,7 +630,10 @@
         function mapDragHandler(){
 
             // 判断用户勾选需求
-
+            if(!$("#map_search_check")[0].checked){
+                //没有勾选
+                return false;
+            }
 
             // 获取地图的边界
             var bounds = map.getBounds();

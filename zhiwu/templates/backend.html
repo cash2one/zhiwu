@@ -267,7 +267,8 @@
                                 <div class="form-group">
                                     <label for="area_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="area_add_pw" name="manager_pw">
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="area_add_pw" name="manager_pw">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -316,7 +317,6 @@
                                 <thead>
                                 <tr>
                                     <th>区账号</th>
-                                    <th>密码</th>
                                     <th>区域名</th>
                                     <th>区经理姓名</th>
                                     <th>区域手机</th>
@@ -348,7 +348,8 @@
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="second_manager_pw">
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="wuye_keeper_add_pw" name="second_manager_pw">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -412,7 +413,6 @@
                                 <thead>
                                 <tr>
                                     <th>账号</th>
-                                    <th>密码</th>
                                     <th>所属区域管理员</th>
                                     <th>所属小区</th>
                                     <th>管家姓名</th>
@@ -654,7 +654,8 @@
                                 <div class="form-group">
                                     <label for="mansion_manager_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="mansion_manager_add_pw" name="manager_pw">
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="mansion_manager_add_pw" name="manager_pw">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -703,7 +704,6 @@
                                 <thead>
                                 <tr>
                                     <th>账号</th>
-                                    <th>密码</th>
                                     <th>公司</th>
                                     <th>姓名</th>
                                     <th>手机</th>
@@ -736,7 +736,8 @@
                                 <div class="form-group">
                                     <label for="masion_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="masion_keeper_add_pw" name="second_manager_pw">
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="masion_keeper_add_pw" name="second_manager_pw">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -799,7 +800,6 @@
                                 <thead>
                                 <tr>
                                     <th>账号</th>
-                                    <th>密码</th>
                                     <th>所属业务经理</th>
                                     <th>所属公司</th>
                                     <th>管家姓名</th>
@@ -962,7 +962,8 @@
                                 <div class="form-group">
                                     <label for="area_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="area_add_pw" name="manager_pw" value=${pw}>
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="area_add_pw" name="manager_pw">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1004,7 +1005,8 @@
                                 <div class="form-group">
                                     <label for="wuye_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="wuye_keeper_add_pw" name="second_manager_pw" value="${pw}">
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="wuye_keeper_add_pw" name="second_manager_pw">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1060,7 +1062,8 @@
                                 <div class="form-group">
                                     <label for="masion_keeper_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="masion_keeper_add_pw" name="second_manager_pw" value="${pw}">
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="masion_keeper_add_pw" name="second_manager_pw">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1116,7 +1119,8 @@
                                 <div class="form-group">
                                     <label for="mansion_manager_add_pw" class="col-sm-2 control-label">密码</label>
                                     <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="mansion_manager_add_pw" name="manager_pw" value="${pw}">
+                                        <input type="password" class="form-control">
+                                        <input type="hidden" class="form-control" id="mansion_manager_add_pw" name="manager_pw">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1174,7 +1178,6 @@
 <script id="area-search" type="text/x-jquery-tmpl">
 <tr data-target="${pk}">
                                     <th>${pk}</th>
-                                    <th>${fields.pw}</th>
                                     <th>${fields.district}</th>
                                     <th>${fields.name}</th>
                                     <th>${fields.phone}</th>
@@ -1191,7 +1194,6 @@
 <script id="wuye-keeper-search" type="text/x-jquery-tmpl">
 <tr data-target="${pk}">
                                     <th>${pk}</th>
-                                    <th>${fields.pw}</th>
                                     <th>${fields.manager}</th>
                                     <th>${fields.company}</th>
                                     <th>${fields.name}</th>
@@ -1209,7 +1211,6 @@
 <script id="mansion-manager-search" type="text/x-jquery-tmpl">
 <tr data-target="${pk}">
                                     <th>${pk}</th>
-                                    <th>${fields.pw}</th>
                                     <th>${fields.district}</th>
                                     <th>${fields.name}</th>
                                     <th>${fields.phone}</th>
@@ -1226,7 +1227,6 @@
 <script id="mansion-keeper-search" type="text/x-jquery-tmpl">
 <tr data-target="${pk}">
                                     <th>${pk}</th>
-                                    <th>${fields.pw}</th>
                                     <th>${fields.manager}</th>
                                     <th>${fields.company}</th>
                                     <th>${fields.name}</th>

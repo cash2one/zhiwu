@@ -550,8 +550,34 @@
 {% } %}
 </script>
 
-<script id="xiaoqu-option-tmpl" type="text/x-tmpl">
-    <option value="{%=name%}" data-lng="120.200" data-lat="30.300">古荡小区</option>
+<script id="pic-tmpl" type="text/x-jquery-tmpl">
+    <tr class="template-download">
+        <td>
+            <span class="preview">
+                {{if thumbnailUrl}}
+                    <a href="${url}" title="${name}" download="${name}" data-gallery><img src="${thumbnailUrl}" height="80"></a>
+                {{/if}}
+            </span>
+        </td>
+        <td>
+            <p class="name">
+                {{if url}}
+                    <a class="picLink" href="${url}" title="${name}" download="${name}" data-gallery >${name}</a>
+                {{else}}
+                    <span>${name}</span>
+                {{/if}}
+            </p>
+        </td>
+        <td>
+            <span class="size">${size}</span>
+        </td>
+        <td>
+            <button class="btn btn-warning cancel">
+                <i class="glyphicon glyphicon-ban-circle"></i>
+                <span>取消</span>
+            </button>
+        </td>
+    </tr>
 </script>
 
 {% endverbatim %}
@@ -595,6 +621,28 @@
 <script>
     ;(function(){
 
+        var pic={{ files|safe }};
+
+
+        function formatFileSize(bytes) {
+            if (typeof bytes !== 'number') {
+                return '';
+            }
+            if (bytes >= 1000000000) {
+                return (bytes / 1000000000).toFixed(2) + ' GB';
+            }
+            if (bytes >= 1000000) {
+                return (bytes / 1000000).toFixed(2) + ' MB';
+            }
+            return (bytes / 1000).toFixed(2) + ' KB';
+        }
+
+        for(var i=0;i<pic.length;i++){
+            pic[i].size=formatFileSize(pic[i].size);
+        }
+
+        $("#pic-tmpl").tmpl(pic).appendTo(".files");
+
         //为新增form,save或者submit添加ajax
         $(".btn-post").bind("click",function(e){
             e.preventDefault();
@@ -620,10 +668,10 @@
                 content,
                 function(data){
                     if(data.code==1){
-                        console.log("post success");
                         alert("保存成功！");
+                        window.open("/admin_second_manager","_self");
                     }else{
-                        console.log("post failed");
+                        alert("保存失败！");
                     }
                 }
             )

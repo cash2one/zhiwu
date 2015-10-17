@@ -301,7 +301,7 @@ def new_house(request):
                                                       "room": roominfo,
                                                       "lat": json.dumps(roominfo.lat),
                                                       "lng": json.dumps(roominfo.lng),
-                                                      "files": images,
+                                                      "files": json.dumps(images),
                                                       "communities": communities})
     else:
         return HttpResponseRedirect(reverse("admin_login"))

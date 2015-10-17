@@ -7,25 +7,45 @@
 
 <script>
     ;(function(){
+        $(document).delegate("input[type=password]","focusout",function(){
+           $(this).next().val($.md5($(this).val()));
+        });
+
+        //修改密码
         $("#modify-submit").bind("click",function(){
+
+           var old_pw=$("#old_pw").val();
+           var new_pw=$("#new_pw").val();
+           var new_pw2=$("#new_pw2").val();
+
+           if(!old_pw||!new_pw||!new_pw2){
+               alert("请填写完全！");
+               return;
+           }
+
+            if(new_pw!=new_pw2){
+                alert("两次输入的新密码必须一致！");
+                return;
+            }
+
            $.post(
-                    {% url 'evaluation_add' %},
+                    "modify_pw",
                     {
-                        text:_text,
-                        roomNubmer:_num
+                        old_pw: $.md5(old_pw),
+                        new_pw: $.md5(new_pw)
                     },
                     function(data){
                         if(data.code==1){
                             console.log("post success");
-                            alert("评论发布成功，正在等待管理员审核！");
+                            alert("密码修改成功！");
                         }else{
                             console.log("post failed");
-                            alert("评论发布失败！");
+                            alert("密码修改失败！");
                         }
                     }
             )
             .error(function(){
-                console.log("error");
+                console.log("发生错误");
             });
         });
     })();
