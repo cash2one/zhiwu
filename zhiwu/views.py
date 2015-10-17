@@ -172,11 +172,11 @@ def admin_login(request):
                 pw = form.cleaned_data['password']
                 identity = form.cleaned_data['identity']
                 if identity == "manager":
-                    tag, m = get_manager(user, pw)
+                    tag, m, msg = get_manager(user, pw)
                 elif identity == "second_manager":
-                    tag, m = get_second_manager(user, pw)
+                    tag, m, msg = get_second_manager(user, pw)
                 elif identity == "root":
-                    tag, m = get_root(user, pw)
+                    tag, m, msg = get_root(user, pw)
                     # request.session['user'] = "root"
                     # request.session['status'] = "root"
                     # request.session['identity'] = "root"
@@ -200,7 +200,7 @@ def admin_login(request):
                         print 'second manager login'
                         return HttpResponseRedirect(reverse('admin_second_manager'))
                 else:
-                    return JsonResponse(fail)
+                    return JsonResponse({"code": 0, "msg": msg})
                     # 账号密码错误
             except Exception, e:
                 print 'admin manager login error:'
@@ -885,6 +885,7 @@ def post_second_manager_pw(request):
 
 
 def upload_image(request):
+    img_water = "./zhiwu/static/water.png"
     if request.method == 'POST':
         try:
             image = request.FILES['imageDate']
@@ -894,10 +895,11 @@ def upload_image(request):
             file_name = time.strftime('%Y%m%d%H%M%S')
             file_ext = image.name.split('.')[-1]
             file_addr = settings.MEDIA_ROOT+"upload/" + folder + "/" + file_name + "." + file_ext
-            destination = open(file_addr, 'wb+')
-            for chunk in image.chunks():
-                destination.write(chunk)
-            destination.close()
+            # destination = open(file_addr, 'wb+')
+            # for chunk in image.chunks():
+            #     destination.write(chunk)
+            watermark(image, img_water, file_addr, 250, 50)
+            # destination.close()
             result = {
                 'files': [{
                     'url': "/media/upload/" + folder + "/" + file_name + "." + file_ext,
