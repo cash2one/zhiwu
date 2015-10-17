@@ -183,6 +183,16 @@ def get_manager(user, pw):
         return False, None
 
 
+def get_root(user, pw):
+    try:
+        r = Root.objects.get(user=user, pw=pw)
+        print "get root success!"
+        return True, r
+    except Exception, e:
+        print "get root error:"
+        print e
+        return False, None
+
 def description_add(roomNumber, roomType, decoration,
                     configuration, cook, light, wind,
                     sound, requirement, suitable):

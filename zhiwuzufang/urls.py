@@ -63,6 +63,7 @@ urlpatterns = [
 
     # Part2:Post ajax
 
+        url(r'^modify_pw', 'zhiwu.views.modify_pw', name='modify_pw'),
         url(r'^area_add/', 'zhiwu.views.post_area_add', name='area_add'),
         url(r'^area_modify/', 'zhiwu.views.post_area_modify', name='area_add_or_modify'),
 

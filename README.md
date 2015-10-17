@@ -4,3 +4,5 @@
 `python manage.py makemigrations`
 `python manage.py migrate`
 pip install pillow --upgrade 添加水印需要的库
+初始root root
+md5 63a9f0ea7bb98050796b649e85481845

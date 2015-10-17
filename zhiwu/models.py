@@ -177,7 +177,7 @@ class RoomDescription(models.Model):
 class Manager(models.Model):
     # 一级管理员
     user = models.CharField(max_length=30, primary_key=True)
-    pw = models.CharField(max_length=30)
+    pw = models.CharField(max_length=32)
     name = models.CharField(max_length=30)
     phone = models.CharField(max_length=11)
     status = models.CharField(max_length=30)
@@ -193,7 +193,7 @@ class SecondManager(models.Model):
     # 二级管理员
     manager = models.ForeignKey(Manager)
     user = models.CharField(max_length=30, primary_key=True)
-    pw = models.CharField(max_length=30)
+    pw = models.CharField(max_length=32)
     name = models.CharField(max_length=30)
     phone = models.CharField(max_length=11)
     company = models.CharField(max_length=30)
@@ -204,6 +204,12 @@ class SecondManager(models.Model):
         return self.name
 
 
+class Root(models.Model):
+    user = models.CharField(max_length=30, primary_key=True)
+    pw = models.CharField(max_length=32)
+    status = models.CharField(max_length=30)
+    name = models.CharField(max_length=30)
+    phone = models.CharField(max_length=11)
 # class Uploader(models.Model):
 #     # 上传者
 #     user = models.CharField(max_length=30, primary_key=True)

@@ -29,7 +29,7 @@
             }
 
            $.post(
-                    "modify_pw",
+                    "{% url 'modify_pw' %}",
                     {
                         old_pw: $.md5(old_pw),
                         new_pw: $.md5(new_pw)

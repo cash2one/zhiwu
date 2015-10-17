@@ -176,11 +176,12 @@ def admin_login(request):
                 elif identity == "second_manager":
                     tag, m = get_second_manager(user, pw)
                 elif identity == "root":
-                    request.session['user'] = "root"
-                    request.session['status'] = "root"
-                    request.session['identity'] = "root"
-                    print 'root login'
-                    return HttpResponseRedirect(reverse('admin_root'))
+                    tag, m = get_root(user, pw)
+                    # request.session['user'] = "root"
+                    # request.session['status'] = "root"
+                    # request.session['identity'] = "root"
+                    # print 'root login'
+                    # return HttpResponseRedirect(reverse('admin_root'))
                     # todo 完善root的数据库
                 else:
                     return JsonResponse(fail)
@@ -189,7 +190,10 @@ def admin_login(request):
                     request.session['user'] = m.user
                     request.session['status'] = m.status
                     request.session['identity'] = identity
-                    if identity == "manager":
+                    if identity == "root":
+                        print 'root login'
+                        return HttpResponseRedirect(reverse('admin_root'))
+                    elif identity == "manager":
                         print 'manager login'
                         return HttpResponseRedirect(reverse('admin_manager'))
                     else:
@@ -432,8 +436,39 @@ def post_get_community(request):
         return JsonResponse(fail)
 
 
+def modify_pw(request):
+    try:
+        user = request.session['user']
+        status = request.session['status']
+        identity = request.session['identity']
+        old_pw = request.POST.get("old_pw", None)
+        new_pw = request.POST.get("new_pw", None)
+        if old_pw is not None and new_pw is not None:
+            try:
+                if identity == "root":
+                    m = Root.objects.get(user=user, pw=old_pw)
+                elif identity == "manager":
+                    m = Manager.objects.get(user=user, pw=old_pw)
+                elif identity == "second_manager":
+                    m = SecondManager.objects.get(user=user, pw=old_pw)
+                else:
+                    return JsonResponse({"code": 0, "msg": "身份不存在"})
+            except :
+                return JsonResponse({"code": 0, "msg": "旧密码不正确"})
+            m.pw = new_pw
+            m.save()
+            return JsonResponse(success)
+        else:
+            return JsonResponse({"code": 0, "msg": "信息不全"})
+    except Exception, e:
+        print "modify error:"
+        print e
+        return JsonResponse(fail)
+
+
 def post_area_add(request):
     return post_manager_add(request, "area")
+
 
 def post_area_modify(request):
     return post_manager_modify(request, "area")
