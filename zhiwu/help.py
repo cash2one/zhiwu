@@ -163,35 +163,47 @@ def get_room_description(room):
 
 def get_second_manager(user, pw):
     try:
-        m = SecondManager.objects.get(user=user, pw=pw)
-        print "get second manager success!"
-        return True, m
+        p = SecondManager.objects.filter(user=user).exists()
+        if p:
+            m = SecondManager.objects.get(user=user, pw=pw)
+            print "get second manager success!"
+            return True, m, None
+        else:
+            return False, None, "用户名不存在"
     except Exception, e:
         print "get second manager error:"
         print e
-        return False, None
+        return False, None, "密码错误"
 
 
 def get_manager(user, pw):
     try:
-        m = Manager.objects.get(user=user, pw=pw)
-        print "get manager success!"
-        return True, m
+        p = Manager.objects.filter(user=user).exists()
+        if p:
+            m = Manager.objects.get(user=user, pw=pw)
+            print "get manager success!"
+            return True, m, None
+        else:
+            return False, None, "用户名不存在"
     except Exception, e:
         print "get manager error:"
         print e
-        return False, None
+        return False, None, "密码错误"
 
 
 def get_root(user, pw):
     try:
-        r = Root.objects.get(user=user, pw=pw)
-        print "get root success!"
-        return True, r
+        p = Root.objects.filter(user=user).exists()
+        if p:
+            r = Root.objects.get(user=user, pw=pw)
+            print "get root success!"
+            return True, r, None
+        else:
+            return False, None, "用户名不存在"
     except Exception, e:
         print "get root error:"
         print e
-        return False, None
+        return False, None, "密码错误"
 
 def description_add(roomNumber, roomType, decoration,
                     configuration, cook, light, wind,

@@ -895,11 +895,11 @@ def upload_image(request):
             file_name = time.strftime('%Y%m%d%H%M%S')
             file_ext = image.name.split('.')[-1]
             file_addr = settings.MEDIA_ROOT+"upload/" + folder + "/" + file_name + "." + file_ext
-            # destination = open(file_addr, 'wb+')
-            # for chunk in image.chunks():
-            #     destination.write(chunk)
-            watermark(image, img_water, file_addr, 250, 50)
-            # destination.close()
+            destination = open(file_addr, 'wb+')
+            for chunk in image.chunks():
+                destination.write(chunk)
+            destination.close()
+            watermark(file_addr, img_water, file_addr, 250, 50)
             result = {
                 'files': [{
                     'url': "/media/upload/" + folder + "/" + file_name + "." + file_ext,
