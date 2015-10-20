@@ -1008,6 +1008,7 @@ def post_roominfo_add_or_modify(request):
             roominfo_default['contactPerson'] = manager
             add_or_modify_result = roominfo_add_or_modify(roominfo_default)
             if add_or_modify_result:
+                room_picture_remove(roomNumber)
                 for i in url_list:
                     room_picture_add(roomNumber, i)
                 return True, roomNumber

@@ -363,6 +363,18 @@ def evaluation_delete(_id):
         return False
 
 
+def room_picture_remove(roomNumber):
+    try:
+        room = RoomInfo.objects.get(roomNumber=roomNumber)
+        RoomPicture.objects.filter(roomNumber=room).delete()
+        print "room picture remove success!"
+        return True
+    except Exception, e:
+        print "room picture remove error:"
+        print e
+        return False
+
+
 def room_picture_add(roomNumber, picture_addr):
     try:
         room = RoomInfo.objects.get(roomNumber=roomNumber)
