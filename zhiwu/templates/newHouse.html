@@ -10,7 +10,21 @@
 <link rel="stylesheet" href="/stylesheet/jquery.fileupload-ui.css">
 <link rel="stylesheet" href="/stylesheet/chosen.min.css">
 
+    <style>
+        .chosen-choices{
+            border-radius: 3px;
+            padding: 4px;
+        }
 
+        .form-alert{
+            border:1px solid red;
+        }
+
+        .form-alert:focus{
+            border:1px solid red;
+            box-shadow: inset 0 1px 1px rgba(255,0,0,.075)
+        }
+    </style>
 {% endblock %}
 
 <!--content-->
@@ -24,7 +38,7 @@
                     <form class="form-horizontal" id="step1-form">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">小区地址</label>
-                            <div class="col-sm-10">
+                            <div class="col-sm-10" id="addr-form">
                                 <select data-placeholder="选择小区" class="form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
                                     <option value=""></option>
                                     {% for i in communities %}
@@ -36,10 +50,12 @@
                                 幢
                                 <input type="text" class="form-control inline-input" id="addr_unit" name="addr_unit"/>
                                 单元
-                                <input type="text" class="form-control inline-input" id="addr_floor" name="addr_floor"/>
-                                楼层
+{#                                <input type="text" class="form-control inline-input" id="addr_floor" name="addr_floor"/>#}
+{#                                楼层#}
                                 <input type="text" class="form-control inline-input" id="addr_room" name="addr_room"/>
                                 室
+                                <input type="text" class="form-control inline-input" id="addr_fang" name="addr_floor"/>
+                                房
                             </div>
                         </div>
 
@@ -55,10 +71,10 @@
                         <div class="form-group">
                             <label for="payway" class="col-sm-2 control-label">租金/付款方式</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="keeper-add-name" name="price">元/月
+                                <input type="text" class="form-control form-required inline-input" id="keeper-add-name" name="price">元/月
                                 <select name="payway" id="payway" class="form-control inline-input">
                                     <!--<option value="">押金方式</option>-->
-                                    <option value="押一付一">押一付一</option>
+                                    <option value="押一付一" selected>押一付一</option>
                                     <option value="押一付二">押一付二</option>
                                     <option value="押一付三">押一付三</option>
                                     <option value="押二付一">押二付一</option>
@@ -73,7 +89,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">房屋户型</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="type_room" name="type_room"/>
+                                <input type="text" class="form-control  inline-input" id="type_room" name="type_room"/>
                                 室
                                 <input type="text" class="form-control inline-input" id="type_livingroom" name="type_livingroom"/>
                                 厅
@@ -87,10 +103,14 @@
                             <div class="col-sm-10">
                                 <select name="orientation" id="orientation" class="form-control inline-input">
                                     <!--<option value="">押金方式</option>-->
-                                    <option value="东">东</option>
+                                    <option value="东" selected>东</option>
                                     <option value="南">南</option>
                                     <option value="西">西</option>
                                     <option value="北">北</option>
+                                    <option value="东南">东南</option>
+                                    <option value="东北">东北</option>
+                                    <option value="西南">西南</option>
+                                    <option value="西北">西北</option>
                                 </select>
                             </div>
                         </div>
@@ -104,7 +124,7 @@
                                 </label>
 
                                 <label for="balcony_no" class="radio-inline">
-                                    <input type="radio" name="balcony" id="balcony_no" value="no"/>
+                                    <input type="radio" name="balcony" checked id="balcony_no" value="no"/>
                                     无
                                 </label>
                             </div>
@@ -135,7 +155,7 @@
                                 </label>
 
                                 <label for="see_no" class="radio-inline">
-                                    <input type="radio" name="see" id="see_no" value="no"/>
+                                    <input type="radio" name="see" id="see_no" checked value="no"/>
                                     否
                                 </label>
                             </div>
@@ -210,9 +230,9 @@
                                 <label class="col-sm-2 control-label">楼层</label>
                                 <div class="col-sm-10">
                                     <select name="floor_level" id="floor_level" class="form-control inline-input">
-                                        <option value="low">低</option>
-                                        <option value="mid">中</option>
-                                        <option value="high">高</option>
+                                        <option value="低" selected>低</option>
+                                        <option value="中">中</option>
+                                        <option value="高">高</option>
                                     </select>/
                                     <input type="text" class="form-control inline-input" id="total_floor" name="total_floor">层
                                 </div>
@@ -227,7 +247,7 @@
                                     </label>
 
                                     <label for="elevator_no" class="radio-inline">
-                                        <input type="radio" name="elevator" id="elevator_no" value="no"/>
+                                        <input type="radio" name="elevator" id="elevator_no" checked value="no"/>
                                         无电梯
                                     </label>
                                 </div>
@@ -309,63 +329,93 @@
                                     <div class="form-group">
                                         <label for="original_house_type" class="col-sm-2 control-label">此房原户型</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="original_house_type" name="original_house_type">
+                                            <input type="text" class="form-control inline-input" id="original_house_shi" name="original_house_shi">室
+                                            <input type="text" class="form-control inline-input" id="original_house_ting" name="original_house_ting">厅
+                                            <input type="text" class="form-control inline-input" id="original_house_wei" name="original_house_wei">卫
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="decorate_level" class="col-sm-2 control-label">装修档次</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="decorate_level" name="decorate_level">
+                                            <select class="form-control" id="decorate_level" name="decorate_level">
+                                                <option value="毛坯">毛坯</option>
+                                                <option value="简单装修">简单装修</option>
+                                                <option value="精装修">精装修</option>
+                                                <option value="豪华装修">豪华装修</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+{#                                    <div class="form-group">#}
+{#                                        <label for="config_level" class="col-sm-2 control-label">房屋配置如何</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="config_level" name="config_level">#}
+{#                                        </div>#}
+{#                                    </div>#}
+
+                                    <div class="form-group">
+                                        <label for="can_cook" class="col-sm-2 control-label">做饭情况</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="can_cook" name="can_cook">
+                                                <option value="可以做饭">可以做饭</option>
+                                                <option value="不能做饭">不能做饭</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+{#                                    <div class="form-group">#}
+{#                                        <label for="lighting" class="col-sm-2 control-label">采光</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="lighting" name="lighting">#}
+{#                                        </div>#}
+{#                                    </div>#}
+{##}
+{#                                    <div class="form-group">#}
+{#                                        <label for="ventilate" class="col-sm-2 control-label">通风</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="ventilate" name="ventilate">#}
+{#                                        </div>#}
+{#                                    </div>#}
+{##}
+{#                                    <div class="form-group">#}
+{#                                        <label for="noise" class="col-sm-2 control-label">噪声</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="noise" name="noise">#}
+{#                                        </div>#}
+{#                                    </div>#}
+
+                                    <div class="form-group">
+                                        <label for="merit" class="col-sm-2 control-label">房屋优势</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" data-placeholder="选择条件" multiple id="merit" name="merit">
+                                                <option value="南北通透">南北通透</option>
+                                                <option value="通透明静">通透明静</option>
+                                                <option value="阳光房">阳光房</option>
+                                                <option value="江景房">江景房</option>
+                                                <option value="安静舒适">安静舒适</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="config_level" class="col-sm-2 control-label">房屋配置如何</label>
+                                        <label for="landlord_req" multiple class="col-sm-2 control-label">房东要求</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="config_level" name="config_level">
+                                            <select class="form-control" multiple data-placeholder="选择条件" id="landlord_req" name="landlord_req">
+                                                <option value="仅限女生">仅限女生</option>
+                                                <option value="仅限男生">仅限男生</option>
+                                                <option value="仅限情侣">仅限情侣</option>
+                                                <option value="仅限一家人">仅限一家人</option>
+                                                <option value="不带宠物">不带宠物</option>
+                                                <option value="不群组">不群租</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="can_cook" class="col-sm-2 control-label">是否可以做饭</label>
+                                        <label for="other" class="col-sm-2 control-label">其他描述</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="can_cook" name="can_cook">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="lighting" class="col-sm-2 control-label">采光</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="lighting" name="lighting">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="ventilate" class="col-sm-2 control-label">通风</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="ventilate" name="ventilate">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="noise" class="col-sm-2 control-label">噪声</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="noise" name="noise">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="landlord_req" class="col-sm-2 control-label">房东要求</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="landlord_req" name="landlord_req">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="fit_people" class="col-sm-2 control-label">适宜居住人群</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="fit_people" name="fit_people">
+                                            <input type="text" class="form-control" id="other" name="other">
                                         </div>
                                     </div>
 
@@ -402,7 +452,6 @@
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button class="btn btn-success btn-save btn-post" data-type="save">保存</button>
                                     <button class="btn btn-info btn-submit btn-post" data-type="submit">发布</button>
-                                    <button class="btn btn-default btn-preview">预览</button>
                                 </div>
                             </div>
                         </form>
@@ -594,6 +643,8 @@
 <script>
     ;(function(){
 
+        $("#landlord_req").chosen();
+        $("#merit").chosen();
         //为新增form,save或者submit添加ajax
         $(".btn-post").bind("click",function(e){
             e.preventDefault();
@@ -601,9 +652,23 @@
             var type=$(this).data("type");
             var dest=type=="save"?{% url 'roominfo_save' %}:{% url 'roominfo_sub' %}
 
-            var p = window.marker.getPosition();
-            $("#house_lng").val(p.lng);
-            $("#house_lat").val(p.lat);
+            var isSubmit=type==="submit";
+
+            if(isSubmit){
+                $(".form-required").each(function(){
+                    if(!!$(this)){
+                        alert("请填写完整所有的信息！");
+                        $(this).addClass("form-alert");
+                        return;
+                    }else{
+                        $(this).removeClass("form-alert");
+                    }
+                })
+            }
+
+{#            var p = window.marker.getPosition();#}
+{#            $("#house_lng").val(p.lng);#}
+{#            $("#house_lat").val(p.lat);#}
 
             var urlArr=[];
             $(".picLink").each(function(){
@@ -659,6 +724,48 @@
         });
 
 
+        $("#addr-form .form-control").bind("change",function(){
+            //当地址发生改变时，根据地址搜索有没有对应的房源
+            //TODO
+
+            var res=[];
+
+            $("#addr-form .form-control").each(function(){
+                var _this=$(this);
+                res.push(_this.attr("name")+"="+_this.val());
+            });
+
+            $.get(
+                "url",
+                res.join("&&"),
+                function(data){
+                    if(data.code==1){
+                        if(data.result==0){
+                            alert("已经找到该房源，但是已经上架，不能操作！由xx发布");
+                        }else{
+                            if(data.result==1){
+                                var res=confirm("已经找到该房源，在下架房源库中，是否导入？");
+                                if(res==true){
+                                    alert("导入");
+                                }else{
+
+                                }
+                            }
+                        }
+
+                    }else{
+                        alert("保存失败！");
+                    }
+                }
+            )
+            .error(function(){
+                console.log("error");
+            });
+
+        });
+
+        //照片顺序可排序
+        $(".files").sortable();
 
     })();
 </script>

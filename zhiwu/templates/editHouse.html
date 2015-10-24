@@ -37,10 +37,12 @@
                                 幢
                                 <input type="text" class="form-control inline-input" id="addr_unit" name="addr_unit" value="{{room.addr_unit}}"/>
                                 单元
-                                <input type="text" class="form-control inline-input" id="addr_floor" name="addr_floor" value="{{room.addr_floor}}"/>
-                                楼层
+{#                                <input type="text" class="form-control inline-input" id="addr_floor" name="addr_floor" value="{{room.addr_floor}}"/>#}
+{#                                楼层#}
                                 <input type="text" class="form-control inline-input" id="addr_room" name="addr_room" value="{{room.addr_room}}"/>
                                 室
+                                <input type="text" class="form-control inline-input" id="addr_fang" name="addr_floor" value="{{ room.addr_fang }}"/>
+                                房
                             </div>
                         </div>
 
@@ -310,63 +312,93 @@
                                     <div class="form-group">
                                         <label for="original_house_type" class="col-sm-2 control-label">此房原户型</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="original_house_type" name="original_house_type" value="{{room.original_house_type}}">
+                                            <input type="text" class="form-control inline-input" id="original_house_shi" name="original_house_shi">室
+                                            <input type="text" class="form-control inline-input" id="original_house_ting" name="original_house_ting">厅
+                                            <input type="text" class="form-control inline-input" id="original_house_wei" name="original_house_wei">卫
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="decorate_level" class="col-sm-2 control-label">装修档次</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="decorate_level" name="decorate_level" value="{{room.decorate_level}}">
+                                            <select class="form-control" id="decorate_level" name="decorate_level">
+                                                <option value="毛坯">毛坯</option>
+                                                <option value="简单装修">简单装修</option>
+                                                <option value="精装修">精装修</option>
+                                                <option value="豪华装修">豪华装修</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+{#                                    <div class="form-group">#}
+{#                                        <label for="config_level" class="col-sm-2 control-label">房屋配置如何</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="config_level" name="config_level">#}
+{#                                        </div>#}
+{#                                    </div>#}
+
+                                    <div class="form-group">
+                                        <label for="can_cook" class="col-sm-2 control-label">做饭情况</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="can_cook" name="can_cook">
+                                                <option value="可以做饭">可以做饭</option>
+                                                <option value="不能做饭">不能做饭</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+{#                                    <div class="form-group">#}
+{#                                        <label for="lighting" class="col-sm-2 control-label">采光</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="lighting" name="lighting">#}
+{#                                        </div>#}
+{#                                    </div>#}
+{##}
+{#                                    <div class="form-group">#}
+{#                                        <label for="ventilate" class="col-sm-2 control-label">通风</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="ventilate" name="ventilate">#}
+{#                                        </div>#}
+{#                                    </div>#}
+{##}
+{#                                    <div class="form-group">#}
+{#                                        <label for="noise" class="col-sm-2 control-label">噪声</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="noise" name="noise">#}
+{#                                        </div>#}
+{#                                    </div>#}
+
+                                    <div class="form-group">
+                                        <label for="merit" class="col-sm-2 control-label">房屋优势</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" data-placeholder="选择条件" multiple id="merit" name="merit">
+                                                <option value="南北通透">南北通透</option>
+                                                <option value="通透明静">通透明静</option>
+                                                <option value="阳光房">阳光房</option>
+                                                <option value="江景房">江景房</option>
+                                                <option value="安静舒适">安静舒适</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="config_level" class="col-sm-2 control-label">房屋配置如何</label>
+                                        <label for="landlord_req" multiple class="col-sm-2 control-label">房东要求</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="config_level" name="config_level" value="{{room.config_level}}">
+                                            <select class="form-control" multiple data-placeholder="选择条件" id="landlord_req" name="landlord_req">
+                                                <option value="仅限女生">仅限女生</option>
+                                                <option value="仅限男生">仅限男生</option>
+                                                <option value="仅限情侣">仅限情侣</option>
+                                                <option value="仅限一家人">仅限一家人</option>
+                                                <option value="不带宠物">不带宠物</option>
+                                                <option value="不群组">不群租</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="can_cook" class="col-sm-2 control-label">是否可以做饭</label>
+                                        <label for="other" class="col-sm-2 control-label">其他描述</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="can_cook" name="can_cook" value="{{room.can_cook}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="lighting" class="col-sm-2 control-label">采光</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="lighting" name="lighting" value="{{room.lighting}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="ventilate" class="col-sm-2 control-label">通风</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="ventilate" name="ventilate" value="{{room.ventilate}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="noise" class="col-sm-2 control-label">噪声</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="noise" name="noise" value="{{room.noise}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="landlord_req" class="col-sm-2 control-label">房东要求</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="landlord_req" name="landlord_req" value="{{room.landlord_req}}">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="fit_people" class="col-sm-2 control-label">适宜居住人群</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="fit_people" name="fit_people" value="{{room.fit_people}}">
+                                            <input type="text" class="form-control" id="other" name="other">
                                         </div>
                                     </div>
 
@@ -403,7 +435,6 @@
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button class="btn btn-success btn-save btn-post" data-type="save">保存</button>
                                     <button class="btn btn-info btn-submit btn-post" data-type="submit">发布</button>
-                                    <button class="btn btn-default btn-preview">预览</button>
                                 </div>
                             </div>
                         </form>
