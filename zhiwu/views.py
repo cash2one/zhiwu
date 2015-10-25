@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
+from django.http import StreamingHttpResponse
 from django.http import JsonResponse
 from django.conf import settings
 from django.db.models import Q
@@ -14,6 +15,7 @@ from zhiwu.models import *
 import json
 import time
 import os
+from pyExcelerator import *
 # Create your views here.
 
 rename = {"code":0, "msg":"用户已经存在"}
@@ -1336,3 +1338,26 @@ def post_community_delete(request):
             return JsonResponse(fail)
     else:
         return HttpResponseNotFound()
+
+
+def download_data(request):
+    file_name = 'data.xls'
+    attri_list = ['roomNumber', 'price']
+    attri_title = [u'房源编号', u'价格']
+    rs = RoomInfo.objects.all()
+    w = Workbook()
+    ws = w.add_sheet(u'房源信息')
+    for i in range(len(attri_title)):
+        ws.write(0, i, attri_title[i])
+    i = 1
+    for r in rs:
+        j = 0
+        for item in attri_list:
+            ws.write(i, j, r.__getattribute__(item))
+            j += 1
+        i += 1
+    w.save(file_name)
+    response = StreamingHttpResponse(readfile(file_name))
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file_name)
+    return response

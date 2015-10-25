@@ -133,17 +133,8 @@ urlpatterns = [
         # 搜索页面ajax
             url(r'^map_search/', 'zhiwu.views.map_search', name='map_search'),  # 地图拖动接口 data:longtitude,latitude
             url(r'^room_collection/', 'zhiwu.views.room_collection', name='room_collection'),  # 收藏房源 data:room_num
-
-
-    # url(r'^insert/','zhiwu.views.insert', name='insert'),
-    # url(r'^search/', 'zhiwu.views.search', name='search'),
-    # url(r'^room_detail/', 'zhiwu.views.room_detail', name='room_detail'),
-
-    # url(r'^admin_login/', 'zhiwu.views.admin_login', name='admin_login'),
-    # url(r'^admin_root/', 'zhiwu.views.admin_root', name='admin_root'),
-    # url(r'^admin_assessor/', 'zhiwu.views.admin_assessor', name='admin_assessor'),
-    # url(r'^admin_uploader/', 'zhiwu.views.admin_uploader', name='admin_uploader'),
-
+    # 文件下载的路由，get过来一些条件就可以了
+    url(r'^download_data', 'zhiwu.views.download_data', name='download_data'),
 
     url(r'^admin/', include(admin.site.urls)),
     # url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_URL}),

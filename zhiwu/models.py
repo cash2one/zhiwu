@@ -60,6 +60,8 @@ class RoomInfo(models.Model):
     sold = models.BooleanField(default=False)
     exist = models.BooleanField(default=False)
     achieve = models.BooleanField(default=False)
+    # create_time = models.DateField(auto_now_add=True)
+    # sold_time = models.DateField(default='1970-01-01')
 
     def __unicode__(self):
         return self.roomNumber

@@ -2,6 +2,7 @@
 from models import *
 from PIL import Image
 import random
+from pyExcelerator import *
 
 
 def get_search_room_list(rooms):
@@ -983,6 +984,18 @@ def watermark(img_source, img_water, img_new, offset_x, offset_y):
         return False
     else:
         return True
+
+
+def readfile(fn, buf_size=262144):
+    f = open(fn, "rb")
+    while True:
+        c = f.read(buf_size)
+        if c:
+            yield c
+        else:
+            break
+    f.close()
+
 
 #租户、需求、消息
 def tenant_add(tenantId,pw,name,phone,profession):
