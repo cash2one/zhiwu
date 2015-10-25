@@ -13,13 +13,7 @@
     nav .brand-logo {
       color: #444;
     }
-    .carousel-control.right{
-        background-image:none;
-    }
 
-    .carousel-control.left{
-        background-image:none;
-    }
 </style>
 {% endblock %}
 
@@ -31,7 +25,7 @@
         <form class="search-condition form-horizontal">
 
             <div class="row price-row form-group form-listen">
-                <label class="search-category col s2">价格：</label>
+                <label class="search-category col s2">售价：</label>
 
                 <div class="col s10">
 
@@ -40,34 +34,106 @@
                     <label for="noprice" class="checkbox-inline">不限</label>
 
 
-                    <input class="with-gap" type="radio" name="price" id="1000to1500"/>
-                    <label for="1000to1500" class="checkbox-inline">1000-1500(含)</label>
+                    <input class="with-gap" type="radio" name="price" id="lto80to"/>
+                    <label for="lto80to" class="checkbox-inline">80万以下</label>
 
-                    <input class="with-gap" type="radio" name="price" id="1500to2000"/>
-                    <label for="1500to2000" class="checkbox-inline">
-                        1500-2000(含)
+                    <input class="with-gap" type="radio" name="price" id="80to100to"/>
+                    <label for="80to100to" class="checkbox-inline">80万-100万
                     </label>
 
-                    <input class="with-gap" type="radio" name="price" id="2000to3000"/>
-                    <label for="2000to3000" class="checkbox-inline">
-                        2000-3000(含)
-                    </label>
-
-
-                    <input  class="with-gap"type="radio" name="price" id="3000to5000"/>
-                    <label for="3000to5000" class="checkbox-inline">
-                        3000-5000(含)
+                    <input class="with-gap" type="radio" name="price" id="100to120to"/>
+                    <label for="100to120to" class="checkbox-inline">
+                        100万-120万(含)
                     </label>
 
 
-                    <input class="with-gap" type="radio" name="price" id="5000to8000"/>
-                    <label for="5000to8000" class="checkbox-inline">
-                        5000-8000(含)
+                    <input  class="with-gap"type="radio" name="price" id="120to150to"/>
+                    <label for="120to150to" class="checkbox-inline">
+                        100万-120万(含)
                     </label>
 
-                    <input class="with-gap" type="radio" name="price" id="8000toh"/>
-                    <label for="8000toh" class="checkbox-inline">
-                        8000以上
+
+                    <input class="with-gap" type="radio" name="price" id="150to200to"/>
+                    <label for="150to200to" class="checkbox-inline">
+                        150万-200万(含)
+                    </label>
+
+                    <input class="with-gap" type="radio" name="price" id="200to300to"/>
+                    <label for="200to300to" class="checkbox-inline">
+                        200万-300万(含)
+                    </label>
+
+                    <input class="with-gap" type="radio" name="price" id="300to500to"/>
+                    <label for="300to500to" class="checkbox-inline">
+                        300万-500万(含)
+                    </label>
+
+                    <input class="with-gap" type="radio" name="price" id="500to700"/>
+                    <label for="500to700to" class="checkbox-inline">
+                        500万-700万(含)
+                    </label>
+
+                    <input class="with-gap" type="radio" name="price" id="700to1000to"/>
+                    <label for="700to1000to" class="checkbox-inline">
+                        700万-1000万(含)
+                    </label>
+
+                    <input class="with-gap" type="radio" name="price" id="1000tohto"/>
+                    <label for="1000tohto" class="checkbox-inline">
+                        1000万以上
+                    </label>
+                </div>
+
+            </div>
+
+
+            <div class="row area-row form-group form-listen">
+                <label class="search-category col s2">面积：</label>
+
+                <div class="col s10">
+
+
+                    <input class="with-gap" type="radio" checked name="area" id="noarea"/>
+                    <label for="noarea" class="checkbox-inline">不限</label>
+
+
+                    <input class="with-gap" type="radio" name="area" id="lto80"/>
+                    <label for="lto80" class="checkbox-inline">50㎡以下</label>
+
+                    <input class="with-gap" type="radio" name="area" id="50to70"/>
+                    <label for="50to70" class="checkbox-inline">50㎡-70㎡
+                    </label>
+
+                    <input class="with-gap" type="radio" name="area" id="70to90"/>
+                    <label for="70to90" class="checkbox-inline">
+                        70㎡-90㎡(含)
+                    </label>
+
+
+                    <input  class="with-gap"type="radio" name="area" id="90to120"/>
+                    <label for="90to120" class="checkbox-inline">
+                        90㎡-120㎡(含)
+                    </label>
+
+
+                    <input class="with-gap" type="radio" name="area" id="120to150"/>
+                    <label for="120to150" class="checkbox-inline">
+                        120㎡-150㎡(含)
+                    </label>
+
+                    <input class="with-gap" type="radio" name="area" id="150to200"/>
+                    <label for="150to200" class="checkbox-inline">
+                        150㎡-200㎡(含)
+                    </label>
+
+                    <input class="with-gap" type="radio" name="area" id="200to300"/>
+                    <label for="200to300" class="checkbox-inline">
+                        200㎡-300㎡(含)
+                    </label>
+
+                    <input class="with-gap" type="radio" name="area" id="300toh"/>
+                    <label for="300toh" class="checkbox-inline">
+                        300㎡以上
                     </label>
                 </div>
 
@@ -90,152 +156,28 @@
                         1室
                     </label>
 
-
                     <input class="with-gap" type="radio" name="type" id="2room"/>
                     <label for="2room" class="checkbox-inline">
                         2室
                     </label>
-
 
                     <input class="with-gap" type="radio" name="type" id="3room"/>
                     <label for="3room" class="checkbox-inline">
                         3室
                     </label>
 
+                    <input class="with-gap" type="radio" name="type" id="4room"/>
+                    <label for="4room" class="checkbox-inline">
+                        4室
+                    </label>
 
-                    <input class="with-gap" type="radio" name="type" id="4roomup"/>
-                    <label for="4roomup" class="checkbox-inline">
-                        4室（含以上）
+                    <input class="with-gap" type="radio" name="type" id="5roomup"/>
+                    <label for="5roomup" class="checkbox-inline">
+                        4室以上
                     </label>
 
                 </div>
-
-
             </div>
-
-
-            <hr/>
-
-            <div class="row way-row form-group form-listen">
-                <label class="search-category col s2">获取途径：</label>
-
-                <div class="col s10">
-                    <input class="with-gap" type="radio" checked name="acheive_way" id="noway"/>
-                    <label for="noway" class="checkbox-inline">
-                        不限
-                    </label>
-
-
-                    <input class="with-gap" type="radio" name="acheive_way" id="mansion"/>
-                    <label for="mansion" class="checkbox-inline">
-                        物业公司房源
-                    </label>
-
-
-                    <input class="with-gap" type="radio" name="acheive_way" id="area"/>
-                    <label for="area" class="checkbox-inline">
-                        0中介费品牌公寓
-                    </label>
-                </div>
-
-                <span id="more-way-btn" class="btn btn-pink">更多&nbsp;<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span>
-                <span id="less-way-btn" class="btn btn-pink">收起&nbsp;<span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span>
-            </div>
-
-            <hr/>
-
-            <div id="more-way-section">
-
-                <div class="row look-row form-group form-listen">
-                    <label class="search-category col s2">看房：</label>
-
-                    <div class="col s10">
-                        <input class="with-gap" type="radio" checked name="lookable" id="nolook"/>
-                        <label for="nolook" class="checkbox-inline">
-                            不限
-                        </label>
-
-
-                        <input class="with-gap" type="radio" name="lookable" id="freelook"/>
-                        <label for="freelook" class="checkbox-inline">
-                            随时可看
-                        </label>
-
-
-                        <input class="with-gap" type="radio" name="lookable" id="appolook"/>
-                        <label for="appolook" class="checkbox-inline">
-                            预约可看
-                        </label>
-                    </div>
-
-                </div>
-
-                <hr/>
-
-                <div class="row time-row form-group form-listen">
-                    <label class="search-category col s2">入住时间：</label>
-
-                    <div class="col s10">
-                        <input type="date" class="datepicker" style="margin-left:10px;width:200px;" id="intime"/>
-                    </div>
-
-                </div>
-
-
-                <hr/>
-
-                <div class="row photo-row form-group form-listen">
-                    <label class="search-category col s2">是否有电梯：</label>
-
-                    <div class="col s10">
-                        <input class="with-gap" type="radio" checked name="elevator" id="noelevator"/>
-                        <label for="noelevator" class="checkbox-inline">
-                            不限
-                        </label>
-
-                        <input class="with-gap" type="radio" name="elevator" id="elevator-yes"/>
-                        <label for="elevator-yes" class="checkbox-inline">
-                            有电梯
-                        </label>
-
-                        <input class="with-gap" type="radio" name="elevator" id="elevator-no"/>
-                        <label for="elevator-no" class="checkbox-inline">
-                            无电梯
-                        </label>
-                    </div>
-
-                </div>
-
-                <hr/>
-
-                <div class="row elevator-row form-group form-listen">
-                    <label class="search-category col s2">是否有照片：</label>
-
-                    <div class="col s10">
-                        <input class="with-gap" type="radio" checked name="photo" id="nophoto"/>
-                        <label for="nophoto" class="checkbox-inline">
-                            不限
-                        </label>
-
-                        <input class="with-gap" type="radio" name="photo" id="photo-yes"/>
-                        <label for="photo-yes" class="checkbox-inline">
-                            有照片
-                        </label>
-
-
-                        <input class="with-gap" type="radio" name="photo" id="photo-no"/>
-                        <label for="photo-no" class="checkbox-inline">
-                            无照片
-                        </label>
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-
         </form>
         <div class="search-result">
             <div class="row" id="search-result-container">
@@ -271,11 +213,7 @@
       <span class="card-title">${addr_xiaoqu}</span>
     </div>
     <div class="card-content">
-      <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}￥</p>
-    </div>
-    
-    <div class="collect" data-target="${roomNumber}">
-        <i class="small material-icons left">grade</i>
+      <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}万<br>${area}㎡</p>
     </div>
   </div>
 </div>
@@ -284,11 +222,6 @@
 {% endverbatim %}
 
 <script type="text/javascript">
-
- $('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15 // Creates a dropdown of 15 years to control year
-  });
 
 
 //    接受房源数据，并作初始化处理
@@ -385,31 +318,6 @@
 {#    $("nav").addClass("navbar-fixed-top");#}
     $("#more-way-section").hide();
     $("footer").remove();
-{#    $("input[type=radio]").iCheck({#}
-{#//        checkboxClass: 'icheckbox_flat-red',#}
-{#        radioClass: 'iradio_flat-red'#}
-{#    });#}
-{##}
-{#    $("#map_search_check").iCheck({#}
-{#            checkboxClass: 'icheckbox_flat-red'#}
-{#        });#}
-
-
-{#    $('#intime').datepicker({  dateFormat: "yy-mm-dd" });#}
-
-    $("#more-way-btn").bind("click",function(){
-        $(this).hide();
-        $("#less-way-btn").show();
-        $("#more-way-section").slideDown();
-    });
-
-    $("#less-way-btn").bind("click",function(){
-        $(this).hide();
-        $("#more-way-btn").show();
-        $("#more-way-section").slideUp();
-    });
-
-
 
 </script>
 
@@ -494,12 +402,10 @@
 
         var price_upper=-1,
             price_lower=-1,
-            room_type=-1,
-            achive_type=-1,
-            lookable_type=-1,
-            photo=-1,
-            elevator=-1,
-            intime=-1;
+            area_upper=-1,
+            area_lower=-1,
+            room_type=-1;
+
 
 
         function checkForm(){
@@ -509,37 +415,12 @@
                 if((price_upper!=-1&&rawData[i].price>price_upper)
                         ||(price_lower!=-1&&rawData[i].price<=price_lower)
                         ||(room_type!=-1&&rawData[i].type_room!=room_type)
-                        ||(achive_type!=-1&&rawData[i].status!=achive_type)
-                        ||(lookable_type!=-1&&rawData[i].see!==lookable_type)
-                        ||(photo!=-1&&((typeof rawData[i].images[0] === "undefined")===photo))
-                        ||(elevator!=-1&&rawData[i].elevator!==elevator)
-                        ||(intime!=-1&&checkTime(rawData[i].stay_intime,intime))){
+                        ||(area_upper!=-1&&rawData[i].area>area_upper)
+                        ||(area_lower!=-1&&rawData[i].area<=area_lower)){
                     rawData[i].isValid=false;
                 }
             }
         }
-
-        function checkTime(a,b){
-            var arr1= a.split("-");
-            var arr2= b.split("-");
-
-            var n1= Number(arr1[0])*100+Number(arr1[1])*10+Number(arr1[2]);
-            var n2= Number(arr2[0])*100+Number(arr2[1])*10+Number(arr2[2]);
-
-            return n1>=n2;
-
-        }
-
-
-
-
-        $("#intime").bind("change",function(){
-            intime=$(this).val();
-
-            checkForm();
-            freshResult();
-        });
-
 
         $('.form-listen input').bind('change', function(e){
             //设定搜索的界限,-1表示没有限制
@@ -555,7 +436,7 @@
                         price_lower = -1;
                     } else {
                         var price_bound = _target.id.split("to");
-                        price_lower = price_bound[0];
+                        price_lower = price_bound[0] === "l" ? -1 : price_bound[0];
                         price_upper = price_bound[1] === "h" ? -1 : price_bound[1];
                     }
                     break;
@@ -567,36 +448,15 @@
                         room_type = _target.id.split("room")[0];
                     }
                     break;
-                case "acheive_way":
-                    if (_target.id === "noway") {
+                case "area":
+                    if (_target.id === "noarea") {
                         //没有限制
-                        achive_type = -1;
+                        price_upper = -1;
+                        price_lower = -1;
                     } else {
-                        achive_type = _target.id;
-                    }
-                    break;
-                case "elevator":
-                    if (_target.id === "noelevator") {
-                        //没有限制
-                        elevator = -1;
-                    } else {
-                        elevator = _target.id==="elevator-yes"?"yes":"no";
-                    }
-                    break;
-                case "photo":
-                    if (_target.id === "nophoto") {
-                        //没有限制
-                        photo = -1;
-                    } else {
-                        photo = _target.id==="photo-yes"?true:false;
-                    }
-                    break;
-                case "lookable":
-                    if (_target.id === "nolook") {
-                        //没有限制
-                        lookable_type = -1;
-                    } else {
-                        lookable_type = _target.id==="freelook"?"yes":"no";
+                        var area_bound = _target.id.split("to");
+                        area_lower = area_bound[0] === "l" ? -1 : area_bound[0];
+                        area_upper = area_bound[1] === "h" ? -1 : area_bound[1];
                     }
                     break;
                 default:

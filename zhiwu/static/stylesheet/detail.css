@@ -1,0 +1,473 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+
+nav ul a,
+nav .brand-logo {
+  color: #444;
+}
+
+p {
+  line-height: 2rem;
+}
+
+.button-collapse {
+  color: #26a69a;
+}
+
+.parallax-container {
+  min-height: 380px;
+  line-height: 0;
+  height: auto;
+  color: rgba(255,255,255,.9);
+}
+  .parallax-container .section {
+    width: 100%;
+  }
+
+@media only screen and (max-width : 992px) {
+  .parallax-container .section {
+    position: absolute;
+    top: 40%;
+  }
+  #index-banner .section {
+    top: 10%;
+  }
+}
+
+@media only screen and (max-width : 600px) {
+  #index-banner .section {
+    top: 0;
+  }
+}
+
+
+.icon-block {
+  padding: 0 15px;
+}
+
+footer.page-footer {
+  margin: 0;
+}
+
+/*DETAIL*/
+#room-carousel{
+    position: relative;
+    overflow: hidden;
+    width:600px;
+    height:450px;
+    display: inline-block;
+    margin-right:40px;
+    /*vertical-align: top;*/
+}
+
+.room-poster li{
+    list-style: none;
+}
+
+.room-poster ul li{
+    float:left;
+}
+
+.room-info{
+    display: inline-block;
+    position: relative;
+    top:-15px;
+    padding:5px;
+    /*border:1px solid #ff5a5f;*/
+    width:450px;
+    height:510px;
+    background: rgba(255,255,255,1);
+    color:black;
+    z-index:1000;
+}
+
+.room-info .room-part{
+    /*display:inline-block;*/
+    position: absolute;
+}
+
+.pin-wrapper{
+    display: inline-block;
+    position: fixed;
+    top:152px;
+    z-index: 1000;
+}
+
+.room-info .room-xiaoqu{
+    font-size: 25px;
+    font-weight: 600;
+    padding:10px 15px;
+    width:280px;
+    height:50px;
+    background: #ff5a5f;
+    color:white;
+}
+
+.room-info .room-number{
+    font-size: 25px;
+    font-weight: 600;
+    padding:10px 15px;
+    width:155px;
+    height:50px;
+    top:5px;
+    right:5px;
+    background: rgba(192,107,72,1);
+    color:white;
+}
+
+
+.room-info .room-keyinfo{
+    font-size: 18px;
+    font-weight: 600;
+    padding:15px 20px;
+    width:200px;
+    height:120px;
+    top:60px;
+    left:5px;
+    background: #E9967A;
+    color:white;
+}
+
+.room-info .bigger{
+    font-size:25px;
+    font-weight: 500;
+}
+
+.room-info .room-keyinfo #home-icon{
+    font-size:40px;
+    position: absolute;
+    right:20px;
+    top:50%;
+    margin-top:-20px;
+}
+
+.room-info .room-moreinfo1{
+    font-size: 18px;
+    font-weight: 600;
+    padding:15px 20px;
+    width:200px;
+    height:160px;
+    top:185px;
+    left:5px;
+    background: #EBAC40;
+    color:white;
+}
+
+.room-info .room-moreinfo2{
+    font-size: 18px;
+    font-weight: 600;
+    padding:15px 20px;
+    width:440px;
+    height:50px;
+    top:350px;
+    left:5px;
+    background: #A2CD5A;
+    color:white;
+}
+
+.room-info .room-config-info{
+    font-size: 16px;
+    font-weight: 500;
+    padding:15px 20px;
+    width:235px;
+    height:200px;
+    top:60px;
+    right:5px;
+    background: #FF8247;
+    color:white;
+}
+
+.room-info .room-config-info .title{
+    font-size:18px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom:10px;
+}
+
+.room-info .room-config-info .content{
+    line-height:30px;
+}
+
+.room-info .room-btn{
+    font-size: 25px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: 600;
+    padding:25px 20px;
+    width:235px;
+    height:100px;
+    top:405px;
+    right:5px;
+    color:white;
+    background: rgba(135,166,153,1);
+}
+
+.room-info .room-btn button{
+    padding:10px 20px;
+    background: rgba(135,166,153,1);
+    border: 3px solid white;
+    border-radius: 5px;
+}
+
+.room-info .room-btn button:hover{
+    color:white;
+}
+
+.room-master{
+    font-size: 16px;
+    font-weight: 600;
+    padding:25px 20px;
+    width:200px;
+    height:100px;
+    top:405px;
+    left:5px;
+    background: #9BCD9B;
+    color:white;
+}
+
+.room-master .room-master-img{
+    border-radius: 100px;
+    float:left;
+    width:60px;
+    height:60px;
+    overflow: hidden;
+    background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+}
+
+.room-master .room-master-desc{
+    position: relative;
+    top:10px;
+    left:25px;
+}
+
+.room-info .room-desc{
+    margin-top:15px;
+    width:400px;
+}
+
+.room-info .room-desc .room-desc-item{
+    width:180px;
+    display: inline-block;
+}
+
+.room-config{
+    width:360px;
+    margin-top:20px;
+    color:gray;
+}
+
+
+.room-config .room-config-title{
+    display:inline-block;
+    width:100px;
+    vertical-align: top;
+}
+
+.room-config .room-config-content{
+    display:inline-block;
+    width:250px;
+}
+
+.room-config .config-item{
+
+}
+
+.room-detail-wrapper{
+    position: relative;
+    top:20px;
+    padding:0;
+}
+
+.room-detail-wrapper .room-detail-section{
+    margin-top:25px;
+    width:600px;
+    border:5px solid white;
+    border-radius: 2px;
+    padding:20px 30px;
+    background: rgba(135,166,153,1);
+}
+
+.room-detail-wrapper .room-detail-section-fulllength{
+    width:100%;
+}
+
+.room-detail-wrapper .room-detail-section .room-detail-title{
+    color:white;
+    font-size:18px;
+}
+
+.room-detail-section .room-detail-title .glyphicon{
+    color:white;
+    margin-right:5px;
+}
+
+.room-detail-section .room-detail-content{
+    /*background: #EAEAEA;*/
+    /*border-top:1px solid #ff5a5f;*/
+    padding:15px;
+    font-size:16px;
+    line-height: 30px;
+}
+
+.room-detail-section .room-detail-content .comment-avatar{
+    border-radius: 100px;
+    float:left;
+    width:100px;
+    height:100px;
+    overflow: hidden;
+    -moz-background-size:100% 100%;
+    background-size:100% 100%;
+}
+
+.room-detail-section .room-detail-content .comment-content{
+    font-size:16px;
+    font-weight:500;
+    color:grey;
+    min-height:100px;
+    width:900px;
+    padding:40px 60px;
+    background: white;
+    border-radius: 5px;
+    border:1px solid white;
+    position: absolute;
+    left:150px;
+}
+
+.room-detail-section .room-detail-content .comment-quote{
+    position: absolute;
+    font-size:50px;
+    font-weight:900;
+    left:0px;
+    top:20px;
+}
+
+.room-detail-section .room-detail-content textarea{
+    width:750px;
+}
+
+.room-detail-section .room-detail-content textarea:focus{
+    border:1px solid #EEA2AD;
+    box-shadow:0px 0px 5px #EEA2AD;
+}
+
+
+
+
+.room-detail-content .detail-item{
+    display: inline-block;
+    width:100%;
+    position: relative;
+    font-size:16px;
+    line-height:30px;
+    padding:10px;
+    border-bottom:1px dashed white;
+}
+
+/*.room-detail-content .detail-item:nth-child(2n-1){*/
+    /*border-right:1px solid #D1D1D1;*/
+/*}*/
+
+.room-detail-content .detail-item .detail-item-key{
+    width:35%;
+    color:white;
+}
+
+.room-detail-content .detail-item .detail-item-value{
+    position: absolute;
+    left:35%;
+    color:white;
+}
+
+
+.room-desc .detail-item{
+    display: inline-block;
+    width:360px;
+    position: relative;
+    font-size:14px;
+    line-height:20px;
+    padding:10px;
+    /*border-bottom:1px dotted #DEDEDE;*/
+}
+
+.room-desc .detail-item .detail-item-key{
+    width:35%;
+    color:grey;
+}
+
+.room-desc .detail-item .detail-item-value{
+    position: absolute;
+    left:35%;
+    /*overflow: visible;*/
+}
+
+
+
+.peitao{
+    position: relative;
+}
+
+#room-detail-map{
+    position: relative;
+    left:20px;
+    top:-30px;
+    width:750px;
+    height:275px;
+    /*background: url("../resource/peitao.png");*/
+    display: inline-block;
+}
+
+.room-detail-facility{
+    /*position: absolute;*/
+    /*right:0px;*/
+    /*top:20px;*/
+    width:250px;
+}
+
+.room-detail-facility .facility-title{
+    font-size:25px;
+    width:100%;
+    color:grey;
+    padding-left:70px;
+}
+
+.room-detail-facility .facility-choose ul{
+    list-style: none;
+}
+
+.room-detail-facility .facility-choose li{
+    float:left;
+    width:70px;
+    height:70px;
+    color:grey;
+    font-size:15px;
+    border:2px solid grey;
+    border-radius:100%;
+    padding:10px;
+    margin:5px;
+    text-align: center;
+}
+
+.room-detail-facility .facility-choose li .glyphicon{
+    font-size:20px;
+}
+
+.room-detail-facility .facility-choose li:hover{
+    color:#ff5a5f;
+    border: 2px solid #ff5a5f;
+}
+
+.room-detail-facility .facility-choose li.active{
+    color:#ff5a5f;
+    border: 2px solid #ff5a5f;
+}
+
+
+
+

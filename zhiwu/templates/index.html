@@ -2,157 +2,195 @@
 <html>
 <head lang="en">
 
-    {% include './common/header.html' %}
+    <!--meta配置-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <style>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
 
-        .container{
-            background:url(../resource/indexback.png);
-            margin:0 0;
-            padding:0 0;
-            /*width:100%;*/
-            min-width:1170px;
-            min-height:800px;
-            -moz-background-size:100% 100%;
-            background-size:100% 100%;
-        }
-
-        body{
-            background: white;
-            /*width:100%;*/
-            /*height:100%;*/
-        }
-
-        .form-control{
-            display: inline-block;
-            width:100px;
-            background-color: rgba(95,137,118,0.7);
-            border:2px solid white;
-            color:white;
-            font-size:20px;
-        }
-
-        .form-control:focus{
-            border:2px solid white;
-            box-shadow: none;
-        }
-
-        .form-hide{
-            left :60%;
-            opacity: 0;
-            z-index: -1 ;
-        }
-    </style>
-
-
+    <!--样式表-->
+{#    <link rel="stylesheet" href="/stylesheet/materialize.min.css">#}
+    <link href="http://fonts.googleapis.com/css?family=Josefin+Slab:400,700" rel="stylesheet" type="text/css">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheet/normalize.css">
+    <link rel="stylesheet" href="/stylesheet/home.css">
     <title>租房网demo</title>
 </head>
 <body>
 
 <div class="container">
-    <!--<img src="resource/indexback.png" alt="" width="100%" height="100%"/>-->
+    <div class="st-container">
+        <!-- Nav begin -->
+        <input type="radio" name="radio-set" checked="checked" id="st-control-1">
+        <a href="#st-panel-1">居住地搜索</a>
+        <input type="radio" name="radio-set" id="st-control-2">
+        <a href="#st-panel-2">工作地搜索</a>
+        <input type="radio" name="radio-set" id="st-control-3">
+        <a href="#st-panel-3">关于知屋</a>
+        <input type="radio" name="radio-set" id="st-control-4">
+        <a href="#st-panel-4">关于知屋</a>
+        <input type="radio" name="radio-set" id="st-control-5">
+        <a href="#st-panel-5">登陆/注册</a>
+        <!-- Nav end  Content begin -->
+        <div class="st-scroll">
+            <section class="st-panel" id="st-panel-1">
+{#                <div class="st-desc" data-icon="H"></div>#}
+                <div class="st-content">
+                    <form class="index-panel" id="work-panel" action="/work_search" method="get">
+                        <div class="content" id="work-search">
+                            &nbsp&nbsp&nbsp&nbsp我的工作地点在
+                            <input type="text" class="form-control" name="work_location" id="work_location" style="width:350px;"/>，
+                            <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                            我想通过
+                            <select class="form-control" name="way" id="way">
+                                <option value="walk">步行</option>
+                                <option value="bus">公交</option>
+                                <option value="drive">驾车</option>
+                            </select>
+                            的方式，在
+                            <select class="form-control" name="time" id="time">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="45">45</option>
+                                <option value="60">60</option>
+                            </select>
+                            分钟内到达以上地点。
+                            <input type="hidden" name="lng" id="work_lng"/>
+                            <input type="hidden" name="lat" id="work_lat"/>
+                        </div>
 
-    <div class="company-title">
-        知屋网
+                        <button type="submit" class="btn-search">
+                            <span class="glyphicon glyphicon-search"></span>
+                            搜索房源
+                        </button>
+                        <span id="search-in-home">按照居住地搜索？</span>
+                    </form>
+
+                </div>
+            </section>
+            <section class="st-panel st-color" id="st-panel-2">
+{#                <div class="st-desc" data-icon="2"></div>#}
+                <h2>Happiness</h2>
+                <div class="st-content">
+                    <form class="index-panel" id="home-panel" action="/home_search" method="get">
+                        <div class="title">寻房启事</div>
+
+                        <div class="content" id="home-search">
+                            <!--我想住在-->
+                            <!--<div class="space">-->
+
+                            <!--</div>-->
+                            <!--附近-->
+
+
+                            &nbsp&nbsp&nbsp&nbsp
+                            我想住在
+                            <input type="text" class="form-control" name="home_location" id="home_location" style="width:350px;"/>
+                            <div id="searchResultHomePanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                            附近。
+
+                            <input type="hidden" name="lng" id="home_lng"/>
+                            <input type="hidden" name="lat" id="home_lat"/>
+
+                        </div>
+
+                        <button type="submit" class="btn-search btn-get">
+                            <span class="glyphicon glyphicon-search"></span>
+                            搜索房源
+                        </button>
+                        <span id="search-in-work">按照工作地搜索？</span>
+                    </form>
+                </div>
+            </section>
+            <section class="st-panel" id="st-panel-3">
+                <div class="st-desc" data-icon="B"></div>
+                <h2>知屋</h2>
+                <div class="st-content">我们知道、懂得每一间屋子</div>
+            </section>
+            <section class="st-panel st-color" id="st-panel-4">
+                <div class="st-desc" data-icon="x"></div>
+                <div class="st-content" style="top:25%;width:80%;left:10%;">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4 col-lg-4">
+                          <div class="card">
+                            <div class="card-image">
+                              <img src="/resource/card.jpg">
+                              <span class="card-title">知屋</span>
+                            </div>
+                            <div class="card-content">
+                              <p>根据工作地点行程，独一无二的搜索</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xs-12 col-md-4">
+                          <div class="card">
+                            <div class="card-image">
+                              <img src="/resource/card.jpg">
+                              <span class="card-title">知屋</span>
+                            </div>
+                            <div class="card-content">
+                              <p>根据工作地点行程，独一无二的搜索</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xs-12 col-md-4">
+                          <div class="card">
+                            <div class="card-image">
+                              <img src="/resource/card.jpg">
+                              <span class="card-title">知屋</span>
+                            </div>
+                            <div class="card-content">
+                              <p>根据工作地点行程，独一无二的搜索</p>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            <section class="st-panel" id="st-panel-5">
+                <div class="st-desc" data-icon="C"></div>
+                <h2>Passion</h2>
+                <div class="st-content">Spanning five schools — architecture and planning; engineering; humanities, arts, and social sciences Spanning five schools — architecture and planning; engineering; humanities, arts, and social sciences
+                    Spanning five schools — architecture and planning; engineering; humanities, arts, and social sciences</div>
+            </section>
+        </div>
     </div>
-
-    <form class="index-panel" id="work-panel" action="/work_search" method="get">
-        <div class="title">寻房启事</div>
-
-        <div class="content" id="work-search">
-
-
-
-            &nbsp&nbsp&nbsp&nbsp我的工作地点在
-            <input type="text" class="form-control" name="work_location" id="work_location" style="width:350px;"/>，
-            <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
-            我想通过
-            <select class="form-control" name="way" id="way">
-                <option value="walk">步行</option>
-                <option value="bus">公交</option>
-                <option value="drive">驾车</option>
-            </select>
-            的方式，在
-            <select class="form-control" name="time" id="time">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-                <option value="30">30</option>
-                <option value="45">45</option>
-                <option value="60">60</option>
-            </select>
-            分钟内到达以上地点。
-
-            <input type="hidden" name="lng" id="work_lng"/>
-            <input type="hidden" name="lat" id="work_lat"/>
-
-
-
-        </div>
-
-        <button type="submit" class="btn-search">
-            <span class="glyphicon glyphicon-search"></span>
-            搜索房源
-        </button>
-        <span id="search-in-home">按照居住地搜索？</span>
-    </form>
-
-
-    <form class="index-panel form-hide" id="home-panel" action="/home_search" method="get">
-        <div class="title">寻房启事</div>
-
-        <div class="content" id="home-search">
-            <!--我想住在-->
-            <!--<div class="space">-->
-
-            <!--</div>-->
-            <!--附近-->
-
-
-            &nbsp&nbsp&nbsp&nbsp
-            我想住在
-            <input type="text" class="form-control" name="home_location" id="home_location" style="width:350px;"/>
-            <div id="searchResultHomePanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
-            附近。
-
-            <input type="hidden" name="lng" id="home_lng"/>
-            <input type="hidden" name="lat" id="home_lat"/>
-
-        </div>
-
-        <button type="submit" class="btn-search btn-get">
-            <span class="glyphicon glyphicon-search"></span>
-            搜索房源
-        </button>
-        <span id="search-in-work">按照工作地搜索？</span>
-    </form>
 </div>
 
 
 <div id="hidden-map" style="display: none;"></div>
 
-{% include './common/footer.html' %}
-
 </body>
-{% include './common/script.html' %}
+<!--脚本-->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
 
 <script>
     ;(function(){
 
-        window.isHomePanel=false;//false代表work，true代表home
-        $("#search-in-home").bind("click",function(){
-            $("#work-panel").addClass("form-hide");
-            $("#home-panel").removeClass("form-hide");
-            window.isHomePanel=true;
-        });
-
-        $("#search-in-work").bind("click",function(){
-            $("#home-panel").addClass("form-hide");
-            $("#work-panel").removeClass("form-hide");
-            window.isHomePanel=false;
-        });
+{#        window.isHomePanel=false;//false代表work，true代表home#}
+{#        $("#search-in-home").bind("click",function(){#}
+{#            $("#work-panel").addClass("form-hide");#}
+{#            $("#home-panel").removeClass("form-hide");#}
+{#            window.isHomePanel=true;#}
+{#        });#}
+{##}
+{#        $("#search-in-work").bind("click",function(){#}
+{#            $("#home-panel").addClass("form-hide");#}
+{#            $("#work-panel").removeClass("form-hide");#}
+{#            window.isHomePanel=false;#}
+{#        });#}
 
     })();
 </script>

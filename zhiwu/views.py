@@ -71,7 +71,7 @@ def check_manager(request):
 
 
 def search(request):
-    return render(request, "search.html")
+    return render(request, "newHouse.html")
 
 
 def work_search(request):

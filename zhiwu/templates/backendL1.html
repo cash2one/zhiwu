@@ -46,7 +46,7 @@
                     </a>
                     <ul class="second-level-menu">
                         <li><a href="#source_manager_submit">房源发布</a></li>
-{#                        <li><a href="#source_manager_search">房源查找</a></li>#}
+                        <li><a href="#source_manager_search">房源列表</a></li>
                     </ul>
                 </li>
             </ul>
@@ -274,13 +274,67 @@
             <div class="section" id="source_manager">
                 <div class="title-l1">房源管理</div>
                 <div class="section-content">
-                    <div class="section" id="source_manager_submit">
-                        <div class="title-l2">房源发布</div>
+                    <div class="section" id="source-manager-new">
+                        <div class="title-l2">发布房源</div>
+                        <a class="btn btn-success" href="{% url 'new_house' %}" target="_blank">发布新的房源</a>
+                    </div>
+                    <div class="section" id="source-manager-search">
+                        <div class="title-l2">房源搜索</div>
                         <div class="section-content">
-                            <a class="btn btn-success" href="/new_house">发布新的房源</a>
+                            <button class="btn btn-info btn-export">导出为excel文件</button>
+                            <form class="form-inline" id="house_search_form" dest="">
+                                <div class="form-group">
+                                    <label for="house_number" class="control-label">房源编号</label>
+                                    <input type="text" class="form-control" id="house_number" name="house_number">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="house_activated" class="checkbox-inline">
+                                        <input type="checkbox" name="house_activated" id="house_activated"/>
+                                        已上架
+                                    </label>
+                                    <label for="house_canceled" class="checkbox-inline">
+                                        <input type="checkbox" name="house_canceled" id="house_canceled"/>
+                                        已下架
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="house_area" class="control-label">区域</label>
+                                    <select class="form-control" id="house_area" name="house_area">
+                                        <option value="">选择区域</option>
+                                        <option value="">区域1</option>
+                                        <option value="">区域2</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get" data-type="house">搜索</button>
+                                </div>
+                            </form>
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>房源编号</th>
+                                    <th>发布时间</th>
+                                    <th>小区</th>
+                                    <th>户型</th>
+                                    <th>价格</th>
+                                    <th>入住时间</th>
+                                    <th>鉴定员/发布员</th>
+                                    <th>经纪人/管家</th>
+                                    <th>有无照片</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="hs-list-wrapper">
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -390,30 +444,65 @@
                                 </div>
                             </form>
 </script>
-
-
-
 <script id="house-search" type="text/x-jquery-tmpl">
 <tr data-target="${pk}">
-                                    <th>1</th>
-                                    <th>2015-09-30</th>
-                                    <th>古荡小区</th>
-                                    <th>两室一厅</th>
-                                    <th>3000/月</th>
-                                    <th>2015-12-01</th>
-                                    <th>haha</th>
-                                    <th>haha</th>
-                                    <th>有</th>
-                                    <th class="hs-status">已发布</th>
-                                    <th class="btn-group">
-                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="/editHouse?houseNumber=id">编辑</a></li>
-                                            <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
-                                            <li><a href="#" class="btn-operate" data-type="activate">激活</a></li>
-                                        </ul>
+                                    <th>${pk}</th>
+                                    <th>${fields.manager}</th>
+                                    <th>${fields.company}</th>
+                                    <th>${fields.name}</th>
+                                    <th>${fields.phone}</th>
+                                    <th>{{if fields.exist}}正在使用{{else}}已注销{{/if}}</th>
+                                    <th>
+                                        <button class="btn btn-default btn-edit">编辑</button>
+                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
+                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
                                     </th>
                                 </tr>
+
+<tr data-target="{{i.info.roomNumber}}">
+                                        <th>{{i.info.roomNumber}}</th>
+                                        <th>{{i.info.stay_intime|date:"Y-m-d"}}</th>
+                                        <th>{{i.info.addr_xiaoqu}}</th>
+                                        <th>{{i.info.type_room}}室{{i.info.type_livingroom}}厅{{i.info.type_toilet}}卫</th>
+                                        <th>{{i.info.price}}/月</th>
+                                        <th>{{i.info.stay_intime|date:"Y-m-d" }}</th>
+                                        <th>{{i.info.contactPerson}}</th>
+                                        <th>{{i.info.contactPerson}}</th>
+                                        <th>{% if i.picture == True %}有{% else %}无{% endif %}</th>
+                                        <th>
+                                            {% if i.info.sold == True %}
+                                                已售出
+                                            {% elif i.info.exist == True %}
+                                                已上架
+                                            {% elif i.info.achieve == True %}
+                                                待上架
+                                            {% else %}
+                                                待编辑
+                                            {% endif %}
+                                        </th>
+                                        <th class="btn-group">
+                                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                {% if i.info.sold == True %}
+
+                                                {% elif i.info.exist == True %}
+                                                    <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
+                                                    <li><a href="#" class="btn-operate" data-type="sold">售出</a></li>
+                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
+                                                {% elif i.info.achieve == True %}
+                                                    <li><a href="#" class="btn-operate" data-type="activate">上架</a></li>
+                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
+                                                {% else %}
+                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
+                                                {% endif %}
+
+
+
+
+
+                                            </ul>
+                                        </th>
+                                    </tr>
 
 </script>
 

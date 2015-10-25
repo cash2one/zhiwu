@@ -6,97 +6,58 @@
 
 <!--sp_header-->
 {% block sp_header %}
-
-    <style>
-        .container{
-            /*margin-top:52px;*/
-            padding-top:50px;
-            min-width:1170px;
-        }
-    </style>
-
+    <link rel="stylesheet" href="/stylesheet/detail.css">
 {% endblock %}
 
 
 <!--content-->
 {% block content %}
-
-<div class="container" id="pin-container">
-
-    <div id="room-carousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-
-            {% for i in picture %}
-                <li data-target="#room-carousel" data-slide-to="{{ forloop.counter }}" {% if forloop.first %}class="active"{% endif %}></li>
-            {% endfor %}
-        </ol>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-
-            {% for i in picture %}
-                <div class="item {% if forloop.first %}active{% endif %}">
-                    <img src="{{ i.picture }}" width="100%" height="100%" alt="...">
-                </div>
-            {% endfor %}
-
-
-{#            <div class="item">#}
-{#                <img src="https://z1.muscache.com/ac/pictures/103744160/129d5fe2_original.jpg?interpolation=lanczos-none&size=x_large&output-format=progressive-jpeg&output-quality=70" width="100%" height="auto" alt="...">#}
-{#            </div>#}
-{#            <div class="item">#}
-{#                <img src="https://z0.muscache.com/ac/pictures/103743598/eec4dbe1_original.jpg?interpolation=lanczos-none&size=x_large&output-format=progressive-jpeg&output-quality=70" width="100%" height="auto" alt="...">#}
-{#            </div>#}
-
+<div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <br><br>
+        <h1 class="header center teal-text text-lighten-2"> {{room.addr_xiaoqu}}</h1>
+        <div class="row center">
+          <h5 class="header col s12 light"><span class="bigger">{{room.type_room}}</span>室<span class="bigger">{{room.type_livingroom}}</span>厅<span class="bigger">{{room.type_toilet}}</span>卫&nbsp;<span class="bigger">{{ room.price }}</span>/月&nbsp;{{ room.roomNumber }}</h5>
         </div>
+        <div class="row center">
+          <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1"><i class="large material-icons left">grade</i>收藏</a>
+          <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1"><i class="large material-icons left">contact_phone</i>预约</a>
+        </div>
+        <br><br>
 
-        <!-- Controls -->
-        <a class="left carousel-control" href="#room-carousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#room-carousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+      </div>
     </div>
+    <div class="parallax"><img src="/resource/background1.jpg" alt="Unsplashed background img 2"></div>
+</div>
 
-    <div class="room-info">
-        <div class="room-xiaoqu room-part">
-            {{room.addr_xiaoqu}}
+
+  <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="mdi-image-flash-on"></i></h2>
+            <h5 class="center">基本情况</h5>
+            <div class="light">
+
+                <div class="room-info-part">{% if room.see == "on" %}随时可看{% else %}预约可看{% endif %}</div>
+                <div class="room-info-part">{{ room.price }}/月</div>
+                <div class="room-info-part">{{ room.mianji }}m2</div>
+                <div class="room-info-part">{{room.floor_level}}/{{room.total_floor}}层</div>
+                <div class="room-info-part">有电梯</div>
+            </div>
+          </div>
         </div>
 
-        <div class="room-lookable room-part">
-            {% if room.see == "on" %}随时可看{% else %}预约可看{% endif %}
-        </div>
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center brown-text"><i class="mdi-social-group"></i></h2>
+            <h5 class="center">房屋配置</h5>
 
-        <div class="room-number room-part" id="room-number">{{ room.roomNumber }}</div>
-
-        <div class="room-keyinfo room-part">
-            <span class="bigger">{{room.type_room}}</span>室<span class="bigger">{{room.type_livingroom}}</span>厅<span class="bigger">{{room.type_toilet}}</span>卫<br/>
-            {{ room.payway }}<br/>
-            <span class="bigger">{{ room.price }}</span>/月<br/>
-            <span class="glyphicon glyphicon-home" id="home-icon" aria-hidden="true"></span>
-        </div>
-
-
-        <div class="room-moreinfo1 room-part">
-            面积：<span class="bigger">{{ room.mianji }}</span> m2<br/>
-            朝向：朝{{ room.orientation }}<br/>
-            <span class="bigger">{{room.floor_level}}/{{room.total_floor}}层</span><br/>
-            有电梯
-        </div>
-
-        <div class="room-moreinfo2 room-part">
-            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;&nbsp;最早可入住时间&nbsp;:&nbsp;{{room.stay_intime|date:"Y-m-d"}}
-            <!--2015&nbsp;年&nbsp;9&nbsp;月&nbsp;30&nbsp;日<br/>-->
-        </div>
-
-
-        <div class="room-config-info room-part">
-            <span class="title"> <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>&nbsp;房屋配置</span><br/>
-            <span class="content">
+            <p class="light">
                 {% if room.canzhuo == "on" %}餐桌&nbsp{% endif %}
                 {% if room.sofa == "on" %}沙发&nbsp{% endif %}
                 {% if room.desk == "on" %}书桌&nbsp{% endif %}
@@ -110,207 +71,179 @@
                 {% if room.tv == "on" %}电视机&nbsp{% endif %}
                 {% if room.cookerhood == "on" %}油烟机&nbsp{% endif %}
                 {% if room.gascooker == "on" %}燃气灶&nbsp{% endif %}
-            </span>
+            </p>
+          </div>
         </div>
 
-        <div class="room-master room-part">
-            <div class="room-master-img">
+          <div class="col s12 m4">
+              <div class="icon-block">
+                <h2 class="center brown-text"><i class="mdi-image-flash-on"></i></h2>
+                <h5 class="center">入住情况</h5>
 
+                <p class="light">
+                    最早可入住时间&nbsp;:&nbsp;{{room.stay_intime|date:"Y-m-d"}}
+
+
+                    <div class="room-master">
+                        <div class="room-master-img">
+
+                        </div>
+
+                        <div class="room-master-desc">
+                            <div class="room-master-name">{{room.contactPerson}}</div>
+                        </div>
+                    </div>
+
+                </p>
+              </div>
             </div>
+          </div>
 
-            <div class="room-master-desc">
-                <div class="room-master-name">{{room.contactPerson}}</div>
-            </div>
-        </div>
-
-        <div class="room-btn room-part">
-            <button class="btn btn-collect" data-target="{{room.roomNumber}}"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;收藏</button>
-            <button class="btn btn-book" data-target="{{room.roomNumber}}"><span class="glyphicon glyphicon-check" aria-hidden="true"></span>&nbsp;预约</button>
-        </div>
     </div>
+  </div>
 
-    <div class="room-detail-wrapper">
 
-        <div class="room-detail-section">
-            <div class="room-detail-title"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>房源描述</div>
-            <div class="room-detail-content">
-                <div class="detail-item"><span class="detail-item-key">此房原户型</span><span class="detail-item-value">{{room.original_house_type}}</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">装修档次</span><span class="detail-item-value">{{room.decorate_level}}</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">房屋配置如何</span><span class="detail-item-value">{{room.config_level}}</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">是否可以做饭</span><span class="detail-item-value">{{room.can_cook}}</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">采光</span><span class="detail-item-value">{{room.lighting}}</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">通风</span><span class="detail-item-value">{{room.ventilate}}</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">噪声</span><span class="detail-item-value">{{room.noise}}</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">房东要求</span><span class="detail-item-value">{{room.landlord_req}}</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">适宜居住人群</span><span class="detail-item-value">{{room.fit_people}}</span>
-                </div>
-
-            </div>
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <div class="row center">
+{#          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>#}
         </div>
-
-        <div class="room-detail-section">
-            <div class="room-detail-title"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>小区环境</div>
-            <div class="room-detail-content">
-                <div class="detail-item"><span class="detail-item-key">小区所在商圈</span><span class="detail-item-value">西溪商圈</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">小区属性</span><span class="detail-item-value">高档小区</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">建成年限</span><span class="detail-item-value">3年</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">小区档次规模</span><span class="detail-item-value">高档大规模小区</span>
-                </div>
-                <div class="detail-item"><span class="detail-item-key">安保</span><span class="detail-item-value">安全</span>
-                </div>
-            </div>
-        </div>
-
-        <!--<div class="room-detail-section">-->
-            <!--<div class="room-detail-title"> <span class="glyphicon glyphicon-home" aria-hidden="true"></span>租客评论</div>-->
-            <!--<div class="room-detail-content">-->
-                <!--<div class="detail-item"><span class="detail-item-key">对房屋的评价</span><span class="detail-item-value">房子非常漂亮，以后还会租这样的房子。</span>-->
-                <!--</div>-->
-                <!--<div class="detail-item"><span class="detail-item-key">对小区的评价</span><span class="detail-item-value">小区环境很好，设施齐全，交通便利。</span>-->
-                <!--</div>-->
-                <!--<div class="detail-item"><span class="detail-item-key">对房东的评价</span><span class="detail-item-value">房东人很好说话，以后还会一直长住下去！</span>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="room-detail-section room-detail-section-fulllength">-->
-            <!--<div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>房源推荐</div>-->
-            <!--<div class="room-detail-content">-->
-                <!--<div class="result-box" style="width:300px;display:inline-block;">-->
-                    <!--<a href="javascript:void(0);">-->
-                        <!--<div class="result-image thumbnail">-->
-                            <!--<img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>-->
-                            <!--<div class="result-desc">-->
-                                <!--<div class="result-title">-->
-                                    <!--市中心的好房子-->
-                                <!--</div>-->
-                                <!--<div class="result-type">-->
-                                    <!--整套房子/公寓-->
-                                <!--</div>-->
-                                <!--<div class="collect result-item">-->
-                                    <!--<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                            <!--<div class="price-tag result-item">-->
-                                <!--￥400-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</a>-->
-                <!--</div>-->
-                <!--<div class="result-box" style="width:300px;display:inline-block;">-->
-                    <!--<a href="javascript:void(0);">-->
-                        <!--<div class="result-image thumbnail">-->
-                            <!--<img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>-->
-                            <!--<div class="result-desc">-->
-                                <!--<div class="result-title">-->
-                                    <!--市中心的好房子-->
-                                <!--</div>-->
-                                <!--<div class="result-type">-->
-                                    <!--整套房子/公寓-->
-                                <!--</div>-->
-                                <!--<div class="collect result-item">-->
-                                    <!--<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                            <!--<div class="price-tag result-item">-->
-                                <!--￥400-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</a>-->
-                <!--</div>-->
-                <!--<div class="result-box" style="width:300px;display:inline-block;">-->
-                    <!--<a href="javascript:void(0);">-->
-                        <!--<div class="result-image thumbnail">-->
-                            <!--<img src="https://z1.muscache.com/ic/pictures/103743488/4f822889_original.jpg?interpolation=lanczos-none&size=x_medium&output-format=jpg&output-quality=70" alt=""/>-->
-                            <!--<div class="result-desc">-->
-                                <!--<div class="result-title">-->
-                                    <!--市中心的好房子-->
-                                <!--</div>-->
-                                <!--<div class="result-type">-->
-                                    <!--整套房子/公寓-->
-                                <!--</div>-->
-                                <!--<div class="collect result-item">-->
-                                    <!--<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                            <!--<div class="price-tag result-item">-->
-                                <!--￥400-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</a>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+      </div>
     </div>
+    <div class="parallax"><img src="/resource/background3.jpg" alt="Unsplashed background img 2"></div>
+  </div>
 
-</div>
+  <div class="container">
+    <div class="section">
 
-<div class="container">
-    <div class="room-detail-section room-detail-section-fulllength">
-        <div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>房源周边</div>
-        <div class="room-detail-content peitao">
-            <div class="room-detail-facility">
-                <div class="facility-title">
-                    周边设施
-                </div>
+      <div class="row">
+        <div class="col s6 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>房源描述</h4>
+          <div class="left-align light">
+              <div class="room-detail-section">
+                <div class="room-detail-content">
+                    <div class="detail-item"><span class="detail-item-key">此房原户型</span><span class="detail-item-value">{{room.original_house_type}}</span>
+                    </div>
+                    <div class="detail-item"><span class="detail-item-key">装修档次</span><span class="detail-item-value">{{room.decorate_level}}</span>
+                    </div>
+                    <div class="detail-item"><span class="detail-item-key">房屋配置如何</span><span class="detail-item-value">{{room.config_level}}</span>
+                    </div>
+                    <div class="detail-item"><span class="detail-item-key">是否可以做饭</span><span class="detail-item-value">{{room.can_cook}}</span>
+                    </div>
+                    <div class="detail-item"><span class="detail-item-key">采光</span><span class="detail-item-value">{{room.lighting}}</span>
+                    </div>
+                    <div class="detail-item"><span class="detail-item-key">通风</span><span class="detail-item-value">{{room.ventilate}}</span>
+                    </div>
+                    <div class="detail-item"><span class="detail-item-key">噪声</span><span class="detail-item-value">{{room.noise}}</span>
+                    </div>
+                    <div class="detail-item"><span class="detail-item-key">房东要求</span><span class="detail-item-value">{{room.landlord_req}}</span>
+                    </div>
+                    <div class="detail-item"><span class="detail-item-key">适宜居住人群</span><span class="detail-item-value">{{room.fit_people}}</span>
+                    </div>
 
-                <div class="facility-choose">
-                    <ul>
-                        <li class="active facility-item" data-type="公交"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>公交</span></li>
-                        <li class="facility-item" data-type="地铁"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>地铁</span></li>
-                        <li class="facility-item" data-type="银行"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>银行</span></li>
-                        <li class="facility-item" data-type="医院"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>医院</span></li>
-                        <li class="facility-item" data-type="超市"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>超市</span></li>
-                        <li class="facility-item" data-type="餐馆"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>美食</span></li>
-                    </ul>
                 </div>
             </div>
-            <div id="room-detail-map">
-
-            </div>
+          </div>
         </div>
-    </div>
 
-    <div class="room-detail-section room-detail-section-fulllength">
-        <div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>租客评价</div>
-        <div class="room-detail-content">
-            {% for i in evaluation %}
-                <div class="row" style="position: relative;">
-                    <div class="comment-avatar" style="background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);-moz-background-size:100% 100%;background-size:100% 100%;"></div>
-                    <div class="comment-content">
-                        <span class="comment-quote">“</span>
-                        {{ i.text }}
+        <div class="col s6 center">
+          <h3><i class="mdi-content-send brown-text"></i></h3>
+          <h4>小区环境</h4>
+          <div class="left-align light">
+              <div class="room-detail-section">
+                    <div class="room-detail-content">
+                        <div class="detail-item"><span class="detail-item-key">小区所在商圈</span><span class="detail-item-value">西溪商圈</span>
+                        </div>
+                        <div class="detail-item"><span class="detail-item-key">小区属性</span><span class="detail-item-value">高档小区</span>
+                        </div>
+                        <div class="detail-item"><span class="detail-item-key">建成年限</span><span class="detail-item-value">3年</span>
+                        </div>
+                        <div class="detail-item"><span class="detail-item-key">小区档次规模</span><span class="detail-item-value">高档大规模小区</span>
+                        </div>
+                        <div class="detail-item"><span class="detail-item-key">安保</span><span class="detail-item-value">安全</span>
+                        </div>
                     </div>
                 </div>
-            {% endfor %}
+          </div>
+        </div>
+      </div>
 
-            <div class="row" style="position: relative;margin-top:50px;margin-bottom:150px;">
-                <div class="comment-avatar" style="background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);-moz-background-size:100% 100%;background-size:100% 100%;"></div>
-                <div class="comment-content" style="border:none;padding:0;">
-                    <textarea name="comment" id="comment" cols="20" rows="10" placeholder="留下你的足迹或者评论吧~" class="form-control"></textarea>
-                    <button id="comment-submit" class="btn btn-pink" style="position: absolute;top:0px;right:0px;"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;提交我的评论</button>
+    </div>
+  </div>
+
+
+  <div class="parallax-container valign-wrapper">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <div class="row center">
+{#          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>#}
+        </div>
+      </div>
+    </div>
+    <div class="parallax"><img src="/resource/background2.jpg" alt="Unsplashed background img 3"></div>
+  </div>
+
+
+    <div class="container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s12 center">
+            <div class="room-detail-section room-detail-section-fulllength">
+                <div class="room-detail-content peitao">
+                    <div class="room-detail-facility">
+                        <div class="facility-title">
+                            周边设施
+                        </div>
+
+                        <div class="facility-choose">
+                            <ul>
+                                <li class="active facility-item" data-type="公交"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>公交</span></li>
+                                <li class="facility-item" data-type="地铁"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>地铁</span></li>
+                                <li class="facility-item" data-type="银行"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>银行</span></li>
+                                <li class="facility-item" data-type="医院"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>医院</span></li>
+                                <li class="facility-item" data-type="超市"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>超市</span></li>
+                                <li class="facility-item" data-type="餐馆"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>美食</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="room-detail-map">
+
+                    </div>
                 </div>
             </div>
 
+            <div class="room-detail-section room-detail-section-fulllength">
+                <div class="room-detail-title"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>租客评价</div>
+                <div class="room-detail-content">
+                    {% for i in evaluation %}
+                        <div class="row" style="position: relative;">
+                            <div class="comment-avatar" style="background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);-moz-background-size:100% 100%;background-size:100% 100%;"></div>
+                            <div class="comment-content">
+                                <span class="comment-quote">“</span>
+                                {{ i.text }}
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <div class="row" style="position: relative;margin-top:50px;margin-bottom:150px;">
+                        <div class="comment-avatar" style="background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);-moz-background-size:100% 100%;background-size:100% 100%;"></div>
+                        <div class="comment-content" style="border:none;padding:0;">
+                            <textarea name="comment" id="comment" cols="20" rows="10" placeholder="留下你的足迹或者评论吧~" class="form-control"></textarea>
+                            <button id="comment-submit" class="btn btn-pink" style="position: absolute;top:0px;right:0px;"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;提交我的评论</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
+      </div>
+
     </div>
+  </div>
 
-
-</div>
 
 {% endblock %}
 
@@ -343,6 +276,11 @@
 
 <script>
     $(function(){
+
+        $('.button-collapse').sideNav();
+        $('.parallax').parallax();
+
+
         //pin住右侧的房源情况
         $(".room-info").pin({
             containerSelector: "#pin-container"

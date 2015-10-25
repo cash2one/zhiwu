@@ -142,6 +142,7 @@ urlpatterns = [
     url(r'^js/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_URL+"js"}),
     url(r'^stylesheet/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_URL+"stylesheet"}),
     url(r'^resource/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_URL+"resource"}),
+    url(r'^font/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_URL+"font"}),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
 ]
