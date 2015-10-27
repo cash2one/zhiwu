@@ -217,6 +217,21 @@ def admin_logout(request):
     return HttpResponseRedirect(reverse('admin_login'))
 
 
+def user_login(request):
+    if request.method == 'post':
+        user = request.POST.get('phone')
+        request.session['user'] = user
+        request.session['identity'] = 'user'
+        return JsonResponse(success)
+    else:
+        return HttpResponseNotFound()
+
+
+def user_logout(request):
+    request.session.clear()
+    return HttpResponseRedirect(reverse('home'))
+
+
 def admin_root(request):
     identity = request.session.get("identity", "")
     status = request.session.get("status", "")
@@ -330,11 +345,72 @@ def client_back_comment(request):
 
 
 def room_collection(request):
+    # if request.method == 'POST':
+    user = request.session['user']
+    identity = request.session['identity']
+    print user, identity
+
+    roomNumber = request.POST.get('roomNumber')
+    # else:
+    #     return HttpResponseNotFound()
+    # return render(request, "")
+
+# TODO
+def room_collect_add(request):
+    if request.method == 'POST':
+        user = request.session['user']
+        status = request.session['status']
+        identity = request.session['identity']
+        roomNumber = request.POST.get('roomNumber')
+    else:
+        return HttpResponseNotFound()
+
+
+def room_collect_remove(request):
     return render(request, "")
+
 
 
 # post
 # JianDing
+
+def post_new_area(request):
+    if request.method == 'POST':
+        try:
+            name = request.POST.get('area_name')
+            p, created = Area.objects.get_or_create(name=name)
+            if created:
+                return JsonResponse(success)
+            else:
+                return JsonResponse({'code': 0, 'msg': '区域名已经存在'})
+        except Exception, e:
+            print 'post new area error:'
+            print e
+            return JsonResponse(fail)
+    else:
+        return HttpResponseNotFound()
+
+
+def post_delete_area(request):
+    if request.method == 'POST':
+        try:
+            name = request.POST.get('area_name')
+            p = Area.objects.get(name=name)
+            p.delete()
+            return JsonResponse(success)
+        except Exception, e:
+            print 'post new area error:'
+            print e
+            return JsonResponse({'code': 0, 'msg': '区域名不存在'})
+    else:
+        return HttpResponseNotFound()
+
+
+def area_list(request):
+    areas = Area.objects.all()
+    areas = serializers.serialize('json', areas)
+    return JsonResponse(areas)
+
 
 def post_area_search(request):
     try:
@@ -894,7 +970,7 @@ def upload_image(request):
             folder = time.strftime('%Y%m')
             if not os.path.exists(settings.MEDIA_ROOT + "upload/" + folder):
                 os.mkdir(settings.MEDIA_ROOT + "upload/" + folder)
-            file_name = time.strftime('%Y%m%d%H%M%S')
+            file_name = time.strftime('%Y%m%d%H%M%S')+str(random.randint(000, 999))
             file_ext = image.name.split('.')[-1]
             file_addr = settings.MEDIA_ROOT+"upload/" + folder + "/" + file_name + "." + file_ext
             destination = open(file_addr, 'wb+')
@@ -918,6 +994,62 @@ def upload_image(request):
     else:
         fb = ImageForm()
     return render(request, "home.html", {"r": fb})
+
+# todo 需要填写完成
+def post_salehouse_save(request):
+    return HttpResponseNotFound()
+
+
+def post_salehouse_submit(request):
+    return HttpResponseNotFound()
+
+
+def post_salehouse_add_or_modify(request):
+    if request.method == 'POST':
+        try:
+            manager = request.session.get('user', '')
+            roominfo_default = {}
+            url_list = []
+            for key in request.POST:
+                value = request.POST.get(key)
+                roominfo_default[str(key)] = value
+            url_list = str(roominfo_default['imgUrl'])
+            url_list = url_list.split('^_^')
+            if '' in url_list:
+                url_list.remove('')
+            roominfo_default.pop('imgUrl')
+            if 'roomNumber' not in roominfo_default:
+                roomNumber = get_roomNumber()
+                roominfo_default['roomNumber'] = roomNumber
+            else:
+                roomNumber = roominfo_default['roomNumber']
+            roominfo_default['contactPerson'] = manager
+            add_or_modify_result = roominfo_add_or_modify(roominfo_default)
+            if add_or_modify_result:
+                room_picture_remove(roomNumber)
+                for i in url_list:
+                    room_picture_add(roomNumber, i)
+                return True, roomNumber
+            else:
+                return False, None
+        except Exception, e:
+            print "post_roominfo_add_or_modify error:"
+            print e
+            return False, None
+    else:
+        return False, None
+
+
+def post_salehouse_logout(request):
+    return HttpResponseNotFound()
+
+
+def post_salehouse_active(request):
+    return HttpResponseNotFound()
+
+
+def post_salehouse_sold(request):
+    return HttpResponseNotFound()
 
 
 def post_roominfo_logout(request):
@@ -978,6 +1110,7 @@ def post_roominfo_submit(request):
         try:
             room = RoomInfo.objects.get(roomNumber=num)
             room.achieve = True
+            room.exist = True
             room.save()
             return JsonResponse(success)
         except Exception, e:
@@ -1152,7 +1285,7 @@ def post_roominfo_add_or_modify(request):
 #         print 'not post'
 #
 #
-def post_room_sold(request):
+def post_roominfo_sold(request):
     if request.method == 'POST':  # 当提交表单时
         form = RoomShortForm(request.POST)  # form 包含提交的数据
         if form.is_valid():  # 如果提交的数据合法

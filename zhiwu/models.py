@@ -4,6 +4,19 @@ from django.db import models
 # Create your models here.
 
 
+class RoomCollect(models.Model):
+    roomNumber = models.CharField(max_length=10)
+    user = models.CharField(max_length=11)
+
+
+class SaleRoom(models.Model):
+    roomNumber = models.CharField(max_length=10, primary_key=True)
+
+
+class Area(models.Model):
+    name = models.CharField(max_length=40, primary_key=True)
+
+
 class RoomInfo(models.Model):
     roomNumber = models.CharField(max_length=10, primary_key=True) # 新加的
     price = models.IntegerField()

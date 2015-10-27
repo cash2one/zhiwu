@@ -48,6 +48,11 @@ urlpatterns = [
         # 后台注销
             url(r'^admin_logout/', 'zhiwu.views.admin_logout', name='admin_logout'),
 
+        # 用户登录
+            url(r'^user_login/', 'zhiwu.views.user_login', name='user_login'),
+        # 用户注销
+            url(r'^user_logout/', 'zhiwu.views.user_logout', name='user_logout'),
+
         # 一级管理
             url(r'^admin_root/', 'zhiwu.views.admin_root', name='admin_root'),
 
@@ -62,6 +67,11 @@ urlpatterns = [
 
 
     # Part2:Post ajax
+
+        url(r'^post_new_area/', 'zhiwu.views.post_new_area', name='post_new_area'),
+        url(r'^post_delete_area/', 'zhiwu.views.post_delete_area', name='post_delete_area'),
+        url(r'^area_list', 'zhiwu.views.area_list', name='area_list'),
+
 
         url(r'^modify_pw', 'zhiwu.views.modify_pw', name='modify_pw'),
         url(r'^area_add/', 'zhiwu.views.post_area_add', name='area_add'),
@@ -107,7 +117,16 @@ urlpatterns = [
         url(r'^roominfo_submit/', 'zhiwu.views.post_roominfo_submit', name='roominfo_sub'),
         url(r'^roominfo_logout/', 'zhiwu.views.post_roominfo_logout', name='roominfo_logout'),
         url(r'^roominfo_active/', 'zhiwu.views.post_roominfo_active', name='roominfo_active'),
-        url(r'^roominfo_sold/', 'zhiwu.views.post_room_sold', name='roominfo_sold'),
+        url(r'^roominfo_sold/', 'zhiwu.views.post_roominfo_sold', name='roominfo_sold'),
+
+
+        # 新卖房源操作
+        url(r'^salehouse_save/', 'zhiwu.views.post_salehouse_save', name='salehouse_save'),
+        url(r'^salehouse_submit/', 'zhiwu.views.post_salehouse_submit', name='salehouse_sub'),
+        url(r'^salehouse_logout/', 'zhiwu.views.post_salehouse_logout', name='salehouse_logout'),
+        url(r'^salehouse_active/', 'zhiwu.views.post_salehouse_active', name='salehouse_active'),
+        url(r'^salehouse_sold/', 'zhiwu.views.post_salehouse_sold', name='salehouse_sold'),
+
 
         # 评论
         url(r'^evaluation_add/', 'zhiwu.views.post_evaluation_add', name='evaluation_add'),
@@ -128,11 +147,15 @@ urlpatterns = [
 
 
 
+
+
+
     # Part3:Get ajax
 
         # 搜索页面ajax
-            url(r'^map_search/', 'zhiwu.views.map_search', name='map_search'),  # 地图拖动接口 data:longtitude,latitude
-            url(r'^room_collection/', 'zhiwu.views.room_collection', name='room_collection'),  # 收藏房源 data:room_num
+        url(r'^map_search/', 'zhiwu.views.map_search', name='map_search'),  # 地图拖动接口 data:longtitude,latitude
+        url(r'^room_collection/', 'zhiwu.views.room_collection', name='room_collection'),  # 收藏房源 data:room_num
+
     # 文件下载的路由，get过来一些条件就可以了
     url(r'^download_data', 'zhiwu.views.download_data', name='download_data'),
 
