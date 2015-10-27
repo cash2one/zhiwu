@@ -64,6 +64,7 @@ urlpatterns = [
 
         # 新建房源
             url(r'^new_house/', 'zhiwu.views.new_house', name='new_house'),
+            url(r'^new_salehouse/', 'zhiwu.views.new_salehouse', name='new_salehouse'),
 
 
     # Part2:Post ajax

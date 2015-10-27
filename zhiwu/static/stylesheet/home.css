@@ -429,19 +429,15 @@ a{
 
 
 .index-panel{
-    background-color: rgba(0,105,92,0.7);
+    background-color: rgba(0,0,0,0.5);
     border-radius: 10px;
     position: absolute;
     left:50%;
-    margin-left:-250px;
-    /*top:25%;*/
-    width:500px;
-    height:200px;
-    -webkit-transition: left 1s,opacity .1s;
-    -moz-transition: left 1s,opacity .1s;
-    -o-transition: left 1s,opacity .1s;
-    -ms-transition: left 1s,opacity .1s;
-    transition: left 1s,opacity .1s;
+    margin-left:-400px;
+    width:800px;
+    height:350px;
+    text-align: left;
+    padding:20px 30px;
 }
 
 @font-face{
@@ -454,10 +450,20 @@ a{
     src:url("../resource/jianyue.ttf");
 }
 
+#st-panel-1 .st-content,
+#st-panel-2 .st-content{
+    top:150px;
+}
+
+#st-panel-5 .st-content{
+    top:150px;
+}
+
 .index-panel{
     font-family: indexTitleFont;
     color:white;
 }
+
 
 .index-panel .title{
     font-size:30px;
@@ -467,13 +473,10 @@ a{
     text-align:center;
 }
 
-
 .index-panel .content{
     font-size:25px;
     line-height:50px;
     width:600px;
-    /*margin:0 auto;*/
-    /*position: relative;*/
     position: absolute;
     left:50%;
     margin-left: -300px;
@@ -486,28 +489,18 @@ a{
     height:30px;
 }
 
-.company-title{
-    font-family: companyTitleFont;
-    position:absolute;
-    top:70px;
-    left:50%;
-    margin-left:-90px;
-    font-size:60px;
-    color:rgba(95,137,118,1);
-}
-
 .btn-search{
+    font-family: indexTitleFont;
     position: absolute;
     border:2px solid white;
     border-radius: 5px;
-    background: rgba(95,137,118,0.7);
+    background: rgba(0,0,0,0.5);
     color:white;
     right:150px;
     bottom:20px;
     font-size:30px;
     outline:none;
 }
-
 
 #search-in-home{
     position: absolute;
@@ -525,50 +518,11 @@ a{
     cursor:pointer;
 }
 
-.btn-search:hover{
-    color:white;
-}
-
-.search-wrapper{
-    padding:5px;
-    width:500px;
-    height:300px;
-}
-
-.search-wrapper input[type=text]{
-    width:150px;
-}
-
-.thumbnail{
-    border:none;
-}
-
-.thumbnail:hover{
-    border:none;
-}
-
-.post{
-    position: relative;
-}
-
-.post-title{
-    position: absolute;
-    top:50%;
-    margin-top:-20px;
-    left:50%;
-    margin-left:-40px;
-    height: 40px;
-    line-height: 40px;
-    color:white;
-    font-size:40px;
-    font-weight: 300;
-}
-
-
 .form-control{
+    font-family: indexTitleFont;
     display: inline-block;
     width:100px;
-    background-color: rgba(95,137,118,0.7);
+    background-color: rgba(0,0,0,0.5);
     border:2px solid white;
     color:white;
     font-size:20px;
@@ -579,11 +533,90 @@ a{
     box-shadow: none;
 }
 
-.form-hide{
-    left :60%;
-    opacity: 0;
-    z-index: -1 ;
+
+#st-panel-5 .st-content{
+    background-image: url("../resource/imac.png");
+    height: 400px;
+    -moz-background-size: 100% 100%;
+    background-size: 100% 100%;
+    position: relative;
 }
+
+#st-panel-5 .st-content form{
+    position: absolute;
+    top: 80px;
+    width: 100%;
+}
+
+#st-panel-5 .st-content .form-control{
+    width:200px;
+}
+#st-panel-5 .st-content .custom-login{
+    font-family: indexTitleFont;
+    position: absolute;
+    border: 2px solid white;
+    border-radius: 5px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    left:50%;
+    margin-left:-40px;
+    top:20px;
+}
+
+.nav{
+    width:100%;
+    position: absolute;
+    top:0;
+}
+
+.nav .nav-item{
+    display:inline-block;
+    color:white;
+    font-size:20px;
+    font-weight: 800;
+}
+
+.nav .nav-left{
+    float:left;
+}
+
+.nav .nav-right{
+    float:right;
+}
+
+.nav .company-title{
+    font-size: 40px;
+    margin: 20px;
+}
+
+.index-btn{
+    border: 2px solid white;
+    padding: 5px 10px;
+    margin: 20px 10px;
+    cursor:pointer;
+}
+
+.btn-login{
+    margin-right:20px;
+}
+/*start*/
+
+/*.index-panel .form-control{*/
+    /*display:inline-block;*/
+    /*width:100px;*/
+    /*height:45px;*/
+    /*font-size:16px;*/
+/*}*/
+
+/*#work_location{*/
+    /*width:300px;*/
+/*}*/
+
+/*#home_location{*/
+    /*width:500px;*/
+/*}*/
+/*end*/
+
 
 #st-panel-2{
     background:url("../resource/bicycle.jpg");

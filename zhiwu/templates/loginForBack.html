@@ -82,7 +82,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-success">
+                    <button class="btn btn-success btn-login">
                         登陆
                     </button>
                 </div>
@@ -95,4 +95,48 @@
 </div>
 </body>
 {% include './common/scriptForBack.html' %}
+<script>
+    $(document).ready(function(){
+{#        $(".btn-login").bind("click",function(e){#}
+{#            e.preventDefault();#}
+{##}
+{#            var _acnt=$("#account").val();#}
+{#            var _pw=$("#password").val();#}
+{##}
+{#            if(_acnt && _pw){#}
+{#                $.post(#}
+{#                    "{% url 'admin_login' %}",#}
+{#                    {#}
+{#                        account:_acnt,#}
+{#                        password:_pw#}
+{#                    },#}
+{#                    function(data){#}
+{#                        if(data.code==1){#}
+{#                            window.open(data.url);#}
+{#                        }else{#}
+{#                            if(data.msg){#}
+{#                                alert(msg);#}
+{#                            }else{#}
+{#                                alert("登陆失败")#}
+{#                            }#}
+{#                        }#}
+{#                    }#}
+{#            )#}
+{#                    .error(function(){#}
+{#                        console.log("error");#}
+{#                    });#}
+{#            }else{#}
+{#                alert("请填写完整的用户信息");#}
+{#            }#}
+{#        });#}
+
+        $(".form-control").bind("keydown",function(e){
+            console.log(e.which);
+            if(e.which==13){
+                e.preventDefault();
+                $(".btn-login").trigger("click");
+            }
+        })
+    });
+</script>
 </html>

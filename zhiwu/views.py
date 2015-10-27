@@ -71,7 +71,7 @@ def check_manager(request):
 
 
 def search(request):
-    return render(request, "newHouse.html")
+    return render(request, "newHouseForSale.html")
 
 
 def work_search(request):
@@ -327,6 +327,9 @@ def new_house(request):
     else:
         return HttpResponseRedirect(reverse("admin_login"))
 
+
+def new_salehouse(request):
+    return render(request, "newHouseForSale.html")
 
 def client_back(request):
     return render(request, "clientBackend.html",{"route":"console"})

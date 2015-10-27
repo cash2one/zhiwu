@@ -254,6 +254,24 @@
             <div class="section" id="area_manager">
                 <div class="title-l1">区域管理</div>
                 <div class="section-content">
+                    <div class="section" id="area_name_add">
+                        <div class="title-l2">区域名新建</div>
+                        <div class="section-content">
+                            <form class="form-horizontal" id="area_name_add_form" dest="{% url 'area_add' %}">
+                                <div class="form-group">
+                                    <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="area_add_mame" name="manager_mame">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-success btn-post">保存</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <div class="section" id="area_manager_add">
                         <div class="title-l2">区域及账号建设</div>
                         <div class="section-content">
@@ -274,7 +292,11 @@
                                 <div class="form-group">
                                     <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="area_add_name" name="manager_district">
+                                        <select class="form-control" id="area_add_name" name="manager_district">
+{#                                            {% for i in area_list %}#}
+{#                                                <option value="{{ i }}">{{ i }}</option>#}
+{#                                            {% endfor %}#}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -433,37 +455,104 @@
             <div class="section" id="source_manager">
                 <div class="title-l1">房源管理</div>
                 <div class="section-content">
-                    <div class="section" id="source-manager-new">
-                        <div class="title-l2">发布房源</div>
-                        <a class="btn btn-success" href="{% url 'new_house' %}" target="_blank">发布新的房源</a>
-                    </div>
-                    <div class="section" id="source-manager-search">
-                        <div class="title-l2">房源搜索</div>
+{#                    <div class="section" id="source-manager-new">#}
+{#                        <div class="title-l2">发布房源</div>#}
+{#                        <a class="btn btn-success" href="{% url 'new_house' %}" target="_blank">租房房源</a>#}
+{#                        <a class="btn btn-success" href="{% url 'new_salehouse' %}" target="_blank">卖房房源</a>#}
+{#                    </div>#}
+                    <div class="section" id="source-manager-export">
+                        <div class="title-l2">房源导出</div>
                         <div class="section-content">
-                            <button class="btn btn-info btn-export">导出为excel文件</button>
-                            <form class="form-inline" id="house_search_form" dest="">
-                                <div class="form-group">
-                                    <label for="house_number" class="control-label">房源编号</label>
-                                    <input type="text" class="form-control" id="house_number" name="house_number">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="house_activated" class="checkbox-inline">
-                                        <input type="checkbox" name="house_activated" id="house_activated"/>
+                            <a class="btn btn-info btn-export" href="{% url 'download_data' %}" target="_blank">导出为excel文件</a>
+                        </div>
+                    </div>
+                    <div class="section" id="source-manager-sale-search">
+                        <div class="title-l2">卖房房源搜索</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="house_search_form" dest="/salehouse_search">
+                                <div class="form-group" style="margin-right:30px;">
+                                    <label class="control-label">类型：</label>
+                                    <label for="no" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="no" checked value="no"/>
+                                        不限
+                                    </label>
+                                    <label for="salehouse_activated" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="salehouse_activated" value="active"/>
                                         已上架
                                     </label>
-                                    <label for="house_canceled" class="checkbox-inline">
-                                        <input type="checkbox" name="house_canceled" id="house_canceled"/>
+                                    <label for="salehouse_canceled" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="salehouse_canceled" value="cancel"/>
                                         已下架
                                     </label>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="house_area" class="control-label">区域</label>
+                                    <label for="salehouse_area" class="control-label">区域：</label>
+                                    <select class="form-control" id="salehouse_area" name="house_area">
+                                        <option value="no">不限</option>
+                                        <option value="区域1">区域1</option>
+                                        <option value="区域2">区域2</option>
+{#                                            {% for i in area_list %}#}
+{#                                                <option value="{{ i }}">{{ i }}</option>#}
+{#                                            {% endfor %}#}
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get" data-type="salehouse">搜索</button>
+                                </div>
+                            </form>
+
+                            <table class="table table-striped" data-tmpl="salehouse">
+                                <thead>
+                                <tr>
+                                    <th>房源编号</th>
+                                    <th>发布时间</th>
+                                    <th>小区</th>
+                                    <th>户型</th>
+                                    <th>价格</th>
+                                    <th>鉴定员/发布员</th>
+                                    <th>经纪人/管家</th>
+                                    <th>有无照片</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="salehouse-search-result">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="section" id="source-manager-rent-search">
+                        <div class="title-l2">租房房源搜索</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="house_search_form" dest="/house_search">
+                                <div class="form-group" style="margin-right:30px;">
+                                    <label class="control-label">类型：</label>
+                                    <label for="no" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="no" checked value="no"/>
+                                        不限
+                                    </label>
+                                    <label for="house_activated" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="house_activated" value="active"/>
+                                        已上架
+                                    </label>
+                                    <label for="house_canceled" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="house_canceled" value="cancel"/>
+                                        已下架
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="house_area" class="control-label">区域：</label>
                                     <select class="form-control" id="house_area" name="house_area">
-                                        <option value="">选择区域</option>
-                                        <option value="">区域1</option>
-                                        <option value="">区域2</option>
+                                        <option value="no">不限</option>
+                                        <option value="区域1">区域1</option>
+                                        <option value="区域2">区域2</option>
+{#                                            {% for i in area_list %}#}
+{#                                                <option value="{{ i }}">{{ i }}</option>#}
+{#                                            {% endfor %}#}
                                     </select>
                                 </div>
 
@@ -472,7 +561,7 @@
                                 </div>
                             </form>
 
-                            <table class="table table-striped">
+                            <table class="table table-striped" data-tmpl="house">
                                 <thead>
                                 <tr>
                                     <th>房源编号</th>
@@ -1184,8 +1273,6 @@
                                                 已售出
                                             {% elif i.info.exist == True %}
                                                 已上架
-                                            {% elif i.info.achieve == True %}
-                                                待上架
                                             {% else %}
                                                 待编辑
                                             {% endif %}
@@ -1197,19 +1284,62 @@
 
                                                 {% elif i.info.exist == True %}
                                                     <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
-                                                    <li><a href="#" class="btn-operate" data-type="sold">售出</a></li>
-                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
-                                                {% elif i.info.achieve == True %}
-                                                    <li><a href="#" class="btn-operate" data-type="activate">上架</a></li>
                                                     <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
                                                 {% else %}
                                                     <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
                                                 {% endif %}
+                                            </ul>
+                                        </th>
+                                    </tr>
+
+</script>
 
 
+<script id="salehouse-search" type="text/x-jquery-tmpl">
+<tr data-target="${pk}">
+                                    <th>${pk}</th>
+                                    <th>${fields.manager}</th>
+                                    <th>${fields.company}</th>
+                                    <th>${fields.name}</th>
+                                    <th>${fields.phone}</th>
+                                    <th>{{if fields.exist}}正在使用{{else}}已注销{{/if}}</th>
+                                    <th>
+                                        <button class="btn btn-default btn-edit">编辑</button>
+                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
+                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
+                                    </th>
+                                </tr>
 
+<tr data-target="{{i.info.roomNumber}}">
+                                        <th>{{i.info.roomNumber}}</th>
+                                        <th>{{i.info.stay_intime|date:"Y-m-d"}}</th>
+                                        <th>{{i.info.addr_xiaoqu}}</th>
+                                        <th>{{i.info.type_room}}室{{i.info.type_livingroom}}厅{{i.info.type_toilet}}卫</th>
+                                        <th>{{i.info.price}}/月</th>
+                                        <th>{{i.info.stay_intime|date:"Y-m-d" }}</th>
+                                        <th>{{i.info.contactPerson}}</th>
+                                        <th>{{i.info.contactPerson}}</th>
+                                        <th>{% if i.picture == True %}有{% else %}无{% endif %}</th>
+                                        <th>
+                                            {% if i.info.sold == True %}
+                                                已售出
+                                            {% elif i.info.exist == True %}
+                                                已上架
+                                            {% else %}
+                                                待编辑
+                                            {% endif %}
+                                        </th>
+                                        <th class="btn-group">
+                                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                {% if i.info.sold == True %}
 
-
+                                                {% elif i.info.exist == True %}
+                                                    <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
+                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
+                                                {% else %}
+                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
+                                                {% endif %}
                                             </ul>
                                         </th>
                                     </tr>
@@ -1296,7 +1426,9 @@
             "#mansion-keeper-edit":"{% url 'second_manager_logout'%}",
             "#mansion-manager-edit":"{% url 'manager_logout'%}",
             "#wuye-keeper-edit":"{% url 'second_manager_logout'%}",
-            "comment":"{% url 'evaluation_no_pass' %}"
+            "comment":"{% url 'evaluation_no_pass' %}",
+            "house":"{% url 'roominfo_logout' %}",
+            "salehouse":"/salehouse_logout"
         };
 
 
@@ -1305,7 +1437,9 @@
             "#mansion-keeper-edit":"{% url 'second_manager_active'%}",
             "#mansion-manager-edit":"{% url 'manager_active'%}",
             "#wuye-keeper-edit":"{% url 'second_manager_active'%}",
-            "comment":"{% url 'evaluation_pass' %}"
+            "comment":"{% url 'evaluation_pass' %}",
+            "house":"{% url 'roominfo_active' %}",
+            "salehouse":"/salehouse_active"
         };
 
 

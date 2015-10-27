@@ -39,20 +39,20 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">小区地址</label>
                             <div class="col-sm-10" id="addr-form">
-                                <select data-placeholder="选择小区" class="form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
+                                <select data-placeholder="选择小区" class="form-control inline-input form-required" id="addr_xiaoqu" name="addr_xiaoqu">
                                     <option value=""></option>
                                     {% for i in communities %}
                                         <option {% if i.name == room.addr_xiaoqu %} selected {% endif %} value="{{ i.name }}" id="{{ i.name }}" data-lng="{{ i.lng }}" data-lat="{{ i.lat }}">{{ i.name }}</option>
                                     {% endfor %}
                                 </select>
                                 小区名称
-                                <input type="text" class="form-control inline-input" id="addr_building" name="addr_building"/>
+                                <input type="text" class="form-control inline-input form-required" id="addr_building" name="addr_building"/>
                                 幢
                                 <input type="text" class="form-control inline-input" id="addr_unit" name="addr_unit"/>
                                 单元
 {#                                <input type="text" class="form-control inline-input" id="addr_floor" name="addr_floor"/>#}
 {#                                楼层#}
-                                <input type="text" class="form-control inline-input" id="addr_room" name="addr_room"/>
+                                <input type="text" class="form-control inline-input form-required" id="addr_room" name="addr_room"/>
                                 室
                                 <input type="text" class="form-control inline-input" id="addr_fang" name="addr_floor"/>
                                 房
@@ -89,11 +89,11 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">房屋户型</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control  inline-input" id="type_room" name="type_room"/>
+                                <input type="text" class="form-control  inline-input form-required" id="type_room" name="type_room"/>
                                 室
-                                <input type="text" class="form-control inline-input" id="type_livingroom" name="type_livingroom"/>
+                                <input type="text" class="form-control inline-input form-required" id="type_livingroom" name="type_livingroom"/>
                                 厅
-                                <input type="text" class="form-control inline-input" id="type_toilet" name="type_toilet"/>
+                                <input type="text" class="form-control inline-input form-required" id="type_toilet" name="type_toilet"/>
                                 卫
                             </div>
                         </div>
@@ -133,7 +133,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">面积</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="mianji" name="mianji"/>
+                                <input type="text" class="form-control inline-input form-required" id="mianji" name="mianji"/>
                                 平方米
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                         <div class="form-group">
                             <label for="stay_intime" class="col-sm-2 control-label">最早可入住时间</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="stay_intime" name="stay_intime"/>
+                                <input type="text" class="form-control form-required" id="stay_intime" name="stay_intime"/>
                             </div>
                         </div>
 
@@ -234,7 +234,7 @@
                                         <option value="中">中</option>
                                         <option value="高">高</option>
                                     </select>/
-                                    <input type="text" class="form-control inline-input" id="total_floor" name="total_floor">层
+                                    <input type="text" class="form-control inline-input form-required" id="total_floor" name="total_floor">层
                                 </div>
                             </div>
 
@@ -329,9 +329,9 @@
                                     <div class="form-group">
                                         <label for="original_house_type" class="col-sm-2 control-label">此房原户型</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control inline-input" id="original_house_shi" name="original_house_shi">室
-                                            <input type="text" class="form-control inline-input" id="original_house_ting" name="original_house_ting">厅
-                                            <input type="text" class="form-control inline-input" id="original_house_wei" name="original_house_wei">卫
+                                            <input type="text" class="form-control inline-input form-required" id="original_house_shi" name="original_house_shi">室
+                                            <input type="text" class="form-control inline-input form-required" id="original_house_ting" name="original_house_ting">厅
+                                            <input type="text" class="form-control inline-input form-required" id="original_house_wei" name="original_house_wei">卫
                                         </div>
                                     </div>
 
@@ -358,7 +358,7 @@
                                         <label for="can_cook" class="col-sm-2 control-label">做饭情况</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" id="can_cook" name="can_cook">
-                                                <option value="可以做饭">可以做饭</option>
+                                                <option value="可以做饭" selected>可以做饭</option>
                                                 <option value="不能做饭">不能做饭</option>
                                             </select>
                                         </div>
@@ -655,15 +655,19 @@
             var isSubmit=type==="submit";
 
             if(isSubmit){
+                var flag=false;
                 $(".form-required").each(function(){
                     if(!!$(this)){
-                        alert("请填写完整所有的信息！");
+                        flag=true;
                         $(this).addClass("form-alert");
-                        return;
                     }else{
                         $(this).removeClass("form-alert");
                     }
                 })
+                if(flag){
+                    alert("请填写完整的信息");
+                    return;
+                }
             }
 
 {#            var p = window.marker.getPosition();#}
@@ -736,7 +740,8 @@
             });
 
             $.get(
-                "url",
+{#                "{% url 'roominfo_addr_search' %}",#}
+                "todourl",
                 res.join("&&"),
                 function(data){
                     if(data.code==1){
@@ -754,7 +759,7 @@
                         }
 
                     }else{
-                        alert("保存失败！");
+{#                        alert("查询失败！");#}
                     }
                 }
             )

@@ -374,30 +374,6 @@
             });
         });
 
-        //收藏功能
-        $('#search-result-container').delegate(".collect","click",function(e){
-            e.preventDefault();
-            var _id=$(this).data("target");
-            var that=$(this);
-
-            $.post(
-                "/room_collection",
-                {roomNumber:_id},
-                function(data){
-                    if(data.status==200){
-                        that.addClass("active");
-                        console.log("post success");
-                    }else{
-                        console.log("post failed");
-                    }
-                }
-            )
-            .error(function(){
-                console.log("error");
-            });
-        });
-
-
 //        搜索条件改变后重新筛选后添加
 
         var price_upper=-1,

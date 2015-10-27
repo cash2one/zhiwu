@@ -36,38 +36,14 @@ hr{
     color:#e7e7e7;
 }
 
-.navbar-form{
-    position: relative;
+.nav-wrapper form{
+    margin-left:100px;
 }
 
-.navbar-form .form-control{
-    border:none;
-    border-radius: 0;
-    border-bottom:1px solid #ADADAD;
-    color:grey;
-    background-color:#f8f8f8;
-    box-shadow: none;
-}
-
-.navbar-form #way{
-    border: none;
-}
-
-.navbar-form .select-border{
-    height: 5px;
+.nav-wrapper form .form-control{
+    display:inline-block;
     width:50px;
-    border-bottom:1px solid #ADADAD;
-    position: absolute;
-    bottom:0;
-    left:212px;
 }
-/*.navbar-form #way:after{*/
-    /*position:absolute;*/
-    /*boder-bottom:1px solid #777;*/
-    /*height:60px;*/
-    /*bottom:0;*/
-    /*left:0;*/
-/*}*/
 
 .btn-pink{
     border:#ff5a5f;
