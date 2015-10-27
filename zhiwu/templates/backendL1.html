@@ -45,8 +45,8 @@
                         房源管理
                     </a>
                     <ul class="second-level-menu">
-                        <li><a href="#source_manager_submit">房源发布</a></li>
-                        <li><a href="#source_manager_search">房源列表</a></li>
+                        <li><a href="#source-manager-new">房源发布</a></li>
+                        <li><a href="#source-manager-search">房源列表</a></li>
                     </ul>
                 </li>
             </ul>
@@ -276,7 +276,8 @@
                 <div class="section-content">
                     <div class="section" id="source-manager-new">
                         <div class="title-l2">发布房源</div>
-                        <a class="btn btn-success" href="{% url 'new_house' %}" target="_blank">发布新的房源</a>
+                        <a class="btn btn-success" href="{% url 'new_house' %}" target="_blank">租房房源</a>
+                        <a class="btn btn-success" href="{% url 'new_salehouse' %}" target="_blank">卖房房源</a>
                     </div>
                     <div class="section" id="source-manager-search">
                         <div class="title-l2">房源搜索</div>

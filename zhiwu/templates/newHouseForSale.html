@@ -358,7 +358,8 @@
             e.preventDefault();
 
             var type=$(this).data("type");
-            var dest=type=="save"?{% url 'roominfo_save' %}:{% url 'roominfo_sub' %}
+            var dest="";
+{#                    type=="save"?{% url 'salehouse_save' %}:{% url 'salehouse_sub' %};#}
 
             var p = window.marker.getPosition();
             $("#house_lng").val(p.lng);

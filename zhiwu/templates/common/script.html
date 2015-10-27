@@ -22,6 +22,33 @@
             $(".navbar-form-home").hide();
             $(".navbar-form-work").show();
         });
+
+        //收藏功能
+        $(document).delegate(".collect","click",function(e){
+            e.preventDefault();
+            var _id=$(this).data("target");
+            var that=$(this);
+
+            $.post(
+                "{% url 'room_collection' %}",
+                {roomNumber:_id},
+                function(data){
+                    if(data.status==200){
+                        that.addClass("active");
+                        console.log("post success");
+                        alert("已加入收藏夹");
+                    }else{
+                        console.log("post failed");
+                        if(msg){
+                            alert(msg);
+                        }
+                    }
+                }
+            )
+            .error(function(){
+                console.log("error");
+            });
+        });
     })();
 
 </script>

@@ -54,7 +54,7 @@
                     </label>
 
 
-                    <input  class="with-gap"type="radio" name="price" id="3000to5000"/>
+                    <input  class="with-gap" type="radio" name="price" id="3000to5000"/>
                     <label for="3000to5000" class="checkbox-inline">
                         3000-5000(含)
                     </label>
@@ -463,29 +463,6 @@
 
             $("#arrow"+_id).css({
                 "background-position":"0px 0px"
-            });
-        });
-
-        //收藏功能
-        $('#search-result-container').delegate(".collect","click",function(e){
-            e.preventDefault();
-            var _id=$(this).data("target");
-            var that=$(this);
-
-            $.post(
-                "/room_collection",
-                {roomNumber:_id},
-                function(data){
-                    if(data.status==200){
-                        that.addClass("active");
-                        console.log("post success");
-                    }else{
-                        console.log("post failed");
-                    }
-                }
-            )
-            .error(function(){
-                console.log("error");
             });
         });
 

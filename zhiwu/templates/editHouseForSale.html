@@ -2,7 +2,7 @@
 {% extends './common/baseForBack.html' %}
 
 <!--title-->
-{% block title %}发布新房源{% endblock %}
+{% block title %}编辑卖房房源{% endblock %}
 
 <!--sp_header-->
 {% block sp_header %}
@@ -19,12 +19,13 @@
     <div class="row">
         <div class="col-xs-offset-1 col-xs-10" id="lists">
             <div class="section" id="step1">
-                <div class="title-l1">基本简介</div>
+                <div class="title-l1">基本简介:{{roomNumber}}</div>
                 <div class="section-content">
                     <form class="form-horizontal" id="step1-form">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">小区地址</label>
                             <div class="col-sm-10">
+                                <input type="hidden" name="roomNumber" value="{{ room.roomNumber }}">
                                 <select data-placeholder="选择小区" class="form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
                                     <option value=""></option>
                                     {% for i in communities %}
@@ -32,12 +33,16 @@
                                     {% endfor %}
                                 </select>
                                 小区名称
-                                <input type="text" class="form-control inline-input" id="addr_building" name="addr_building"/>
+                                <input type="text" class="form-control inline-input" id="addr_building" name="addr_building" value="{{room.addr_building}}"/>
                                 幢
-                                <input type="text" class="form-control inline-input" id="addr_unit" name="addr_unit"/>
+                                <input type="text" class="form-control inline-input" id="addr_unit" name="addr_unit" value="{{room.addr_unit}}"/>
                                 单元
-                                <input type="text" class="form-control inline-input" id="addr_room" name="addr_room"/>
+{#                                <input type="text" class="form-control inline-input" id="addr_floor" name="addr_floor" value="{{room.addr_floor}}"/>#}
+{#                                楼层#}
+                                <input type="text" class="form-control inline-input" id="addr_room" name="addr_room" value="{{room.addr_room}}"/>
                                 室
+                                <input type="text" class="form-control inline-input" id="addr_fang" name="addr_floor" value="{{ room.addr_fang }}"/>
+                                房
                             </div>
                         </div>
 
@@ -45,47 +50,38 @@
                             <label class="col-sm-2 control-label">详细位置点选*</label>
                             <div class="col-sm-10">
                                 <div id="house-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
-                                <input type="hidden" class="form-control" id="house_lng" name="lng" value="">
-                                <input type="hidden" class="form-control" id="house_lat" name="lat" value="">
+                                <input type="hidden" class="form-control" id="house_lng" name="lng" value="{{room.lng}}">
+                                <input type="hidden" class="form-control" id="house_lat" name="lat" value="{{room.lat}}">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="payway" class="col-sm-2 control-label">售价</label>
+                            <label for="payway" class="col-sm-2 control-label">租金/付款方式</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="keeper-add-name" name="price">万元
+                                <input type="text" class="form-control inline-input" id="keeper-add-name" name="price" value="{{ room.price }}">元/月
+                                <select name="payway" id="payway" class="form-control inline-input">
+                                    <!--<option value="">押金方式</option>-->
+                                    <option {% if room.payway == "押一付一" %} selected {% endif %} value="押一付一">押一付一</option>
+                                    <option {% if room.payway == "押一付二" %} selected {% endif %} value="押一付二">押一付二</option>
+                                    <option {% if room.payway == "押一付三" %} selected {% endif %} value="押一付三">押一付三</option>
+                                    <option {% if room.payway == "押二付一" %} selected {% endif %} value="押二付一">押二付一</option>
+                                    <option {% if room.payway == "押二付二" %} selected {% endif %} value="押二付二">押二付二</option>
+                                    <option {% if room.payway == "押二付三" %} selected {% endif %} value="押二付三">押二付三</option>
+                                    <option {% if room.payway == "半年付" %} selected {% endif %} value="半年付">半年付</option>
+                                    <option {% if room.payway == "年付" %} selected {% endif %} value="fu12">年付</option>
+                                    <option {% if room.payway == "面议" %} selected {% endif %} value="面议">面议</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">房屋户型</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="type_room" name="type_room"/>
+                                <input type="text" class="form-control inline-input" id="type_room" name="type_room" value="{{room.type_room}}"/>
                                 室
-                                <input type="text" class="form-control inline-input" id="type_livingroom" name="type_livingroom"/>
+                                <input type="text" class="form-control inline-input" id="type_livingroom" name="type_livingroom" value="{{room.type_livingroom}}"/>
                                 厅
-                                <input type="text" class="form-control inline-input" id="type_toilet" name="type_toilet"/>
+                                <input type="text" class="form-control inline-input" id="type_toilet" name="type_toilet" value="{{room.type_toilet}}"/>
                                 卫
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">面积</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="mianji" name="mianji"/>
-                                平方米
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">房屋类型</label>
-                            <div class="col-sm-10">
-                                <select name="type" id="type" class="form-control inline-input">
-                                    <!--<option value="">押金方式</option>-->
-                                    <option value="普通住宅">普通住宅</option>
-                                    <option value="公寓">公寓</option>
-                                    <option value="排屋">排屋</option>
-                                    <option value="别墅">别墅</option>
-                                </select>
                             </div>
                         </div>
 
@@ -94,17 +90,66 @@
                             <div class="col-sm-10">
                                 <select name="orientation" id="orientation" class="form-control inline-input">
                                     <!--<option value="">押金方式</option>-->
-                                    <option value="东">东</option>
-                                    <option value="南">南</option>
-                                    <option value="西">西</option>
-                                    <option value="北">北</option>
-                                    <option value="东南">东南</option>
-                                    <option value="东北">东北</option>
-                                    <option value="西南">西南</option>
-                                    <option value="西北">西北</option>
+                                    <option {% if room.orientation == "东" %} selected {% endif %} value="东">东</option>
+                                    <option {% if room.orientation == "南" %} selected {% endif %} value="南">南</option>
+                                    <option {% if room.orientation == "西" %} selected {% endif %} value="西">西</option>
+                                    <option {% if room.orientation == "北" %} selected {% endif %} value="北">北</option>
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">是否有阳台</label>
+                            <div class="col-sm-10">
+                                <label for="balcony_yes" class="radio-inline">
+                                    <input type="radio" name="balcony" id="balcony_yes" value="yes" {% if room.balcony == "yes" %}checked{% endif %}/>
+                                    有
+                                </label>
+
+                                <label for="balcony_no" class="radio-inline">
+                                    <input type="radio" name="balcony" id="balcony_no" value="no" {% if room.balcony == "no" %}checked{% endif %}/>
+                                    无
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">面积</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control inline-input" id="mianji" name="mianji" value="{{room.mianji}}"/>
+                                平方米
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="stay_intime" class="col-sm-2 control-label">最早可入住时间</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="stay_intime" name="stay_intime" value="{{room.stay_intime|date:"Y-m-d"}}"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">随时可看</label>
+                            <div class="col-sm-10">
+                                <label for="see_yes" class="radio-inline">
+                                    <input type="radio" name="see" id="see_yes" value="yes" {% if room.see == "yes" %}checked{% endif %}/>
+                                    是
+                                </label>
+
+                                <label for="see_no" class="radio-inline">
+                                    <input type="radio" name="see" id="see_no" value="no" {% if room.see == "no" %}checked{% endif %}/>
+                                    否
+                                </label>
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group">-->
+                            <!--<div class="col-sm-offset-2 col-sm-10">-->
+                                <!--<button class="btn btn-success btn-save btn-post" data-type="save">保存</button>-->
+                                <!--<button class="btn btn-info btn-submit btn-post" data-type="submit">发布</button>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </form>
                 </div>
             </div>
@@ -160,7 +205,298 @@
             </div>
 
             <div class="section" id="step3">
-                <div class="title-l1">详细情况
+                <div class="title-l1">详细情况</div>
+                <div class="section-content">
+                    <div class="section">
+                        <form class="form-horizontal" id="step3-form">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">楼层</label>
+                                <div class="col-sm-10">
+                                    <select name="floor_level" id="floor_level" class="form-control inline-input">
+                                        <option {% if room.floor_level == "低" %}selected{% endif %}value="低">低</option>
+                                        <option {% if room.floor_level == "中" %}selected{% endif %}value="中">中</option>
+                                        <option {% if room.floor_level == "高" %}selected{% endif %}value="高">高</option>
+                                    </select>/
+                                    <input type="text" class="form-control inline-input" id="total_floor" name="total_floor" value="{{room.total_floor}}">层
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">电梯</label>
+                                <div class="col-sm-10">
+                                    <label for="elevator_yes" class="radio-inline">
+                                        <input type="radio" name="elevator" id="elevator_yes" value="yes" {% if room.elevator == "yes" %}checked{% endif %}/>
+                                        有电梯
+                                    </label>
+
+                                    <label for="elevator_no" class="radio-inline">
+                                        <input type="radio" name="elevator" id="elevator_no" value="no" {% if room.elevator == "no" %}checked{% endif %}/>
+                                        无电梯
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">房屋配置</label>
+                                <div class="col-sm-10">
+                                    <label for="canzhuo" class="checkbox-inline">
+                                        <input type="checkbox" name="canzhuo" id="canzhuo" {% if room.canzhuo == "on" %}checked{% endif %}/>
+                                        餐桌
+                                    </label>
+
+                                    <label for="sofa" class="checkbox-inline">
+                                        <input type="checkbox" name="sofa" id="sofa" {% if room.sofa == "on" %}checked{% endif %}/>
+                                        沙发
+                                    </label>
+
+                                    <label for="desk" class="checkbox-inline">
+                                        <input type="checkbox" name="desk" id="desk" {% if room.desk == "on" %}checked{% endif %}/>
+                                        书桌
+                                    </label>
+
+                                    <label for="chair" class="checkbox-inline">
+                                        <input type="checkbox" name="chair" id="chair" {% if room.chair == "on" %}checked{% endif %}/>
+                                        椅子
+                                    </label>
+
+                                    <label for="closet" class="checkbox-inline">
+                                        <input type="checkbox" name="closet" id="closet" {% if room.clost == "on" %}checked{% endif %}/>
+                                        衣柜
+                                    </label>
+
+                                    <label for="bed" class="checkbox-inline">
+                                        <input type="checkbox" name="bed" id="bed" {% if room.bed == "on" %}checked{% endif %}/>
+                                        床
+                                    </label>
+
+                                    <label for="aircon" class="checkbox-inline">
+                                        <input type="checkbox" name="aircon" id="aircon" {% if room.aircon == "on" %}checked{% endif %}/>
+                                        空调
+                                    </label>
+
+                                    <label for="washer" class="checkbox-inline">
+                                        <input type="checkbox" name="washer" id="washer" {% if room.washer == "on" %}checked{% endif %}/>
+                                        洗衣机
+                                    </label>
+
+                                    <label for="waterheater" class="checkbox-inline">
+                                        <input type="checkbox" name="waterheater" id="waterheater" {% if room.waterheater == "on" %}checked{% endif %}/>
+                                        热水器
+                                    </label>
+
+                                    <label for="refregister" class="checkbox-inline">
+                                        <input type="checkbox" name="refregister" id="refregister" {% if room.refregister == "on" %}checked{% endif %}/>
+                                        冰箱
+                                    </label>
+
+                                    <label for="tv" class="checkbox-inline">
+                                        <input type="checkbox" name="tv" id="tv" {% if room.tv == "on" %}checked{% endif %}/>
+                                        电视机
+                                    </label>
+
+                                    <label for="cookerhood" class="checkbox-inline">
+                                        <input type="checkbox" name="cookerhood" id="cookerhood" {% if room.cookerhood == "on" %}checked{% endif %}/>
+                                        油烟机
+                                    </label>
+
+                                    <label for="gascooker" class="checkbox-inline">
+                                        <input type="checkbox" name="gascooker" id="gascooker" {% if room.gascooker == "on" %}checked{% endif %}/>
+                                        燃气灶
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">房源描述</label>
+                                <div class="col-sm-10">
+                                    <div class="form-group">
+                                        <label for="original_house_type" class="col-sm-2 control-label">此房原户型</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control inline-input" id="original_house_shi" name="original_house_shi">室
+                                            <input type="text" class="form-control inline-input" id="original_house_ting" name="original_house_ting">厅
+                                            <input type="text" class="form-control inline-input" id="original_house_wei" name="original_house_wei">卫
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="decorate_level" class="col-sm-2 control-label">装修档次</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="decorate_level" name="decorate_level">
+                                                <option value="毛坯">毛坯</option>
+                                                <option value="简单装修">简单装修</option>
+                                                <option value="精装修">精装修</option>
+                                                <option value="豪华装修">豪华装修</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+{#                                    <div class="form-group">#}
+{#                                        <label for="config_level" class="col-sm-2 control-label">房屋配置如何</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="config_level" name="config_level">#}
+{#                                        </div>#}
+{#                                    </div>#}
+
+                                    <div class="form-group">
+                                        <label for="can_cook" class="col-sm-2 control-label">做饭情况</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="can_cook" name="can_cook">
+                                                <option value="可以做饭">可以做饭</option>
+                                                <option value="不能做饭">不能做饭</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+{#                                    <div class="form-group">#}
+{#                                        <label for="lighting" class="col-sm-2 control-label">采光</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="lighting" name="lighting">#}
+{#                                        </div>#}
+{#                                    </div>#}
+{##}
+{#                                    <div class="form-group">#}
+{#                                        <label for="ventilate" class="col-sm-2 control-label">通风</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="ventilate" name="ventilate">#}
+{#                                        </div>#}
+{#                                    </div>#}
+{##}
+{#                                    <div class="form-group">#}
+{#                                        <label for="noise" class="col-sm-2 control-label">噪声</label>#}
+{#                                        <div class="col-sm-10">#}
+{#                                            <input type="text" class="form-control" id="noise" name="noise">#}
+{#                                        </div>#}
+{#                                    </div>#}
+
+                                    <div class="form-group">
+                                        <label for="merit" class="col-sm-2 control-label">房屋优势</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" data-placeholder="选择条件" multiple id="merit" name="merit">
+                                                <option value="南北通透" {% if '南北通透' in List %} selected{% endif %}>南北通透</option>
+                                                <option value="通透明静" {% if '通透明静' in List %} selected{% endif %}>通透明静</option>
+                                                <option value="阳光房" {% if '阳光房' in List %} selected{% endif %}>阳光房</option>
+                                                <option value="江景房" {% if '江景房' in List %} selected{% endif %}>江景房</option>
+                                                <option value="安静舒适" {% if '安静舒适' in List %} selected{% endif %}>安静舒适</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="landlord_req" multiple class="col-sm-2 control-label">房东要求</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" multiple data-placeholder="选择条件" id="landlord_req" name="landlord_req">
+                                                <option value="仅限女生" {% if '仅限女生' in List %} selected{% endif %}>仅限女生</option>
+                                                <option value="仅限男生" {% if '仅限男生' in List %} selected{% endif %}>仅限男生</option>
+                                                <option value="仅限情侣" {% if '仅限情侣' in List %} selected{% endif %}>仅限情侣</option>
+                                                <option value="仅限一家人" {% if '仅限一家人' in List %} selected{% endif %}>仅限一家人</option>
+                                                <option value="不带宠物" {% if '不带宠物' in List %} selected{% endif %}>不带宠物</option>
+                                                <option value="不群组" {% if '不群组' in List %} selected{% endif %}>不群租</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="other" class="col-sm-2 control-label">其他描述</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="other" name="other">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label">租客评论</label>-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<div class="form-group">-->
+                                        <!--<label for="house_comment" class="col-sm-2 control-label">对房屋的评价</label>-->
+                                        <!--<div class="col-sm-10">-->
+                                            <!--<input type="text" class="form-control" id="house_comment" name="house_comment">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                    <!--<div class="form-group">-->
+                                        <!--<label for="community_comment" class="col-sm-2 control-label">对小区的评价</label>-->
+                                        <!--<div class="col-sm-10">-->
+                                            <!--<input type="text" class="form-control" id="community_comment" name="community_comment">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                    <!--<div class="form-group">-->
+                                        <!--<label for="landlord_comment" class="col-sm-2 control-label">对房东的评价</label>-->
+                                        <!--<div class="col-sm-10">-->
+                                            <!--<input type="text" class="form-control" id="landlord_comment" name="landlord_comment">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button class="btn btn-success btn-save btn-post" data-type="save">保存</button>
+                                    <button class="btn btn-info btn-submit btn-post" data-type="submit">发布</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!--<div class="section" id="keeper-list">-->
+                <!--&lt;!&ndash;这一部分应该是自动生成的&ndash;&gt;-->
+                <!--<div class="title-l1">自动生成小区环境</div>-->
+                <!--<div class="section-content">-->
+                    <!--<div class="section" id="keeper-add">-->
+                        <!--<form class="form-horizontal" id="keeper-add-form">-->
+                            <!--<div class="form-group">-->
+                                <!--<label for="keeper-add-account" class="col-sm-2 control-label">小区所在商圈</label>-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<input type="text" class="form-control" id="keeper-add-account">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="form-group">-->
+                                <!--<label for="keeper-add-account" class="col-sm-2 control-label">小区属性</label>-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<input type="text" class="form-control" id="keeper-add-account">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="form-group">-->
+                                <!--<label for="keeper-add-account" class="col-sm-2 control-label">成年限</label>-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<input type="text" class="form-control" id="keeper-add-account">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="form-group">-->
+                                <!--<label for="keeper-add-account" class="col-sm-2 control-label">小区档次规模</label>-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<input type="text" class="form-control" id="keeper-add-account">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="form-group">-->
+                                <!--<label for="keeper-add-account" class="col-sm-2 control-label">安保</label>-->
+                                <!--<div class="col-sm-10">-->
+                                    <!--<input type="text" class="form-control" id="keeper-add-account">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="form-group">-->
+                                <!--<div class="col-sm-offset-2 col-sm-10">-->
+                                    <!--<button type="submit" class="btn btn-success">保存</button>-->
+                                    <!--<button type="submit" class="btn btn-info">发布</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
