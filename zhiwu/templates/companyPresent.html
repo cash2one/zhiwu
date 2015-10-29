@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+    <!--meta配置-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!--样式表-->
+    <link rel="stylesheet" href="/stylesheet/materialize.min.css">
+    <style>
+
+
+        header, main, footer {
+            padding-left: 240px;
+        }
+
+         @media only screen and (max-width: 992px){
+            header, main, footer {
+                padding-left: 0;
+            }
+        }
+
+        .header {
+            color: #ee6e73;
+            font-weight: 300;
+        }
+
+        nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+            height: 120px;
+            line-height: 120px;
+        }
+
+        .logo{
+            text-align: center;
+            margin-top: 32px;
+            margin-bottom: 140px;
+            line-height: 44px;
+        }
+
+        #logo-container {
+            height: 57px;
+            margin-bottom: 32px;
+            margin-left: -10px;
+        }
+    </style>
+    <title>租房网demo</title>
+</head>
+<body>
+
+<nav class="teal">
+    <ul id="slide-out" class="side-nav fixed">
+
+            <li class="logo">
+                <a id="logo-container" href="http://materializecss.com/" class="brand-logo">
+                    <img src="/resource/logo.png" alt="" height="75px">
+                </a>
+            </li>
+            <li class="active"><a href="#!">关于网站</a></li>
+            <li><a href="#!">关于团队</a></li>
+            <li><a href="#!">加入我们</a></li>
+            <li><a href="#!">联系方式</a></li>
+            <li><a href="#!">网站条款</a></li>
+  </ul>
+  <div class="right hide-on-med-and-down" style="margin-right:20px;">
+      <h2>关于网站</h2>
+  </div>
+  <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+</nav>
+
+<main>
+    <div class="container">
+
+
+        <img src="/resource/background1.jpg" alt="" width="500px" style="margin:10px auto;"/>
+        <p>
+            我们是杭州易路营电子商务有限公司，为您提供露营B2C服务。
+        </p>
+
+        <p>
+            北岛说“一个人行走的范围，就是他的世界”。 一个地方呆久了，会觉得这个地方就是世界。蜗居在狭小的寝室，呼吸着沉闷的空气，幻想中九万五千公里的绚烂，生活的精彩，往往都在室外。走出去，心无羁，行不止。我们尽力爬到山顶，撑开帐篷，等待日落的光芒照亮脸庞；星空下露营，清晨我们揉着惺忪的睡眼，早起看日出。拒绝KTV，我们在大自然中倾听四季的声音；拒绝经常去的餐厅，我们在那些没到过的地方DIY自己的美食；拒绝宅，我们一起去感受一个城市属于我们的天地。
+        </p>
+
+        <p>
+            想让更多的年轻人和我们一起，走出去，在属于我们的美好时光中寻找年轻的体验。但浩如烟海的露营信息，千篇一律的露营攻略，昂贵又不便清理的露营设备是否让很多人望而却步呢？于是，做“易露营”的想法应运而生，我们提供一站式露营解决方案，让露营变得如此简单。来，跟着我们的脚步，带你去看年轻的世界。因有梦，在路上。
+        </p>
+
+
+        <p>
+            我们是杭州易路营电子商务有限公司，为您提供露营B2C服务。
+        </p>
+
+        <p>
+            北岛说“一个人行走的范围，就是他的世界”。 一个地方呆久了，会觉得这个地方就是世界。蜗居在狭小的寝室，呼吸着沉闷的空气，幻想中九万五千公里的绚烂，生活的精彩，往往都在室外。走出去，心无羁，行不止。我们尽力爬到山顶，撑开帐篷，等待日落的光芒照亮脸庞；星空下露营，清晨我们揉着惺忪的睡眼，早起看日出。拒绝KTV，我们在大自然中倾听四季的声音；拒绝经常去的餐厅，我们在那些没到过的地方DIY自己的美食；拒绝宅，我们一起去感受一个城市属于我们的天地。
+        </p>
+
+        <p>
+            想让更多的年轻人和我们一起，走出去，在属于我们的美好时光中寻找年轻的体验。但浩如烟海的露营信息，千篇一律的露营攻略，昂贵又不便清理的露营设备是否让很多人望而却步呢？于是，做“易露营”的想法应运而生，我们提供一站式露营解决方案，让露营变得如此简单。来，跟着我们的脚步，带你去看年轻的世界。因有梦，在路上。
+        </p>
+
+    </div>
+</main>
+
+
+{% include './common/footer.html' %}
+</body>
+<!--脚本-->
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/materialize.min.js"></script>
+<script>
+    $(document).ready(function(){
+       $(".button-collapse").sideNav();
+    });
+
+
+</script>
+
+</html>

@@ -331,7 +331,7 @@ footer.page-footer {
     font-weight:500;
     color:grey;
     min-height:100px;
-    width:900px;
+    width:80%;
     padding:40px 60px;
     background: white;
     border-radius: 5px;
@@ -348,14 +348,14 @@ footer.page-footer {
     top:20px;
 }
 
-.room-detail-section .room-detail-content textarea{
-    width:750px;
-}
+/*.room-detail-section .room-detail-content textarea{*/
+    /*width:750px;*/
+/*}*/
 
-.room-detail-section .room-detail-content textarea:focus{
-    border:1px solid #EEA2AD;
-    box-shadow:0px 0px 5px #EEA2AD;
-}
+/*.room-detail-section .room-detail-content textarea:focus{*/
+    /*border:1px solid #EEA2AD;*/
+    /*box-shadow:0px 0px 5px #EEA2AD;*/
+/*}*/
 
 
 
@@ -376,13 +376,13 @@ footer.page-footer {
 
 .room-detail-content .detail-item .detail-item-key{
     width:35%;
-    color:white;
+    color:darkgrey;
 }
 
 .room-detail-content .detail-item .detail-item-value{
     position: absolute;
     left:35%;
-    color:white;
+    color:black;
 }
 
 
@@ -415,10 +415,10 @@ footer.page-footer {
 
 #room-detail-map{
     position: relative;
-    left:20px;
-    top:-30px;
+    /*left:0px;*/
+    top:30px;
     width:750px;
-    height:275px;
+    height:475px;
     /*background: url("../resource/peitao.png");*/
     display: inline-block;
 }
@@ -430,43 +430,44 @@ footer.page-footer {
     width:250px;
 }
 
-.room-detail-facility .facility-title{
-    font-size:25px;
-    width:100%;
-    color:grey;
-    padding-left:70px;
-}
+/*.room-detail-facility .facility-title{*/
+    /*font-size:25px;*/
+    /*width:100%;*/
+    /*color:grey;*/
+    /*padding-left:30px;*/
+    /*text-align: left;*/
+/*}*/
 
-.room-detail-facility .facility-choose ul{
-    list-style: none;
-}
+/*.room-detail-facility .facility-choose ul{*/
+    /*list-style: none;*/
+/*}*/
 
-.room-detail-facility .facility-choose li{
-    float:left;
-    width:70px;
-    height:70px;
-    color:grey;
-    font-size:15px;
-    border:2px solid grey;
-    border-radius:100%;
-    padding:10px;
-    margin:5px;
-    text-align: center;
-}
+/*.room-detail-facility .facility-choose li{*/
+    /*float:left;*/
+    /*width:70px;*/
+    /*height:70px;*/
+    /*color:grey;*/
+    /*font-size:15px;*/
+    /*border:2px solid grey;*/
+    /*border-radius:100%;*/
+    /*padding:10px;*/
+    /*margin:5px;*/
+    /*text-align: center;*/
+/*}*/
 
-.room-detail-facility .facility-choose li .glyphicon{
-    font-size:20px;
-}
+/*.room-detail-facility .facility-choose li .glyphicon{*/
+    /*font-size:20px;*/
+/*}*/
 
-.room-detail-facility .facility-choose li:hover{
-    color:#ff5a5f;
-    border: 2px solid #ff5a5f;
-}
+/*.room-detail-facility .facility-choose li:hover{*/
+    /*color:#ff5a5f;*/
+    /*border: 2px solid #ff5a5f;*/
+/*}*/
 
-.room-detail-facility .facility-choose li.active{
-    color:#ff5a5f;
-    border: 2px solid #ff5a5f;
-}
+/*.room-detail-facility .facility-choose li.active{*/
+    /*color:#ff5a5f;*/
+    /*border: 2px solid #ff5a5f;*/
+/*}*/
 
 
 

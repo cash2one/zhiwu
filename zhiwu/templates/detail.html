@@ -28,7 +28,10 @@
 
       </div>
     </div>
-    <div class="parallax"><img src="/resource/background1.jpg" alt="Unsplashed background img 2"></div>
+    <div class="parallax">
+        <img src="/resource/background1.jpg" alt="Unsplashed background img 2">
+    </div>
+
 </div>
 
 
@@ -42,12 +45,13 @@
             <h2 class="center brown-text"><i class="mdi-image-flash-on"></i></h2>
             <h5 class="center">基本情况</h5>
             <div class="light">
-
-                <div class="room-info-part">{% if room.see == "on" %}随时可看{% else %}预约可看{% endif %}</div>
-                <div class="room-info-part">{{ room.price }}/月</div>
-                <div class="room-info-part">{{ room.mianji }}m2</div>
-                <div class="room-info-part">{{room.floor_level}}/{{room.total_floor}}层</div>
-                <div class="room-info-part">有电梯</div>
+                <div class="room-detail-content">
+                    <div class="detail-item"><span class="detail-item-key">户型</span><span class="detail-item-value">{{ room.type_room}}室{{room.type_livingroom}}厅{{room.type_toilet}}卫</span></div>
+                    <div class="detail-item"><span class="detail-item-key">租金</span><span class="detail-item-value">{{ room.price }}/月&nbsp;{{ room.payway }}</span></div>
+                    <div class="detail-item"><span class="detail-item-key">面积</span><span class="detail-item-value">{{ room.mianji }}m2</span></div>
+                    <div class="detail-item"><span class="detail-item-key">朝向</span><span class="detail-item-value">朝{{ room.orientation }}</span></div>
+                    <div class="detail-item"><span class="detail-item-key">楼层</span><span class="detail-item-value">{{ room.floor_level}}/{{room.total_floor}}层</span></div>
+                </div>
             </div>
           </div>
         </div>
@@ -57,21 +61,33 @@
             <h2 class="center brown-text"><i class="mdi-social-group"></i></h2>
             <h5 class="center">房屋配置</h5>
 
-            <p class="light">
-                {% if room.canzhuo == "on" %}餐桌&nbsp{% endif %}
-                {% if room.sofa == "on" %}沙发&nbsp{% endif %}
-                {% if room.desk == "on" %}书桌&nbsp{% endif %}
-                {% if room.chair == "on" %}椅子&nbsp{% endif %}
-                {% if room.closet == "on" %}衣柜&nbsp{% endif %}
-                {% if room.bed == "on" %}床&nbsp{% endif %}
-                {% if room.aircon == "on" %}空调&nbsp{% endif %}
-                {% if room.washer == "on" %}洗衣机&nbsp{% endif %}
-                {% if room.waterheater == "on" %}热水器&nbsp{% endif %}
-                {% if room.refregister == "on" %}冰箱&nbsp{% endif %}
-                {% if room.tv == "on" %}电视机&nbsp{% endif %}
-                {% if room.cookerhood == "on" %}油烟机&nbsp{% endif %}
-                {% if room.gascooker == "on" %}燃气灶&nbsp{% endif %}
-            </p>
+            <div class="light">
+                <div class="room-detail-content">
+                    <div class="detail-item"><span class="detail-item-key">电梯</span><span class="detail-item-value">{% if room.elevator == "yes" %}有电梯{% else %}无电梯{% endif %}</span></div>
+                    <div class="detail-item"><span class="detail-item-key">阳台</span><span class="detail-item-value">{% if room.balcony == "yes" %}有阳台{% else %}无阳台{% endif %}</span></div>
+                    <div class="detail-item">
+                        <span class="detail-item-key">屋内配置</span>
+                        <span class="detail-item-value">
+                            {% if room.canzhuo == "on" %}餐桌&nbsp{% endif %}
+                            {% if room.sofa == "on" %}沙发&nbsp{% endif %}
+                            {% if room.desk == "on" %}书桌&nbsp{% endif %}
+                            {% if room.chair == "on" %}椅子&nbsp{% endif %}
+                            {% if room.closet == "on" %}衣柜&nbsp{% endif %}
+                            {% if room.bed == "on" %}床&nbsp{% endif %}
+                            {% if room.aircon == "on" %}空调&nbsp{% endif %}
+                            {% if room.washer == "on" %}洗衣机&nbsp{% endif %}
+                            {% if room.waterheater == "on" %}热水器&nbsp{% endif %}
+                            {% if room.refregister == "on" %}冰箱&nbsp{% endif %}
+                            {% if room.tv == "on" %}电视机&nbsp{% endif %}
+                            {% if room.cookerhood == "on" %}油烟机&nbsp{% endif %}
+                            {% if room.gascooker == "on" %}燃气灶&nbsp{% endif %}
+                        </span>
+                    </div>
+                </div>
+
+
+
+            </div>
           </div>
         </div>
 
@@ -80,9 +96,11 @@
                 <h2 class="center brown-text"><i class="mdi-image-flash-on"></i></h2>
                 <h5 class="center">入住情况</h5>
 
-                <p class="light">
-                    最早可入住时间&nbsp;:&nbsp;{{room.stay_intime|date:"Y-m-d"}}
-
+                <div class="light">
+                    <div class="room-detail-content">
+                        <div class="detail-item"><span class="detail-item-key">入住时间</span><span class="detail-item-value">{{room.stay_intime|date:"Y-m-d"}}</span></div>
+                        <div class="detail-item"><span class="detail-item-key">看房时间</span><span class="detail-item-value">{% if room.see == "on" %}随时可看{% else %}预约可看{% endif %}</span></div>
+                    </div>
 
                     <div class="room-master">
                         <div class="room-master-img">
@@ -90,11 +108,14 @@
                         </div>
 
                         <div class="room-master-desc">
-                            <div class="room-master-name">{{room.contactPerson}}</div>
+                            <div class="room-master-name">
+                                联系人：</br>
+                                {{contactPerson.name}}
+                            </div>
                         </div>
                     </div>
 
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -111,7 +132,30 @@
         </div>
       </div>
     </div>
-    <div class="parallax"><img src="/resource/background3.jpg" alt="Unsplashed background img 2"></div>
+    <div class="parallax">
+        <img src="/resource/background3.jpg" alt="Unsplashed background img 2">
+
+{#        <div class="J_Poster poster-main" data-setting='{#}
+{#                                                                                    "width":800,#}
+{#                                                                                    "height":270,#}
+{#                                                                                    "posterWidth":640,#}
+{#                                                                                    "posterHeight":270,#}
+{#                                                                                    "scale":0.8,#}
+{#                                                                                    "autoPlay":true,#}
+{#                                                                                    "delay":5000,#}
+{#                                                                                    "speed":300,#}
+{#                                                                                    "vericalAlign":"top"#}
+{#																					}'>#}
+{#            <div class="poster-btn poster-prev-btn"></div>#}
+{#            <ul class="poster-list">#}
+{#                <li class="poster-item"><a href="#"><img class="materialboxed" src="/resource/c1.jpg" width="100%" height="100%"></a></li>#}
+{#                <li class="poster-item"><a href="#"><img class="materialboxed" src="/resource/c2.jpg" width="100%" height="100%"></a></li>#}
+{#                <li class="poster-item"><a href="#"><img class="materialboxed" src="/resource/c3.jpg" width="100%" height="100%"></a></li>#}
+{#                <li class="poster-item"><a href="#"><img class="materialboxed" src="/resource/c4.jpg" width="100%" height="100%"></a></li>#}
+{#            </ul>#}
+{#            <div class="poster-btn poster-next-btn"></div>#}
+{#        </div>#}
+    </div>
   </div>
 
   <div class="container">
@@ -124,23 +168,17 @@
           <div class="left-align light">
               <div class="room-detail-section">
                 <div class="room-detail-content">
-                    <div class="detail-item"><span class="detail-item-key">此房原户型</span><span class="detail-item-value">{{room.original_house_type}}</span>
+                    <div class="detail-item"><span class="detail-item-key">此房原户型</span><span class="detail-item-value"></span>
                     </div>
                     <div class="detail-item"><span class="detail-item-key">装修档次</span><span class="detail-item-value">{{room.decorate_level}}</span>
                     </div>
-                    <div class="detail-item"><span class="detail-item-key">房屋配置如何</span><span class="detail-item-value">{{room.config_level}}</span>
+                    <div class="detail-item"><span class="detail-item-key">做饭情况</span><span class="detail-item-value">{{room.can_cook}}</span>
                     </div>
-                    <div class="detail-item"><span class="detail-item-key">是否可以做饭</span><span class="detail-item-value">{{room.can_cook}}</span>
-                    </div>
-                    <div class="detail-item"><span class="detail-item-key">采光</span><span class="detail-item-value">{{room.lighting}}</span>
-                    </div>
-                    <div class="detail-item"><span class="detail-item-key">通风</span><span class="detail-item-value">{{room.ventilate}}</span>
-                    </div>
-                    <div class="detail-item"><span class="detail-item-key">噪声</span><span class="detail-item-value">{{room.noise}}</span>
+                    <div class="detail-item"><span class="detail-item-key">房屋优势</span><span class="detail-item-value">{{room.lighting}}</span>
                     </div>
                     <div class="detail-item"><span class="detail-item-key">房东要求</span><span class="detail-item-value">{{room.landlord_req}}</span>
                     </div>
-                    <div class="detail-item"><span class="detail-item-key">适宜居住人群</span><span class="detail-item-value">{{room.fit_people}}</span>
+                    <div class="detail-item"><span class="detail-item-key">其他描述</span><span class="detail-item-value">{{room.fit_people}}</span>
                     </div>
 
                 </div>
@@ -154,15 +192,15 @@
           <div class="left-align light">
               <div class="room-detail-section">
                     <div class="room-detail-content">
-                        <div class="detail-item"><span class="detail-item-key">小区所在商圈</span><span class="detail-item-value">西溪商圈</span>
+                        <div class="detail-item"><span class="detail-item-key">所在商圈</span><span class="detail-item-value">西溪商圈西溪商圈西溪商圈</span>
                         </div>
-                        <div class="detail-item"><span class="detail-item-key">小区属性</span><span class="detail-item-value">高档小区</span>
+                        <div class="detail-item"><span class="detail-item-key">小区属性</span><span class="detail-item-value">高档小区西溪商圈西溪商圈</span>
                         </div>
-                        <div class="detail-item"><span class="detail-item-key">建成年限</span><span class="detail-item-value">3年</span>
+                        <div class="detail-item"><span class="detail-item-key">建造年代</span><span class="detail-item-value">3年西溪商圈西溪商圈</span>
                         </div>
-                        <div class="detail-item"><span class="detail-item-key">小区档次规模</span><span class="detail-item-value">高档大规模小区</span>
+                        <div class="detail-item"><span class="detail-item-key">小区档次规模</span><span class="detail-item-value">高档大规模小区西溪商圈西溪商圈西溪商圈</span>
                         </div>
-                        <div class="detail-item"><span class="detail-item-key">安保</span><span class="detail-item-value">安全</span>
+                        <div class="detail-item"><span class="detail-item-key">安保</span><span class="detail-item-value">安全西溪商圈西溪商圈西溪商圈</span>
                         </div>
                     </div>
                 </div>
@@ -193,22 +231,32 @@
         <div class="col s12 center">
             <div class="room-detail-section room-detail-section-fulllength">
                 <div class="room-detail-content peitao">
-                    <div class="room-detail-facility">
-                        <div class="facility-title">
-                            周边设施
-                        </div>
-
-                        <div class="facility-choose">
-                            <ul>
-                                <li class="active facility-item" data-type="公交"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>公交</span></li>
-                                <li class="facility-item" data-type="地铁"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>地铁</span></li>
-                                <li class="facility-item" data-type="银行"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>银行</span></li>
-                                <li class="facility-item" data-type="医院"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>医院</span></li>
-                                <li class="facility-item" data-type="超市"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>超市</span></li>
-                                <li class="facility-item" data-type="餐馆"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>美食</span></li>
-                            </ul>
-                        </div>
-                    </div>
+                    <a class="facility-item waves-effect waves-light btn" data-type="公交">公交</a>
+                    <a class="facility-item waves-effect waves-light btn" data-type="地铁">地铁</a>
+                    <a class="facility-item waves-effect waves-light btn" data-type="银行">银行</a>
+                    <a class="facility-item waves-effect waves-light btn" data-type="医院">医院</a>
+                    <a class="facility-item waves-effect waves-light btn" data-type="超市">超市</a>
+                    <a class="facility-item waves-effect waves-light btn" data-type="餐馆">餐馆</a>
+{#                    <div class="room-detail-facility">#}
+{#                        <div class="facility-title">#}
+{#                            周边设施#}
+{#                        </div>#}
+{##}
+{##}
+{##}
+{##}
+{#                        <div class="facility-choose">#}
+{##}
+{#                            <ul style="width:80px;">#}
+{#                                <li class="active facility-item" data-type="公交"><span class="facility-icon"></span>公交</span></li>#}
+{#                                <li class="facility-item" data-type="地铁"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>地铁</span></li>#}
+{#                                <li class="facility-item" data-type="银行"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>银行</span></li>#}
+{#                                <li class="facility-item" data-type="医院"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>医院</span></li>#}
+{#                                <li class="facility-item" data-type="超市"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>超市</span></li>#}
+{#                                <li class="facility-item" data-type="餐馆"><span class="facility-icon"></span><span class="facility-name"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br/>美食</span></li>#}
+{#                            </ul>#}
+{#                        </div>#}
+{#                    </div>#}
                     <div id="room-detail-map">
 
                     </div>
@@ -230,9 +278,16 @@
 
                     <div class="row" style="position: relative;margin-top:50px;margin-bottom:150px;">
                         <div class="comment-avatar" style="background: url(http://img.huoju365.com/file/5245a2fa-62f4-4ed1-af96-20cc167e56a8);-moz-background-size:100% 100%;background-size:100% 100%;"></div>
-                        <div class="comment-content" style="border:none;padding:0;">
-                            <textarea name="comment" id="comment" cols="20" rows="10" placeholder="留下你的足迹或者评论吧~" class="form-control"></textarea>
-                            <button id="comment-submit" class="btn btn-pink" style="position: absolute;top:0px;right:0px;"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;提交我的评论</button>
+                        <div class="comment-content" style="border:none;padding:0;background: #f5f5f5;">
+                            <form class="col s12">
+                              <div class="row">
+                                <div class="input-field col s12">
+                                  <textarea id="textarea1" class="materialize-textarea"></textarea>
+                                  <label for="textarea1">留下我的评论</label>
+                                </div>
+                              </div>
+                            </form>
+                            <button id="comment-submit" class="btn btn-pink" style="position: absolute;bottom:-10px;left:10px;"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;提交我的评论</button>
                         </div>
                     </div>
 
@@ -251,6 +306,7 @@
 {% block sp_script %}
 
 <script src="/js/jquery.pin.min.js" type="text/javascript"></script>
+{#<script src="/js/carousel.js" type="text/javascript"></script>#}
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
 <script type="text/javascript">
     // 百度地图API功能
@@ -287,9 +343,9 @@
         });
 
         //周边设施交互
-        $(".facility-item").bind("click",function(e){
-            $(".facility-item.active").removeClass("active");
-            $(this).addClass("active");
+        $(".facility-item ").bind("click",function(e){
+{#            $(".facility-item.active").removeClass("active");#}
+{#            $(this).addClass("active");#}
 
             var searchItem=$(this).data("type");
             local.searchNearby(searchItem,mPoint,1000);
