@@ -43,7 +43,7 @@
                 <div class="nav">
                     <div class="company-title nav-left nav-item">知屋@租房网</div>
                     <div class="index-btn btn-login nav-right nav-item">注册/登陆</div>
-                    <div class="index-btn btn-console nav-right nav-item">我的后台</div>
+                    <div class="index-btn btn-console nav-right nav-item"><a href="{% url 'client_back' %}" target="_blank">我的后台</a></div>
                 </div>
                 <div class="st-content">
                     <form class="index-panel" id="work-panel" action="/work_search" method="get">
@@ -69,7 +69,7 @@
                                 <option value="60">60</option>
                             </select>
                             分钟内到达以上地点。
-
+                            <input type="hidden" name="status" id="work_status" value="work">
                             <input type="hidden" name="lng" id="work_lng"/>
                             <input type="hidden" name="lat" id="work_lat"/>
 
@@ -90,7 +90,7 @@
                 <div class="nav">
                     <div class="company-title nav-left nav-item">知屋@租房网</div>
                     <div class="index-btn btn-login nav-right nav-item">注册/登陆</div>
-                    <div class="index-btn btn-console nav-right nav-item">我的后台</div>
+                    <div class="index-btn btn-console nav-right nav-item"><a href="{% url 'client_back' %}" target="_blank">我的后台</a></div>
                 </div>
                 <div class="st-content">
 
@@ -110,7 +110,7 @@
                             <input type="text" class="form-control" name="home_location" id="home_location" style="width:350px;"/>
                             <div id="searchResultHomePanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
                             附近。
-
+                            <input type="hidden" name="status" id="home_status" value="home">
                             <input type="hidden" name="lng" id="home_lng"/>
                             <input type="hidden" name="lat" id="home_lat"/>
 
@@ -191,9 +191,11 @@
                                 <input type="hidden" class="form-control" id="password" name="password">
                             </div>
                         </div>
+
+                        <button class="custom-login">登陆</button>
+
                    </form>
 
-                   <button class="custom-login">登陆</button>
 
 
                 </div>
@@ -213,18 +215,20 @@
 <script>
     ;(function(){
 
-{#        window.isHomePanel=false;//false代表work，true代表home#}
-{#        $("#search-in-home").bind("click",function(){#}
-{#            $("#work-panel").addClass("form-hide");#}
-{#            $("#home-panel").removeClass("form-hide");#}
-{#            window.isHomePanel=true;#}
-{#        });#}
-{##}
-{#        $("#search-in-work").bind("click",function(){#}
-{#            $("#home-panel").addClass("form-hide");#}
-{#            $("#work-panel").removeClass("form-hide");#}
-{#            window.isHomePanel=false;#}
-{#        });#}
+
+        $("#search-in-home").bind("click",function(){
+            $("#st-control-2").trigger("click");
+        });
+
+        $("#search-in-work").bind("click",function(){
+            $("#st-control-1").trigger("click");
+        });
+
+        $(".btn-login").bind("click",function(){
+            $("#st-control-5").trigger("click");
+        });
+
+
 
     })();
 </script>
@@ -266,21 +270,28 @@
         var _value = e.item.value;
         myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
         G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
-        setPlace();
+        setPlaceForWork();
     });
 
-    function setPlace(){
+    function setPlaceForWork(){
         function myFun(){
             var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
-            if(window.isHomePanel){
-                //home
-                $("#home_lng").val(pp.lng);
-                $("#home_lat").val(pp.lat);
-            }else{
-                //work
-                $("#work_lng").val(pp.lng);
-                $("#work_lat").val(pp.lat);
-            }
+            //work
+            $("#work_lng").val(pp.lng);
+            $("#work_lat").val(pp.lat);
+        }
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
+
+    function setPlaceForHome(){
+        function myFun(){
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+            //home
+            $("#home_lng").val(pp.lng);
+            $("#home_lat").val(pp.lat);
         }
         var local = new BMap.LocalSearch(map, { //智能搜索
             onSearchComplete: myFun
@@ -316,7 +327,7 @@
         var _value = e.item.value;
         myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
         G("searchResultHomePanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
-        setPlace();
+        setPlaceForHome();
     });
 
 </script>

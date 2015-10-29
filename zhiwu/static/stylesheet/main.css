@@ -38,11 +38,12 @@ hr{
 
 .nav-wrapper form{
     margin-left:100px;
+    color:#ADADAD;
 }
 
 .nav-wrapper form .form-control{
     display:inline-block;
-    width:50px;
+    /*width:50px;*/
 }
 
 .btn-pink{
@@ -260,7 +261,7 @@ hr{
     font-size:25px;
 }
 
-.collect{
+.btn-collect{
     position: absolute;
     color: white;
     z-index: 100;
@@ -269,6 +270,31 @@ hr{
     cursor:pointer;
 }
 
-.collect:hover{
+.btn-collect:hover{
     color:#E57373;
+}
+
+
+#work_location{
+    width:200px;
+}
+
+#home_location{
+    width:400px;
+}
+
+.select-wrapper{
+    width:100px;
+    margin-top: -1px;
+}
+
+select.initialized{
+    visibility: hidden;
+}
+
+
+@media only screen and (max-width: 992px){
+    nav form{
+        display:none;
+    }
 }

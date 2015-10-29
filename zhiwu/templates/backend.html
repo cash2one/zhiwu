@@ -498,12 +498,16 @@
                                     </select>
                                 </div>
 
+                                <input type="hidden" name="p" value="1"/>
                                 <div class="form-group">
                                     <button class="btn btn-info btn-get" data-type="salehouse">搜索</button>
                                 </div>
                             </form>
 
-                            <table class="table table-striped" data-tmpl="salehouse">
+                            <input type="hidden" id="cache_salehouse_area">
+                            <input type="hidden" id="cache_salehouse_status">
+
+                            <table class="table table-striped" data-tmpl="salehouse" id="salehouse-table">
                                 <thead>
                                 <tr>
                                     <th>房源编号</th>
@@ -561,7 +565,10 @@
                                 </div>
                             </form>
 
-                            <table class="table table-striped" data-tmpl="house">
+                            <input type="hidden" id="cache_house_area">
+                            <input type="hidden" id="cache_house_status">
+
+                            <table class="table table-striped" data-tmpl="house" id="house-table">
                                 <thead>
                                 <tr>
                                     <th>房源编号</th>
@@ -1471,6 +1478,14 @@
             var dest = form.attr("dest");
             var content=form.serialize();
 
+
+            if(type==="salehouse" || type==='house'){
+                //如果是房源搜索的话，先存储搜索结果
+                var dataArr = form.serializeArray();
+                $("#cache_"+type+"_status").val(dataArr[0].value);
+                $("#cache_"+type+"_area").val(dataArr[1].value);
+            }
+
             $.get(
                 dest,
                 content,
@@ -1480,6 +1495,22 @@
 //                        $("#house-item").tmpl(rawData).appendTo('#search-result-container');
                         $(_wrapper).empty();
                         $(_tmpl).tmpl(JSON.parse(data.context)).appendTo(_wrapper);
+                        if(type==="salehouse" || type==='house'){
+                            //先清空分页
+                            $(_wrapper).parents("table").next().remove();
+                            //如果是房源搜索的话，就还要加上分页
+                            var _pagenation='<div id="Pagination-'+type+'" class="pagination"></div>';
+                            $("#"+type+"-table").after(_pagenation);
+
+                            var _cb=type==="house"?pageHouseCB:pageSalehouseCB;
+
+                            $("#Pagination-"+type).pagination(data.pagenum, {
+                                num_edge_entries: 1, //边缘页数
+                                num_display_entries: 1, //主体页数
+                                callback: _cb,
+                                items_per_page:10 //每页显示1项
+                            });
+                        }
                     }else{
                         console.log("get failed");
                     }
@@ -1642,7 +1673,6 @@
         }();
 
         function pageselectCallback(page_index, jq){
-{#            var ipp=5;//item per page#}
             $("#comment-result").empty();
             var _p=page_index+1;
 
@@ -1661,13 +1691,63 @@
             .error(function(){
                 console.log("error");
             });
-
-{#            for(var i= 0;i<ipp;i++){#}
-{#                var new_content = $("#hidden-comment-result tr.comment-item:eq("+((page_index)*ipp+i)+")").clone();#}
-{#                $("#comment-result").append(new_content); //装载对应分页的内容#}
-{#            }#}
             return false;
         }
+
+
+        function pageHouseCB(page_index, jq){
+            $("#house-search-result").empty();
+            var _p=page_index+1;
+            var _status=$("#cache_house_status").val();
+            var _area=$("#cache_house_area").val();
+
+            $.get(
+                    "{% url 'evaluation_search' %}",
+                    {p:_p,
+                     house_status:_status,
+                    house_area:_area},
+                    function(data){
+                        if(data.code==1){
+                            $("#house-search").tmpl(JSON.parse(data.context)).appendTo($("#house-search-result"));
+                        }else{
+                            console.log("get failed");
+                        }
+                    }
+            )
+            .error(function(){
+                console.log("error");
+            });
+            return false;
+        }
+
+
+        function pageSalehouseCB(page_index, jq){
+            $("#salehouse-search-result").empty();
+            var _p=page_index+1;
+            var _status=$("#cache_salehouse_status").val();
+            var _area=$("#cache_salehouse_area").val();
+
+            $.get(
+                    "{% url 'evaluation_search' %}",
+                    {p:_p,
+                     house_status:_status,
+                    house_area:_area},
+                    function(data){
+                        if(data.code==1){
+                            $("#salehouse-search").tmpl(JSON.parse(data.context)).appendTo($("#salehouse-search-result"));
+                        }else{
+                            console.log("get failed");
+                        }
+                    }
+            )
+            .error(function(){
+                console.log("error");
+            });
+            return false;
+        }
+
+
+
 
         
     })();

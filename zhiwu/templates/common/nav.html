@@ -4,44 +4,70 @@
 
       <a id="logo-container" href="#" class="brand-logo">知屋@租房</a>
 {#        <ul class="left hide-on-med-and-down">#}
-{#        <form class="navbar-form-work" role="search">#}
-{#                <div class="row">#}
-{#                    <input type="text" class="form-control col s3" name="work-location" value="滨江网易" placeholder="工作地点"/>#}
-{#                    <select class="form-control col s1" name="way" id="way">#}
-{#                        <option value="walk" selected>步行</option>#}
-{#                        <option value="bus">公交</option>#}
-{#                        <option value="drive">驾车</option>#}
-{#                    </select>#}
-{#                    <input class="form-control col s1" type="text" name="time" id="time" value="20分钟"/>#}
-{#                    <button type="submit" class="btn btn-pink"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;搜索</button>#}
-{#                    <span id="searched-in-home" style="margin-left:10px;color:#ADADAD;">改用居住地搜索</span>#}
-{#                </div>#}
-{#            </form>#}
-{##}
-{#            <form class="navbar-form navbar-left navbar-form-home" role="search" style="display: none">#}
-{#                <div class="row">#}
-{#                    <input type="text" class="form-control col s3" name="home-location" value="滨江网易" placeholder="居住地点" style="width:445px;"/>#}
-{#                    <button type="submit" class="btn btn-pink"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;搜索</button>#}
-{#                    <span id="searched-in-work" style="margin-left:10px;color:#ADADAD;">改用工作地点搜索</span>#}
-{#                </div>#}
-{##}
-{#            </form>#}
+        <form class="navbar-form-work" role="search" style="float:left;margin-left:180px;height:62px;" action="{% url 'work_search' %}" method="get">
+                <div class="row" style="width:750px;">
+                    <input type="text" class="form-control col" name="work_location" id="work_location" value="滨江网易" placeholder="工作地点"/>
+                    <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                    <select class="form-control col" name="way" id="way">
+                        <option value="walk" selected>步行</option>
+                        <option value="bus">公交</option>
+                        <option value="drive">驾车</option>
+                    </select>
+
+                    <select class="form-control col" name="time" id="time">
+                        <option value="5" selected>5分钟</option>
+                        <option value="10" selected>10分钟</option>
+                        <option value="15" selected>15分钟</option>
+                        <option value="30" selected>30分钟</option>
+                        <option value="60" selected>1小时</option>
+                    </select>
+
+                    <select class="form-control col" name="status" id="status">
+                        <option value="rent" selected>租房</option>
+                        <option value="sale" selected>买房</option>
+                    </select>
+
+                    <input type="hidden" name="lng" id="work_lng"/>
+                    <input type="hidden" name="lat" id="work_lat"/>
+                    <button type="submit" class="btn" style="margin-left:20px;margin-bottom: 10px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;搜索</button>
+                    <span id="searched-in-home" style="margin-left:10px;color:#ADADAD;">改用居住地搜索</span>
+                </div>
+            </form>
+
+            <form class="navbar-form navbar-left navbar-form-home" role="search" style="display: none;float:left;margin-left:180px;height:62px;" action="{% url 'home_search' %}" method="get">
+                <div class="row" style="width:750px;">
+                    <input type="text" class="form-control col" name="home_location" id="home_location" value="滨江网易" placeholder="居住地点"/>
+                    <div id="searchResultHomePanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+                    <select class="form-control col" name="status" id="status">
+                        <option value="rent" selected>租房</option>
+                        <option value="sale" selected>买房</option>
+                    </select>
+                    <input type="hidden" name="lng" id="home_lng"/>
+                    <input type="hidden" name="lat" id="home_lat"/>
+                    <button type="submit" class="btn" style="margin-left:20px;margin-bottom: 10px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;搜索</button>
+                    <span id="searched-in-work" style="margin-left:10px;color:#ADADAD;">改用工作地点搜索</span>
+                </div>
+
+            </form>
 {#      </ul>#}
 
       <ul class="right hide-on-med-and-down">
         <li><a href="#modal1" class="modal-trigger"><i class="large material-icons left">perm_identity</i>登陆/注册</a></li>
         <li><a href="#"><i class="large material-icons left">receipt</i>选房清单</a></li>
-        <li><a href="#"><i class="large material-icons left">settings</i>我的后台</a></li>
+{#        <li><a href="#"><i class="large material-icons left">settings</i>我的后台</a></li>#}
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
         <li><a href="#"><i class="large material-icons left">perm_identity</i>登陆/注册</a></li>
         <li><a href="#"><i class="large material-icons left">receipt</i>选房清单</a></li>
-        <li><a href="#"><i class="large material-icons left">settings</i>我的后台</a></li>
+{#        <li><a href="#"><i class="large material-icons left">settings</i>我的后台</a></li>#}
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
     </div>
   </nav>
+
+
+<div id="hidden-map" style="display: none;"></div>
 
 
 

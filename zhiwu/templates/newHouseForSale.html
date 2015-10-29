@@ -2,7 +2,7 @@
 {% extends './common/baseForBack.html' %}
 
 <!--title-->
-{% block title %}发布二手房{% endblock %}
+{% block title %}发布新房源{% endblock %}
 
 <!--sp_header-->
 {% block sp_header %}
@@ -10,7 +10,21 @@
 <link rel="stylesheet" href="/stylesheet/jquery.fileupload-ui.css">
 <link rel="stylesheet" href="/stylesheet/chosen.min.css">
 
+    <style>
+        .chosen-choices{
+            border-radius: 3px;
+            padding: 4px;
+        }
 
+        .form-alert{
+            border:1px solid red;
+        }
+
+        .form-alert:focus{
+            border:1px solid red;
+            box-shadow: inset 0 1px 1px rgba(255,0,0,.075)
+        }
+    </style>
 {% endblock %}
 
 <!--content-->
@@ -22,21 +36,21 @@
                 <div class="title-l1">基本简介</div>
                 <div class="section-content">
                     <form class="form-horizontal" id="step1-form">
-                        <div class="form-group">
+                        <div class="form-group" id="addr-form">
                             <label class="col-sm-2 control-label">小区地址</label>
                             <div class="col-sm-10">
-                                <select data-placeholder="选择小区" class="form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
+                                <select data-placeholder="选择小区" class="form-required form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
                                     <option value=""></option>
                                     {% for i in communities %}
                                         <option {% if i.name == room.addr_xiaoqu %} selected {% endif %} value="{{ i.name }}" id="{{ i.name }}" data-lng="{{ i.lng }}" data-lat="{{ i.lat }}">{{ i.name }}</option>
                                     {% endfor %}
                                 </select>
                                 小区名称
-                                <input type="text" class="form-control inline-input" id="addr_building" name="addr_building"/>
+                                <input type="text" class="form-required form-control inline-input" id="addr_building" name="addr_building"/>
                                 幢
                                 <input type="text" class="form-control inline-input" id="addr_unit" name="addr_unit"/>
                                 单元
-                                <input type="text" class="form-control inline-input" id="addr_room" name="addr_room"/>
+                                <input type="text" class="form-required form-control inline-input" id="addr_room" name="addr_room"/>
                                 室
                             </div>
                         </div>
@@ -53,17 +67,17 @@
                         <div class="form-group">
                             <label for="payway" class="col-sm-2 control-label">售价</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="keeper-add-name" name="price">万元
+                                <input type="text" class="form-required form-control inline-input" id="keeper-add-name" name="price">万元
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">房屋户型</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="type_room" name="type_room"/>
+                                <input type="text" class="form-required form-control inline-input" id="type_room" name="type_room"/>
                                 室
-                                <input type="text" class="form-control inline-input" id="type_livingroom" name="type_livingroom"/>
+                                <input type="text" class="form-required form-control inline-input" id="type_livingroom" name="type_livingroom"/>
                                 厅
-                                <input type="text" class="form-control inline-input" id="type_toilet" name="type_toilet"/>
+                                <input type="text" class="form-required form-control inline-input" id="type_toilet" name="type_toilet"/>
                                 卫
                             </div>
                         </div>
@@ -71,7 +85,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">面积</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="mianji" name="mianji"/>
+                                <input type="text" class="form-required form-control inline-input" id="mianji" name="mianji"/>
                                 平方米
                             </div>
                         </div>
@@ -81,7 +95,7 @@
                             <div class="col-sm-10">
                                 <select name="type" id="type" class="form-control inline-input">
                                     <!--<option value="">押金方式</option>-->
-                                    <option value="普通住宅">普通住宅</option>
+                                    <option value="普通住宅" selected>普通住宅</option>
                                     <option value="公寓">公寓</option>
                                     <option value="排屋">排屋</option>
                                     <option value="别墅">别墅</option>
@@ -94,7 +108,7 @@
                             <div class="col-sm-10">
                                 <select name="orientation" id="orientation" class="form-control inline-input">
                                     <!--<option value="">押金方式</option>-->
-                                    <option value="东">东</option>
+                                    <option value="东" selected>东</option>
                                     <option value="南">南</option>
                                     <option value="西">西</option>
                                     <option value="北">北</option>
@@ -167,8 +181,8 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">楼层</label>
                                 <div class="col-sm-10">
-                                    <input name="floor_level" id="floor_level" class="form-control inline-input">层/共
-                                    <input type="text" class="form-control inline-input" id="total_floor" name="total_floor">层
+                                    <input name="floor_level" id="floor_level" class="form-required form-control inline-input">层/共
+                                    <input type="text" class="form-required form-control inline-input" id="total_floor" name="total_floor">层
                                 </div>
                             </div>
 
@@ -181,7 +195,7 @@
                                     </label>
 
                                     <label for="elevator_no" class="radio-inline">
-                                        <input type="radio" name="maner" id="maner_no" value="no"/>
+                                        <input type="radio" name="maner" id="maner_no" checked value="no"/>
                                         否
                                     </label>
                                 </div>
@@ -196,7 +210,7 @@
                                     </label>
 
                                     <label for="elevator_no" class="radio-inline">
-                                        <input type="radio" name="weiyi" id="weiyi_no" value="no"/>
+                                        <input type="radio" name="weiyi" id="weiyi_no" checked value="no"/>
                                         否
                                     </label>
                                 </div>
@@ -213,7 +227,6 @@
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <button class="btn btn-success btn-save btn-post" data-type="save">保存</button>
                                     <button class="btn btn-info btn-submit btn-post" data-type="submit">发布</button>
-                                    <button class="btn btn-default btn-preview">预览</button>
                                 </div>
                             </div>
                         </form>
@@ -358,8 +371,25 @@
             e.preventDefault();
 
             var type=$(this).data("type");
+{#            var dest=type=="save"?{% url 'salehouse' %}:{% url 'salehouse' %};#}
             var dest="";
-{#                    type=="save"?{% url 'salehouse_save' %}:{% url 'salehouse_sub' %};#}
+            var isSubmit=type==="submit";
+
+            if(isSubmit){
+                var flag=false;
+                $(".form-required").each(function(){
+                    if(!!$(this)){
+                        flag=true;
+                        $(this).addClass("form-alert");
+                    }else{
+                        $(this).removeClass("form-alert");
+                    }
+                });
+                if(flag){
+                    alert("请填写完整的信息");
+                    return;
+                }
+            }
 
             var p = window.marker.getPosition();
             $("#house_lng").val(p.lng);
@@ -391,7 +421,6 @@
             });
         });
 
-        $("#stay_intime").datepicker({dateFormat:"yy-mm-dd"});
 
         $("#addr_xiaoqu").chosen({
             no_results_text:"没有找到该小区"
@@ -419,6 +448,49 @@
         });
 
 
+        $("#addr-form .form-control").bind("change",function(){
+            //当地址发生改变时，根据地址搜索有没有对应的房源
+            //TODO
+
+            var res=[];
+
+            $("#addr-form .form-control").each(function(){
+                var _this=$(this);
+                res.push(_this.attr("name")+"="+_this.val());
+            });
+
+            $.get(
+{#                "{% url 'roominfo_addr_search' %}",#}
+                "todourl",
+                res.join("&&"),
+                function(data){
+                    if(data.code==1){
+                        if(data.result==0){
+                            alert("已经找到该房源，但是已经上架，不能操作！由xx发布");
+                        }else{
+                            if(data.result==1){
+                                var res=confirm("已经找到该房源，在下架房源库中，是否导入？");
+                                if(res==true){
+                                    alert("导入");
+                                }else{
+
+                                }
+                            }
+                        }
+
+                    }else{
+{#                        alert("查询失败！");#}
+                    }
+                }
+            )
+            .error(function(){
+                console.log("error");
+            });
+
+        });
+
+        //照片顺序可排序
+        $(".files").sortable();
 
     })();
 </script>

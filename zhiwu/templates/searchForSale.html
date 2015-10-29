@@ -13,7 +13,13 @@
     nav .brand-logo {
       color: #444;
     }
+    .carousel-control.right{
+        background-image:none;
+    }
 
+    .carousel-control.left{
+        background-image:none;
+    }
 </style>
 {% endblock %}
 
@@ -22,6 +28,8 @@
 
 <div class="search">
     <div class="search-content">
+
+
         <form class="search-condition form-horizontal">
 
             <div class="row price-row form-group form-listen">
@@ -179,6 +187,7 @@
                 </div>
             </div>
         </form>
+
         <div class="search-result">
             <div class="row" id="search-result-container">
 
@@ -190,7 +199,10 @@
     </div>
 
     <div id="ifMapSearch">
-        <input type="checkbox" id="map_search_check" name="map_search_check"/>&nbsp;&nbsp;移动地图时搜索
+        <p>
+          <input type="checkbox" id="map_search_check" />
+          <label for="map_search_check" name="map_search_check">移动地图时搜索</label>
+        </p>
     </div>
 </div>
 
@@ -213,7 +225,10 @@
       <span class="card-title">${addr_xiaoqu}</span>
     </div>
     <div class="card-content">
-      <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}万<br>${area}㎡</p>
+      <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}￥</p>
+    </div>
+    <div class="btn-collect" data-target="${roomNumber}">
+        <i class="small material-icons left">grade</i>
     </div>
   </div>
 </div>
@@ -222,6 +237,11 @@
 {% endverbatim %}
 
 <script type="text/javascript">
+
+ $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15 // Creates a dropdown of 15 years to control year
+  });
 
 
 //    接受房源数据，并作初始化处理
@@ -315,9 +335,22 @@
     };
 
 //    页面初始化
-{#    $("nav").addClass("navbar-fixed-top");#}
     $("#more-way-section").hide();
     $("footer").remove();
+
+    $("#more-way-btn").bind("click",function(){
+        $(this).hide();
+        $("#less-way-btn").show();
+        $("#more-way-section").slideDown();
+    });
+
+    $("#less-way-btn").bind("click",function(){
+        $(this).hide();
+        $("#more-way-btn").show();
+        $("#more-way-section").slideUp();
+    });
+
+
 
 </script>
 
@@ -353,7 +386,7 @@
             var _id= $(this).data("target");
             $("#overlay"+_id).css({
                 "background-color":"#6BADCA",
-                "border-color":"#0000ff",
+                "border-color":"#0000ff"
             });
 
             $("#arrow"+_id).css({
@@ -374,7 +407,6 @@
             });
         });
 
-//        搜索条件改变后重新筛选后添加
 
         var price_upper=-1,
             price_lower=-1,
@@ -446,6 +478,7 @@
         });
 
 
+
         //地图拖动后重新请求房源
         map.addEventListener("dragend",mapDragHandler);
 
@@ -462,13 +495,17 @@
             var sw = bounds.getSouthWest();
             var ne = bounds.getNorthEast();
 
+            //TODO:
+            var _status;
+
             $.post(
                     "{% url 'map_search' %}",
                     {
                         lng_left:sw.lng,//左下角坐标
                         lat_left:sw.lat,
                         lng_right:ne.lng,//右上角坐标
-                        lat_right:ne.lat
+                        lat_right:ne.lat,
+                        status:"sale"
                     },
                     function(data){
                         if(data.code==1){

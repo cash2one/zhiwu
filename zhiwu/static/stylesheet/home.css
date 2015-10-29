@@ -551,16 +551,17 @@ a{
 #st-panel-5 .st-content .form-control{
     width:200px;
 }
-#st-panel-5 .st-content .custom-login{
+
+#st-panel-5 .st-content .custom-login {
     font-family: indexTitleFont;
     position: absolute;
     border: 2px solid white;
     border-radius: 5px;
     background: rgba(0,0,0,0.5);
     color: white;
-    left:50%;
-    margin-left:-40px;
-    top:20px;
+    bottom: -30px;
+    right: 50%;
+    margin-right: -49px;
 }
 
 .nav{
@@ -672,3 +673,13 @@ a{
     font-size: 24px;
     font-weight: 300;
 }
+
+.btn-console a{
+    color:white;
+}
+
+.btn-console a:hover{
+    color:white;
+    text-decoration: none;
+}
+

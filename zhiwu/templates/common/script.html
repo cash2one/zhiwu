@@ -1,6 +1,6 @@
 <!--脚本-->
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-<!--<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>-->
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
 <script src="/js/materialize.min.js"></script>
 <script src="/js/jquery.tmpl.min.js"></script>
 <script src="/js/icheck.min.js"></script>
@@ -8,6 +8,8 @@
 
 <script>
     ;(function(){
+
+        $('select').material_select();
 
         $(document).delegate("input[type=password]","focusout",function(){
            $(this).next().val($.md5($(this).val()));
@@ -26,7 +28,7 @@
         $('.modal-trigger').leanModal();
 
         //收藏功能
-        $(document).delegate(".collect","click",function(e){
+        $(document).delegate(".btn-collect","click",function(e){
             e.preventDefault();
             var _id=$(this).data("target");
             var that=$(this);
@@ -52,5 +54,104 @@
             });
         });
     })();
+
+</script>
+
+<script type="text/javascript">
+    // 百度地图API功能
+    function G(id) {
+        return document.getElementById(id);
+    }
+
+    var map = new BMap.Map("hidden-map");
+    map.centerAndZoom("杭州",12);                   // 初始化地图,设置城市和地图级别。
+
+    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+            {"input" : "work_location"
+                ,"location" : map
+            });
+
+    ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel").innerHTML = str;
+    });
+
+    var myValue;
+    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+        setPlaceForWork();
+    });
+
+    function setPlaceForWork(){
+        function myFun(){
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+            //work
+            $("#work_lng").val(pp.lng);
+            $("#work_lat").val(pp.lat);
+        }
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
+
+    function setPlaceForHome(){
+        function myFun(){
+            var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+            //home
+            $("#home_lng").val(pp.lng);
+            $("#home_lat").val(pp.lat);
+        }
+        var local = new BMap.LocalSearch(map, { //智能搜索
+            onSearchComplete: myFun
+        });
+        local.search(myValue);
+    }
+
+
+    var acHome = new BMap.Autocomplete(    //建立一个自动完成的对象
+            {"input" : "home_location"
+                ,"location" : map
+            });
+
+    acHome.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultHomePanel").innerHTML = str;
+    });
+
+    acHome.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("searchResultHomePanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+        setPlaceForHome();
+    });
 
 </script>

@@ -21,7 +21,7 @@
           <h5 class="header col s12 light"><span class="bigger">{{room.type_room}}</span>室<span class="bigger">{{room.type_livingroom}}</span>厅<span class="bigger">{{room.type_toilet}}</span>卫&nbsp;<span class="bigger">{{ room.price }}</span>/月&nbsp;{{ room.roomNumber }}</h5>
         </div>
         <div class="row center">
-          <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1"><i class="large material-icons left">grade</i>收藏</a>
+          <a href="#" id="download-button" data-target="yuyueanniu" class="btn-yuyue btn-large waves-effect waves-light teal lighten-1"><i class="large material-icons left">grade</i>收藏</a>
           <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1"><i class="large material-icons left">contact_phone</i>预约</a>
         </div>
         <br><br>
@@ -287,7 +287,7 @@
                                 </div>
                               </div>
                             </form>
-                            <button id="comment-submit" class="btn btn-pink" style="position: absolute;bottom:-10px;left:10px;"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;提交我的评论</button>
+                            <button id="comment-submit" class="btn" style="position: absolute;bottom:-10px;left:10px;"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>&nbsp;提交我的评论</button>
                         </div>
                     </div>
 
@@ -369,6 +369,32 @@
                             alert("评论发布失败！");
                         }
                     }
+            )
+            .error(function(){
+                console.log("error");
+            });
+        });
+
+        $(document).delegate(".btn-yuyue","click",function(e){
+            e.preventDefault();
+            var _id=$(this).data("target");
+            var that=$(this);
+
+            $.post(
+                "{% url 'room_collection' %}",
+                {roomNumber:_id},
+                function(data){
+                    if(data.status==200){
+                        that.addClass("active");
+                        console.log("post success");
+                        alert("已加入收藏夹");
+                    }else{
+                        console.log("post failed");
+                        if(msg){
+                            alert(msg);
+                        }
+                    }
+                }
             )
             .error(function(){
                 console.log("error");

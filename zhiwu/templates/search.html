@@ -138,8 +138,8 @@
                     </label>
                 </div>
 
-                <span id="more-way-btn" class="btn btn-pink">更多&nbsp;<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span>
-                <span id="less-way-btn" class="btn btn-pink">收起&nbsp;<span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span>
+                <span id="more-way-btn" class="btn">更多&nbsp;<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></span>
+                <span id="less-way-btn" class="btn">收起&nbsp;<span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span></span>
             </div>
 
             <hr/>
@@ -248,7 +248,10 @@
     </div>
 
     <div id="ifMapSearch">
-        <input type="checkbox" id="map_search_check" name="map_search_check"/>&nbsp;&nbsp;移动地图时搜索
+        <p>
+          <input type="checkbox" id="map_search_check" />
+          <label for="map_search_check" name="map_search_check">移动地图时搜索</label>
+        </p>
     </div>
 </div>
 
@@ -273,8 +276,7 @@
     <div class="card-content">
       <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}￥</p>
     </div>
-    
-    <div class="collect" data-target="${roomNumber}">
+    <div class="btn-collect" data-target="${roomNumber}">
         <i class="small material-icons left">grade</i>
     </div>
   </div>
@@ -382,20 +384,8 @@
     };
 
 //    页面初始化
-{#    $("nav").addClass("navbar-fixed-top");#}
     $("#more-way-section").hide();
     $("footer").remove();
-{#    $("input[type=radio]").iCheck({#}
-{#//        checkboxClass: 'icheckbox_flat-red',#}
-{#        radioClass: 'iradio_flat-red'#}
-{#    });#}
-{##}
-{#    $("#map_search_check").iCheck({#}
-{#            checkboxClass: 'icheckbox_flat-red'#}
-{#        });#}
-
-
-{#    $('#intime').datepicker({  dateFormat: "yy-mm-dd" });#}
 
     $("#more-way-btn").bind("click",function(){
         $(this).hide();
@@ -445,7 +435,7 @@
             var _id= $(this).data("target");
             $("#overlay"+_id).css({
                 "background-color":"#6BADCA",
-                "border-color":"#0000ff",
+                "border-color":"#0000ff"
             });
 
             $("#arrow"+_id).css({
@@ -603,13 +593,17 @@
             var sw = bounds.getSouthWest();
             var ne = bounds.getNorthEast();
 
+            //TODO:
+            var _status;
+
             $.post(
                     "{% url 'map_search' %}",
                     {
                         lng_left:sw.lng,//左下角坐标
                         lat_left:sw.lat,
                         lng_right:ne.lng,//右上角坐标
-                        lat_right:ne.lat
+                        lat_right:ne.lat,
+                        status:"rent"
                     },
                     function(data){
                         if(data.code==1){
