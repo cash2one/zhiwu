@@ -184,6 +184,23 @@ def map_search(request):
         return JsonResponse(fail)
 
 
+def salehouse_detail(request):
+    try:
+        roomNum = request.GET.get('roomNumber')
+        room = SaleHouse.objects.get(roomNumber=roomNum)
+        evaluation = SaleHouseEvaluation.objects.filter(roomNumber=roomNum, ifpass=True).order_by('createTime')
+        cp = SecondManager.objects.get(user=room.contactPerson)
+        roomP = get_salehouse_picture(room)
+        return render(request, "detail.html", {"room": room,
+                                               "lat": json.dumps(room.lat),
+                                               "lng": json.dumps(room.lng),
+                                               "evaluation": evaluation,
+                                               "contactPerson": cp,
+                                               "picture": roomP})
+    except Exception, e:
+        print e
+        return HttpResponseNotFound()
+
 def room_detail(request):
     try:
         roomNum = request.GET.get('roomNumber')
