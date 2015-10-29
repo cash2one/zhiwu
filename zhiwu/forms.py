@@ -85,6 +85,7 @@ class RoomForm(forms.Form):
 
 class RoomEvaluationForm(forms.Form):
     # 租客评价
+    issalehouse = forms.CharField(required=False)
     roomNumber = forms.CharField(required=False)
     text = forms.CharField(widget=forms.Textarea, required=False)
     id = forms.IntegerField(required=False)
