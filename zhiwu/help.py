@@ -1,14 +1,29 @@
 # -*- coding: utf-8 -*-
 from models import *
 from PIL import Image
-import random
+import time
 from pyExcelerator import *
 
 
-def get_search_room_list(rooms):
+def user_session_check(request):
+    identity = request.session.get("identity", "")
+    status = request.session.get("status", "")
+    user = request.session.get("user", "")
+    if identity != 'user':
+        return '', '', ''
+    else:
+        return user, status, identity
+
+
+def get_search_saldhouse_list(rooms, user):
     p = []
+    rc = RoomCollect.objects.filter(user=user)
+    rc_list = []
+    for i in rc:
+        rc_list.append(i.roomNumber)
     for i in rooms:
-        pictures = RoomPicture.objects.filter(roomNumber=i.roomNumber)
+        pictures = SaleHouse.objects.filter(roomNumber=i.roomNumber)
+        cp = SecondManager.objects.get(user=i.contactPerson)
         images = []
         for j in pictures:
             images.append(j.picture)
@@ -17,14 +32,45 @@ def get_search_room_list(rooms):
                 'price': i.price,
                 'lng': i.lng,
                 'lat': i.lat,
-                'status': random.choice(['mansion', 'area']),
+                'status': cp.status,
+                # 'elevator': i.elevator,
+                # 'see': i.see,
+                'addr_xiaoqu': i.addr_xiaoqu,
+                'type_room': i.type_room,
+                'type_livingroom': i.type_livingroom,
+                'type_toilet': i.type_toilet,
+                'images': images,
+                'collected': i.roomNumber in rc_list}
+        p.append(room)
+    return p
+
+
+def get_search_room_list(rooms, user):
+    p = []
+    rc = RoomCollect.objects.filter(user=user)
+    rc_list = []
+    for i in rc:
+        rc_list.append(i.roomNumber)
+    for i in rooms:
+        pictures = RoomPicture.objects.filter(roomNumber=i.roomNumber)
+        cp = SecondManager.objects.get(user=i.contactPerson)
+        images = []
+        for j in pictures:
+            images.append(j.picture)
+        room = {'roomNumber': i.roomNumber,
+                'stay_intime': str(i.stay_intime),
+                'price': i.price,
+                'lng': i.lng,
+                'lat': i.lat,
+                'status': cp.status,
                 'elevator': i.elevator,
                 'see': i.see,
                 'addr_xiaoqu': i.addr_xiaoqu,
                 'type_room': i.type_room,
                 'type_livingroom': i.type_livingroom,
                 'type_toilet': i.type_toilet,
-                'images': images}
+                'images': images,
+                'collected': i.roomNumber in rc_list}
         p.append(room)
     return p
 
@@ -88,6 +134,20 @@ def get_second_manager_list(manager):
         return []
 
 
+def salehouse_add_or_modify(salehouse_default):
+    try:
+        roomNumber = salehouse_default['roomNumber']
+        p, created = SaleHouse.objects.update_or_create(roomNumber=roomNumber, defaults=salehouse_default)
+        if p:
+            print 'sale house add success!'
+        else:
+            print 'sale house modify success!'
+        return True
+    except Exception, e:
+        print 'salehouse_add_or_modify error:'
+        print e
+        return False
+
 def roominfo_add_or_modify(roominfo_default):
     try:
         roomNumber = roominfo_default['roomNumber']
@@ -105,6 +165,11 @@ def roominfo_add_or_modify(roominfo_default):
 
 def get_roomNumber():
     num = RoomInfo.objects.count() + 10001
+    return 'HZ'+str(num)
+
+
+def get_salehouseNumber():
+    num = SaleHouse.objects.count() + 1000001
     return 'HZ'+str(num)
 
 
@@ -314,10 +379,14 @@ def configuration_modify(roomNumber, level, elevator, canZhuo,
         return False
 
 
-def evaluation_add(roomNumber, text):
+def evaluation_add(roomNumber, text, issalehouse):
     try:
-        room = RoomInfo.objects.get(roomNumber=roomNumber)
-        RoomEvaluation.objects.create(roomNumber=room, text=text, ifpass=None)
+        if issalehouse.lower() == 'true':
+            room = SaleHouse.objects.get(roomNumber=roomNumber)
+            SaleHouseEvaluation.objects.create(roomNumber=room, text=text, ifpass=None)
+        else:
+            room = RoomInfo.objects.get(roomNumber=roomNumber)
+            RoomEvaluation.objects.create(roomNumber=room, text=text, ifpass=None)
         print "evaluation add success!"
         return True
     except Exception, e:
@@ -326,9 +395,12 @@ def evaluation_add(roomNumber, text):
         return False
 
 
-def evaluation_pass(_id):
+def evaluation_pass(_id, issalehouse):
     try:
-        p = RoomEvaluation.objects.get(id=_id)
+        if issalehouse.lower() == 'true':
+            p = SaleHouseEvaluation.objects.get(id=_id)
+        else:
+            p = RoomEvaluation.objects.get(id=_id)
         p.ifpass = True
         p.save()
         print "evaluation pass success!"
@@ -339,9 +411,12 @@ def evaluation_pass(_id):
         return False
 
 
-def evaluation_no_pass(_id):
+def evaluation_no_pass(_id, issalehouse):
     try:
-        p = RoomEvaluation.objects.get(id=_id)
+        if issalehouse.lower() == 'true':
+            p = SaleHouseEvaluation.objects.get(id=_id)
+        else:
+            p = RoomEvaluation.objects.get(id=_id)
         p.ifpass = False
         p.save()
         print "evaluation no pass success!"
@@ -352,14 +427,29 @@ def evaluation_no_pass(_id):
         return False
 
 
-def evaluation_delete(_id):
+def evaluation_delete(_id, issalehouse):
     try:
-        p = RoomEvaluation.objects.get(id=_id)
+        if issalehouse.lower() == 'true':
+            p = SaleHouseEvaluation.objects.get(id=_id)
+        else:
+            p = RoomEvaluation.objects.get(id=_id)
         p.delete()
         print "evaluation delete success!"
         return True
     except Exception, e:
         print "evaluation delete error:"
+        print e
+        return False
+
+
+def salehouse_picture_remove(roomNumber):
+    try:
+        room = SaleHouse.objects.get(roomNumber=roomNumber)
+        SaleHousePicture.objects.filter(roomNumber=room).delete()
+        print "room picture remove success!"
+        return True
+    except Exception, e:
+        print "room picture remove error:"
         print e
         return False
 
@@ -372,6 +462,18 @@ def room_picture_remove(roomNumber):
         return True
     except Exception, e:
         print "room picture remove error:"
+        print e
+        return False
+
+
+def salehouse_picture_add(roomNumber, picture_addr):
+    try:
+        room = SaleHouse.objects.get(roomNumber=roomNumber)
+        SaleHousePicture.objects.create(roomNumber=room, picture=picture_addr)
+        print "room picture add success!"
+        return True
+    except Exception, e:
+        print "room picture add error:"
         print e
         return False
 
@@ -401,6 +503,19 @@ def room_picture_delete(roomNumber, picture_addr):
         return False
 
 
+def salehouse_logout(roomNumber):
+    try:
+        p = SaleHouse.objects.get(roomNumber=roomNumber)
+        p.exist = False
+        p.save(update_fields=['exist'])
+        print "roominfo logout success!"
+        return True
+    except Exception, e:
+        print "roominfo logout error:"
+        print e
+        return False
+
+
 def roominfo_logout(roomNumber):
     try:
         p = RoomInfo.objects.get(roomNumber=roomNumber)
@@ -410,6 +525,19 @@ def roominfo_logout(roomNumber):
         return True
     except Exception, e:
         print "roominfo logout error:"
+        print e
+        return False
+
+
+def salehouse_active(roomNumber):
+    try:
+        p = SaleHouse.objects.get(roomNumber=roomNumber)
+        p.exist = True
+        p.save(update_fields=['exist'])
+        print "room active success!"
+        return True
+    except Exception, e:
+        print "room acitve error:"
         print e
         return False
 
@@ -425,6 +553,7 @@ def roominfo_active(roomNumber):
         print "room acitve error:"
         print e
         return False
+
 
 def room_content_add(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
                room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
@@ -534,10 +663,25 @@ def room_sub(roomNumber,room_longitude,room_latitude,room_community,room_shi,\
 #         return False
 
 
+def salehouse_sold(roomNumber):
+    try:
+        p = SaleHouse.objects.get(roomNumber=roomNumber)
+        p.sold = True
+        p.sold_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+        p.save(update_fields=['sold'])
+        print "room sold success!"
+        return True
+    except Exception, e:
+        print "room sold error:"
+        print e
+        return False
+
+
 def roominfo_sold(roomNumber):
     try:
         p = RoomInfo.objects.get(roomNumber=roomNumber)
         p.sold = True
+        p.sold_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
         p.save(update_fields=['sold'])
         print "room sold success!"
         return True

@@ -15,12 +15,13 @@ from zhiwu.models import *
 import json
 import time
 import os
+import random
 from pyExcelerator import *
 # Create your views here.
 
-rename = {"code":0, "msg":"用户已经存在"}
-not_valid = {"code":0, "msg":"信息不合法"}
-not_exist = {"code":0, "msg":"用户不存在"}
+rename = {"code": 0, "msg": "用户已经存在"}
+not_valid = {"code": 0, "msg": "信息不合法"}
+not_exist = {"code": 0, "msg": "用户不存在"}
 success = {"code": 1}
 fail = {"code": 0}
 
@@ -39,7 +40,9 @@ def home(request):
 
 def test(request):
     room = RoomPicture.objects.all()
-    return render(request, "home.html", {'rooms': json.dumps(serializers.serialize('json', room))})
+    print request.POST.get('issalehouse', '')
+    p = RoomEvaluationForm()
+    return render(request, "home.html", {'kk': p})
 
 
 def check_root(request):
@@ -71,10 +74,11 @@ def check_manager(request):
 
 
 def search(request):
-    return render(request, "newHouseForSale.html")
+    return render(request, "newHouse.html")
 
 
 def work_search(request):
+    user, status, identity = user_session_check(request)
     try:
         distance = {"walk": {"5": 0.005, "10": 0.010, "15": 0.015, "20": 0.020, "30": 0.030, "45": 0.045, "60": 0.060},
                     "bus": {"5": 0.010, "10": 0.020, "15": 0.025, "20": 0.040, "30": 0.50, "45": 0.075, "60": 0.100},
@@ -84,6 +88,7 @@ def work_search(request):
         way = request.GET.get("way", None)
         longitude = float(request.GET.get("lng", None))
         latitude = float(request.GET.get("lat", None))
+        sts = request.GET.get("status", None)
         if time is None or way is None or longitude is None and latitude is None:
             print "get 信息不全:"
             return HttpResponseNotFound()
@@ -94,9 +99,16 @@ def work_search(request):
                 return HttpResponseNotFound()
             if dis is None:
                 return HttpResponseNotFound()
-            rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
-                                            lat__range=(latitude - dis, latitude + dis))
-            room_list = get_search_room_list(rooms)
+            if sts == 'sale':
+                rooms = SaleHouse.objects.filter(lng__range=(longitude - dis, longitude + dis),
+                                                 lat__range=(latitude - dis, latitude + dis))
+                room_list = get_search_saldhouse_list(rooms, user)
+            elif sts == 'rent':
+                rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
+                                                lat__range=(latitude - dis, latitude + dis))
+                room_list = get_search_room_list(rooms, user)
+            else:
+                return HttpResponseNotFound()
             return render(request, "search.html", {"rooms": json.dumps(room_list)})
     except Exception, e:
         print "work search error:"
@@ -105,9 +117,11 @@ def work_search(request):
 
 
 def home_search(request):
+    user, status, identity = user_session_check(request)
     location = request.GET.get("home_location", None)
     longitude = request.GET.get("lng", "120.170245")
     latitude = request.GET.get("lat", "30.278905")
+    sts = request.GET.get("status", None)
     if longitude is None or longitude == "":
         longitude = 120.170245
     else:
@@ -117,16 +131,26 @@ def home_search(request):
     else:
         latitude = float(latitude)
     cs = Community.objects.filter(Q(name__icontains=location) | Q(keyword__icontains=location))
-    rooms = RoomInfo.objects.filter(addr_xiaoqu__in=cs)
     dis = 0.010
-    if len(rooms) == 0:
-        rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
-                                        lat__range=(latitude - dis, latitude + dis))
-    room_list = get_search_room_list(rooms)
+    if sts == 'sale':
+        rooms = SaleHouse.objects.filter(addr_xiaoqu__in=cs)
+        if len(rooms) == 0:
+            rooms = SaleHouse.objects.filter(lng__range=(longitude - dis, longitude + dis),
+                                             lat__range=(latitude - dis, latitude + dis))
+        room_list = get_search_saldhouse_list(rooms, user)
+    elif sts == 'rent':
+        rooms = RoomInfo.objects.filter(addr_xiaoqu__in=cs)
+        if len(rooms) == 0:
+            rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
+                                            lat__range=(latitude - dis, latitude + dis))
+        room_list = get_search_room_list(rooms, user)
+    else:
+        return HttpResponseNotFound()
     return render(request, "search.html", {"rooms": json.dumps(room_list)})
 
 
 def map_search(request):
+    user, status, identity = user_session_check(request)
     try:
         # longitude = models.FloatField(default=120.200)
         # latitude = models.FloatField(default=30.3)
@@ -134,10 +158,17 @@ def map_search(request):
         latitude_l = request.POST.get("lat_left", None)
         longitude_r = request.POST.get("lng_right", None)
         latitude_r = request.POST.get("lat_right", None)
-        rooms = RoomInfo.objects.filter(lng__range=(longitude_l, longitude_r),
-                                        lat__range=(latitude_l, latitude_r))
-        print rooms
-        room_list = get_search_room_list(rooms)
+        sts = request.POST.get("status", None)
+        if sts == 'sale':
+            rooms = SaleHouse.objects.filter(lng__range=(longitude_l, longitude_r),
+                                             lat__range=(latitude_l, latitude_r))
+            room_list = get_search_saldhouse_list(rooms, user)
+        elif sts == 'rent':
+            rooms = RoomInfo.objects.filter(lng__range=(longitude_l, longitude_r),
+                                            lat__range=(latitude_l, latitude_r))
+            room_list = get_search_room_list(rooms, user)
+        else:
+            return HttpResponseNotFound()
         result = {"code": 1,
                   "newData": room_list}
         return JsonResponse(result, safe=False)
@@ -179,12 +210,6 @@ def admin_login(request):
                     tag, m, msg = get_second_manager(user, pw)
                 elif identity == "root":
                     tag, m, msg = get_root(user, pw)
-                    # request.session['user'] = "root"
-                    # request.session['status'] = "root"
-                    # request.session['identity'] = "root"
-                    # print 'root login'
-                    # return HttpResponseRedirect(reverse('admin_root'))
-                    # todo 完善root的数据库
                 else:
                     return JsonResponse(fail)
                     # 身份不正确
@@ -222,6 +247,7 @@ def user_login(request):
         user = request.POST.get('phone')
         request.session['user'] = user
         request.session['identity'] = 'user'
+        request.session['status'] = 'user'
         return JsonResponse(success)
     else:
         return HttpResponseNotFound()
@@ -241,13 +267,15 @@ def admin_root(request):
         community_list = get_community_list()
         e = RoomEvaluation.objects.order_by('-createTime')[0:10]
         count = RoomEvaluation.objects.count()
+        areas = Area.objects.all()
         return render(request, "backend.html", {"managers": m_list,
                                                 "managers_js": json.dumps(serializers.serialize('json',m_list)),
                                                 "evaluation_count": count,
                                                 "status": status,
                                                 "identity": identity,
                                                 "user": user,
-                                                "communities": community_list})
+                                                "communities": community_list,
+                                                "area_list": areas})
     else:
         return HttpResponseRedirect(reverse("admin_login"))
 
@@ -284,7 +312,7 @@ def admin_second_manager(request):
     rooms = RoomInfo.objects.filter(contactPerson=user)
     rms = []
     for i in rooms:
-        rms.append({"info":i,"picture":RoomPicture.objects.filter(roomNumber=i).exists()})
+        rms.append({"info": i, "picture": RoomPicture.objects.filter(roomNumber=i).exists()})
     # rooms = json.dumps(serializers.serialize('json', rooms))
     return render(request, "backendL2.html", {"rooms": rms,
                                               "identity": identity,
@@ -293,13 +321,16 @@ def admin_second_manager(request):
 
 
 def new_house(request):
+    return new_house(request, False)
+
+
+def new_house_handle(request, use_old):
     roomNumber = request.GET.get("roomNumber", "")
     user = request.session.get("user")
     status = request.session.get("status", "")
     identity = request.session.get("identity", "")
     sm = SecondManager.objects.get(user=user)
     communities = Community.objects.filter(manager=sm.manager.user)
-    #communities = json.dumps(serializers.serialize('json', communities))
     if is_second_manager(identity):
         if roomNumber == "":
             return render(request, "newHouse.html", {"user": user,
@@ -308,6 +339,8 @@ def new_house(request):
         else:
             roominfo = RoomInfo.objects.get(roomNumber=roomNumber)
             pictures = RoomPicture.objects.filter(roomNumber=roominfo)
+            merit = roominfo.merit.split(',')
+            landlord_req = roominfo.landlord_req.split(',')
             images = []
             for i in pictures:
                 data = {
@@ -317,9 +350,13 @@ def new_house(request):
                     'size':  os.path.getsize('./zhiwu'+i.picture)
                 }
                 images.append(data)
+            if use_old:
+                roominfo.roomNumber = get_roomNumber()
             return render(request, "editHouse.html", {"user": user,
                                                       "status": status,
                                                       "room": roominfo,
+                                                      "merit": merit,
+                                                      "landlord_req": landlord_req,
                                                       "lat": json.dumps(roominfo.lat),
                                                       "lng": json.dumps(roominfo.lng),
                                                       "files": json.dumps(images),
@@ -329,7 +366,56 @@ def new_house(request):
 
 
 def new_salehouse(request):
-    return render(request, "newHouseForSale.html")
+    return new_salehouse_handle(request, False)
+
+
+def new_salehouse_handle(request, use_old):
+    roomNumber = request.GET.get("roomNumber", "")
+    user = request.session.get("user")
+    status = request.session.get("status", "")
+    identity = request.session.get("identity", "")
+    sm = SecondManager.objects.get(user=user)
+    communities = Community.objects.filter(manager=sm.manager.user)
+    if is_second_manager(identity):
+        if roomNumber == "":
+            return render(request, "newHouseForSale.html", {"user": user,
+                                                            "status": status,
+                                                            "communities": communities})
+        else:
+            salehouse = SaleHouse.objects.get(roomNumber=roomNumber)
+            pictures = SaleHousePicture.objects.filter(roomNumber=salehouse)
+            images = []
+            for i in pictures:
+                data = {
+                    'url': i.picture,
+                    'thumbnailUrl': i.picture,
+                    'name': i.picture.split('/')[-1],
+                    'size':  os.path.getsize('./zhiwu'+i.picture)
+                }
+                images.append(data)
+            if use_old:
+                salehouse.roomNumber = get_salehouseNumber()
+            return render(request, "editHouseForSale.html", {"user": user,
+                                                             "status": status,
+                                                             "room": salehouse,
+                                                             "lat": json.dumps(salehouse.lat),
+                                                             "lng": json.dumps(salehouse.lng),
+                                                             "files": json.dumps(images),
+                                                             "communities": communities})
+    else:
+        return HttpResponseRedirect(reverse("admin_login"))
+
+
+# todo
+
+
+def use_old_house(request):
+    return new_house_handle(request, True)
+
+
+def use_old_salehouse(request):
+    return new_salehouse_handle(request, True)
+
 
 def client_back(request):
     return render(request, "clientBackend.html",{"route":"console"})
@@ -348,31 +434,36 @@ def client_back_comment(request):
 
 
 def room_collection(request):
-    # if request.method == 'POST':
-    user = request.session['user']
-    identity = request.session['identity']
-    print user, identity
-
-    roomNumber = request.POST.get('roomNumber')
-    # else:
-    #     return HttpResponseNotFound()
-    # return render(request, "")
-
-# TODO
-def room_collect_add(request):
+    user, status, identity = user_session_check(request)
     if request.method == 'POST':
-        user = request.session['user']
-        status = request.session['status']
-        identity = request.session['identity']
-        roomNumber = request.POST.get('roomNumber')
+        try:
+            roomNumber = request.POST.get('roomNumber', '')
+            if identity == 'user' and user != '':
+                if roomNumber != '':
+                    c, created = RoomCollect.objects.get_or_create(roomNumber=roomNumber, user=user)
+                    if created:
+                        return JsonResponse({'code': 1, 'msg': '收藏成功'})
+                    else:
+                        c.delete()
+                        return JsonResponse({'code': 1, 'msg': '取消收藏成功'})
+                else:
+                    return JsonResponse({'code': 0, 'msg': '没有房源编号'})
+
+            else:
+                return JsonResponse({'code': 0, 'msg': '没有登录'})
+        except Exception, e:
+            print 'collection error:'
+            print e
+            return JsonResponse(fail)
     else:
         return HttpResponseNotFound()
 
 
-def room_collect_remove(request):
-    return render(request, "")
+def room_book(request):
+    user, status, identity = user_session_check(request)
+    roomNumber = request.POST.get('roomNumber')
 
-
+    return JsonResponse(success)
 
 # post
 # JianDing
@@ -380,7 +471,7 @@ def room_collect_remove(request):
 def post_new_area(request):
     if request.method == 'POST':
         try:
-            name = request.POST.get('area_name')
+            name = request.POST.get('name')
             p, created = Area.objects.get_or_create(name=name)
             if created:
                 return JsonResponse(success)
@@ -397,7 +488,7 @@ def post_new_area(request):
 def post_delete_area(request):
     if request.method == 'POST':
         try:
-            name = request.POST.get('area_name')
+            name = request.POST.get('name')
             p = Area.objects.get(name=name)
             p.delete()
             return JsonResponse(success)
@@ -409,10 +500,24 @@ def post_delete_area(request):
         return HttpResponseNotFound()
 
 
+def get_area_name(request):
+    try:
+        name = request.GET.get('name')
+        areas = Area.objects.filter(name__icontain=name)
+        areas = serializers.serialize('json', areas)
+        result = {'code': 1,
+                  'area_list': areas}
+        return JsonResponse(result, safe=False)
+    except Exception, e:
+        print 'get area name error:'
+        print e
+        return JsonResponse(fail)
+
+
 def area_list(request):
     areas = Area.objects.all()
     areas = serializers.serialize('json', areas)
-    return JsonResponse(areas)
+    return JsonResponse(areas, safe=False)
 
 
 def post_area_search(request):
@@ -519,9 +624,9 @@ def post_get_community(request):
 
 def modify_pw(request):
     try:
-        user = request.session['user']
-        status = request.session['status']
-        identity = request.session['identity']
+        user = request.session.get('user', '')
+        status = request.session.get('status', '')
+        identity = request.session.get('identity', '')
         old_pw = request.POST.get("old_pw", None)
         new_pw = request.POST.get("new_pw", None)
         if old_pw is not None and new_pw is not None:
@@ -998,40 +1103,64 @@ def upload_image(request):
         fb = ImageForm()
     return render(request, "home.html", {"r": fb})
 
-# todo 需要填写完成
+
 def post_salehouse_save(request):
-    return HttpResponseNotFound()
+    p, num = post_salehouse_add_or_modify(request)
+    if p:
+        return JsonResponse(success)
+    else:
+        return JsonResponse(fail)
 
 
 def post_salehouse_submit(request):
-    return HttpResponseNotFound()
+    p, num = post_salehouse_add_or_modify(request)
+    if p:
+        try:
+            room = SaleHouse.objects.get(roomNumber=num)
+            # room.achieve = True
+            room.exist = True
+            room.save()
+            return JsonResponse(success)
+        except Exception, e:
+            print "post_roominfo_submit error:"
+            print e
+            return JsonResponse(fail)
+    else:
+        return JsonResponse(fail)
 
 
 def post_salehouse_add_or_modify(request):
     if request.method == 'POST':
         try:
             manager = request.session.get('user', '')
-            roominfo_default = {}
+            salehouse_default = {}
             url_list = []
             for key in request.POST:
-                value = request.POST.get(key)
-                roominfo_default[str(key)] = value
-            url_list = str(roominfo_default['imgUrl'])
+                value = request.POST.getlist(key)
+                if len(value) > 1:
+                    value = ','.join(value)
+                elif len(value) == 1:
+                    value = value[0]
+                else:
+                    value = ''
+                salehouse_default[str(key)] = value
+            url_list = str(salehouse_default['imgUrl'])
             url_list = url_list.split('^_^')
             if '' in url_list:
                 url_list.remove('')
-            roominfo_default.pop('imgUrl')
-            if 'roomNumber' not in roominfo_default:
-                roomNumber = get_roomNumber()
-                roominfo_default['roomNumber'] = roomNumber
+            salehouse_default.pop('imgUrl')
+            if 'roomNumber' not in salehouse_default:
+                roomNumber = get_salehouseNumber()
+                salehouse_default['roomNumber'] = roomNumber
             else:
-                roomNumber = roominfo_default['roomNumber']
-            roominfo_default['contactPerson'] = manager
-            add_or_modify_result = roominfo_add_or_modify(roominfo_default)
+                roomNumber = salehouse_default['roomNumber']
+            salehouse_default['contactPerson'] = manager
+            salehouse_default['manager'] = SecondManager.objects.get(user=manager).manager.user
+            add_or_modify_result = salehouse_add_or_modify(salehouse_default)
             if add_or_modify_result:
-                room_picture_remove(roomNumber)
+                salehouse_picture_remove(roomNumber)
                 for i in url_list:
-                    room_picture_add(roomNumber, i)
+                    salehouse_picture_add(roomNumber, i)
                 return True, roomNumber
             else:
                 return False, None
@@ -1044,15 +1173,68 @@ def post_salehouse_add_or_modify(request):
 
 
 def post_salehouse_logout(request):
-    return HttpResponseNotFound()
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomShortForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['roomNumber']
+                p = salehouse_logout(roomNumber)
+                if p:
+                    print 'logout success!'
+                    return JsonResponse(success)
+                else:
+                    print 'logout fail'
+                    return JsonResponse(fail)
+            except Exception, e:
+                print "salehouse logout error:"
+                print e
+                return JsonResponse(fail)
+    else:  # 当正常访问时
+        print 'not post'
+        return HttpResponseNotFound()
 
 
 def post_salehouse_active(request):
-    return HttpResponseNotFound()
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomShortForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['roomNumber']
+                p = salehouse_active(roomNumber)
+                if p:
+                    print 'active success!'
+                    return JsonResponse(success)
+                else:
+                    print 'active fail!'
+                    return JsonResponse(fail)
+            except Exception, e:
+                print 'active error:'
+                print e
+                return JsonResponse(fail)
+    else:  # 当正常访问时
+        print 'not post'
+        return HttpResponseNotFound
 
 
 def post_salehouse_sold(request):
-    return HttpResponseNotFound()
+    if request.method == 'POST':  # 当提交表单时
+        form = RoomShortForm(request.POST)  # form 包含提交的数据
+        if form.is_valid():  # 如果提交的数据合法
+            try:
+                roomNumber = form.cleaned_data['roomNumber']
+                p = salehouse_sold(roomNumber)
+                if p:
+                    print 'salehouse has been sold '
+                    return JsonResponse(success)
+                else:
+                    return JsonResponse(fail)
+            except Exception, e:
+                print 'post salehouse sold error:'
+                print e
+                return JsonResponse(fail)
+    else:  # 当正常访问时
+        print 'not post'
+        return HttpResponseNotFound()
 
 
 def post_roominfo_logout(request):
@@ -1112,7 +1294,7 @@ def post_roominfo_submit(request):
     if p:
         try:
             room = RoomInfo.objects.get(roomNumber=num)
-            room.achieve = True
+            # room.achieve = True
             room.exist = True
             room.save()
             return JsonResponse(success)
@@ -1125,13 +1307,21 @@ def post_roominfo_submit(request):
 
 
 def post_roominfo_add_or_modify(request):
+    i = request.POST.get('payway', [])
+    print len(i)
     if request.method == 'POST':
         try:
             manager = request.session.get('user', '')
             roominfo_default = {}
             url_list = []
             for key in request.POST:
-                value = request.POST.get(key)
+                value = request.POST.getlist(key)
+                if len(value) > 1:
+                    value = ','.join(value)
+                elif len(value) == 1:
+                    value = value[0]
+                else:
+                    value = ''
                 roominfo_default[str(key)] = value
             url_list = str(roominfo_default['imgUrl'])
             url_list = url_list.split('^_^')
@@ -1144,6 +1334,7 @@ def post_roominfo_add_or_modify(request):
             else:
                 roomNumber = roominfo_default['roomNumber']
             roominfo_default['contactPerson'] = manager
+            roominfo_default['manager'] = SecondManager.objects.get(user=manager).manager.user
             add_or_modify_result = roominfo_add_or_modify(roominfo_default)
             if add_or_modify_result:
                 room_picture_remove(roomNumber)
@@ -1158,136 +1349,8 @@ def post_roominfo_add_or_modify(request):
             return False, None
     else:
         return False, None
-#
-#
-# def post_room_save(request):
-#     if request.method == 'POST':  # 当提交表单时
-#         form = RoomForm(request.POST)  # form 包含提交的数据
-#         if form.is_valid():  # 如果提交的数据合法
-#             try:
-#                 roomNumber = form.cleaned_data['room_roomNumber']
-#                 # 房屋信息
-#                 room_longitude = form.cleaned_data['room_longitude']
-#                 room_latitude = form.cleaned_data['room_latitude']
-#                 room_community = form.cleaned_data['room_community']
-#                 room_shi = form.cleaned_data['room_shi']
-#                 room_ting = form.cleaned_data['room_ting']
-#                 room_wei = form.cleaned_data['room_wei']
-#                 room_rent = form.cleaned_data['room_rent']
-#                 room_area = form.cleaned_data['room_area']
-#                 room_direction = form.cleaned_data['room_direction']
-#                 room_DateToLive = form.cleaned_data['room_DateToLive']
-#                 room_lookAble = form.cleaned_data['room_lookAble']
-#                 room_contactPerson = form.cleaned_data['room_contactPerson']
-#                 room_environment = form.cleaned_data['room_environment']
-#                 # 出租信息
-#                 rentDate = form.cleaned_data['rentDate']
-#                 # 房屋图片
-#                 picture = form.cleaned_data['picture']
-#                 # 房屋配置
-#                 level = form.cleaned_data['level']
-#                 elevator = form.cleaned_data['elevator']
-#                 canZhuo = form.cleaned_data['canZhuo']
-#                 shaFa = form.cleaned_data['shaFa']
-#                 shuZhuo = form.cleaned_data['shuZhuo']
-#                 yiZi = form.cleaned_data['yiZi']
-#                 yiGui = form.cleaned_data['yiGui']
-#                 chuang = form.cleaned_data['chuang']
-#                 kongTiao = form.cleaned_data['kongTiao']
-#                 xiYiJi = form.cleaned_data['xiYiJi']
-#                 reShuiQi = form.cleaned_data['reShuiQi']
-#                 bingXiang = form.cleaned_data['bingXiang']
-#                 dianShiJi = form.cleaned_data['dianShiJi']
-#                 xiYouYanJi = form.cleaned_data['xiYouYanJi']
-#                 ranQiZao = form.cleaned_data['ranQiZao']
-#                 # 房屋描述
-#                 roomType = form.cleaned_data['roomType']
-#                 decoration = form.cleaned_data['decoration']
-#                 configuration = form.cleaned_data['configuration']
-#                 cook = form.cleaned_data['cook']
-#                 light = form.cleaned_data['light']
-#                 wind = form.cleaned_data['wind']
-#                 sound = form.cleaned_data['sound']
-#                 requirement = form.cleaned_data['requirement']
-#                 suitable = form.cleaned_data['suitable']
-#                 p = room_save(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
-#                               room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
-#                               room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
-#                               level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
-#                               bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
-#                               light, wind, sound, requirement, suitable)
-#                 return HttpResponse(status=1)
-#             except Exception, e:
-#                 print e
-#                 return HttpResponse(status=0)
-#     else:  # 当正常访问时
-#         print 'not post'
-#
-#
-# def post_room_sub(request):
-#     if request.method == 'POST':  # 当提交表单时
-#         form = RoomForm(request.POST)  # form 包含提交的数据
-#         if form.is_valid():  # 如果提交的数据合法
-#             try:
-#                 roomNumber = form.cleaned_data['room_roomNumber']
-#                 # 房屋信息
-#                 room_longitude = form.cleaned_data['room_longitude']
-#                 room_latitude = form.cleaned_data['room_latitude']
-#                 room_community = form.cleaned_data['room_community']
-#                 room_shi = form.cleaned_data['room_shi']
-#                 room_ting = form.cleaned_data['room_ting']
-#                 room_wei = form.cleaned_data['room_wei']
-#                 room_rent = form.cleaned_data['room_rent']
-#                 room_area = form.cleaned_data['room_area']
-#                 room_direction = form.cleaned_data['room_direction']
-#                 room_DateToLive = form.cleaned_data['room_DateToLive']
-#                 room_lookAble = form.cleaned_data['room_lookAble']
-#                 room_contactPerson = form.cleaned_data['room_contactPerson']
-#                 room_environment = form.cleaned_data['room_environment']
-#                 # 出租信息
-#                 rentDate = form.cleaned_data['rentDate']
-#                 # 房屋图片
-#                 picture = form.cleaned_data['picture']
-#                 # 房屋配置
-#                 level = form.cleaned_data['level']
-#                 elevator = form.cleaned_data['elevator']
-#                 canZhuo = form.cleaned_data['canZhuo']
-#                 shaFa = form.cleaned_data['shaFa']
-#                 shuZhuo = form.cleaned_data['shuZhuo']
-#                 yiZi = form.cleaned_data['yiZi']
-#                 yiGui = form.cleaned_data['yiGui']
-#                 chuang = form.cleaned_data['chuang']
-#                 kongTiao = form.cleaned_data['kongTiao']
-#                 xiYiJi = form.cleaned_data['xiYiJi']
-#                 reShuiQi = form.cleaned_data['reShuiQi']
-#                 bingXiang = form.cleaned_data['bingXiang']
-#                 dianShiJi = form.cleaned_data['dianShiJi']
-#                 xiYouYanJi = form.cleaned_data['xiYouYanJi']
-#                 ranQiZao = form.cleaned_data['ranQiZao']
-#                 # 房屋描述
-#                 roomType = form.cleaned_data['roomType']
-#                 decoration = form.cleaned_data['decoration']
-#                 configuration = form.cleaned_data['configuration']
-#                 cook = form.cleaned_data['cook']
-#                 light = form.cleaned_data['light']
-#                 wind = form.cleaned_data['wind']
-#                 sound = form.cleaned_data['sound']
-#                 requirement = form.cleaned_data['requirement']
-#                 suitable = form.cleaned_data['suitable']
-#                 p = room_sub(roomNumber, room_longitude, room_latitude, room_community, room_shi, \
-#                              room_ting, room_wei, room_rent, room_area, room_direction, room_DateToLive, \
-#                              room_lookAble, room_contactPerson, room_environment, rentDate, picture, \
-#                              level, elevator, canZhuo, shaFa, shuZhuo, yiZi, yiGui, chuang, kongTiao, xiYiJi, reShuiQi, \
-#                              bingXiang, dianShiJi, xiYouYanJi, ranQiZao, roomType, decoration, configuration, cook, \
-#                              light, wind, sound, requirement, suitable)
-#                 return HttpResponse(status=1)
-#             except Exception, e:
-#                 print e
-#                 return HttpResponse(status=0)
-#     else:  # 当正常访问时
-#         print 'not post'
-#
-#
+
+
 def post_roominfo_sold(request):
     if request.method == 'POST':  # 当提交表单时
         form = RoomShortForm(request.POST)  # form 包含提交的数据
@@ -1309,6 +1372,152 @@ def post_roominfo_sold(request):
         return HttpResponseNotFound()
 
 
+# todo 缺少考虑情况不太对，先这样这把
+def roominfo_addr_search(request):
+    identity = request.session.get("identity", "")
+    status = request.session.get("status", "")
+    user = request.session.get("user", "")
+    addr_xiaoqu = request.GET.get('addr_xiaoqu', '')
+    addr_building = request.GET.get('addr_building', '')
+    addr_unit = request.GET.get('addr_unit', '')
+    addr_room = request.GET.get('addr_room', '')
+    addr_floor = request.GET.get('addr_floor', '')
+    rooms = RoomInfo.objects.filter(addr_xiaoqu=addr_xiaoqu,
+                                    addr_building=addr_building,
+                                    addr_unit=addr_unit,
+                                    addr_room=addr_room,
+                                    addr_floor=addr_floor).order_by('-roomNumber')
+    if len(rooms) == 0:
+        return JsonResponse(fail)
+    else:
+        room = rooms[0]
+        if room.sold:
+            sts = 1
+        else:
+            sts = 0
+        return JsonResponse({'code': 1,
+                             'status': sts,
+                             'roomNumber': room.contactPerson})
+
+
+def salehouse_addr_search(request):
+    identity = request.session.get("identity", "")
+    status = request.session.get("status", "")
+    user = request.session.get("user", "")
+    addr_xiaoqu = request.GET.get('addr_xiaoqu', '')
+    addr_building = request.GET.get('addr_building', '')
+    addr_unit = request.GET.get('addr_unit', '')
+    addr_room = request.GET.get('addr_room', '')
+    rooms = SaleHouse.objects.filter(addr_xiaoqu=addr_xiaoqu,
+                                     addr_building=addr_building,
+                                     addr_unit=addr_unit,
+                                     addr_room=addr_room).order_by('-roomNumber')
+    if len(rooms) == 0:
+        return JsonResponse(fail)
+    else:
+        room = rooms[0]
+        if room.sold:
+            sts = 1
+        else:
+            sts = 0
+        return JsonResponse({'code': 1,
+                             'status': sts,
+                             'roomNumber': room.contactPerson})
+
+
+def salehouse_search_except(request):
+    try:
+        return room_search(request, True)
+    except Exception, e:
+        print 'salehouse search error:'
+        print e
+        return JsonResponse(fail)
+
+
+def room_search_except(request):
+    try:
+        return room_search(request, False)
+    except Exception, e:
+        print 'room search error:'
+        print e
+        return JsonResponse(fail)
+
+
+def room_search(requset, issalehouse):
+    # todo 需要扩大
+    page_num = 3
+    house_status = requset.GET.get('house_status', 'no')  # no active cancel
+    house_area = requset.GET.get('house_area', 'no')  # no , xxxx
+    page = int(requset.GET.get('p', 1))
+    if house_status == 'no':
+        if house_area == 'no':
+            if issalehouse:
+                rooms = SaleHouse.objects.filter().order_by('-roomNumber')
+            else:
+                rooms = RoomInfo.objects.filter().order_by('-roomNumber')
+            count = rooms.count()
+            rooms = rooms[page*page_num-page_num:page*page_num]
+        else:
+            ms = Manager.objects.filter(district=house_area)
+            sms = SecondManager.objects.filter(manager__in=ms)
+            sms_list = []
+            for i in sms:
+                sms_list.append(i.user)
+            if issalehouse:
+                rooms = SaleHouse.objects.filter(contactPerson__in=sms_list).order_by('-roomNumber')
+            else:
+                rooms = RoomInfo.objects.filter(contactPerson__in=sms_list).order_by('-roomNumber')
+            count = rooms.count()
+            rooms = rooms[page*page_num-page_num:page*page_num]
+    elif house_status == 'active':
+        if house_area == 'no':
+            if issalehouse:
+                rooms = SaleHouse.objects.filter(exist=True, sold=False).order_by('-roomNumber')
+            else:
+                rooms = RoomInfo.objects.filter(exist=True, sold=False).order_by('-roomNumber')
+            count = rooms.count()
+            rooms = rooms[page*page_num-page_num:page*page_num]
+        else:
+            ms = Manager.objects.filter(district=house_area)
+            sms = SecondManager.objects.filter(manager__in=ms)
+            sms_list = []
+            for i in sms:
+                sms_list.append(i.user)
+            if issalehouse:
+                rooms = SaleHouse.objects.filter(exist=True, sold=False, contactPerson__in=sms_list).order_by('-roomNumber')
+            else:
+                rooms = RoomInfo.objects.filter(exist=True, sold=False, contactPerson__in=sms_list).order_by('-roomNumber')
+            count = rooms.count()
+            rooms = rooms[page*page_num-page_num:page*page_num]
+    elif house_status == 'cancel':
+        if house_area == 'no':
+            if issalehouse:
+                rooms = SaleHouse.objects.filter(sold=True).order_by('-roomNumber')
+            else:
+                rooms = RoomInfo.objects.filter(sold=True).order_by('-roomNumber')
+            count = rooms.count()
+            rooms = rooms[page*page_num-page_num:page*page_num]
+        else:
+            ms = Manager.objects.filter(district=house_area)
+            sms = SecondManager.objects.filter(manager__in=ms)
+            sms_list = []
+            for i in sms:
+                sms_list.append(i.user)
+            if issalehouse:
+                rooms = SaleHouse.objects.filter(sold=True, contactPerson__in=sms_list).order_by('-roomNumber')
+            else:
+                rooms = RoomInfo.objects.filter(sold=True, contactPerson__in=sms_list).order_by('-roomNumber')
+            count = rooms.count()
+            rooms = rooms[page*page_num-page_num:page*page_num]
+    else:
+        return HttpResponseNotFound()
+    rooms = serializers.serialize('json', rooms)
+    result = {'code': 1,
+              'context': rooms,
+              'count': count}
+    return JsonResponse(result, safe=True)
+
+
 def post_evaluation_add(request):
     if request.method == 'POST':  # 当提交表单时
         form = RoomEvaluationForm(request.POST)  # form 包含提交的数据
@@ -1316,7 +1525,8 @@ def post_evaluation_add(request):
             try:
                 roomNumber = form.cleaned_data['roomNumber']
                 text = form.cleaned_data['text']
-                p = evaluation_add(roomNumber, text)
+                issalehouse = request.POST.get('issalehouse', 'False')
+                p = evaluation_add(roomNumber, text, issalehouse)
                 if p:
                     print 'evaluation success'
                     return JsonResponse(success)
@@ -1338,7 +1548,8 @@ def post_evaluation_pass(request):
         if form.is_valid():  # 如果提交的数据合法
             try:
                 e_id = form.cleaned_data['id']
-                p = evaluation_pass(e_id)
+                issalehouse = request.POST.get('issalehouse', 'False')
+                p = evaluation_pass(e_id, issalehouse)
                 if p:
                     print 'evaluation pass success'
                     return JsonResponse(success)
@@ -1360,7 +1571,8 @@ def post_evaluation_no_pass(request):
         if form.is_valid():  # 如果提交的数据合法
             try:
                 e_id = form.cleaned_data['id']
-                p = evaluation_no_pass(e_id)
+                issalehouse = request.POST.get('issalehouse', 'False')
+                p = evaluation_no_pass(e_id, issalehouse)
                 if p:
                     print 'evaluation no pass success'
                     return JsonResponse(success)
@@ -1382,7 +1594,8 @@ def post_evaluation_delete(request):
         if form.is_valid():  # 如果提交的数据合法
             try:
                 e_id = form.cleaned_data['id']
-                p = evaluation_delete(e_id)
+                issalehouse = request.POST.get('issalehouse', 'False')
+                p = evaluation_delete(e_id, issalehouse)
                 if p:
                     print 'evaluation success'
                     return JsonResponse(success)
@@ -1401,8 +1614,13 @@ def post_evaluation_delete(request):
 def post_evaluation_search(request):
     try:
         page = int(request.GET.get('p', 1))
-        e = RoomEvaluation.objects.order_by('-createTime')[page*10-10:page*10]
-        count = RoomEvaluation.objects.count()
+        issalehouse = request.GET.get('issalehouse', 'false')
+        if issalehouse.lower() == 'true':
+            e = SaleHouseEvaluation.objects.order_by('-createTime')[page*10-10:page*10]
+            count = SaleHouseEvaluation.objects.count()
+        else:
+            e = RoomEvaluation.objects.order_by('-createTime')[page*10-10:page*10]
+            count = RoomEvaluation.objects.count()
         e = serializers.serialize('json', e)
         result = {'code': 1,
                   'count': count,
