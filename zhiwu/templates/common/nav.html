@@ -52,8 +52,16 @@
 {#      </ul>#}
 
       <ul class="right hide-on-med-and-down">
-        <li><a href="#modal1" class="modal-trigger"><i class="large material-icons left">perm_identity</i>登陆/注册</a></li>
-        <li><a href="#"><i class="large material-icons left">receipt</i>选房清单</a></li>
+          {% if user == "" %}
+                <li><a href="#modal1" class="modal-trigger"><i class="large material-icons left">perm_identity</i>登陆/注册</a></li>
+          {% else %}
+
+              <li><a href="#">{{ user }}</a></li>
+              <li><a href="#"><i class="large material-icons left">receipt</i>选房清单</a></li>
+          {% endif %}
+
+
+
 {#        <li><a href="#"><i class="large material-icons left">settings</i>我的后台</a></li>#}
       </ul>
 
@@ -121,19 +129,15 @@
     <div class="modal-content">
       <h4>立刻注册</h4>
       <div class="row">
-        <form class="col s12">
+        <form class="col s12" id="modal-form" action="{% url 'user_login' %}">
           <div class="row">
             <div class="input-field col s6">
-              <i class="material-icons prefix">account_circle</i>
-              <input id="icon_prefix" type="text" class="validate">
-              <label for="icon_prefix">First Name</label>
-            </div>
-            <div class="input-field col s6">
-              <i class="material-icons prefix">phone</i>
-              <input id="icon_telephone" type="tel" class="validate">
-              <label for="icon_telephone">Telephone</label>
+              <i class="material-icons prefix">手机号</i>
+              <input id="icon_telephone" type="tel" class="validate" name="phone">
+              <label for="icon_telephone">手机号</label>
             </div>
           </div>
+            <button type="submit" id="modal-submit">登陆</button>
         </form>
       </div>
     </div>

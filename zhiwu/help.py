@@ -4,7 +4,7 @@ from PIL import Image
 import time
 from pyExcelerator import *
 
-
+empty_md5 = "d41d8cd98f00b204e9800998ecf8427e"
 def user_session_check(request):
     identity = request.session.get("identity", "")
     status = request.session.get("status", "")
@@ -803,7 +803,7 @@ def room_rented_cancel(roomNumber):
         return False
 
 
-def community_add_or_modify(name, manager, lng, lat, area, district, business, keyword, type_, year, level, facility, green, security,):
+def community_add_or_modify(name, manager, lng, lat, business, keyword, type_, year, level, security,):
     try:
         if not Manager.objects.filter(user=manager).exists():
             print 'there is no the manager: '+manager
@@ -812,15 +812,15 @@ def community_add_or_modify(name, manager, lng, lat, area, district, business, k
                              'manager': manager,
                              'lng': lng,
                              'lat': lat,
-                             'area': area,
-                             'district': district,
+                             # 'area': area,
+                             # 'district': district,
                              'business': business,
                              'keyword': keyword,
                              'type': type_,
                              'year': year,
                              'level': level,
-                             'facility': facility,
-                             'green': green,
+                             # 'facility': facility,
+                             # 'green': green,
                              'security': security}
         p, created = Community.objects.update_or_create(name=name, defaults=community_default)
         if created:
@@ -942,7 +942,8 @@ def manager_add(user, pw, name, phone, status, district):
 def manager_modify(user, pw, name, phone, status, district):
     try:
         p = Manager.objects.get(user=user)
-        p.pw = pw
+        if pw != empty_md5:
+            p.pw = pw
         p.name = name
         p.phone = phone
         p.status = status
@@ -1039,7 +1040,8 @@ def second_manager_modify(manager_user, user, pw, name, phone, company, status):
         manager = Manager.objects.get(user=manager_user)
         p = SecondManager.objects.get(user=user)
         p.manager = manager
-        p.pw = pw
+        if pw != empty_md5:
+            p.pw = pw
         p.name = name
         p.phone = phone
         p.company = company

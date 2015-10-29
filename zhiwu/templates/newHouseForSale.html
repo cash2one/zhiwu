@@ -371,8 +371,7 @@
             e.preventDefault();
 
             var type=$(this).data("type");
-{#            var dest=type=="save"?{% url 'salehouse' %}:{% url 'salehouse' %};#}
-            var dest="";
+            var dest=type=="save"?{% url 'salehouse_save' %}:{% url 'salehouse_sub' %};
             var isSubmit=type==="submit";
 
             if(isSubmit){

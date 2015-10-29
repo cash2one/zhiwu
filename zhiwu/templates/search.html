@@ -276,7 +276,7 @@
     <div class="card-content">
       <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}￥</p>
     </div>
-    <div class="btn-collect" data-target="${roomNumber}">
+    <div class="btn-collect {{if collected}} active {{/if}}" data-target="${roomNumber}">
         <i class="small material-icons left">grade</i>
     </div>
   </div>

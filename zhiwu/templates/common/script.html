@@ -11,7 +11,7 @@
 
         $('select').material_select();
 
-        $(document).delegate("input[type=password]","focusout",function(){
+        $(document).delegate("input[type=password]","change",function(){
            $(this).next().val($.md5($(this).val()));
         });
 
@@ -38,13 +38,15 @@
                 {roomNumber:_id},
                 function(data){
                     if(data.status==200){
+                        //TODO判断有没有收藏
+
                         that.addClass("active");
                         console.log("post success");
                         alert("已加入收藏夹");
                     }else{
                         console.log("post failed");
-                        if(msg){
-                            alert(msg);
+                        if(data.msg){
+                            alert(data.msg);
                         }
                     }
                 }
@@ -53,6 +55,31 @@
                 console.log("error");
             });
         });
+
+        $(document).delegate("#modal-submit","click",function(e){
+            e.preventDefault();
+
+            var content=$("#modal-form").serialize();
+
+            $.post(
+                "{% url 'user_login' %}",
+                content,
+                function(data){
+                    if(data.code==1){
+                        window.location.reload();
+                    }else{
+                        console.log("post failed");
+                        if(data.msg){
+                            alert(data.msg);
+                        }
+                    }
+                }
+            )
+            .error(function(){
+                console.log("error");
+            });
+        });
+
     })();
 
 </script>

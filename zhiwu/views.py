@@ -103,13 +103,16 @@ def work_search(request):
                 rooms = SaleHouse.objects.filter(lng__range=(longitude - dis, longitude + dis),
                                                  lat__range=(latitude - dis, latitude + dis))
                 room_list = get_search_saldhouse_list(rooms, user)
+                return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
+                                                              "user": user})
             elif sts == 'rent':
                 rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
                                                 lat__range=(latitude - dis, latitude + dis))
                 room_list = get_search_room_list(rooms, user)
+                return render(request, "search.html", {"rooms": json.dumps(room_list),
+                                                       "user": user})
             else:
                 return HttpResponseNotFound()
-            return render(request, "search.html", {"rooms": json.dumps(room_list)})
     except Exception, e:
         print "work search error:"
         print e
@@ -138,15 +141,18 @@ def home_search(request):
             rooms = SaleHouse.objects.filter(lng__range=(longitude - dis, longitude + dis),
                                              lat__range=(latitude - dis, latitude + dis))
         room_list = get_search_saldhouse_list(rooms, user)
+        return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
+                                                      "user": user})
     elif sts == 'rent':
         rooms = RoomInfo.objects.filter(addr_xiaoqu__in=cs)
         if len(rooms) == 0:
             rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
                                             lat__range=(latitude - dis, latitude + dis))
         room_list = get_search_room_list(rooms, user)
+        return render(request, "search.html", {"rooms": json.dumps(room_list),
+                                               "user": user})
     else:
         return HttpResponseNotFound()
-    return render(request, "search.html", {"rooms": json.dumps(room_list)})
 
 
 def map_search(request):
@@ -243,7 +249,7 @@ def admin_logout(request):
 
 
 def user_login(request):
-    if request.method == 'post':
+    if request.method == 'POST':
         user = request.POST.get('phone')
         request.session['user'] = user
         request.session['identity'] = 'user'
@@ -268,14 +274,18 @@ def admin_root(request):
         e = RoomEvaluation.objects.order_by('-createTime')[0:10]
         count = RoomEvaluation.objects.count()
         areas = Area.objects.all()
-        return render(request, "backend.html", {"managers": m_list,
-                                                "managers_js": json.dumps(serializers.serialize('json',m_list)),
-                                                "evaluation_count": count,
-                                                "status": status,
-                                                "identity": identity,
-                                                "user": user,
-                                                "communities": community_list,
-                                                "area_list": areas})
+        if status == 'root':
+            html = "backend.html"
+        else:
+            html = "backendSearch"
+        return render(request, html, {"managers": m_list,
+                                      "managers_js": json.dumps(serializers.serialize('json',m_list)),
+                                      "evaluation_count": count,
+                                      "status": status,
+                                      "identity": identity,
+                                      "user": user,
+                                      "communities": community_list,
+                                      "area_list": areas})
     else:
         return HttpResponseRedirect(reverse("admin_login"))
 
@@ -310,18 +320,23 @@ def admin_second_manager(request):
     if not is_second_manager(identity):
         return HttpResponseRedirect(reverse("admin_login"))
     rooms = RoomInfo.objects.filter(contactPerson=user)
+    salehouses = SaleHouse.objects.filter(contactPerson=user)
     rms = []
+    shs = []
     for i in rooms:
         rms.append({"info": i, "picture": RoomPicture.objects.filter(roomNumber=i).exists()})
+    for i in salehouses:
+        shs.append({"info": i, "picture": SaleHousePicture.objects.filter(roomNumber=i).exists()})
     # rooms = json.dumps(serializers.serialize('json', rooms))
     return render(request, "backendL2.html", {"rooms": rms,
+                                              "salehouses": shs,
                                               "identity": identity,
                                               "status": status,
                                               "user": user})
 
 
 def new_house(request):
-    return new_house(request, False)
+    return new_house_handle(request, False)
 
 
 def new_house_handle(request, use_old):
@@ -418,19 +433,28 @@ def use_old_salehouse(request):
 
 
 def client_back(request):
-    return render(request, "clientBackend.html",{"route":"console"})
-
-
-def client_back_account(request):
-    return render(request, "myAccount.html",{"route":"account"})
-
-
-def client_back_list(request):
-    return render(request, "mylist.html",{"route":"list"})
-
-
-def client_back_comment(request):
-    return render(request, "serviceContact.html",{"route":"comment"})
+    user, status, identity = user_session_check(request)
+    collects = RoomCollect.objects.filter(user=user)
+    c_list = []
+    for i in collects:
+        c_list.append(i.roomNumber)
+    rooms = RoomInfo.objects.filter(roomNumber__in=c_list)
+    houses = SaleHouse.objects.filter(roomNumber__in=c_list)
+    room_list = get_search_room_list(rooms, user)
+    house_list = get_search_saldhouse_list(houses, user)
+    return render(request, "clientBackend.html",{"room_list": json.dumps(room_list),
+                                                 "house_list": json.dumps(house_list),
+                                                 "user": user})
+# def client_back_account(request):
+#     return render(request, "myAccount.html",{"route":"account"})
+#
+#
+# def client_back_list(request):
+#     return render(request, "mylist.html",{"route":"list"})
+#
+#
+# def client_back_comment(request):
+#     return render(request, "serviceContact.html",{"route":"comment"})
 
 
 def room_collection(request):
@@ -471,7 +495,7 @@ def room_book(request):
 def post_new_area(request):
     if request.method == 'POST':
         try:
-            name = request.POST.get('name')
+            name = request.POST.get('name', None)
             p, created = Area.objects.get_or_create(name=name)
             if created:
                 return JsonResponse(success)
@@ -549,6 +573,10 @@ def post_get_manager_search(request):
     try:
         user = request.GET.get('id')
         m = Manager.objects.get(user=user)
+        areas = Area.objects.all()
+        area_l = []
+        for i in areas:
+            area_l.append(i.name)
         result = {'code': 1,
                   'context': {'user': m.user,
                               'pw': m.pw,
@@ -556,6 +584,7 @@ def post_get_manager_search(request):
                               'phone': m.phone,
                               'status': m.status,
                               'district': m.district,
+                              'area_list': area_l,
                               'exist': m.exist}}
         return JsonResponse(result)
     except Exception, e:
@@ -567,15 +596,20 @@ def post_get_second_manager_search(request):
     try:
         user = request.GET.get('id')
         m = SecondManager.objects.get(user=user)
+        c = Community.objects.filter(manager=m.manager.user)
+        c_list = []
+        for i in c:
+            c_list.append(i.name)
         result = {'code': 1,
-                  'context': {'manager': m.manager.user,
-                               'user': m.user,
-                               'pw': m.pw,
-                               'name': m.name,
-                               'phone': m.phone,
-                               'company': m.company,
-                               'status': m.status,
-                               'exist': m.exist}}
+                  'context': {'community_list': c_list,
+                              'manager': m.manager.user,
+                              'user': m.user,
+                              'pw': m.pw,
+                              'name': m.name,
+                              'phone': m.phone,
+                              'company': m.company,
+                              'status': m.status,
+                              'exist': m.exist}}
         return JsonResponse(result)
     except Exception, e:
         print e
@@ -600,21 +634,26 @@ def post_get_community(request):
     try:
         name = request.GET.get('id')
         c = Community.objects.get(name=name)
+        m_list = get_manager_list()
+        ms = []
+        for i in m_list:
+            ms.append(i.user)
         result = {'code': 1,
-                  'context': {'name': c.name,
+                  'context': {'manager_list': ms,
+                              'name': c.name,
                               'manager': c.manager,
-                              'item': c.item,
+                              # 'item': c.item,
                               'lng': c.lng,
                               'lat': c.lat,
-                              'area': c.area,
-                              'district': c.district,
+                              # 'area': c.area,
+                              # 'district': c.district,
                               'business': c.business,
                               'keyword': c.keyword,
                               'type': c.type,
                               'year': c.year,
                               'level': c.level,
-                              'facility': c.facility,
-                              'green': c.green,
+                              # 'facility': c.facility,
+                              # 'green': c.green,
                               'security': c.security}}
         return JsonResponse(result)
     except Exception, e:
@@ -1373,7 +1412,17 @@ def post_roominfo_sold(request):
 
 
 # todo 缺少考虑情况不太对，先这样这把
+
+
 def roominfo_addr_search(request):
+    try:
+        return roominfo_addr_search_handle(request)
+    except Exception, e:
+        print e
+        return JsonResponse(fail)
+
+
+def roominfo_addr_search_handle(request):
     identity = request.session.get("identity", "")
     status = request.session.get("status", "")
     user = request.session.get("user", "")
@@ -1393,14 +1442,25 @@ def roominfo_addr_search(request):
         room = rooms[0]
         if room.sold:
             sts = 1
-        else:
+        elif room.exist:
             sts = 0
+        else:
+            return JsonResponse(fail)
         return JsonResponse({'code': 1,
                              'status': sts,
-                             'roomNumber': room.contactPerson})
+                             'sm': room.contactPerson,
+                             'roomNumber': room.roomNumber})
 
 
 def salehouse_addr_search(request):
+    try:
+        return salehouse_addr_search_handle(request)
+    except Exception, e:
+        print e
+        return JsonResponse(fail)
+
+
+def salehouse_addr_search_handle(request):
     identity = request.session.get("identity", "")
     status = request.session.get("status", "")
     user = request.session.get("user", "")
@@ -1418,11 +1478,14 @@ def salehouse_addr_search(request):
         room = rooms[0]
         if room.sold:
             sts = 1
-        else:
+        elif room.exist:
             sts = 0
+        else:
+            return JsonResponse(fail)
         return JsonResponse({'code': 1,
                              'status': sts,
-                             'roomNumber': room.contactPerson})
+                             'sm': room.contactPerson,
+                             'roomNumber': room.roomNumber})
 
 
 def salehouse_search_except(request):
@@ -1452,9 +1515,9 @@ def room_search(requset, issalehouse):
     if house_status == 'no':
         if house_area == 'no':
             if issalehouse:
-                rooms = SaleHouse.objects.filter().order_by('-roomNumber')
+                rooms = SaleHouse.objects.filter(exist=True).order_by('-roomNumber')
             else:
-                rooms = RoomInfo.objects.filter().order_by('-roomNumber')
+                rooms = RoomInfo.objects.filter(exist=True).order_by('-roomNumber')
             count = rooms.count()
             rooms = rooms[page*page_num-page_num:page*page_num]
         else:
@@ -1641,18 +1704,18 @@ def post_community_add(request):
             name = form.cleaned_data['xiaoqu_add_name']
             lng = form.cleaned_data['xiaoqu_add_lng']
             lat = form.cleaned_data['xiaoqu_add_lat']
-            area = form.cleaned_data['xiaoqu_add_area']
-            district = form.cleaned_data['xiaoqu_add_district']
+            # area = form.cleaned_data['xiaoqu_add_area']
+            # district = form.cleaned_data['xiaoqu_add_district']
             business = form.cleaned_data['xiaoqu_add_business']
             keyword = form.cleaned_data['xiaoqu_add_keyword']
             type_ = form.cleaned_data['xiaoqu_add_type']
             year = form.cleaned_data['xiaoqu_add_year']
             level = form.cleaned_data['xiaoqu_add_level']
-            facility = form.cleaned_data['xiaoqu_add_facility']
-            green = form.cleaned_data['xiaoqu_add_green']
+            # facility = form.cleaned_data['xiaoqu_add_facility']
+            # green = form.cleaned_data['xiaoqu_add_green']
             security = form.cleaned_data['xiaoqu_add_security']
-            p = community_add_or_modify(name, manager, lng, lat, area, district, business,
-                                        keyword, type_, year, level, facility, green, security)
+            p = community_add_or_modify(name, manager, lng, lat, business,
+                                        keyword, type_, year, level, security)
             if p:
                 return JsonResponse(success)
             else:

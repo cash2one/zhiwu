@@ -236,6 +236,10 @@
 
     <script>
         $(document).ready(function(){
+
+            var rooms={{ room_list|safe}};
+            var house={{ house_list|safe}}
+
           $('.slider').slider();
         });
     </script>

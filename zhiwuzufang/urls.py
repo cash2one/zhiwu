@@ -38,9 +38,9 @@ urlpatterns = [
 
         # 客户后台
         url(r'^client_back/', 'zhiwu.views.client_back', name='client_back'),
-        url(r'^client_back_list/', 'zhiwu.views.client_back_list', name='client_back_list'),
-        url(r'^client_back_account/', 'zhiwu.views.client_back_account', name='client_back_account'),
-        url(r'^client_back_comment/', 'zhiwu.views.client_back_comment', name='client_back_comment'),
+        # url(r'^client_back_list/', 'zhiwu.views.client_back_list', name='client_back_list'),
+        # url(r'^client_back_account/', 'zhiwu.views.client_back_account', name='client_back_account'),
+        # url(r'^client_back_comment/', 'zhiwu.views.client_back_comment', name='client_back_comment'),
 
         # 后台登陆
         url(r'^admin_login/', 'zhiwu.views.admin_login', name='admin_login'),
@@ -153,7 +153,7 @@ urlpatterns = [
 
 
     # Part3:Get ajax
-        # 编辑时候的判断是否有房子
+        # 编辑时候的判断是否有房子roominfo_addr_search
         url(r'^roominfo_addr_search/', 'zhiwu.views.roominfo_addr_search', name='roominfo_addr_search'),
         url(r'^salehouse_addr_search/', 'zhiwu.views.salehouse_addr_search', name='salehouse_addr_search'),
 

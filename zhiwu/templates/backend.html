@@ -203,6 +203,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="xiaoqu_add_keyword" class="col-sm-2 control-label">关键字</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_keyword" name="xiaoqu_add_keyword" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-10">
                                         <button class="btn btn-success btn-post">保存</button>
                                     </div>
@@ -230,15 +236,11 @@
                                 <thead>
                                 <tr>
                                     <th>详细小区名称</th>
-                                    <th>所属区域</th>
-                                    <th>所属行政区</th>
                                     <th>所在商圈</th>
                                     <th>其它关键字</th>
                                     <th>房屋类型</th>
                                     <th>建成年限</th>
                                     <th>小区档次</th>
-                                    <th>配套设施</th>
-                                    <th>绿化</th>
                                     <th>安保</th>
                                 </tr>
                                 </thead>
@@ -257,11 +259,11 @@
                     <div class="section" id="area_name_add">
                         <div class="title-l2">区域名新建</div>
                         <div class="section-content">
-                            <form class="form-horizontal" id="area_name_add_form" dest="{% url 'area_add' %}">
+                            <form class="form-horizontal" id="area_name_add_form" dest="{% url 'post_new_area' %}">
                                 <div class="form-group">
                                     <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="area_add_mame" name="manager_mame">
+                                        <input type="text" class="form-control" id="area_add_mame" name="name">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -293,9 +295,9 @@
                                     <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" id="area_add_name" name="manager_district">
-{#                                            {% for i in area_list %}#}
-{#                                                <option value="{{ i }}">{{ i }}</option>#}
-{#                                            {% endfor %}#}
+                                            {% for i in area_list %}
+                                                <option value="{{ i.name }}">{{ i.name }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
@@ -531,7 +533,7 @@
                     <div class="section" id="source-manager-rent-search">
                         <div class="title-l2">租房房源搜索</div>
                         <div class="section-content">
-                            <form class="form-inline" id="house_search_form" dest="/house_search">
+                            <form class="form-inline" id="house_search_form" dest="/room_search">
                                 <div class="form-group" style="margin-right:30px;">
                                     <label class="control-label">类型：</label>
                                     <label for="no" class="checkbox-inline">
@@ -885,7 +887,11 @@
                                  <div class="form-group">
                                     <label for="xiaoqu_add_manager" class="col-sm-2 control-label">小区管理负责人</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="xiaoqu_add_manager" name="xiaoqu_add_manager" value=${manager}>
+                                        <select class="form-control" id="xiaoqu_add_manager" name="xiaoqu_add_manager">
+                                            {{each manager_list}}
+                                                <option value="${$value}" {{if $value == manager}}selected{{/if}}>${$value}</option>
+                                            {{/each}}
+                                        </select>
                                     </div>
                                 </div>
 
@@ -893,29 +899,12 @@
                                 <input type="hidden" class="form-control" id="edit_xiaoqu_add_lat" name="xiaoqu_add_lat" value="${lat}">
 
                                 <div class="form-group">
-                                    <label for="xiaoqu_add_area" class="col-sm-2 control-label">所属区域*</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="xiaoqu_add_area" name="xiaoqu_add_area" value="${area}">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="xiaoqu_add_district" class="col-sm-2 control-label">所属行政区*</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="xiaoqu_add_district" name="xiaoqu_add_district" value="${district}">
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label for="xiaoqu_add_business" class="col-sm-2 control-label">所在商圈</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="xiaoqu_add_business" name="xiaoqu_add_business" value="${business}">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="xiaoqu_add_keyword" class="col-sm-2 control-label">其它关键字*</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="xiaoqu_add_keyword" name="xiaoqu_add_keyword" value="${keyword}">
-                                    </div>
-                                </div>
+
                                 <div class="form-group">
                                     <label for="xiaoqu_add_type" class="col-sm-2 control-label">房屋类型*</label>
                                     <div class="col-sm-10">
@@ -923,33 +912,27 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="xiaoqu_add_year" class="col-sm-2 control-label">建成年限*</label>
+                                    <label for="xiaoqu_add_year" class="col-sm-2 control-label">建造年代*</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="xiaoqu_add_year" name="xiaoqu_add_year" value="${year}">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="xiaoqu_add_level" class="col-sm-2 control-label">小区档次</label>
+                                    <label for="xiaoqu_add_level" class="col-sm-2 control-label">小区档次规模</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="xiaoqu_add_level" name="xiaoqu_add_level" value="${level}">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="xiaoqu_add_facility" class="col-sm-2 control-label">配套设施</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="xiaoqu_add_facility" name="xiaoqu_add_facility" value="${facility}">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="xiaoqu_add_green" class="col-sm-2 control-label">绿化</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="xiaoqu_add_green" name="xiaoqu_add_green" value="${green}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="xiaoqu_add_security" class="col-sm-2 control-label">安保</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="xiaoqu_add_security" name="xiaoqu_add_security" value="${security}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="xiaoqu_add_keyword" class="col-sm-2 control-label">关键字*</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="xiaoqu_add_keyword" name="xiaoqu_add_keyword" value="${keyword}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -978,7 +961,12 @@
                                 <div class="form-group">
                                     <label for="area_add_name" class="col-sm-2 control-label">区域名</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="area_add_name" name="manager_district" value=${district}>
+
+                                        <select class="form-control select-listener" id="area_add_name" name="manager_district">
+                                            {{each area_list}}
+                                                <option value="${$value}" {{if $value == district}}selected{{/if}}>${$value}</option>
+                                            {{/each}}
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1034,7 +1022,9 @@
                                     <label for="wuye_keeper_add_xiaoqu" class="col-sm-2 control-label">所属小区</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" id="edit_wuye_keeper_add_xiaoqu" name="second_manager_company">
-
+                                            {{each community_list}}
+                                                <option value="${$value}" {{if $value == company}}selected{{/if}}>${$value}</option>
+                                            {{/each}}
                                         </select>
                                     </div>
                                 </div>
@@ -1163,15 +1153,11 @@
 <script id="xiaoqu-search" type="text/x-jquery-tmpl">
 <tr data-target="${pk}">
                                     <th>${pk}</th>
-                                    <th>${fields.area}</th>
-                                    <th>${fields.district}</th>
                                     <th>${fields.business}</th>
                                     <th>${fields.keyword}</th>
                                     <th>${fields.type}</th>
                                     <th>${fields.year}</th>
                                     <th>${fields.level}</th>
-                                    <th>${fields.facility}</th>
-                                    <th>${fields.green}</th>
                                     <th>${fields.security}</th>
                                     <th class="btn-group">
                                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
