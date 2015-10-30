@@ -37,6 +37,8 @@ class SaleHouse(models.Model):
     # achieve = models.BooleanField(default=False)
     create_time = models.DateField(auto_now_add=True)
     sold_time = models.DateField(default='1970-01-01')
+    have_image = models.BooleanField()
+
 
 
 class Area(models.Model):
@@ -103,6 +105,7 @@ class RoomInfo(models.Model):
     # achieve = models.BooleanField(default=False)
     create_time = models.DateField(auto_now_add=True)
     sold_time = models.DateField(default='1970-01-01')
+    have_image = models.BooleanField()
 
     def __unicode__(self):
         return self.roomNumber
