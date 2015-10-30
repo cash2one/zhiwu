@@ -109,7 +109,7 @@
                                             <div class="card-content">
                                               <p>{{ i.type_room }}室{{ i.type_livingroom }}厅{{ i.type_toilet }}卫<br/>{{ i.price }}元/月</p>
                                             </div>
-                                            <div class="btn-collect {% if i.collected %}active{% endif %}" data-target="test">
+                                            <div class="btn-collect {% if i.collected %}active{% endif %}" data-target="{{ i.roomNumber }}">
                                                 <i class="small material-icons left">grade</i>
                                             </div>
                                           </div>
@@ -137,7 +137,7 @@
                                             <div class="card-content">
                                               <p>{{ i.type_room }}室{{ i.type_livingroom }}厅{{ i.type_toilet }}卫<br/>{{ i.price }}元/月</p>
                                             </div>
-                                            <div class="btn-collect" data-target="test">
+                                            <div class="btn-collect" data-target="{{ i.roomNumber }}">
                                                 <i class="small material-icons left">grade</i>
                                             </div>
                                           </div>
