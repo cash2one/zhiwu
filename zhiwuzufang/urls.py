@@ -18,6 +18,10 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 
+
+handler404 = 'zhiwu.views.page_not_found'
+handler500 = 'zhiwu.views.page_error'
+
 urlpatterns = [
     # test
     url(r'^test/', 'zhiwu.views.test', name='test'),

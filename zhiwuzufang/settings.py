@@ -25,7 +25,7 @@ SECRET_KEY = '42*x@g9nxb8f7z_k#!#**n&ephsuvxs(m0xsljo7p(^j6-=lt5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -77,18 +77,18 @@ WSGI_APPLICATION = 'zhiwuzufang.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'r5t8h2gfyb2l9o9p',
-        'USER': 'zhiwu',
-        'PASSWORD': 'zhiwu123',
-        'HOST': 'rdsuw2cg14d4y69wl716.mysql.rds.aliyuncs.com',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'r5t8h2gfyb2l9o9p',
+    #     'USER': 'zhiwu',
+    #     'PASSWORD': 'zhiwu123',
+    #     'HOST': 'rdsuw2cg14d4y69wl716.mysql.rds.aliyuncs.com',
+    #     'PORT': '',
+    # }
 }
 
 

@@ -1,10 +1,11 @@
 # coding:utf-8
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.http import HttpResponseNotFound
+# from django.http import HttpResponseNotFound
 from django.http import HttpResponseRedirect
 from django.http import StreamingHttpResponse
 from django.http import JsonResponse
+from django.http import Http404
 from django.conf import settings
 from django.db.models import Q
 from django.core.urlresolvers import reverse
@@ -24,6 +25,14 @@ not_valid = {"code": 0, "msg": "信息不合法"}
 not_exist = {"code": 0, "msg": "用户不存在"}
 success = {"code": 1}
 fail = {"code": 0}
+
+
+def page_not_found(request):
+    return render(request, "404.html")
+
+
+def page_error(request):
+    return render(request, "500.html")
 
 
 def home(request):
@@ -91,14 +100,14 @@ def work_search(request):
         sts = request.GET.get("status", None)
         if time is None or way is None or longitude is None and latitude is None:
             print "get 信息不全:"
-            return HttpResponseNotFound()
+            return page_not_found(request)
         else:
             try:
                 dis = distance.get(way).get(time_get)
             except:
-                return HttpResponseNotFound()
+                return page_not_found(request)
             if dis is None:
-                return HttpResponseNotFound()
+                return page_not_found(request)
             if sts == 'sale':
                 rooms = SaleHouse.objects.filter(lng__range=(longitude - dis, longitude + dis),
                                                  lat__range=(latitude - dis, latitude + dis))
@@ -112,11 +121,11 @@ def work_search(request):
                 return render(request, "search.html", {"rooms": json.dumps(room_list),
                                                        "user": user})
             else:
-                return HttpResponseNotFound()
+                return page_not_found(request)
     except Exception, e:
         print "work search error:"
         print e
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def home_search(request):
@@ -152,7 +161,7 @@ def home_search(request):
         return render(request, "search.html", {"rooms": json.dumps(room_list),
                                                "user": user})
     else:
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def map_search(request):
@@ -174,7 +183,7 @@ def map_search(request):
                                             lat__range=(latitude_l, latitude_r))
             room_list = get_search_room_list(rooms, user)
         else:
-            return HttpResponseNotFound()
+            return page_not_found(request)
         result = {"code": 1,
                   "newData": room_list}
         return JsonResponse(result, safe=False)
@@ -199,7 +208,7 @@ def salehouse_detail(request):
                                                "picture": roomP})
     except Exception, e:
         print e
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 def room_detail(request):
     try:
@@ -216,7 +225,7 @@ def room_detail(request):
                                                "picture": roomP})
     except Exception, e:
         print e
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def admin_login(request):
@@ -255,7 +264,7 @@ def admin_login(request):
             except Exception, e:
                 print 'admin manager login error:'
                 print e
-                return HttpResponseNotFound()
+                return page_not_found(request)
     else:
         return render(request, "loginForBack.html")
 
@@ -273,7 +282,7 @@ def user_login(request):
         request.session['status'] = 'user'
         return JsonResponse(success)
     else:
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def user_logout(request):
@@ -497,7 +506,7 @@ def room_collection(request):
             print e
             return JsonResponse(fail)
     else:
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def room_book(request):
@@ -523,7 +532,7 @@ def post_new_area(request):
             print e
             return JsonResponse(fail)
     else:
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_delete_area(request):
@@ -538,7 +547,7 @@ def post_delete_area(request):
             print e
             return JsonResponse({'code': 0, 'msg': '区域名不存在'})
     else:
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def get_area_name(request):
@@ -746,7 +755,7 @@ def post_manager_add(request, status):
         else:
             return JsonResponse(not_valid)
     else:  # 当正常访问时
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_manager_modify(request, status):
@@ -770,7 +779,7 @@ def post_manager_modify(request, status):
         else:
             return JsonResponse(not_valid)
     else:  # 当正常访问时
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 # 添加或者修改一条一级管理员
@@ -836,7 +845,7 @@ def post_manager_delete(request):
         else:
             return JsonResponse(fail)
     else:  # 当正常访问时
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 # 删除一个一级管理员
@@ -856,7 +865,7 @@ def post_manager_logout(request):
         else:
             return JsonResponse(fail)
     else:
-        return HttpResponseNotFound()
+        return page_not_found(request)
 # 管理员登出
 
 
@@ -878,7 +887,7 @@ def post_manager_active(request):
             return JsonResponse(fail)
     else:
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 # 激活一个管理员账号
 
 
@@ -938,7 +947,7 @@ def post_second_manager_add(request, status):
             return JsonResponse(not_valid)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_second_manager_modify(request, status):
@@ -964,7 +973,7 @@ def post_second_manager_modify(request, status):
             return JsonResponse(not_valid)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def wuye_search(request):
@@ -1057,7 +1066,7 @@ def post_second_manager_delete(request):
             return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 # 删除一个二级管理员
@@ -1079,7 +1088,7 @@ def post_second_manager_logout(request):
                 return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_second_manager_active(request):
@@ -1098,7 +1107,7 @@ def post_second_manager_active(request):
                 return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_second_manager_pw(request):
@@ -1123,7 +1132,7 @@ def post_second_manager_pw(request):
             return JsonResponse(fail)
     else:
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def upload_image(request):
@@ -1247,7 +1256,7 @@ def post_salehouse_logout(request):
                 return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_salehouse_active(request):
@@ -1269,7 +1278,7 @@ def post_salehouse_active(request):
                 return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound
+        return page_not_found(request)
 
 
 def post_salehouse_sold(request):
@@ -1290,7 +1299,7 @@ def post_salehouse_sold(request):
                 return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_roominfo_logout(request):
@@ -1312,7 +1321,7 @@ def post_roominfo_logout(request):
                 return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_roominfo_active(request):
@@ -1334,7 +1343,7 @@ def post_roominfo_active(request):
                 return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound
+        return page_not_found(request)
 
 
 def post_roominfo_save(request):
@@ -1425,7 +1434,7 @@ def post_roominfo_sold(request):
                 return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 # todo 缺少考虑情况不太对，先这样这把
@@ -1590,7 +1599,7 @@ def room_search(requset, issalehouse):
             count = rooms.count()
             rooms = rooms[page*page_num-page_num:page*page_num]
     else:
-        return HttpResponseNotFound()
+        return page_not_found(request)
     rooms = serializers.serialize('json', rooms)
     result = {'code': 1,
               'context': rooms,
@@ -1619,7 +1628,7 @@ def post_evaluation_add(request):
                 return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_evaluation_pass(request):
@@ -1642,7 +1651,7 @@ def post_evaluation_pass(request):
                 return JsonResponse(fail)
     else:
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_evaluation_no_pass(request):
@@ -1665,7 +1674,7 @@ def post_evaluation_no_pass(request):
                 return JsonResponse(fail)
     else:
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_evaluation_delete(request):
@@ -1688,7 +1697,7 @@ def post_evaluation_delete(request):
                 return JsonResponse(fail)
     else:  # 当正常访问时
         print 'not post'
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def post_evaluation_search(request):
@@ -1740,7 +1749,7 @@ def post_community_add(request):
         else:
             return JsonResponse(fail)
     else:
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 # 小区查询，返回一个jason 列表
@@ -1771,7 +1780,7 @@ def post_community_delete(request):
         else:
             return JsonResponse(fail)
     else:
-        return HttpResponseNotFound()
+        return page_not_found(request)
 
 
 def download_data(request):
