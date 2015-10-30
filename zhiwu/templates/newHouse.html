@@ -659,13 +659,13 @@
             if(isSubmit){
                 var flag=false;
                 $(".form-required").each(function(){
-                    if(!!$(this)){
+                    if($(this).val()){
+                        $(this).removeClass("form-alert");
+                    }else{
                         flag=true;
                         $(this).addClass("form-alert");
-                    }else{
-                        $(this).removeClass("form-alert");
                     }
-                })
+                });
                 if(flag){
                     alert("请填写完整的信息");
                     return;

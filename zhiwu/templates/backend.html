@@ -1237,50 +1237,37 @@
 
 
 <script id="house-search" type="text/x-jquery-tmpl">
-<tr data-target="${pk}">
-                                    <th>${pk}</th>
-                                    <th>${fields.manager}</th>
-                                    <th>${fields.company}</th>
-                                    <th>${fields.name}</th>
-                                    <th>${fields.phone}</th>
-                                    <th>{{if fields.exist}}正在使用{{else}}已注销{{/if}}</th>
-                                    <th>
-                                        <button class="btn btn-default btn-edit">编辑</button>
-                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
-                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
-                                    </th>
-                                </tr>
 
-<tr data-target="{{i.info.roomNumber}}">
-                                        <th>{{i.info.roomNumber}}</th>
-                                        <th>{{i.info.stay_intime|date:"Y-m-d"}}</th>
-                                        <th>{{i.info.addr_xiaoqu}}</th>
-                                        <th>{{i.info.type_room}}室{{i.info.type_livingroom}}厅{{i.info.type_toilet}}卫</th>
-                                        <th>{{i.info.price}}/月</th>
-                                        <th>{{i.info.stay_intime|date:"Y-m-d" }}</th>
-                                        <th>{{i.info.contactPerson}}</th>
-                                        <th>{{i.info.contactPerson}}</th>
-                                        <th>{% if i.picture == True %}有{% else %}无{% endif %}</th>
+<tr data-target="${pk}">
+                                        <th>${pk}</th>
+                                        <th>${fields.create_time}</th>
+                                        <th>${fields.addr_xiaoqu}</th>
+                                        <th>${fields.type_room}室${fields.type_livingroom}厅${fields.type_toilet}卫</th>
+                                        <th>${fields.price}/月</th>
+                                        <th>${fields.stay_intime}</th>
+                                        <th>${fields.contactPerson}</th>
+                                        <th>${fields.contactPerson}</th>
+                                        <th>有</th>
                                         <th>
-                                            {% if i.info.sold == True %}
-                                                已售出
-                                            {% elif i.info.exist == True %}
+                                            {{if fields.sold}}
+                                                已下架
+                                            {{else fields.exist}}
                                                 已上架
-                                            {% else %}
+                                            {{else}}
                                                 待编辑
-                                            {% endif %}
+                                            {{/if}}
                                         </th>
                                         <th class="btn-group">
                                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                                {% if i.info.sold == True %}
+                                                {{if fields.sold }}
 
-                                                {% elif i.info.exist == True %}
-                                                    <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
-                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
-                                                {% else %}
-                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
-                                                {% endif %}
+                                                {{else fields.exist}}
+                                                    <li><a href="#" class="btn-operate" data-type="sold">下架</a></li>
+                                                    <li><a href="/new_house/?roomNumber=${pk}">编辑</a></li>
+                                                {{else}}
+                                                    <li><a href="/new_house/?roomNumber=${pk}">编辑</a></li>
+                                                {{/if}}
                                             </ul>
                                         </th>
                                     </tr>
@@ -1290,49 +1277,34 @@
 
 <script id="salehouse-search" type="text/x-jquery-tmpl">
 <tr data-target="${pk}">
-                                    <th>${pk}</th>
-                                    <th>${fields.manager}</th>
-                                    <th>${fields.company}</th>
-                                    <th>${fields.name}</th>
-                                    <th>${fields.phone}</th>
-                                    <th>{{if fields.exist}}正在使用{{else}}已注销{{/if}}</th>
-                                    <th>
-                                        <button class="btn btn-default btn-edit">编辑</button>
-                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
-                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
-                                    </th>
-                                </tr>
-
-<tr data-target="{{i.info.roomNumber}}">
-                                        <th>{{i.info.roomNumber}}</th>
-                                        <th>{{i.info.stay_intime|date:"Y-m-d"}}</th>
-                                        <th>{{i.info.addr_xiaoqu}}</th>
-                                        <th>{{i.info.type_room}}室{{i.info.type_livingroom}}厅{{i.info.type_toilet}}卫</th>
-                                        <th>{{i.info.price}}/月</th>
-                                        <th>{{i.info.stay_intime|date:"Y-m-d" }}</th>
-                                        <th>{{i.info.contactPerson}}</th>
-                                        <th>{{i.info.contactPerson}}</th>
-                                        <th>{% if i.picture == True %}有{% else %}无{% endif %}</th>
+                                        <th>${pk}</th>
+                                        <th>${fields.create_time}</th>
+                                        <th>${fields.addr_xiaoqu}</th>
+                                        <th>${fields.type_room}室${fields.type_livingroom}厅${fields.type_toilet}卫</th>
+                                        <th>${fields.price}万元</th>
+                                        <th>${fields.contactPerson}</th>
+                                        <th>${fields.contactPerson}</th>
+                                        <th>有</th>
                                         <th>
-                                            {% if i.info.sold == True %}
-                                                已售出
-                                            {% elif i.info.exist == True %}
+                                            {{if fields.sold }}
+                                                已下架
+                                            {{else fields.exist}}
                                                 已上架
-                                            {% else %}
+                                            {{else}}
                                                 待编辑
-                                            {% endif %}
+                                            {{/if}}
                                         </th>
                                         <th class="btn-group">
                                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                                {% if i.info.sold == True %}
+                                                {{if fields.sold }}
 
-                                                {% elif i.info.exist == True %}
-                                                    <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
-                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
-                                                {% else %}
-                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
-                                                {% endif %}
+                                                {{else fields.exist}}
+                                                    <li><a href="#" class="btn-operate" data-type="salesold">下架</a></li>
+                                                    <li><a href="/new_salehouse/?roomNumber=${pk}">编辑</a></li>
+                                                {{else}}
+                                                    <li><a href="/new_salehouse/?roomNumber=${pk}">编辑</a></li>
+                                                {{/if}}
                                             </ul>
                                         </th>
                                     </tr>
@@ -1483,18 +1455,18 @@
                         $(_tmpl).tmpl(JSON.parse(data.context)).appendTo(_wrapper);
                         if(type==="salehouse" || type==='house'){
                             //先清空分页
-                            $(_wrapper).parents("table").next().remove();
+                            $("#Pagination-"+type).remove();
                             //如果是房源搜索的话，就还要加上分页
                             var _pagenation='<div id="Pagination-'+type+'" class="pagination"></div>';
                             $("#"+type+"-table").after(_pagenation);
 
                             var _cb=type==="house"?pageHouseCB:pageSalehouseCB;
 
-                            $("#Pagination-"+type).pagination(data.pagenum, {
+                            $("#Pagination-"+type).pagination(data.count, {
                                 num_edge_entries: 1, //边缘页数
                                 num_display_entries: 1, //主体页数
                                 callback: _cb,
-                                items_per_page:10 //每页显示1项
+                                items_per_page:1 //每页显示1项
                             });
                         }
                     }else{
@@ -1597,11 +1569,15 @@
             e.preventDefault();
             var _id=$(this).parents("tr").data("target");//该条目id
             var _tmplID=$(this).parents("table").data("tmpl");
-            var _url=$(this).data("type")==="activate"?activateUrlMap[_tmplID]:($(this).data("type")==="cancel"?cancelUrlMap[_tmplID]:"{% url 'evaluation_delete' %}");
+            var _type=$(this).data("type")
+            var _url=_type==="activate"?activateUrlMap[_tmplID]:(_type==="cancel"?cancelUrlMap[_tmplID]:"{% url 'evaluation_delete' %}");
 
-            $.post(
+
+            if(_type==="sold"||_type==="salesold"){
+                _url=_type==="sold"?"{% url 'roominfo_sold' %}":"{% url 'salehouse_sold' %}";
+                $.post(
                     _url,
-                    {id:_id},
+                    {roomNumber:_id},
                     function(data){
                         if(data.code==1){
                             console.log("post success");
@@ -1617,6 +1593,28 @@
                     .error(function(){
                         console.log("error");
                     });
+
+            }else{
+                $.post(
+                    _url,
+                    {id:_id},
+                    function(data){
+                        if(data.code==1){
+                            console.log("post success");
+                            //TODO: 修改对应的表格状态
+                            alert("操作成功！");
+                        }else{
+                            console.log("post failed");
+                            alert("操作失败！");
+
+                        }
+                    }
+                )
+                        .error(function(){
+                            console.log("error");
+                        });
+                }
+
         });
 
         $(document).delegate(".select-listener","change",function(e){
@@ -1688,7 +1686,7 @@
             var _area=$("#cache_house_area").val();
 
             $.get(
-                    "{% url 'evaluation_search' %}",
+                    "{% url 'room_search' %}",
                     {p:_p,
                      house_status:_status,
                     house_area:_area},
@@ -1714,7 +1712,7 @@
             var _area=$("#cache_salehouse_area").val();
 
             $.get(
-                    "{% url 'evaluation_search' %}",
+                    "/salehouse_search/",
                     {p:_p,
                      house_status:_status,
                     house_area:_area},

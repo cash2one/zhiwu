@@ -37,12 +37,13 @@
                 "{% url 'room_collection' %}",
                 {roomNumber:_id},
                 function(data){
-                    if(data.status==200){
-                        //TODO判断有没有收藏
-
-                        that.addClass("active");
-                        console.log("post success");
-                        alert("已加入收藏夹");
+                    if(data.code==1){
+                        if(data.msg=="收藏成功"){
+                            that.addClass("active");
+                        }else{
+                            that.removeClass("active");
+                        }
+                        alert(data.msg);
                     }else{
                         console.log("post failed");
                         if(data.msg){

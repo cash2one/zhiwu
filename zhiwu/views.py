@@ -1508,7 +1508,7 @@ def room_search_except(request):
 
 def room_search(requset, issalehouse):
     # todo 需要扩大
-    page_num = 3
+    page_num = 1
     house_status = requset.GET.get('house_status', 'no')  # no active cancel
     house_area = requset.GET.get('house_area', 'no')  # no , xxxx
     page = int(requset.GET.get('p', 1))

@@ -153,7 +153,7 @@
                                                 {% if i.info.sold == True %}
 
                                                 {% elif i.info.exist == True %}
-                                                    <li><a href="#" class="btn-operate" data-type="sold">下架</a></li>
+                                                    <li><a href="#" class="btn-operate" data-type="salesold">下架</a></li>
 {#                                                    <li><a href="#" class="btn-operate" data-type="sold">售出</a></li>#}
                                                     <li><a href="/new_salehouse/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
 {#                                                {% elif i.info.achieve == True %}#}
@@ -193,7 +193,10 @@
         $(document).delegate(".btn-operate","click",function(e){
             e.preventDefault();
             var _id=$(this).parents("tr").data("target");//该条目id
-            var _url=$(this).data("type")==="activate"?"{% url 'roominfo_active' %}":($(this).data("type")==="cancel"?"{% url 'roominfo_logout' %}":"{% url 'roominfo_sold' %}");
+{#            var _url=$(this).data("type")==="activate"?"{% url 'roominfo_active' %}":($(this).data("type")==="cancel"?"{% url 'roominfo_logout' %}":"{% url 'roominfo_sold' %}");#}
+
+
+            var _url=$(this).data("type")==="sold"?"{% url 'roominfo_sold' %}":"{% url 'salehouse_sold' %}"
 
             $.post(
                     _url,

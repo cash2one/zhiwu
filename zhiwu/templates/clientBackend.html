@@ -34,6 +34,45 @@
         right:0px;
         bottom:150px;
     }
+
+    .tabs .indicator{
+        display: none;
+    }
+
+    .tabs .tab a{
+        color:#009688;
+    }
+
+    .tabs .tab a:hover{
+        color:#009688;
+    }
+
+    .tab a.active:hover{
+        background: #009688;
+        color:white;
+    }
+
+    .tab a.active{
+        background: #009688;
+        color:white;
+    }
+
+    .tabs li:nth-child(1) a{
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .tabs li:nth-child(2) a.active{
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .tabs{
+        border-radius: 5px;
+        margin-bottom:30px;
+    }
+
+
 </style>
 
 {% endblock %}
@@ -46,8 +85,99 @@
 
     <div class="row">
 
-        <h4 style="color:#009688;">选房清单</h4>
-                <div id="test2" class="col s12">
+                <div class="col s6 offset-s3">
+                  <ul class="tabs">
+                    <li class="tab col s3"><a class="active" href="#rent-list">租房收藏</a></li>
+                    <li class="tab col s3"><a href="#sale-list">买房收藏</a></li>
+                  </ul>
+                </div>
+
+                <div id="rent-list" class="col s12">
+                    <div class="tab-panel">
+                        <div class="house-recommend">
+                            <div class="room-detail-section">
+                                <div class="room-detail-content">
+
+                                    <div class="col s12 m4 l4">
+                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
+                                        <div class="card-image" data-target="HZ01">
+                                          <img src="/resource/card.jpg"/>
+                                          <span class="card-title">古荡小区</span>
+                                        </div>
+                                        <div class="card-content">
+                                          <p>1室1厅1卫<br/>3000元/月</p>
+                                        </div>
+                                        <div class="btn-collect" data-target="test">
+                                            <i class="small material-icons left">grade</i>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="col s12 m4 l4">
+                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
+                                        <div class="card-image" data-target="HZ01">
+                                          <img src="/resource/card.jpg"/>
+                                          <span class="card-title">古荡小区</span>
+                                        </div>
+                                        <div class="card-content">
+                                          <p>1室1厅1卫<br/>3000元/月</p>
+                                        </div>
+                                          <div class="btn-collect" data-target="test">
+                                            <i class="small material-icons left">grade</i>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="col s12 m4 l4">
+                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
+                                        <div class="card-image" data-target="HZ01">
+                                          <img src="/resource/card.jpg"/>
+                                          <span class="card-title">古荡小区</span>
+                                        </div>
+                                        <div class="card-content">
+                                          <p>1室1厅1卫<br/>3000元/月</p>
+                                        </div>
+                                          <div class="btn-collect" data-target="test">
+                                            <i class="small material-icons left">grade</i>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="col s12 m4 l4">
+                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
+                                        <div class="card-image" data-target="HZ01">
+                                          <img src="/resource/card.jpg"/>
+                                          <span class="card-title">古荡小区</span>
+                                        </div>
+                                        <div class="card-content">
+                                          <p>1室1厅1卫<br/>3000元/月</p>
+                                        </div>
+                                          <div class="btn-collect" data-target="test">
+                                            <i class="small material-icons left">grade</i>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="col s12 m4 l4">
+                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
+                                        <div class="card-image" data-target="HZ01">
+                                          <img src="/resource/card.jpg"/>
+                                          <span class="card-title">古荡小区</span>
+                                        </div>
+                                        <div class="card-content">
+                                          <p>1室1厅1卫<br/>3000元/月</p>
+                                        </div>
+                                          <div class="btn-collect" data-target="test">
+                                            <i class="small material-icons left">grade</i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="sale-list" class="col s12">
                     <div class="tab-panel">
                         <div class="house-recommend">
                             <div class="room-detail-section">

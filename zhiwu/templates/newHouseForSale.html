@@ -35,8 +35,9 @@
             <div class="section" id="step1">
                 <div class="title-l1">基本简介</div>
                 <div class="section-content">
-                    <form class="form-horizontal" id="step1-form">
-                        <div class="form-group" id="addr-form">
+
+                    <form class="form-horizontal" id="addr-form">
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">小区地址</label>
                             <div class="col-sm-10">
                                 <select data-placeholder="选择小区" class="form-required form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
@@ -54,6 +55,9 @@
                                 室
                             </div>
                         </div>
+                    </form>
+                    <form class="form-horizontal" id="step1-form">
+
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">详细位置点选*</label>
@@ -377,11 +381,11 @@
             if(isSubmit){
                 var flag=false;
                 $(".form-required").each(function(){
-                    if(!!$(this)){
+                    if($(this).val()){
+                        $(this).removeClass("form-alert");
+                    }else{
                         flag=true;
                         $(this).addClass("form-alert");
-                    }else{
-                        $(this).removeClass("form-alert");
                     }
                 });
                 if(flag){
@@ -401,7 +405,7 @@
 
             var urlStr=urlArr.join("^_^");
 
-            var content=$("#step1-form").serialize()+"&"+$("#step3-form").serialize()+"&imgUrl="+urlStr;
+            var content=$("#addr-form").serialize()+'&'+$("#step1-form").serialize()+"&"+$("#step3-form").serialize()+"&imgUrl="+urlStr;
 
             $.post(
                 dest,
@@ -447,38 +451,34 @@
         });
 
 
-        $("#addr-form .form-control").bind("change",function(){
+       $("#addr-form .form-control").bind("change",function(){
             //当地址发生改变时，根据地址搜索有没有对应的房源
             //TODO
 
             var res=[];
 
-            $("#addr-form .form-control").each(function(){
-                var _this=$(this);
-                res.push(_this.attr("name")+"="+_this.val());
-            });
+            var content=$("#addr-form").serialize();
 
             $.get(
-{#                "{% url 'roominfo_addr_search' %}",#}
-                "todourl",
-                res.join("&&"),
+                "{% url 'salehouse_addr_search' %}",
+                content,
                 function(data){
                     if(data.code==1){
-                        if(data.result==0){
-                            alert("已经找到该房源，但是已经上架，不能操作！由xx发布");
+                        if(data.status==0){
+                            alert("已经找到该房源，但是该房源已经被"+data.sm+"上架，不能操作!");
+                            window.location.reload();
                         }else{
-                            if(data.result==1){
+                            if(data.status==1){
                                 var res=confirm("已经找到该房源，在下架房源库中，是否导入？");
                                 if(res==true){
-                                    alert("导入");
+                                    window.open("/use_old_salehouse/?roomNumber="+data.roomNumber,"_self");
                                 }else{
-
+                                    return;
                                 }
                             }
                         }
-
                     }else{
-{#                        alert("查询失败！");#}
+{#                        alert("！");#}
                     }
                 }
             )
@@ -487,7 +487,6 @@
             });
 
         });
-
         //照片顺序可排序
         $(".files").sortable();
 
