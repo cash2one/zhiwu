@@ -276,7 +276,7 @@
     <div class="card-content">
       <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}￥</p>
     </div>
-    <div class="btn-collect {{if collected}} active {{/if}}" data-target="${roomNumber}">
+    <div class="btn-collect {{if collected == true}} active {{/if}}" data-target="${roomNumber}">
         <i class="small material-icons left">grade</i>
     </div>
   </div>
@@ -289,7 +289,9 @@
 
  $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15 // Creates a dropdown of 15 years to control year
+    selectYears: 15, // Creates a dropdown of 15 years to control year
+     format: 'yyyy-mm-dd',
+    formatSubmit: 'yyyy-mm-dd'
   });
 
 
@@ -480,20 +482,46 @@
                         ||(lookable_type!=-1&&rawData[i].see!==lookable_type)
                         ||(photo!=-1&&((typeof rawData[i].images[0] === "undefined")===photo))
                         ||(elevator!=-1&&rawData[i].elevator!==elevator)
-                        ||(intime!=-1&&checkTime(rawData[i].stay_intime,intime))){
+                        ||(intime!=-1&&!checkTime(intime,rawData[i].stay_intime))){
                     rawData[i].isValid=false;
                 }
             }
         }
 
-        function checkTime(a,b){
+        function checkTime(a,b){//判断a晚于（大于等于）b
             var arr1= a.split("-");
             var arr2= b.split("-");
 
-            var n1= Number(arr1[0])*100+Number(arr1[1])*10+Number(arr1[2]);
-            var n2= Number(arr2[0])*100+Number(arr2[1])*10+Number(arr2[2]);
+            if(Number(arr1[0])>Number(arr2[0])){
+                return true;
+            }else{
+                if(Number(arr1[0])==Number(arr2[0])){
+                    if(Number(arr1[1])>Number(arr2[1])){
+                        return true;
+                    }else{
+                        if(Number(arr1[1])==Number(arr2[1])){
+                            if(Number(arr1[2])>Number(arr2[2])){
+                                return true;
+                            }else{
+                                if(Number(arr1[2])==Number(arr2[2])){
+                                    return true;
+                                }else{
+                                    return false;
+                                }
+                            }
+                        }else{
+                            return false;
+                        }
+                    }
+                }else{
+                    return false;
+                }
+            }
 
-            return n1>=n2;
+{#            var n1= Number(arr1[0])*12+Number(arr1[1])*31+Number(arr1[2]);#}
+{#            var n2= Number(arr2[0])*12+Number(arr2[1])*31+Number(arr2[2]);#}
+{##}
+{#            return n1>=n2;#}
 
         }
 

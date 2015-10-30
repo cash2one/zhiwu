@@ -200,7 +200,7 @@ def salehouse_detail(request):
         evaluation = SaleHouseEvaluation.objects.filter(roomNumber=roomNum, ifpass=True).order_by('createTime')
         cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_salehouse_picture(room)
-        return render(request, "detail.html", {"room": room,
+        return render(request, "detailForSale.html", {"room": room,
                                                "lat": json.dumps(room.lat),
                                                "lng": json.dumps(room.lng),
                                                "evaluation": evaluation,
@@ -468,8 +468,8 @@ def client_back(request):
     houses = SaleHouse.objects.filter(roomNumber__in=c_list)
     room_list = get_search_room_list(rooms, user)
     house_list = get_search_saldhouse_list(houses, user)
-    return render(request, "clientBackend.html",{"room_list": json.dumps(room_list),
-                                                 "house_list": json.dumps(house_list),
+    return render(request, "clientBackend.html",{"room_list": room_list,
+                                                 "house_list": house_list,
                                                  "user": user})
 # def client_back_account(request):
 #     return render(request, "myAccount.html",{"route":"account"})

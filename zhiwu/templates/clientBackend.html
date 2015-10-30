@@ -98,80 +98,24 @@
                             <div class="room-detail-section">
                                 <div class="room-detail-content">
 
-                                    <div class="col s12 m4 l4">
-                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
-                                        <div class="card-image" data-target="HZ01">
-                                          <img src="/resource/card.jpg"/>
-                                          <span class="card-title">古荡小区</span>
-                                        </div>
-                                        <div class="card-content">
-                                          <p>1室1厅1卫<br/>3000元/月</p>
-                                        </div>
-                                        <div class="btn-collect" data-target="test">
-                                            <i class="small material-icons left">grade</i>
-                                        </div>
-                                      </div>
-                                    </div>
+                                    {% for i in room_list %}
 
-                                    <div class="col s12 m4 l4">
-                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
-                                        <div class="card-image" data-target="HZ01">
-                                          <img src="/resource/card.jpg"/>
-                                          <span class="card-title">古荡小区</span>
+                                        <div class="col s12 m4 l4">
+                                          <div class="card" href="/room_detail/?roomNumber={{ i.roomNumber }}" target="_blank">
+                                            <div class="card-image" data-target="{{ i.roomNumber }}">
+                                              <img src="/resource/card.jpg"/>
+                                              <span class="card-title">古荡小区</span>
+                                            </div>
+                                            <div class="card-content">
+                                              <p>{{ i.type_room }}室{{ i.type_livingroom }}厅{{ i.type_toilet }}卫<br/>{{ i.price }}元/月</p>
+                                            </div>
+                                            <div class="btn-collect {% if i.collected %}active{% endif %}" data-target="test">
+                                                <i class="small material-icons left">grade</i>
+                                            </div>
+                                          </div>
                                         </div>
-                                        <div class="card-content">
-                                          <p>1室1厅1卫<br/>3000元/月</p>
-                                        </div>
-                                          <div class="btn-collect" data-target="test">
-                                            <i class="small material-icons left">grade</i>
-                                        </div>
-                                      </div>
-                                    </div>
 
-                                    <div class="col s12 m4 l4">
-                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
-                                        <div class="card-image" data-target="HZ01">
-                                          <img src="/resource/card.jpg"/>
-                                          <span class="card-title">古荡小区</span>
-                                        </div>
-                                        <div class="card-content">
-                                          <p>1室1厅1卫<br/>3000元/月</p>
-                                        </div>
-                                          <div class="btn-collect" data-target="test">
-                                            <i class="small material-icons left">grade</i>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="col s12 m4 l4">
-                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
-                                        <div class="card-image" data-target="HZ01">
-                                          <img src="/resource/card.jpg"/>
-                                          <span class="card-title">古荡小区</span>
-                                        </div>
-                                        <div class="card-content">
-                                          <p>1室1厅1卫<br/>3000元/月</p>
-                                        </div>
-                                          <div class="btn-collect" data-target="test">
-                                            <i class="small material-icons left">grade</i>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="col s12 m4 l4">
-                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
-                                        <div class="card-image" data-target="HZ01">
-                                          <img src="/resource/card.jpg"/>
-                                          <span class="card-title">古荡小区</span>
-                                        </div>
-                                        <div class="card-content">
-                                          <p>1室1厅1卫<br/>3000元/月</p>
-                                        </div>
-                                          <div class="btn-collect" data-target="test">
-                                            <i class="small material-icons left">grade</i>
-                                        </div>
-                                      </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -182,80 +126,25 @@
                         <div class="house-recommend">
                             <div class="room-detail-section">
                                 <div class="room-detail-content">
-                                    <div class="col s12 m4 l4">
-                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
-                                        <div class="card-image" data-target="HZ01">
-                                          <img src="/resource/card.jpg"/>
-                                          <span class="card-title">古荡小区</span>
-                                        </div>
-                                        <div class="card-content">
-                                          <p>1室1厅1卫<br/>3000元/月</p>
-                                        </div>
-                                        <div class="btn-collect" data-target="test">
-                                            <i class="small material-icons left">grade</i>
-                                        </div>
-                                      </div>
-                                    </div>
+                                    {% for i in house_list %}
 
-                                    <div class="col s12 m4 l4">
-                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
-                                        <div class="card-image" data-target="HZ01">
-                                          <img src="/resource/card.jpg"/>
-                                          <span class="card-title">古荡小区</span>
+                                        <div class="col s12 m4 l4">
+                                          <div class="card" href="/room_detail/?roomNumber={{ i.roomNumber }}" target="_blank">
+                                            <div class="card-image" data-target="{{ i.roomNumber }}">
+                                              <img src="/resource/card.jpg"/>
+                                              <span class="card-title">古荡小区</span>
+                                            </div>
+                                            <div class="card-content">
+                                              <p>{{ i.type_room }}室{{ i.type_livingroom }}厅{{ i.type_toilet }}卫<br/>{{ i.price }}元/月</p>
+                                            </div>
+                                            <div class="btn-collect" data-target="test">
+                                                <i class="small material-icons left">grade</i>
+                                            </div>
+                                          </div>
                                         </div>
-                                        <div class="card-content">
-                                          <p>1室1厅1卫<br/>3000元/月</p>
-                                        </div>
-                                          <div class="btn-collect" data-target="test">
-                                            <i class="small material-icons left">grade</i>
-                                        </div>
-                                      </div>
-                                    </div>
 
-                                    <div class="col s12 m4 l4">
-                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
-                                        <div class="card-image" data-target="HZ01">
-                                          <img src="/resource/card.jpg"/>
-                                          <span class="card-title">古荡小区</span>
-                                        </div>
-                                        <div class="card-content">
-                                          <p>1室1厅1卫<br/>3000元/月</p>
-                                        </div>
-                                          <div class="btn-collect" data-target="test">
-                                            <i class="small material-icons left">grade</i>
-                                        </div>
-                                      </div>
-                                    </div>
+                                    {% endfor %}
 
-                                    <div class="col s12 m4 l4">
-                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
-                                        <div class="card-image" data-target="HZ01">
-                                          <img src="/resource/card.jpg"/>
-                                          <span class="card-title">古荡小区</span>
-                                        </div>
-                                        <div class="card-content">
-                                          <p>1室1厅1卫<br/>3000元/月</p>
-                                        </div>
-                                          <div class="btn-collect" data-target="test">
-                                            <i class="small material-icons left">grade</i>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                    <div class="col s12 m4 l4">
-                                      <div class="card" href="/room_detail/?roomNumber=HZ01" target="_blank">
-                                        <div class="card-image" data-target="HZ01">
-                                          <img src="/resource/card.jpg"/>
-                                          <span class="card-title">古荡小区</span>
-                                        </div>
-                                        <div class="card-content">
-                                          <p>1室1厅1卫<br/>3000元/月</p>
-                                        </div>
-                                          <div class="btn-collect" data-target="test">
-                                            <i class="small material-icons left">grade</i>
-                                        </div>
-                                      </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -366,10 +255,6 @@
 
     <script>
         $(document).ready(function(){
-
-            var rooms={{ room_list|safe}};
-            var house={{ house_list|safe}}
-
           $('.slider').slider();
         });
     </script>
