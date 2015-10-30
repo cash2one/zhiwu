@@ -191,6 +191,15 @@ def get_environment(environment):
         return None
 
 
+def get_salehouse_picture(room):
+    try:
+        rp = SaleHousePicture.objects.filter(roomNumber=room)
+        return rp
+    except Exception, e:
+        print e
+        return []
+
+
 def get_room_picture(room):
     try:
         rp = RoomPicture.objects.filter(roomNumber=room)

@@ -18,6 +18,10 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 
+
+handler404 = 'zhiwu.views.page_not_found'
+handler500 = 'zhiwu.views.page_error'
+
 urlpatterns = [
     # test
     url(r'^test/', 'zhiwu.views.test', name='test'),
@@ -34,7 +38,8 @@ urlpatterns = [
         url(r'^search/', 'zhiwu.views.search', name='search'),
 
         # 详情页
-        url(r'^room_detail/', 'zhiwu.views.room_detail', name='room_detail'), #TODO:房源编号
+        url(r'^room_detail/', 'zhiwu.views.room_detail', name='room_detail'),
+        url(r'^salehouse_detail/', 'zhiwu.views.salehouse_detail', name='salehouse_detail'),
 
         # 客户后台
         url(r'^client_back/', 'zhiwu.views.client_back', name='client_back'),
