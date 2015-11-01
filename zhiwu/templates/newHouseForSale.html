@@ -40,12 +40,14 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">小区地址</label>
                             <div class="col-sm-10">
-                                <select data-placeholder="选择小区" class="form-required form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
-                                    <option value=""></option>
-                                    {% for i in communities %}
-                                        <option {% if i.name == room.addr_xiaoqu %} selected {% endif %} value="{{ i.name }}" id="{{ i.name }}" data-lng="{{ i.lng }}" data-lat="{{ i.lat }}">{{ i.name }}</option>
-                                    {% endfor %}
-                                </select>
+{#                                <select data-placeholder="选择小区" class="form-required form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">#}
+{#                                    <option value=""></option>#}
+{#                                    {% for i in communities %}#}
+{#                                        <option {% if i.name == room.addr_xiaoqu %} selected {% endif %} value="{{ i.name }}" id="{{ i.name }}" data-lng="{{ i.lng }}" data-lat="{{ i.lat }}">{{ i.name }}</option>#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+                                <input type="text" class="form-control inline-input form-required" value="{{ communities.name }}" disabled/>
+                                <input type="hidden" class="form-control inline-input form-required" id="addr_xiaoqu" name="addr_xiaoqu" value="{{ communities.name }}"/>
                                 小区名称
                                 <input type="text" class="form-required form-control inline-input" id="addr_building" name="addr_building"/>
                                 幢
@@ -63,8 +65,8 @@
                             <label class="col-sm-2 control-label">详细位置点选*</label>
                             <div class="col-sm-10">
                                 <div id="house-map" style="width:100%;height:400px;margin-bottom:10px;"></div>
-                                <input type="hidden" class="form-control" id="house_lng" name="lng" value="">
-                                <input type="hidden" class="form-control" id="house_lat" name="lat" value="">
+                                <input type="hidden" class="form-control" id="house_lng" name="lng" value="{{ communities.lng }}">
+                                <input type="hidden" class="form-control" id="house_lat" name="lat" value="{{ communities.lat }}">
                             </div>
                         </div>
 
@@ -335,13 +337,13 @@
 <script src="/js/jquery.tmpl.min.js"></script>
 <script type="text/javascript">
     // 百度地图API功能
-
-    //    地图创建
+    var _lng=$("#house_lng").val();
+    var _lat=$("#house_lat").val();
     var map = new BMap.Map("house-map");    // 创建Map实例
-    //    var mPoint = new BMap.Point(116.404, 39.915);
-    //    map.enableScrollWheelZoom(false);
-    //    map.centerAndZoom(mPoint,15);
-    map.centerAndZoom("杭州",15);
+    var mPoint = new BMap.Point(_lng, _lat);
+    map.enableScrollWheelZoom(false);
+    map.centerAndZoom(mPoint,18);
+{#    map.centerAndZoom("杭州",15);#}
 
     //    添加控件
     var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
@@ -349,9 +351,9 @@
     map.addControl(top_left_control);
     map.addControl(top_left_navigation);
 
-//    var marker = new BMap.Marker(new BMap.Point(120.169848,30.276734));  // 创建标注
-//    map.addOverlay(marker);              // 将标注添加到地图中
-//    marker.enableDragging();
+    var marker = new BMap.Marker(new BMap.Point(_lng,_lat));  // 创建标注
+    map.addOverlay(marker);              // 将标注添加到地图中
+    marker.enableDragging();
 
 </script>
 
@@ -424,14 +426,14 @@
             });
         });
 
-
-        $("#addr_xiaoqu").chosen({
-            no_results_text:"没有找到该小区"
-        });
-
-        $(".chosen-search input").bind("input",function(){
-//           console.log("input");
-        });
+{##}
+{#        $("#addr_xiaoqu").chosen({#}
+{#            no_results_text:"没有找到该小区"#}
+{#        });#}
+{##}
+{#        $(".chosen-search input").bind("input",function(){#}
+{#//           console.log("input");#}
+{#        });#}
 
 
 
