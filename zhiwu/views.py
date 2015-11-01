@@ -422,14 +422,14 @@ def new_salehouse_handle(request, use_old):
     if is_second_manager(identity) or is_root(identity) or is_manager(identity):
         if roomNumber == "":
             sm = SecondManager.objects.get(user=user)
-            communities = Community.objects.filter(manager=sm.manager.user)
+            communities = Community.objects.get(name=sm.company)
             return render(request, "newHouseForSale.html", {"user": user,
                                                             "status": status,
                                                             "communities": communities})
         else:
             salehouse = SaleHouse.objects.get(roomNumber=roomNumber)
             sm = SecondManager.objects.get(user=salehouse.contactPerson)
-            communities = Community.objects.filter(manager=sm.manager.user)
+            communities = Community.objects.get(name=sm.company)
             pictures = SaleHousePicture.objects.filter(roomNumber=salehouse)
             images = []
             for i in pictures:
