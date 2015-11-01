@@ -26,12 +26,14 @@
                             <label class="col-sm-2 control-label">小区地址</label>
                             <div class="col-sm-10">
                                 <input type="hidden" name="roomNumber" value="{{ room.roomNumber }}">
-                                <select data-placeholder="选择小区" class="form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
-                                    <option value=""></option>
-                                    {% for i in communities %}
-                                        <option {% if i.name == room.addr_xiaoqu %} selected {% endif %} value="{{ i.name }}" id="{{ i.name }}" data-lng="{{ i.lng }}" data-lat="{{ i.lat }}">{{ i.name }}</option>
-                                    {% endfor %}
-                                </select>
+{#                                <select data-placeholder="选择小区" class="form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">#}
+{#                                    <option value=""></option>#}
+{#                                    {% for i in communities %}#}
+{#                                        <option {% if i.name == room.addr_xiaoqu %} selected {% endif %} value="{{ i.name }}" id="{{ i.name }}" data-lng="{{ i.lng }}" data-lat="{{ i.lat }}">{{ i.name }}</option>#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+                                <input type="text" class="form-control inline-input form-required" value="{{ room.addr_xiaoqu }}" disabled/>
+                                <input type="hidden" class="form-control inline-input form-required" id="addr_xiaoqu" name="addr_xiaoqu" value="{{ room.addr_xiaoqu }}"/>
                                 小区名称
                                 <input type="text" class="form-control inline-input form-required" id="addr_building" name="addr_building" value="{{room.addr_building}}"/>
                                 幢
@@ -636,6 +638,7 @@
     ;(function(){
 
         var pic={{ files|safe }};
+        var identity={{ identity|safe }};
 
 
         function formatFileSize(bytes) {
@@ -701,7 +704,17 @@
                 function(data){
                     if(data.code==1){
                         alert("保存成功！");
-                        window.open("/admin_second_manager","_self");
+                        var _newurl="/admin_root";
+
+                        if(identity=="second_manager"){
+                            _newurl="/admin_second_manager"
+                        }
+
+                        if(identity=="manager"){
+                            _newurl="/admin_manager"
+                        }
+
+                        window.open(_newurl,"_self");
                     }else{
                         alert("保存失败！");
                     }
@@ -715,30 +728,30 @@
         $("#landlord_req").chosen();
         $("#merit").chosen();
 
-        $("#addr_xiaoqu").chosen({
-            no_results_text:"没有找到该小区"
-        });
+{#        $("#addr_xiaoqu").chosen({#}
+{#            no_results_text:"没有找到该小区"#}
+{#        });#}
+{##}
+{#        $(".chosen-search input").bind("input",function(){#}
+{#//           console.log("input");#}
+{#        });#}
 
-        $(".chosen-search input").bind("input",function(){
-//           console.log("input");
-        });
 
-
-
-        $("#addr_xiaoqu").bind("change",function(){
-           console.log("change");
-
-            var _option=$("#"+$(this).val());
-            var _lng=_option.data("lng");
-            var _lat=_option.data("lat");
-
-            map.centerAndZoom(new BMap.Point(_lng,_lat),18);
-
-            map.clearOverlays();
-            marker = new BMap.Marker(new BMap.Point(_lng,_lat));  // 创建标注
-            map.addOverlay(marker);              // 将标注添加到地图中
-            marker.enableDragging();
-        });
+{##}
+{#        $("#addr_xiaoqu").bind("change",function(){#}
+{#           console.log("change");#}
+{##}
+{#            var _option=$("#"+$(this).val());#}
+{#            var _lng=_option.data("lng");#}
+{#            var _lat=_option.data("lat");#}
+{##}
+{#            map.centerAndZoom(new BMap.Point(_lng,_lat),18);#}
+{##}
+{#            map.clearOverlays();#}
+{#            marker = new BMap.Marker(new BMap.Point(_lng,_lat));  // 创建标注#}
+{#            map.addOverlay(marker);              // 将标注添加到地图中#}
+{#            marker.enableDragging();#}
+{#        });#}
 
 
 
@@ -819,7 +832,7 @@
     var mPoint = new BMap.Point({{ lng|safe }},{{ lat|safe }});
     //    map.enableScrollWheelZoom(false);
     //    map.centerAndZoom(mPoint,15);
-    map.centerAndZoom(mPoint,15);
+    map.centerAndZoom(mPoint,18);
 
     //    添加控件
     var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
@@ -831,9 +844,5 @@
     map.addOverlay(marker);              // 将标注添加到地图中
     marker.enableDragging();
 
-
 </script>
-
-
-
 {% endblock %}

@@ -266,42 +266,115 @@
             </div>
 
             {% endif %}
+
             <div class="section" id="source_manager">
                 <div class="title-l1">房源管理</div>
                 <div class="section-content">
-                    <div class="section" id="source-manager-new">
-                        <div class="title-l2">发布房源</div>
-                        <a class="btn btn-success" href="{% url 'new_house' %}" target="_blank">租房房源</a>
-                        <a class="btn btn-success" href="{% url 'new_salehouse' %}" target="_blank">卖房房源</a>
-                    </div>
-                    <div class="section" id="source-manager-search">
-                        <div class="title-l2">房源搜索</div>
+{#                    <div class="section" id="source-manager-new">#}
+{#                        <div class="title-l2">发布房源</div>#}
+{#                        <a class="btn btn-success" href="{% url 'new_house' %}" target="_blank">租房房源</a>#}
+{#                        <a class="btn btn-success" href="{% url 'new_salehouse' %}" target="_blank">卖房房源</a>#}
+{#                    </div>#}
+                    <div class="section" id="source-manager-export">
+                        <div class="title-l2">房源导出</div>
                         <div class="section-content">
-                            <button class="btn btn-info btn-export">导出为excel文件</button>
-                            <form class="form-inline" id="house_search_form" dest="">
-                                <div class="form-group">
-                                    <label for="house_number" class="control-label">房源编号</label>
-                                    <input type="text" class="form-control" id="house_number" name="house_number">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="house_activated" class="checkbox-inline">
-                                        <input type="checkbox" name="house_activated" id="house_activated"/>
+                            <a class="btn btn-info btn-export" href="{% url 'download_roominfo' %}" target="_blank">导出为租房excel文件</a>
+                            <a class="btn btn-info btn-export" href="{% url 'download_salehouse' %}" target="_blank">导出为卖房excel文件</a>
+                        </div>
+                    </div>
+                    <div class="section" id="source-manager-sale-search">
+                        <div class="title-l2">卖房房源搜索</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="house_search_form" dest="/salehouse_search">
+                                <div class="form-group" style="margin-right:30px;">
+                                    <label class="control-label">类型：</label>
+                                    <label for="no" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="no" checked value="no"/>
+                                        不限
+                                    </label>
+                                    <label for="salehouse_activated" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="salehouse_activated" value="active"/>
                                         已上架
                                     </label>
-                                    <label for="house_canceled" class="checkbox-inline">
-                                        <input type="checkbox" name="house_canceled" id="house_canceled"/>
+                                    <label for="salehouse_canceled" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="salehouse_canceled" value="cancel"/>
                                         已下架
                                     </label>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="house_area" class="control-label">区域</label>
-                                    <select class="form-control" id="house_area" name="house_area">
-                                        <option value="">选择区域</option>
-                                        <option value="">区域1</option>
-                                        <option value="">区域2</option>
-                                    </select>
+                                    <label for="salehouse_area" class="control-label">区域：</label>
+{#                                    <select class="form-control" id="salehouse_area" name="house_area">#}
+{#                                        <option value="no">不限</option>#}
+{#                                        {% for i in area_list %}#}
+{#                                            <option value="{{ i.name }}">{{ i.name }}</option>#}
+{#                                        {% endfor %}#}
+{#                                    </select>#}
+                                    <input type="text" class="form-control" value="{{ manager.district }}" disabled/>
+                                    <input type="hidden" name="house_area" value="{{ manager.district }}"/>
+
+                                </div>
+
+                                <input type="hidden" name="p" value="1"/>
+                                <div class="form-group">
+                                    <button class="btn btn-info btn-get" data-type="salehouse">搜索</button>
+                                </div>
+                            </form>
+
+                            <input type="hidden" id="cache_salehouse_area">
+                            <input type="hidden" id="cache_salehouse_status">
+
+                            <table class="table table-striped" data-tmpl="salehouse" id="salehouse-table">
+                                <thead>
+                                <tr>
+                                    <th>房源编号</th>
+                                    <th>发布时间</th>
+                                    <th>小区</th>
+                                    <th>户型</th>
+                                    <th>价格</th>
+                                    <th>鉴定员/发布员</th>
+                                    <th>经纪人/管家</th>
+                                    <th>有无照片</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="salehouse-search-result">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="section" id="source-manager-rent-search">
+                        <div class="title-l2">租房房源搜索</div>
+                        <div class="section-content">
+                            <form class="form-inline" id="house_search_form" dest="/room_search">
+                                <div class="form-group" style="margin-right:30px;">
+                                    <label class="control-label">类型：</label>
+                                    <label for="no" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="no" checked value="no"/>
+                                        不限
+                                    </label>
+                                    <label for="house_activated" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="house_activated" value="active"/>
+                                        已上架
+                                    </label>
+                                    <label for="house_canceled" class="checkbox-inline">
+                                        <input type="radio" name="house_status" id="house_canceled" value="cancel"/>
+                                        已下架
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="house_area" class="control-label">区域：</label>
+{#                                    <select class="form-control" id="house_area" name="house_area">#}
+{#                                        <option value="no">不限</option>#}
+{#                                        {% for i in area_list %}#}
+{#                                            <option value="{{ i.name }}">{{ i.name }}</option>#}
+{#                                        {% endfor %}#}
+{#                                    </select>#}
+                                    <input type="text" class="form-control" value="{{ manager.district }}" disabled/>
+                                    <input type="hidden" name="house_area" value="{{ manager.district }}"/>
                                 </div>
 
                                 <div class="form-group">
@@ -309,7 +382,10 @@
                                 </div>
                             </form>
 
-                            <table class="table table-striped">
+                            <input type="hidden" id="cache_house_area">
+                            <input type="hidden" id="cache_house_status">
+
+                            <table class="table table-striped" data-tmpl="house" id="house-table">
                                 <thead>
                                 <tr>
                                     <th>房源编号</th>
@@ -325,7 +401,7 @@
                                     <th>操作</th>
                                 </tr>
                                 </thead>
-                                <tbody id="hs-list-wrapper">
+                                <tbody id="house-search-result">
 
                                 </tbody>
                             </table>
@@ -446,62 +522,76 @@
                                 </div>
                             </form>
 </script>
-<script id="house-search" type="text/x-jquery-tmpl">
-<tr data-target="${pk}">
-                                    <th>${pk}</th>
-                                    <th>${fields.manager}</th>
-                                    <th>${fields.company}</th>
-                                    <th>${fields.name}</th>
-                                    <th>${fields.phone}</th>
-                                    <th>{{if fields.exist}}正在使用{{else}}已注销{{/if}}</th>
-                                    <th>
-                                        <button class="btn btn-default btn-edit">编辑</button>
-                                        <button class="btn btn-danger btn-operate" data-type="cancel">注销</button>
-                                        <button class="btn btn-success btn-operate" data-type="activate">激活</button>
-                                    </th>
-                                </tr>
 
-<tr data-target="{{i.info.roomNumber}}">
-                                        <th>{{i.info.roomNumber}}</th>
-                                        <th>{{i.info.stay_intime|date:"Y-m-d"}}</th>
-                                        <th>{{i.info.addr_xiaoqu}}</th>
-                                        <th>{{i.info.type_room}}室{{i.info.type_livingroom}}厅{{i.info.type_toilet}}卫</th>
-                                        <th>{{i.info.price}}/月</th>
-                                        <th>{{i.info.stay_intime|date:"Y-m-d" }}</th>
-                                        <th>{{i.info.contactPerson}}</th>
-                                        <th>{{i.info.contactPerson}}</th>
-                                        <th>{% if i.picture == True %}有{% else %}无{% endif %}</th>
+<script id="house-search" type="text/x-jquery-tmpl">
+
+<tr data-target="${pk}">
+                                        <th>${pk}</th>
+                                        <th>${fields.create_time}</th>
+                                        <th>${fields.addr_xiaoqu}</th>
+                                        <th>${fields.type_room}室${fields.type_livingroom}厅${fields.type_toilet}卫</th>
+                                        <th>${fields.price}/月</th>
+                                        <th>${fields.stay_intime}</th>
+                                        <th>${fields.contactPerson}</th>
+                                        <th>${fields.contactPerson}</th>
+                                        <th>{{if fields.have_image}}有{{else}}无{{/if}}</th>
                                         <th>
-                                            {% if i.info.sold == True %}
-                                                已售出
-                                            {% elif i.info.exist == True %}
+                                            {{if fields.sold}}
+                                                已下架
+                                            {{else fields.exist}}
                                                 已上架
-                                            {% elif i.info.achieve == True %}
-                                                待上架
-                                            {% else %}
+                                            {{else}}
                                                 待编辑
-                                            {% endif %}
+                                            {{/if}}
                                         </th>
                                         <th class="btn-group">
                                             <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
                                             <ul class="dropdown-menu">
-                                                {% if i.info.sold == True %}
+                                                {{if fields.sold }}
 
-                                                {% elif i.info.exist == True %}
-                                                    <li><a href="#" class="btn-operate" data-type="cancel">下架</a></li>
-                                                    <li><a href="#" class="btn-operate" data-type="sold">售出</a></li>
-                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
-                                                {% elif i.info.achieve == True %}
-                                                    <li><a href="#" class="btn-operate" data-type="activate">上架</a></li>
-                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
-                                                {% else %}
-                                                    <li><a href="/new_house/?roomNumber={{ i.info.roomNumber }}" class="btn-edit">编辑</a></li>
-                                                {% endif %}
+                                                {{else fields.exist}}
+                                                    <li><a href="#" class="btn-operate" data-type="sold">下架</a></li>
+                                                    <li><a href="/new_house/?roomNumber=${pk}">编辑</a></li>
+                                                {{else}}
+                                                    <li><a href="/new_house/?roomNumber=${pk}">编辑</a></li>
+                                                {{/if}}
+                                            </ul>
+                                        </th>
+                                    </tr>
 
-
-
+</script>
 
 
+<script id="salehouse-search" type="text/x-jquery-tmpl">
+<tr data-target="${pk}">
+                                        <th>${pk}</th>
+                                        <th>${fields.create_time}</th>
+                                        <th>${fields.addr_xiaoqu}</th>
+                                        <th>${fields.type_room}室${fields.type_livingroom}厅${fields.type_toilet}卫</th>
+                                        <th>${fields.price}万元</th>
+                                        <th>${fields.contactPerson}</th>
+                                        <th>${fields.contactPerson}</th>
+                                        <th>{{if fields.have_image}}有{{else}}无{{/if}}</th>
+                                        <th>
+                                            {{if fields.sold }}
+                                                已下架
+                                            {{else fields.exist}}
+                                                已上架
+                                            {{else}}
+                                                待编辑
+                                            {{/if}}
+                                        </th>
+                                        <th class="btn-group">
+                                            <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">操作<span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                {{if fields.sold }}
+
+                                                {{else fields.exist}}
+                                                    <li><a href="#" class="btn-operate" data-type="salesold">下架</a></li>
+                                                    <li><a href="/new_salehouse/?roomNumber=${pk}">编辑</a></li>
+                                                {{else}}
+                                                    <li><a href="/new_salehouse/?roomNumber=${pk}">编辑</a></li>
+                                                {{/if}}
                                             </ul>
                                         </th>
                                     </tr>
@@ -511,8 +601,7 @@
 {% endverbatim %}
 
 <script src="/js/jquery.tmpl.min.js"></script>
-
-
+<script src="/js/jquery.pagenation.js"></script>
 <script>
     ;(function(){
         var editUrlMap={
@@ -522,14 +611,71 @@
 
         var cancelUrlMap={
             "#mansion-keeper-edit":"{% url 'second_manager_logout'%}",
-            "#wuye-keeper-edit":"{% url 'second_manager_logout'%}"
+            "#wuye-keeper-edit":"{% url 'second_manager_logout'%}",
+            "house":"{% url 'roominfo_logout' %}",
+            "salehouse":"/salehouse_logout"
         };
 
 
         var activateUrlMap={
             "#mansion-keeper-edit":"{% url 'second_manager_active'%}",
-            "#wuye-keeper-edit":"{% url 'second_manager_active'%}"
+            "#wuye-keeper-edit":"{% url 'second_manager_active'%}",
+            "house":"{% url 'roominfo_active' %}",
+            "salehouse":"/salehouse_active"
         };
+
+         //为查询form添加ajax
+        $(document).delegate(".btn-get","click",function(e){
+            e.preventDefault();
+            var form = $(this).parents("form");
+            var type=$(this).data("type");
+            var _tmpl="#"+type+"-search";
+            var _wrapper="#"+type+"-search-result";
+            var dest = form.attr("dest");
+            var content=form.serialize();
+
+
+            if(type==="salehouse" || type==='house'){
+                //如果是房源搜索的话，先存储搜索结果
+                var dataArr = form.serializeArray();
+                $("#cache_"+type+"_status").val(dataArr[0].value);
+                $("#cache_"+type+"_area").val(dataArr[1].value);
+            }
+
+            $.get(
+                dest,
+                content,
+                function(data){
+                    if(data.code==1){
+                        console.log("get success");
+//                        $("#house-item").tmpl(rawData).appendTo('#search-result-container');
+                        $(_wrapper).empty();
+                        $(_tmpl).tmpl(JSON.parse(data.context)).appendTo(_wrapper);
+                        if(type==="salehouse" || type==='house'){
+                            //先清空分页
+                            $("#Pagination-"+type).remove();
+                            //如果是房源搜索的话，就还要加上分页
+                            var _pagenation='<div id="Pagination-'+type+'" class="pagination"></div>';
+                            $("#"+type+"-table").after(_pagenation);
+
+                            var _cb=type==="house"?pageHouseCB:pageSalehouseCB;
+
+                            $("#Pagination-"+type).pagination(data.count, {
+                                num_edge_entries: 1, //边缘页数
+                                num_display_entries: 1, //主体页数
+                                callback: _cb,
+                                items_per_page:1 //每页显示1项
+                            });
+                        }
+                    }else{
+                        console.log("get failed");
+                    }
+                }
+            )
+            .error(function(){
+                console.log("error");
+            })
+        });
 
         //为新增form添加ajax
         $(document).delegate(".btn-post","click",function(e){
@@ -602,29 +748,103 @@
             e.preventDefault();
             var _id=$(this).parents("tr").data("target");//该条目id
             var _tmplID=$(this).parents("table").data("tmpl");
-            var _url=$(this).data("type")==="activate"?activateUrlMap[_tmplID]:cancelUrlMap[_tmplID];
+            var _type=$(this).data("type")
+            var _url=_type==="activate"?activateUrlMap[_tmplID]:(_type==="cancel"?cancelUrlMap[_tmplID]:"{% url 'evaluation_delete' %}");
 
-            $.post(
+
+            if(_type==="sold"||_type==="salesold"){
+                _url=_type==="sold"?"{% url 'roominfo_sold' %}":"{% url 'salehouse_sold' %}";
+                $.post(
                     _url,
-                    {id:_id},
+                    {roomNumber:_id},
                     function(data){
                         if(data.code==1){
-{#                            console.log("post success");#}
-                            alert("操作成功！");
+                            console.log("post success");
                             //TODO: 修改对应的表格状态
-
+                            alert("操作成功！");
                         }else{
+                            console.log("post failed");
                             alert("操作失败！");
 
-{#                            console.log("post failed");#}
                         }
                     }
             )
                     .error(function(){
-                        alert("发送失败！");
-{#                        console.log("error");#}
+                        console.log("error");
                     });
+
+            }else{
+                $.post(
+                    _url,
+                    {id:_id},
+                    function(data){
+                        if(data.code==1){
+                            console.log("post success");
+                            //TODO: 修改对应的表格状态
+                            alert("操作成功！");
+                        }else{
+                            console.log("post failed");
+                            alert("操作失败！");
+                        }
+                    }
+                )
+                        .error(function(){
+                            console.log("error");
+                        });
+                }
+
         });
+
+        function pageHouseCB(page_index, jq){
+            $("#house-search-result").empty();
+            var _p=page_index+1;
+            var _status=$("#cache_house_status").val();
+            var _area=$("#cache_house_area").val();
+
+            $.get(
+                    "{% url 'room_search' %}",
+                    {p:_p,
+                     house_status:_status,
+                    house_area:_area},
+                    function(data){
+                        if(data.code==1){
+                            $("#house-search").tmpl(JSON.parse(data.context)).appendTo($("#house-search-result"));
+                        }else{
+                            console.log("get failed");
+                        }
+                    }
+            )
+            .error(function(){
+                console.log("error");
+            });
+            return false;
+        }
+
+
+        function pageSalehouseCB(page_index, jq){
+            $("#salehouse-search-result").empty();
+            var _p=page_index+1;
+            var _status=$("#cache_salehouse_status").val();
+            var _area=$("#cache_salehouse_area").val();
+
+            $.get(
+                    "/salehouse_search/",
+                    {p:_p,
+                     house_status:_status,
+                    house_area:_area},
+                    function(data){
+                        if(data.code==1){
+                            $("#salehouse-search").tmpl(JSON.parse(data.context)).appendTo($("#salehouse-search-result"));
+                        }else{
+                            console.log("get failed");
+                        }
+                    }
+            )
+            .error(function(){
+                console.log("error");
+            });
+            return false;
+        }
 
     })();
 

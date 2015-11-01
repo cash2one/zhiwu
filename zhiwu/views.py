@@ -115,6 +115,8 @@ def work_search(request):
                                                  sold=False)
                 room_list = get_search_saldhouse_list(rooms, user)
                 return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
+                                                              "lng": json.dumps(longitude),
+                                                              "lat": json.dumps(latitude),
                                                               "user": user})
             elif sts == 'rent':
                 rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
@@ -123,6 +125,8 @@ def work_search(request):
                                                 sold=False)
                 room_list = get_search_room_list(rooms, user)
                 return render(request, "search.html", {"rooms": json.dumps(room_list),
+                                                       "lng": json.dumps(longitude),
+                                                       "lat": json.dumps(latitude),
                                                        "user": user})
             else:
                 return page_not_found(request)
@@ -157,6 +161,8 @@ def home_search(request):
                                              sold=False)
         room_list = get_search_saldhouse_list(rooms, user)
         return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
+                                                      "lng": json.dumps(longitude),
+                                                      "lat": json.dumps(latitude),
                                                       "user": user})
     elif sts == 'rent':
         rooms = RoomInfo.objects.filter(addr_xiaoqu__in=cs, exist=True, sold=False)
@@ -167,6 +173,8 @@ def home_search(request):
                                             sold=False)
         room_list = get_search_room_list(rooms, user)
         return render(request, "search.html", {"rooms": json.dumps(room_list),
+                                               "lng": json.dumps(longitude),
+                                               "lat": json.dumps(latitude),
                                                "user": user})
     else:
         return page_not_found(request)
@@ -263,13 +271,16 @@ def admin_login(request):
                     request.session['identity'] = identity
                     if identity == "root":
                         print 'root login'
-                        return HttpResponseRedirect(reverse('admin_root'))
+                        #return HttpResponseRedirect(reverse('admin_root'))
+                        return JsonResponse({"code": 1, "url": "/admin_root"})
                     elif identity == "manager":
                         print 'manager login'
-                        return HttpResponseRedirect(reverse('admin_manager'))
+                        #return HttpResponseRedirect(reverse('admin_manager'))
+                        return JsonResponse({"code": 1, "url": "/admin_manager"})
                     else:
                         print 'second manager login'
-                        return HttpResponseRedirect(reverse('admin_second_manager'))
+                        #return HttpResponseRedirect(reverse('admin_second_manager'))
+                        return JsonResponse({"code": 1, "url": "/admin_second_manager"})
                 else:
                     return JsonResponse({"code": 0, "msg": msg})
                     # 账号密码错误
@@ -315,7 +326,7 @@ def admin_root(request):
         if status == 'root':
             html = "backend.html"
         else:
-            html = "backendSearch"
+            html = "backendSearch.html"
         return render(request, html, {"managers": m_list,
                                       "managers_js": json.dumps(serializers.serialize('json',m_list)),
                                       "evaluation_count": count,
@@ -346,6 +357,7 @@ def admin_manager(request):
     # m_list = json.dumps(serializers.serialize('json', m_list))
     return render(request, "backendL1.html", {"second_managers": m_list,
                                               "community_list": c_list,
+                                               "manager": manager,
                                               "status": status,
                                               "identity": json.dumps(identity),
                                               "user": user})
@@ -388,6 +400,7 @@ def new_house_handle(request, use_old):
             communities = Community.objects.get(name=sm.company)
             return render(request, "newHouse.html", {"user": user,
                                                      "status": status,
+                                                     "identity": json.dumps(identity),
                                                      "communities": communities})
         else:
             roominfo = RoomInfo.objects.get(roomNumber=roomNumber)
@@ -413,6 +426,7 @@ def new_house_handle(request, use_old):
                                                       "status": status,
                                                       "room": roominfo,
                                                       "merit": merit,
+                                                      "identity": json.dumps(identity),
                                                       "landlord_req": landlord_req,
                                                       "lat": json.dumps(roominfo.lat),
                                                       "lng": json.dumps(roominfo.lng),
@@ -437,6 +451,7 @@ def new_salehouse_handle(request, use_old):
             communities = Community.objects.get(name=sm.company)
             return render(request, "newHouseForSale.html", {"user": user,
                                                             "status": status,
+                                                            "identity": json.dumps(identity),
                                                             "communities": communities})
         else:
             salehouse = SaleHouse.objects.get(roomNumber=roomNumber)
@@ -461,6 +476,7 @@ def new_salehouse_handle(request, use_old):
                                                              "room": salehouse,
                                                              "lat": json.dumps(salehouse.lat),
                                                              "lng": json.dumps(salehouse.lng),
+                                                             "identity": json.dumps(identity),
                                                              "files": json.dumps(images),
                                                              "communities": communities})
     else:
@@ -520,7 +536,7 @@ def room_collection(request):
                     return JsonResponse({'code': 0, 'msg': '没有房源编号'})
 
             else:
-                return JsonResponse({'code': 0, 'msg': '没有登录'})
+                return JsonResponse({'code': 0, 'msg': '没有登陆'})
         except Exception, e:
             print 'collection error:'
             print e

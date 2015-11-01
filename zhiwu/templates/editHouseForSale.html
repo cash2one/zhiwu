@@ -26,12 +26,14 @@
                             <label class="col-sm-2 control-label">小区地址</label>
                             <div class="col-sm-10">
                                 <input type="hidden" name="roomNumber" value="{{ room.roomNumber }}">
-                                <select data-placeholder="选择小区" class="form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
-                                    <option value=""></option>
-                                    {% for i in communities %}
-                                        <option {% if i.name == room.addr_xiaoqu %} selected {% endif %} value="{{ i.name }}" id="{{ i.name }}" data-lng="{{ i.lng }}" data-lat="{{ i.lat }}">{{ i.name }}</option>
-                                    {% endfor %}
-                                </select>
+{#                                <select data-placeholder="选择小区" class="form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">#}
+{#                                    <option value=""></option>#}
+{#                                    {% for i in communities %}#}
+{#                                        <option {% if i.name == room.addr_xiaoqu %} selected {% endif %} value="{{ i.name }}" id="{{ i.name }}" data-lng="{{ i.lng }}" data-lat="{{ i.lat }}">{{ i.name }}</option>#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+                                <input type="text" class="form-control inline-input form-required" value="{{ room.addr_xiaoqu }}" disabled/>
+                                <input type="hidden" class="form-control inline-input form-required" id="addr_xiaoqu" name="addr_xiaoqu" value="{{ room.addr_xiaoqu }}"/>
                                 小区名称
                                 <input type="text" class="form-control inline-input" id="addr_building" name="addr_building" value="{{room.addr_building}}"/>
                                 幢
@@ -436,7 +438,7 @@
     ;(function(){
 
         var pic={{ files|safe }};
-
+        var identity={{ identity|safe }};
 
         function formatFileSize(bytes) {
             if (typeof bytes !== 'number') {
@@ -483,7 +485,17 @@
                 function(data){
                     if(data.code==1){
                         alert("保存成功！");
-                        window.open("/admin_second_manager","_self");
+                        var _newurl="/admin_root";
+
+                        if(identity=="second_manager"){
+                            _newurl="/admin_second_manager"
+                        }
+
+                        if(identity=="manager"){
+                            _newurl="/admin_manager"
+                        }
+
+                        window.open(_newurl,"_self");
                     }else{
                         alert("保存失败！");
                     }
@@ -494,15 +506,15 @@
             });
         });
 
-        $("#stay_intime").datepicker({dateFormat:"yy-mm-dd"});
+{#        $("#stay_intime").datepicker({dateFormat:"yy-mm-dd"});#}
 
-        $("#addr_xiaoqu").chosen({
-            no_results_text:"没有找到该小区"
-        });
-
-        $(".chosen-search input").bind("input",function(){
-//           console.log("input");
-        });
+{#        $("#addr_xiaoqu").chosen({#}
+{#            no_results_text:"没有找到该小区"#}
+{#        });#}
+{##}
+{#        $(".chosen-search input").bind("input",function(){#}
+{#//           console.log("input");#}
+{#        });#}
 
 
 

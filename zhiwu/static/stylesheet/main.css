@@ -358,5 +358,24 @@ select.initialized{
 }
 
 .slick-slide{
-    outline:none
+    outline:none;
+}
+
+button:focus{outline:none;background-color:transparent}
+
+.select-dropdown{
+    z-index: 1500;
+}
+
+.navResultPanel{
+    z-index: 1500;
+}
+
+.link-cover{
+    position: absolute;
+    left: 50px;
+    right: 50px;
+    z-index: 1000;
+    height: 250px;
+    opacity: 0;
 }

@@ -492,7 +492,8 @@
                     <div class="section" id="source-manager-export">
                         <div class="title-l2">房源导出</div>
                         <div class="section-content">
-                            <a class="btn btn-info btn-export" href="{% url 'download_data' %}" target="_blank">导出为excel文件</a>
+                            <a class="btn btn-info btn-export" href="{% url 'download_roominfo' %}" target="_blank">导出为租房excel文件</a>
+                            <a class="btn btn-info btn-export" href="{% url 'download_salehouse' %}" target="_blank">导出为卖房excel文件</a>
                         </div>
                     </div>
                     <div class="section" id="source-manager-sale-search">
@@ -519,11 +520,9 @@
                                     <label for="salehouse_area" class="control-label">区域：</label>
                                     <select class="form-control" id="salehouse_area" name="house_area">
                                         <option value="no">不限</option>
-                                        <option value="区域1">区域1</option>
-                                        <option value="区域2">区域2</option>
-{#                                            {% for i in area_list %}#}
-{#                                                <option value="{{ i }}">{{ i }}</option>#}
-{#                                            {% endfor %}#}
+                                        {% for i in area_list %}
+                                            <option value="{{ i.name }}">{{ i.name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
 
@@ -581,11 +580,9 @@
                                     <label for="house_area" class="control-label">区域：</label>
                                     <select class="form-control" id="house_area" name="house_area">
                                         <option value="no">不限</option>
-                                        <option value="区域1">区域1</option>
-                                        <option value="区域2">区域2</option>
-{#                                            {% for i in area_list %}#}
-{#                                                <option value="{{ i }}">{{ i }}</option>#}
-{#                                            {% endfor %}#}
+                                        {% for i in area_list %}
+                                            <option value="{{ i.name }}">{{ i.name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
 
@@ -1274,7 +1271,7 @@
                                         <th>${fields.stay_intime}</th>
                                         <th>${fields.contactPerson}</th>
                                         <th>${fields.contactPerson}</th>
-                                        <th>有</th>
+                                        <th>{{if fields.have_image}}有{{else}}无{{/if}}</th>
                                         <th>
                                             {{if fields.sold}}
                                                 已下架
@@ -1311,7 +1308,7 @@
                                         <th>${fields.price}万元</th>
                                         <th>${fields.contactPerson}</th>
                                         <th>${fields.contactPerson}</th>
-                                        <th>有</th>
+                                        <th>{{if fields.have_image}}有{{else}}无{{/if}}</th>
                                         <th>
                                             {{if fields.sold }}
                                                 已下架
