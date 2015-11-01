@@ -373,15 +373,17 @@ def new_house_handle(request, use_old):
     user = request.session.get("user")
     status = request.session.get("status", "")
     identity = request.session.get("identity", "")
-    sm = SecondManager.objects.get(user=user)
-    communities = Community.objects.filter(manager=sm.manager.user)
-    if is_second_manager(identity):
+    if is_second_manager(identity) or is_root(identity) or is_manager(identity):
         if roomNumber == "":
+            sm = SecondManager.objects.get(user=user)
+            communities = Community.objects.filter(manager=sm.manager.user)
             return render(request, "newHouse.html", {"user": user,
                                                      "status": status,
                                                      "communities": communities})
         else:
             roominfo = RoomInfo.objects.get(roomNumber=roomNumber)
+            sm = SecondManager.objects.get(user=roominfo.contactPerson)
+            communities = Community.objects.filter(manager=sm.manager.user)
             pictures = RoomPicture.objects.filter(roomNumber=roominfo)
             merit = roominfo.merit.split(',')
             landlord_req = roominfo.landlord_req.split(',')
@@ -396,6 +398,8 @@ def new_house_handle(request, use_old):
                 images.append(data)
             if use_old:
                 roominfo.roomNumber = get_roomNumber()
+            elif roominfo.sold:
+                return page_not_found(request)
             return render(request, "editHouse.html", {"user": user,
                                                       "status": status,
                                                       "room": roominfo,
@@ -418,15 +422,17 @@ def new_salehouse_handle(request, use_old):
     user = request.session.get("user")
     status = request.session.get("status", "")
     identity = request.session.get("identity", "")
-    sm = SecondManager.objects.get(user=user)
-    communities = Community.objects.filter(manager=sm.manager.user)
-    if is_second_manager(identity):
+    if is_second_manager(identity) or is_root(identity) or is_manager(identity):
         if roomNumber == "":
+            sm = SecondManager.objects.get(user=user)
+            communities = Community.objects.filter(manager=sm.manager.user)
             return render(request, "newHouseForSale.html", {"user": user,
                                                             "status": status,
                                                             "communities": communities})
         else:
             salehouse = SaleHouse.objects.get(roomNumber=roomNumber)
+            sm = SecondManager.objects.get(user=salehouse.contactPerson)
+            communities = Community.objects.filter(manager=sm.manager.user)
             pictures = SaleHousePicture.objects.filter(roomNumber=salehouse)
             images = []
             for i in pictures:
@@ -439,6 +445,8 @@ def new_salehouse_handle(request, use_old):
                 images.append(data)
             if use_old:
                 salehouse.roomNumber = get_salehouseNumber()
+            elif salehouse.sold:
+                return page_not_found(request)
             return render(request, "editHouseForSale.html", {"user": user,
                                                              "status": status,
                                                              "room": salehouse,
@@ -1190,7 +1198,7 @@ def post_salehouse_submit(request):
             room.save()
             return JsonResponse(success)
         except Exception, e:
-            print "post_roominfo_submit error:"
+            print "post_salehouse_submit error:"
             print e
             return JsonResponse(fail)
     else:
@@ -1201,6 +1209,9 @@ def post_salehouse_add_or_modify(request):
     if request.method == 'POST':
         try:
             manager = request.session.get('user', '')
+            identity = request.session.get("identity", "")
+            status = request.session.get("status", "")
+            user = request.session.get("user", "")
             salehouse_default = {}
             url_list = []
             for key in request.POST:
@@ -1217,13 +1228,15 @@ def post_salehouse_add_or_modify(request):
             if '' in url_list:
                 url_list.remove('')
             salehouse_default.pop('imgUrl')
+            salehouse_default['have_image'] = len(url_list) != 0
             if 'roomNumber' not in salehouse_default:
                 roomNumber = get_salehouseNumber()
                 salehouse_default['roomNumber'] = roomNumber
             else:
                 roomNumber = salehouse_default['roomNumber']
-            salehouse_default['contactPerson'] = manager
-            salehouse_default['manager'] = SecondManager.objects.get(user=manager).manager.user
+            if identity == 'second_manager':
+                salehouse_default['contactPerson'] = manager
+                salehouse_default['manager'] = SecondManager.objects.get(user=manager).manager.user
             add_or_modify_result = salehouse_add_or_modify(salehouse_default)
             if add_or_modify_result:
                 salehouse_picture_remove(roomNumber)
@@ -1380,6 +1393,9 @@ def post_roominfo_add_or_modify(request):
     if request.method == 'POST':
         try:
             manager = request.session.get('user', '')
+            identity = request.session.get("identity", "")
+            status = request.session.get("status", "")
+            user = request.session.get("user", "")
             roominfo_default = {}
             url_list = []
             for key in request.POST:
@@ -1396,13 +1412,15 @@ def post_roominfo_add_or_modify(request):
             if '' in url_list:
                 url_list.remove('')
             roominfo_default.pop('imgUrl')
+            roominfo_default['have_image'] = len(url_list) != 0
             if 'roomNumber' not in roominfo_default:
                 roomNumber = get_roomNumber()
                 roominfo_default['roomNumber'] = roomNumber
             else:
                 roomNumber = roominfo_default['roomNumber']
-            roominfo_default['contactPerson'] = manager
-            roominfo_default['manager'] = SecondManager.objects.get(user=manager).manager.user
+            if identity == 'second_manager':
+                roominfo_default['contactPerson'] = manager
+                roominfo_default['manager'] = SecondManager.objects.get(user=manager).manager.user
             add_or_modify_result = roominfo_add_or_modify(roominfo_default)
             if add_or_modify_result:
                 room_picture_remove(roomNumber)
@@ -1535,12 +1553,12 @@ def room_search_except(request):
         return JsonResponse(fail)
 
 
-def room_search(requset, issalehouse):
+def room_search(request, issalehouse):
     # todo 需要扩大
     page_num = 1
-    house_status = requset.GET.get('house_status', 'no')  # no active cancel
-    house_area = requset.GET.get('house_area', 'no')  # no , xxxx
-    page = int(requset.GET.get('p', 1))
+    house_status = request.GET.get('house_status', 'no')  # no active cancel
+    house_area = request.GET.get('house_area', 'no')  # no , xxxx
+    page = int(request.GET.get('p', 1))
     if house_status == 'no':
         if house_area == 'no':
             if issalehouse:
