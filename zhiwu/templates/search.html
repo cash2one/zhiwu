@@ -15,63 +15,6 @@
     nav .brand-logo {
       color: #444;
     }
-
-    .card-title{
-        position:absolute;
-        bottom: 100px;
-        left: 20px;
-    }
-
-.card .card-image {
-    position: relative;
-    height: 250px;
-    overflow: hidden;
-}
-
-.slick-prev {
-    left: 0px;
-    z-index:1000;
-}
-
-.slick-prev, .slick-next {
-    font-size: 0;
-    line-height: 0;
-    position: absolute;
-    top: 50%;
-    display: block;
-    margin-top: -10px;
-    padding: 0;
-    cursor: pointer;
-    color: transparent;
-    border: none;
-    outline: none;
-}
-
-.slick-prev{
-    width: 40px;
-    height: 50px;
-    background: url('/resource/btn_l.png');
-    left: 0px;
-}
-
-.slick-next {
-    right: 0px;
-    z-index:1000;
-    width: 40px;
-    height: 50px;
-    background: url('/resource/btn_r.png');
-    right: 0px;
-}
-
-.fade img{
-    max-height:100%;
-    overflow:hidden;
-}
-
-.slick-slide{
-    outline:none
-}
-
 </style>
 {% endblock %}
 
@@ -318,17 +261,16 @@
 {% verbatim %}
 <script id="house-item" type="text/x-jquery-tmpl">
 {{if isValid}}
-
 <div class="col s12 m6 l6">
-  <div class="card" href="/room_detail/?roomNumber=${roomNumber}" target="_blank">
+  <div class="card">
+    <a class="link-cover" href="/room_detail/?roomNumber=${roomNumber}" target="_blank">link</a>
     <div class="fade card-image" data-target="${roomNumber}">
-        <div><div class="image"><img src="/resource/card.jpg" width="100%"/></div></div>
-        <div><div class="image"><img src="/resource/map.png" width="100%"/></div></div>
-        <div><div class="image"><img src="/resource/50ticket.png" width="100%"/></div></div>
+        {{each images}}
+            <div><div class="image"><img src="${$value}" width="100%"/></div></div>
+        {{/each}}
     </div>
-      <span class="card-title">${addr_xiaoqu}</span>
     <div class="card-content">
-      <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}￥</p>
+      <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}万元</p>
     </div>
     <div class="btn-collect {{if collected == true}} active {{/if}}" data-target="${roomNumber}">
         <i class="small material-icons left">grade</i>
@@ -481,6 +423,14 @@
             //清空并添加结果框
             $("#search-result-container").empty();
             $("#house-item").tmpl(rawData).appendTo('#search-result-container');
+
+            //添加轮播
+            $('.fade').slick({
+              infinite: true,
+              speed: 500,
+              fade: true,
+              cssEase: 'linear'
+            });
 
             //清空标记并添加新筛选过的标记
             map.clearOverlays();
@@ -718,7 +668,6 @@
 </script>
 
 <script>
- width="100%"
     $(document).ready(function(){
         $('.fade').slick({
           infinite: true,
@@ -726,7 +675,6 @@
           fade: true,
           cssEase: 'linear'
         });
-        console.log("after");
     });
 
 </script>

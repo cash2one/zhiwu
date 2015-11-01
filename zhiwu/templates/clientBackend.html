@@ -101,11 +101,14 @@
                                     {% for i in room_list %}
 
                                         <div class="col s12 m4 l4">
-                                          <div class="card" href="/room_detail/?roomNumber={{ i.roomNumber }}" target="_blank">
-                                            <div class="card-image" data-target="{{ i.roomNumber }}">
-                                              <img src="/resource/card.jpg"/>
-                                              <span class="card-title">古荡小区</span>
+                                          <div class="card">
+                                            <a class="link-cover" href="/room_detail/?roomNumber={{ i.roomNumber }}" target="_blank">link</a>
+                                            <div class="fade card-image" data-target="{{ i.roomNumber }}">
+                                              {% for pic in i.images %}
+                                                  <div><div class="image"><img src="{{pic}}" width="100%"/></div></div>
+                                              {% endfor %}
                                             </div>
+                                            <span class="card-title">古荡小区</span>
                                             <div class="card-content">
                                               <p>{{ i.type_room }}室{{ i.type_livingroom }}厅{{ i.type_toilet }}卫<br/>{{ i.price }}元/月</p>
                                             </div>
@@ -129,15 +132,18 @@
                                     {% for i in house_list %}
 
                                         <div class="col s12 m4 l4">
-                                          <div class="card" href="/room_detail/?roomNumber={{ i.roomNumber }}" target="_blank">
-                                            <div class="card-image" data-target="{{ i.roomNumber }}">
-                                              <img src="/resource/card.jpg"/>
-                                              <span class="card-title">古荡小区</span>
+                                          <div class="card">
+                                            <a class="link-cover" href="/salehouse_detail/?roomNumber={{ i.roomNumber }}" target="_blank">link</a>
+                                            <div class="fade card-image" data-target="{{ i.roomNumber }}">
+                                              {% for pic in i.images %}
+                                                  <div><div class="image"><img src="{{pic}}" width="100%"/></div></div>
+                                              {% endfor %}
                                             </div>
+                                            <span class="card-title">古荡小区</span>
                                             <div class="card-content">
                                               <p>{{ i.type_room }}室{{ i.type_livingroom }}厅{{ i.type_toilet }}卫<br/>{{ i.price }}元/月</p>
                                             </div>
-                                            <div class="btn-collect" data-target="{{ i.roomNumber }}">
+                                            <div class="btn-collect {% if i.collected %}active{% endif %}" data-target="{{ i.roomNumber }}">
                                                 <i class="small material-icons left">grade</i>
                                             </div>
                                           </div>
@@ -255,7 +261,15 @@
 
     <script>
         $(document).ready(function(){
-          $('.slider').slider();
+            $('.slider').slider();
+
+            $('.fade').slick({
+              infinite: true,
+              speed: 500,
+              fade: true,
+              cssEase: 'linear'
+            });
+
         });
     </script>
 

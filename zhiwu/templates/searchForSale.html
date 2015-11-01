@@ -7,18 +7,13 @@
 <!--sp_header-->
 {% block sp_header %}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<link href="//cdn.bootcss.com/slick-carousel/1.5.8/slick.min.css" rel="stylesheet">
+
 <style>
 
     nav ul a,
     nav .brand-logo {
       color: #444;
-    }
-    .carousel-control.right{
-        background-image:none;
-    }
-
-    .carousel-control.left{
-        background-image:none;
     }
 </style>
 {% endblock %}
@@ -219,15 +214,17 @@
 {{if isValid}}
 
 <div class="col s12 m6 l6">
-  <div class="card" href="/room_detail/?roomNumber=${roomNumber}" target="_blank">
-    <div class="card-image" data-target="${roomNumber}">
-      <img src="/resource/card.jpg"/>
-      <span class="card-title">${addr_xiaoqu}</span>
+  <div class="card">
+    <a class="link-cover" href="/salehouse_detail/?roomNumber=${roomNumber}" target="_blank">link</a>
+    <div class="fade card-image" data-target="${roomNumber}">
+        {{each images}}
+            <div><div class="image"><img src="${$value}" width="100%"/></div></div>
+        {{/each}}
     </div>
     <div class="card-content">
       <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}万元</p>
     </div>
-    <div class="btn-collect" data-target="${roomNumber}">
+    <div class="btn-collect {{if collected == true}} active {{/if}}" data-target="${roomNumber}">
         <i class="small material-icons left">grade</i>
     </div>
   </div>
@@ -236,6 +233,7 @@
 </script>
 {% endverbatim %}
 
+<script src="//cdn.bootcss.com/slick-carousel/1.5.8/slick.min.js"></script>
 <script type="text/javascript">
 
  $('.datepicker').pickadate({
@@ -248,7 +246,6 @@
     var rawData={{ rooms|safe }};
 
     for(var i=0;i<rawData.length;i++){
-        rawData[i].isCollected=false;
         rawData[i].isValid=true;
     }
 
@@ -369,6 +366,13 @@
             $("#search-result-container").empty();
             $("#house-item").tmpl(rawData).appendTo('#search-result-container');
 
+            $('.fade').slick({
+              infinite: true,
+              speed: 500,
+              fade: true,
+              cssEase: 'linear'
+            });
+
             //清空标记并添加新筛选过的标记
             map.clearOverlays();
             for(var i=0;i<rawData.length;i++){
@@ -423,8 +427,8 @@
                 if((price_upper!=-1&&rawData[i].price>price_upper)
                         ||(price_lower!=-1&&rawData[i].price<=price_lower)
                         ||(room_type!=-1&&rawData[i].type_room!=room_type)
-                        ||(area_upper!=-1&&rawData[i].area>area_upper)
-                        ||(area_lower!=-1&&rawData[i].area<=area_lower)){
+                        ||(area_upper!=-1&&rawData[i].mianji>area_upper)
+                        ||(area_lower!=-1&&rawData[i].mianji<=area_lower)){
                     rawData[i].isValid=false;
                 }
             }
@@ -459,8 +463,8 @@
                 case "area":
                     if (_target.id === "noarea") {
                         //没有限制
-                        price_upper = -1;
-                        price_lower = -1;
+                        area_upper = -1;
+                        area_lower = -1;
                     } else {
                         var area_bound = _target.id.split("to");
                         area_lower = area_bound[0] === "l" ? -1 : area_bound[0];
@@ -528,5 +532,17 @@
         }
     });
 </script>
+
+<script>
+    $(document).ready(function(){
+        $('.fade').slick({
+          infinite: true,
+          speed: 500,
+          fade: true,
+          cssEase: 'linear'
+        });
+    });
+</script>
+
 
 {% endblock %}

@@ -536,7 +536,7 @@ def room_collection(request):
                     return JsonResponse({'code': 0, 'msg': '没有房源编号'})
 
             else:
-                return JsonResponse({'code': 0, 'msg': '没有登录'})
+                return JsonResponse({'code': 0, 'msg': '没有登陆'})
         except Exception, e:
             print 'collection error:'
             print e

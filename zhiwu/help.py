@@ -33,6 +33,7 @@ def get_search_saldhouse_list(rooms, user):
                 'lng': i.lng,
                 'lat': i.lat,
                 'status': cp.status,
+                'mianji':i.mianji,
                 # 'elevator': i.elevator,
                 # 'see': i.see,
                 'addr_xiaoqu': i.addr_xiaoqu,

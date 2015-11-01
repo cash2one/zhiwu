@@ -46,9 +46,11 @@
                         }
                         alert(data.msg);
                     }else{
-                        console.log("post failed");
                         if(data.msg){
                             alert(data.msg);
+                            if(data.msg=="没有登陆"){
+                                $('#modal1').openModal();
+                            }
                         }
                     }
                 }
