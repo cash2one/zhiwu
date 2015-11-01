@@ -1234,6 +1234,10 @@ def post_salehouse_add_or_modify(request):
             if identity == 'second_manager':
                 salehouse_default['contactPerson'] = manager
                 salehouse_default['manager'] = SecondManager.objects.get(user=manager).manager.user
+            test_list = ['addr_building', 'addr_unit', 'addr_room', 'price']
+            for i in test_list:
+                if salehouse_default[i] == '':
+                    salehouse_default[i] = '0'
             add_or_modify_result = salehouse_add_or_modify(salehouse_default)
             if add_or_modify_result:
                 salehouse_picture_remove(roomNumber)
@@ -1418,6 +1422,10 @@ def post_roominfo_add_or_modify(request):
             if identity == 'second_manager':
                 roominfo_default['contactPerson'] = manager
                 roominfo_default['manager'] = SecondManager.objects.get(user=manager).manager.user
+            test_list = ['addr_building', 'addr_unit', 'addr_room', 'addr_room', 'price', 'mianji']
+            for i in test_list:
+                if roominfo_default[i] == '':
+                    roominfo_default[i] = '0'
             add_or_modify_result = roominfo_add_or_modify(roominfo_default)
             if add_or_modify_result:
                 room_picture_remove(roomNumber)
