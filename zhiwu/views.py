@@ -311,7 +311,7 @@ def admin_root(request):
                                       "managers_js": json.dumps(serializers.serialize('json',m_list)),
                                       "evaluation_count": count,
                                       "status": status,
-                                      "identity": identity,
+                                      "identity": json.dumps(identity),
                                       "user": user,
                                       "communities": community_list,
                                       "area_list": areas})
@@ -338,7 +338,7 @@ def admin_manager(request):
     return render(request, "backendL1.html", {"second_managers": m_list,
                                               "community_list": c_list,
                                               "status": status,
-                                              "identity": identity,
+                                              "identity": json.dumps(identity),
                                               "user": user})
 
 
@@ -359,7 +359,7 @@ def admin_second_manager(request):
     # rooms = json.dumps(serializers.serialize('json', rooms))
     return render(request, "backendL2.html", {"rooms": rms,
                                               "salehouses": shs,
-                                              "identity": identity,
+                                              "identity": json.dumps(identity),
                                               "status": status,
                                               "user": user})
 
@@ -1812,7 +1812,30 @@ def post_community_delete(request):
         return page_not_found(request)
 
 
-def download_data(request):
+def download_roominfo(request):
+    file_name = 'data.xls'
+    attri_list = ['roomNumber', 'price']
+    attri_title = [u'房源编号', u'价格']
+    rs = RoomInfo.objects.all()
+    w = Workbook()
+    ws = w.add_sheet(u'房源信息')
+    for i in range(len(attri_title)):
+        ws.write(0, i, attri_title[i])
+    i = 1
+    for r in rs:
+        j = 0
+        for item in attri_list:
+            ws.write(i, j, r.__getattribute__(item))
+            j += 1
+        i += 1
+    w.save(file_name)
+    response = StreamingHttpResponse(readfile(file_name))
+    response['Content-Type'] = 'application/octet-stream'
+    response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file_name)
+    return response
+
+
+def download_salehouse(requset):
     file_name = 'data.xls'
     attri_list = ['roomNumber', 'price']
     attri_title = [u'房源编号', u'价格']
