@@ -83,7 +83,7 @@ def check_manager(request):
 
 
 def search(request):
-    return render(request, "newHouse.html")
+    return render(request, "newHouseForSale.html")
 
 
 def work_search(request):
@@ -1823,8 +1823,24 @@ def post_community_delete(request):
 
 def download_roominfo(request):
     file_name = 'data.xls'
-    attri_list = ['roomNumber', 'price']
-    attri_title = [u'房源编号', u'价格']
+    attri_list = ['roomNumber', 'manager', 'contactPerson', 'price', 'lng', 'lat',
+                  'sold', 'exist', 'create_time', 'sold_time', 'have_image',
+                  'orientation', 'balcony', 'mianji', 'addr_xiaoqu', 'addr_building',
+                  'addr_unit', 'addr_room', 'addr_floor', 'payway', 'type_room',
+                  'type_livingroom', 'type_toilet', 'stay_intime', 'see', 'floor_level',
+                  'total_floor', 'elevator', 'canzhuo', 'sofa', 'desk', 'chair', 'closet',
+                  'bed', 'aircon', 'washer', 'waterheater', 'refregister', 'tv', 'cookerhood',
+                  'gascooker', 'original_house_shi', 'original_house_ting', 'original_house_wei',
+                  'decorate_level', 'can_cook', 'merit', 'landlord_req', 'other',]
+    attri_title = [u'房源编号', u'一级管理员', u'二级管理员/联系人', u'价格', u'经度', u'纬度',
+                   u'是否被出售', u'是否上架', u'创建时间', u'售出时间', u'是否有照片',
+                   u'方向', u'阳台', u'面积', u'小区名称', u'幢',
+                   u'单元', u'室', u'房', u'付款方式', u'室',
+                   u'厅', u'卫', u'入住时间', u'是否可看', u'楼层高低',
+                   u'楼层数量', u'电梯', u'餐桌', u'沙发', u'书桌', u'椅子', u'衣柜',
+                   u'床', u'空调', u'洗衣机', u'热水器', u'冰箱', u'电视机', u'油烟机',
+                   u'燃气灶', u'原户型室', u'原户型厅', u'原户型卫',
+                   u'装修档次', u'做饭情况', u'房屋优势', u'房东要求', u'其他描述']
     rs = RoomInfo.objects.all()
     w = Workbook()
     ws = w.add_sheet(u'房源信息')
@@ -1846,9 +1862,17 @@ def download_roominfo(request):
 
 def download_salehouse(requset):
     file_name = 'data.xls'
-    attri_list = ['roomNumber', 'price']
-    attri_title = [u'房源编号', u'价格']
-    rs = RoomInfo.objects.all()
+    attri_list = ['roomNumber', 'manager', 'contactPerson', 'price', 'lng', 'lat',
+                  'sold', 'exist', 'create_time', 'sold_time', 'have_image'
+                  'mianji', 'addr_xiaoqu', 'addr_building', 'addr_unit', 'addr_room', 'type_room',
+                  'type_livingroom', 'type_toilet', 'type', 'orientation',
+                  'floor_level', 'total_floor', 'maner', 'weiyi', 'house_desc']
+    attri_title = [u'房源编号', u'一级管理员', u'二级管理员/联系人', u'价格', u'经度', u'纬度',
+                   u'是否被出售', u'是否上架', u'创建时间', u'售出时间', u'是否有照片',
+                   u'面积', u'小区名称', u'幢', u'单元', u'室', u'室',
+                   u'厅', u'卫', u'房屋类型', u'朝向',
+                   u'楼层高低', u'楼层数', u'产证满二', u'唯一住房', u'房源描述']
+    rs = SaleHouse.objects.all()
     w = Workbook()
     ws = w.add_sheet(u'房源信息')
     for i in range(len(attri_title)):
