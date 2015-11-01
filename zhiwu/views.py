@@ -373,14 +373,14 @@ def new_house_handle(request, use_old):
     if is_second_manager(identity) or is_root(identity) or is_manager(identity):
         if roomNumber == "":
             sm = SecondManager.objects.get(user=user)
-            communities = Community.objects.filter(manager=sm.manager.user)
+            communities = sm.company
             return render(request, "newHouse.html", {"user": user,
                                                      "status": status,
                                                      "communities": communities})
         else:
             roominfo = RoomInfo.objects.get(roomNumber=roomNumber)
             sm = SecondManager.objects.get(user=roominfo.contactPerson)
-            communities = Community.objects.filter(manager=sm.manager.user)
+            communities = sm.company
             pictures = RoomPicture.objects.filter(roomNumber=roominfo)
             merit = roominfo.merit.split(',')
             landlord_req = roominfo.landlord_req.split(',')
