@@ -519,11 +519,9 @@
                                     <label for="salehouse_area" class="control-label">区域：</label>
                                     <select class="form-control" id="salehouse_area" name="house_area">
                                         <option value="no">不限</option>
-                                        <option value="区域1">区域1</option>
-                                        <option value="区域2">区域2</option>
-{#                                            {% for i in area_list %}#}
-{#                                                <option value="{{ i }}">{{ i }}</option>#}
-{#                                            {% endfor %}#}
+                                        {% for i in area_list %}
+                                            <option value="{{ i.name }}">{{ i.name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
 
@@ -581,11 +579,9 @@
                                     <label for="house_area" class="control-label">区域：</label>
                                     <select class="form-control" id="house_area" name="house_area">
                                         <option value="no">不限</option>
-                                        <option value="区域1">区域1</option>
-                                        <option value="区域2">区域2</option>
-{#                                            {% for i in area_list %}#}
-{#                                                <option value="{{ i }}">{{ i }}</option>#}
-{#                                            {% endfor %}#}
+                                        {% for i in area_list %}
+                                            <option value="{{ i.name }}">{{ i.name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
 

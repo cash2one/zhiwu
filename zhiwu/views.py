@@ -251,13 +251,16 @@ def admin_login(request):
                     request.session['identity'] = identity
                     if identity == "root":
                         print 'root login'
-                        return HttpResponseRedirect(reverse('admin_root'))
+                        #return HttpResponseRedirect(reverse('admin_root'))
+                        return JsonResponse({"code": 1, "url": "/admin_root"})
                     elif identity == "manager":
                         print 'manager login'
-                        return HttpResponseRedirect(reverse('admin_manager'))
+                        #return HttpResponseRedirect(reverse('admin_manager'))
+                        return JsonResponse({"code": 1, "url": "/admin_manager"})
                     else:
                         print 'second manager login'
-                        return HttpResponseRedirect(reverse('admin_second_manager'))
+                        #return HttpResponseRedirect(reverse('admin_second_manager'))
+                        return JsonResponse({"code": 1, "url": "/admin_second_manager"})
                 else:
                     return JsonResponse({"code": 0, "msg": msg})
                     # 账号密码错误

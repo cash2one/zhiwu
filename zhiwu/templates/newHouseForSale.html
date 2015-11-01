@@ -40,14 +40,14 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">小区地址</label>
                             <div class="col-sm-10">
-                                <select data-placeholder="选择小区" class="form-required form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">
-                                    <option value=""></option>
-                                    {% for i in communities %}
-                                        <option {% if i.name == room.addr_xiaoqu %} selected {% endif %} value="{{ i.name }}" id="{{ i.name }}" data-lng="{{ i.lng }}" data-lat="{{ i.lat }}">{{ i.name }}</option>
-                                    {% endfor %}
-                                </select>
-{#                                <input type="text" class="form-control inline-input form-required" value="{{ communities.name }}" disabled/>#}
-{#                                <input type="hidden" class="form-control inline-input form-required" id="addr_xiaoqu" name="addr_xiaoqu" value="{{ communities.name }}"/>#}
+{#                                <select data-placeholder="选择小区" class="form-required form-control inline-input" id="addr_xiaoqu" name="addr_xiaoqu">#}
+{#                                    <option value=""></option>#}
+{#                                    {% for i in communities %}#}
+{#                                        <option {% if i.name == room.addr_xiaoqu %} selected {% endif %} value="{{ i.name }}" id="{{ i.name }}" data-lng="{{ i.lng }}" data-lat="{{ i.lat }}">{{ i.name }}</option>#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+                                <input type="text" class="form-control inline-input form-required" value="{{ communities.name }}" disabled/>
+                                <input type="hidden" class="form-control inline-input form-required" id="addr_xiaoqu" name="addr_xiaoqu" value="{{ communities.name }}"/>
                                 小区名称
                                 <input type="text" class="form-required form-control inline-input" id="addr_building" name="addr_building"/>
                                 幢
