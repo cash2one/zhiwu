@@ -251,16 +251,13 @@ def admin_login(request):
                     request.session['identity'] = identity
                     if identity == "root":
                         print 'root login'
-                        #return HttpResponseRedirect(reverse('admin_root'))
-                        return JsonResponse({"code": 1, "url":"/admin_root"})
+                        return HttpResponseRedirect(reverse('admin_root'))
                     elif identity == "manager":
                         print 'manager login'
-                        #return HttpResponseRedirect(reverse('admin_manager'))
-                        return JsonResponse({"code": 1, "url":"/admin_manager"})
+                        return HttpResponseRedirect(reverse('admin_manager'))
                     else:
                         print 'second manager login'
-                        #return HttpResponseRedirect(reverse('admin_second_manager'))
-                        return JsonResponse({"code": 1, "url":"/admin_second_manager"})
+                        return HttpResponseRedirect(reverse('admin_second_manager'))
                 else:
                     return JsonResponse({"code": 0, "msg": msg})
                     # 账号密码错误
@@ -306,7 +303,7 @@ def admin_root(request):
         if status == 'root':
             html = "backend.html"
         else:
-            html = "backendSearch.html"
+            html = "backendSearch"
         return render(request, html, {"managers": m_list,
                                       "managers_js": json.dumps(serializers.serialize('json',m_list)),
                                       "evaluation_count": count,
@@ -376,14 +373,14 @@ def new_house_handle(request, use_old):
     if is_second_manager(identity) or is_root(identity) or is_manager(identity):
         if roomNumber == "":
             sm = SecondManager.objects.get(user=user)
-            communities = sm.company
+            communities = Community.objects.get(name=sm.company)
             return render(request, "newHouse.html", {"user": user,
                                                      "status": status,
                                                      "communities": communities})
         else:
             roominfo = RoomInfo.objects.get(roomNumber=roomNumber)
             sm = SecondManager.objects.get(user=roominfo.contactPerson)
-            communities = sm.company
+            communities = Community.objects.get(name=sm.company)
             pictures = RoomPicture.objects.filter(roomNumber=roominfo)
             merit = roominfo.merit.split(',')
             landlord_req = roominfo.landlord_req.split(',')
