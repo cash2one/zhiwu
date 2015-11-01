@@ -110,13 +110,17 @@ def work_search(request):
                 return page_not_found(request)
             if sts == 'sale':
                 rooms = SaleHouse.objects.filter(lng__range=(longitude - dis, longitude + dis),
-                                                 lat__range=(latitude - dis, latitude + dis))
+                                                 lat__range=(latitude - dis, latitude + dis),
+                                                 exist=True,
+                                                 sold=False)
                 room_list = get_search_saldhouse_list(rooms, user)
                 return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
                                                               "user": user})
             elif sts == 'rent':
                 rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
-                                                lat__range=(latitude - dis, latitude + dis))
+                                                lat__range=(latitude - dis, latitude + dis),
+                                                exist=True,
+                                                sold=False)
                 room_list = get_search_room_list(rooms, user)
                 return render(request, "search.html", {"rooms": json.dumps(room_list),
                                                        "user": user})
@@ -145,18 +149,22 @@ def home_search(request):
     cs = Community.objects.filter(Q(name__icontains=location) | Q(keyword__icontains=location))
     dis = 0.010
     if sts == 'sale':
-        rooms = SaleHouse.objects.filter(addr_xiaoqu__in=cs)
+        rooms = SaleHouse.objects.filter(addr_xiaoqu__in=cs, exist=True, sold=False)
         if len(rooms) == 0:
             rooms = SaleHouse.objects.filter(lng__range=(longitude - dis, longitude + dis),
-                                             lat__range=(latitude - dis, latitude + dis))
+                                             lat__range=(latitude - dis, latitude + dis),
+                                             exist=True,
+                                             sold=False)
         room_list = get_search_saldhouse_list(rooms, user)
         return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
                                                       "user": user})
     elif sts == 'rent':
-        rooms = RoomInfo.objects.filter(addr_xiaoqu__in=cs)
+        rooms = RoomInfo.objects.filter(addr_xiaoqu__in=cs, exist=True, sold=False)
         if len(rooms) == 0:
             rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
-                                            lat__range=(latitude - dis, latitude + dis))
+                                            lat__range=(latitude - dis, latitude + dis),
+                                            exist=True,
+                                            sold=False)
         room_list = get_search_room_list(rooms, user)
         return render(request, "search.html", {"rooms": json.dumps(room_list),
                                                "user": user})
@@ -176,11 +184,15 @@ def map_search(request):
         sts = request.POST.get("status", None)
         if sts == 'sale':
             rooms = SaleHouse.objects.filter(lng__range=(longitude_l, longitude_r),
-                                             lat__range=(latitude_l, latitude_r))
+                                             lat__range=(latitude_l, latitude_r),
+                                             exist=True,
+                                             sold=False)
             room_list = get_search_saldhouse_list(rooms, user)
         elif sts == 'rent':
             rooms = RoomInfo.objects.filter(lng__range=(longitude_l, longitude_r),
-                                            lat__range=(latitude_l, latitude_r))
+                                            lat__range=(latitude_l, latitude_r),
+                                            exist=True,
+                                            sold=False)
             room_list = get_search_room_list(rooms, user)
         else:
             return page_not_found(request)
