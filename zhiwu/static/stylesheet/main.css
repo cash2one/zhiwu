@@ -302,3 +302,61 @@ select.initialized{
         display:none;
     }
 }
+
+
+
+    .card-title{
+        position:absolute;
+        bottom: 100px;
+        left: 20px;
+    }
+
+.card .card-image {
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+}
+
+.slick-prev {
+    left: 0px;
+    z-index:1000;
+}
+
+.slick-prev, .slick-next {
+    font-size: 0;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    display: block;
+    margin-top: -10px;
+    padding: 0;
+    cursor: pointer;
+    color: transparent;
+    border: none;
+    outline: none;
+}
+
+.slick-prev{
+    width: 40px;
+    height: 50px;
+    background: url('/resource/btn_l.png');
+    left: 0px;
+}
+
+.slick-next {
+    right: 0px;
+    z-index:1000;
+    width: 40px;
+    height: 50px;
+    background: url('/resource/btn_r.png');
+    right: 0px;
+}
+
+.fade img{
+    max-height:100%;
+    overflow:hidden;
+}
+
+.slick-slide{
+    outline:none
+}

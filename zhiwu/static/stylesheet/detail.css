@@ -298,14 +298,15 @@ footer.page-footer {
     width:100%;
 }
 
-.room-detail-wrapper .room-detail-section .room-detail-title{
-    color:white;
-    font-size:18px;
+.room-detail-section .room-detail-title{
+    color:grey;
+    font-size:30px;
+    margin-top:50px;
 }
 
-.room-detail-section .room-detail-title .glyphicon{
-    color:white;
-    margin-right:5px;
+.room-detail-section .room-detail-title .material-icons{
+   vertical-align: top;
+    font-size: 3rem;
 }
 
 .room-detail-section .room-detail-content{
@@ -469,6 +470,19 @@ footer.page-footer {
     /*border: 2px solid #ff5a5f;*/
 /*}*/
 
+.slider {
+    position: relative;
+    height: 600px;
+    width: 70%;
+    margin: 0 auto;
+}
 
+.slider .slides{
+    height:500px;
+    background: #f5f5f5;
+}
 
+.slider .slides li {
+    height:500px;
+}
 
