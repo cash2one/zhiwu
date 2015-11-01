@@ -549,7 +549,7 @@ def post_new_area(request):
 def post_delete_area(request):
     if request.method == 'POST':
         try:
-            name = request.POST.get('name')
+            name = request.POST.get('id')
             p = Area.objects.get(name=name)
             p.delete()
             return JsonResponse(success)
@@ -564,10 +564,10 @@ def post_delete_area(request):
 def get_area_name(request):
     try:
         name = request.GET.get('name')
-        areas = Area.objects.filter(name__icontain=name)
+        areas = Area.objects.filter(name__icontains=name)
         areas = serializers.serialize('json', areas)
         result = {'code': 1,
-                  'area_list': areas}
+                  'context': areas}
         return JsonResponse(result, safe=False)
     except Exception, e:
         print 'get area name error:'

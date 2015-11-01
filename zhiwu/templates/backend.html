@@ -284,7 +284,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button class="btn btn-info btn-get" data-type="area">搜索</button>
+                                    <button class="btn btn-info btn-get" data-type="areaname">搜索</button>
                                 </div>
                             </form>
 
@@ -1358,11 +1358,11 @@
 
 <script id="areaname-search" type="text/x-jquery-tmpl">
     <tr data-target="${pk}">
-                            <th>${fields.name}</th>
-                            <th>
-                                <button class="btn btn-warning btn-operate" data-type="cancel">删除</button>
-                            </th>
-                        </tr>
+        <th>${pk}</th>
+        <th>
+            <button class="btn btn-danger btn-operate" data-type="cancel">删除</button>
+        </th>
+    </tr>
 </script>
 
 {% endverbatim %}
@@ -1520,6 +1520,9 @@
         $(document).delegate(".btn-post","click",function(e){
             e.preventDefault();
 
+            var _input=$(this).parents("form").find("input[type=password]");
+
+            _input.next().val($.md5(_input.val()));
             var form = $(this).parents("form");
             var dest = form.attr("dest");
 
@@ -1539,7 +1542,11 @@
                         if(data.code==1){
                             alert("保存成功！");
                         }else{
-                            alert("保存失败！");
+                            if(!!data.msg){
+                                alert(data.msg);
+                            }else{
+                                alert("保存失败！");
+                            }
                         }
                     }
             )

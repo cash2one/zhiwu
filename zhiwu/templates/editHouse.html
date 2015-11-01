@@ -33,13 +33,13 @@
                                     {% endfor %}
                                 </select>
                                 小区名称
-                                <input type="text" class="form-control inline-input" id="addr_building" name="addr_building" value="{{room.addr_building}}"/>
+                                <input type="text" class="form-control inline-input form-required" id="addr_building" name="addr_building" value="{{room.addr_building}}"/>
                                 幢
-                                <input type="text" class="form-control inline-input" id="addr_unit" name="addr_unit" value="{{room.addr_unit}}"/>
+                                <input type="text" class="form-control inline-input form-required" id="addr_unit" name="addr_unit" value="{{room.addr_unit}}"/>
                                 单元
 {#                                <input type="text" class="form-control inline-input" id="addr_floor" name="addr_floor" value="{{room.addr_floor}}"/>#}
 {#                                楼层#}
-                                <input type="text" class="form-control inline-input" id="addr_room" name="addr_room" value="{{room.addr_room}}"/>
+                                <input type="text" class="form-control inline-input form-required" id="addr_room" name="addr_room" value="{{room.addr_room}}"/>
                                 室
                                 <input type="text" class="form-control inline-input" id="addr_floor" name="addr_floor" value="{{ room.addr_floor }}"/>
                                 房
@@ -58,7 +58,7 @@
                         <div class="form-group">
                             <label for="payway" class="col-sm-2 control-label">租金/付款方式</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="keeper-add-name" name="price" value="{{ room.price }}">元/月
+                                <input type="text" class="form-control inline-input form-required" id="keeper-add-name" name="price" value="{{ room.price }}">元/月
                                 <select name="payway" id="payway" class="form-control inline-input">
                                     <!--<option value="">押金方式</option>-->
                                     <option {% if room.payway == "押一付一" %} selected {% endif %} value="押一付一">押一付一</option>
@@ -76,11 +76,11 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">房屋户型</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="type_room" name="type_room" value="{{room.type_room}}"/>
+                                <input type="text" class="form-control inline-input form-required" id="type_room" name="type_room" value="{{room.type_room}}"/>
                                 室
-                                <input type="text" class="form-control inline-input" id="type_livingroom" name="type_livingroom" value="{{room.type_livingroom}}"/>
+                                <input type="text" class="form-control inline-input form-required" id="type_livingroom" name="type_livingroom" value="{{room.type_livingroom}}"/>
                                 厅
-                                <input type="text" class="form-control inline-input" id="type_toilet" name="type_toilet" value="{{room.type_toilet}}"/>
+                                <input type="text" class="form-control inline-input form-required" id="type_toilet" name="type_toilet" value="{{room.type_toilet}}"/>
                                 卫
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">面积</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control inline-input" id="mianji" name="mianji" value="{{room.mianji}}"/>
+                                <input type="text" class="form-control inline-input form-required" id="mianji" name="mianji" value="{{room.mianji}}"/>
                                 平方米
                             </div>
                         </div>
@@ -129,7 +129,7 @@
                         <div class="form-group">
                             <label for="stay_intime" class="col-sm-2 control-label">最早可入住时间</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="stay_intime" name="stay_intime" value="{{room.stay_intime|date:"Y-m-d"}}"/>
+                                <input type="text" class="form-control form-required" id="stay_intime" name="stay_intime" value="{{room.stay_intime|date:"Y-m-d"}}"/>
                             </div>
                         </div>
 
@@ -221,7 +221,7 @@
                                         <option {% if room.floor_level == "中" %}selected{% endif %}value="中">中</option>
                                         <option {% if room.floor_level == "高" %}selected{% endif %}value="高">高</option>
                                     </select>/
-                                    <input type="text" class="form-control inline-input" id="total_floor" name="total_floor" value="{{room.total_floor}}">层
+                                    <input type="text" class="form-control inline-input form-required" id="total_floor" name="total_floor" value="{{room.total_floor}}">层
                                 </div>
                             </div>
 
@@ -663,6 +663,24 @@
 
             var type=$(this).data("type");
             var dest=type=="save"?{% url 'roominfo_save' %}:{% url 'roominfo_sub' %};
+
+            var isSubmit=type==="submit";
+
+            if(isSubmit){
+                var flag=false;
+                $(".form-required").each(function(){
+                    if($(this).val()){
+                        $(this).removeClass("form-alert");
+                    }else{
+                        flag=true;
+                        $(this).addClass("form-alert");
+                    }
+                });
+                if(flag){
+                    alert("请填写完整的信息");
+                    return;
+                }
+            }
 
             var p = marker.getPosition();
             $("#house_lng").val(p.lng);

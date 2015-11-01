@@ -67,7 +67,7 @@
                                         <th>{{i.info.stay_intime|date:"Y-m-d" }}</th>
                                         <th>{{i.info.contactPerson}}</th>
                                         <th>{{i.info.contactPerson}}</th>
-                                        <th>{% if i.picture == True %}有{% else %}无{% endif %}</th>
+                                        <th>{% if i.info.have_image == True %}有{% else %}无{% endif %}</th>
                                         <th>
                                             {% if i.info.sold == True %}
                                                 已下架
