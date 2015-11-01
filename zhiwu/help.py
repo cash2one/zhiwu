@@ -22,13 +22,13 @@ def get_search_saldhouse_list(rooms, user):
     for i in rc:
         rc_list.append(i.roomNumber)
     for i in rooms:
-        pictures = SaleHouse.objects.filter(roomNumber=i.roomNumber)
+        pictures = SaleHousePicture.objects.filter(roomNumber=i.roomNumber)
         cp = SecondManager.objects.get(user=i.contactPerson)
         images = []
         for j in pictures:
             images.append(j.picture)
         room = {'roomNumber': i.roomNumber,
-                'stay_intime': str(i.stay_intime),
+                # 'stay_intime': str(i.stay_intime),
                 'price': i.price,
                 'lng': i.lng,
                 'lat': i.lat,

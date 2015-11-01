@@ -113,12 +113,16 @@ def work_search(request):
                                                  lat__range=(latitude - dis, latitude + dis))
                 room_list = get_search_saldhouse_list(rooms, user)
                 return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
+                                                              "lng": json.dumps(longitude),
+                                                              "lat": json.dumps(latitude),
                                                               "user": user})
             elif sts == 'rent':
                 rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
                                                 lat__range=(latitude - dis, latitude + dis))
                 room_list = get_search_room_list(rooms, user)
                 return render(request, "search.html", {"rooms": json.dumps(room_list),
+                                                       "lng": json.dumps(longitude),
+                                                       "lat": json.dumps(latitude),
                                                        "user": user})
             else:
                 return page_not_found(request)
@@ -151,6 +155,8 @@ def home_search(request):
                                              lat__range=(latitude - dis, latitude + dis))
         room_list = get_search_saldhouse_list(rooms, user)
         return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
+                                                      "lng": json.dumps(longitude),
+                                                      "lat": json.dumps(latitude),
                                                       "user": user})
     elif sts == 'rent':
         rooms = RoomInfo.objects.filter(addr_xiaoqu__in=cs)
@@ -159,6 +165,8 @@ def home_search(request):
                                             lat__range=(latitude - dis, latitude + dis))
         room_list = get_search_room_list(rooms, user)
         return render(request, "search.html", {"rooms": json.dumps(room_list),
+                                               "lng": json.dumps(longitude),
+                                               "lat": json.dumps(latitude),
                                                "user": user})
     else:
         return page_not_found(request)
