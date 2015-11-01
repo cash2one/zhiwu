@@ -171,7 +171,9 @@ urlpatterns = [
         url(r'^salehouse_search', 'zhiwu.views.salehouse_search_except', name='salsehouse_search'),
 
         # 文件下载的路由，get过来一些条件就可以了
-        url(r'^download_data', 'zhiwu.views.download_data', name='download_data'),
+        url(r'^download_roominfo', 'zhiwu.views.download_roominfo', name='download_roominfo'),
+        url(r'^download_salehouse', 'zhiwu.views.download_salehouse', name='download_salehouse'),
+
 
         url(r'^admin/', include(admin.site.urls)),
         # url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_URL}),

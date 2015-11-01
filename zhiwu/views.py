@@ -1809,7 +1809,7 @@ def post_community_delete(request):
         return page_not_found(request)
 
 
-def download_data(request):
+def download_roominfo(request):
     file_name = 'data.xls'
     attri_list = ['roomNumber', 'price']
     attri_title = [u'房源编号', u'价格']
@@ -1830,3 +1830,7 @@ def download_data(request):
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename="{0}"'.format(file_name)
     return response
+
+
+def download_salehouse(requset):
+    return 0;
