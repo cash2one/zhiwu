@@ -7,19 +7,14 @@
 <!--sp_header-->
 {% block sp_header %}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
 <style>
 
     nav ul a,
     nav .brand-logo {
       color: #444;
     }
-    .carousel-control.right{
-        background-image:none;
-    }
 
-    .carousel-control.left{
-        background-image:none;
-    }
 </style>
 {% endblock %}
 
@@ -269,10 +264,12 @@
 
 <div class="col s12 m6 l6">
   <div class="card" href="/room_detail/?roomNumber=${roomNumber}" target="_blank">
-    <div class="card-image" data-target="${roomNumber}">
-      <img src="/resource/card.jpg"/>
-      <span class="card-title">${addr_xiaoqu}</span>
+    <div class="fade card-image" data-target="${roomNumber}">
+        <div><div class="image"><img src="/resource/card.jpg" width="100%"/></div></div>
+        <div><div class="image"><img src="/resource/map.png" width="100%"/></div></div>
+        <div><div class="image"><img src="/resource/50ticket.png" width="100%"/></div></div>
     </div>
+      <span class="card-title">${addr_xiaoqu}</span>
     <div class="card-content">
       <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}￥</p>
     </div>
@@ -285,7 +282,13 @@
 </script>
 {% endverbatim %}
 
+{#<script src="/js/unslider.min.js"></script>#}
+
+
+
 <script type="text/javascript">
+
+
 
  $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
@@ -293,6 +296,8 @@
      format: 'yyyy-mm-dd',
     formatSubmit: 'yyyy-mm-dd'
   });
+
+
 
 
 //    接受房源数据，并作初始化处理
@@ -653,6 +658,20 @@
 
         }
     });
+</script>
+
+<script>
+ width="100%"
+    $(document).ready(function(){
+        $('.fade').slick({
+          infinite: true,
+          speed: 500,
+          fade: true,
+          cssEase: 'linear'
+        });
+        console.log("after");
+    });
+
 </script>
 
 {% endblock %}
