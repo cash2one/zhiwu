@@ -638,6 +638,7 @@
     ;(function(){
 
         var pic={{ files|safe }};
+        var identity={{ identity|safe }};
 
 
         function formatFileSize(bytes) {
@@ -703,7 +704,17 @@
                 function(data){
                     if(data.code==1){
                         alert("保存成功！");
-                        window.open("/admin_second_manager","_self");
+                        var _newurl="/admin_root";
+
+                        if(identity=="second_manager"){
+                            _newurl="/admin_second_manager"
+                        }
+
+                        if(identity=="manager"){
+                            _newurl="/admin_manager"
+                        }
+
+                        window.open(_newurl,"_self");
                     }else{
                         alert("保存失败！");
                     }

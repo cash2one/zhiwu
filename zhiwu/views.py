@@ -306,7 +306,7 @@ def admin_root(request):
         if status == 'root':
             html = "backend.html"
         else:
-            html = "backendSearch"
+            html = "backendSearch.html"
         return render(request, html, {"managers": m_list,
                                       "managers_js": json.dumps(serializers.serialize('json',m_list)),
                                       "evaluation_count": count,
@@ -337,6 +337,7 @@ def admin_manager(request):
     # m_list = json.dumps(serializers.serialize('json', m_list))
     return render(request, "backendL1.html", {"second_managers": m_list,
                                               "community_list": c_list,
+                                               "manager": manager,
                                               "status": status,
                                               "identity": json.dumps(identity),
                                               "user": user})
@@ -379,6 +380,7 @@ def new_house_handle(request, use_old):
             communities = Community.objects.get(name=sm.company)
             return render(request, "newHouse.html", {"user": user,
                                                      "status": status,
+                                                     "identity": json.dumps(identity),
                                                      "communities": communities})
         else:
             roominfo = RoomInfo.objects.get(roomNumber=roomNumber)
@@ -404,6 +406,7 @@ def new_house_handle(request, use_old):
                                                       "status": status,
                                                       "room": roominfo,
                                                       "merit": merit,
+                                                      "identity": json.dumps(identity),
                                                       "landlord_req": landlord_req,
                                                       "lat": json.dumps(roominfo.lat),
                                                       "lng": json.dumps(roominfo.lng),
@@ -428,6 +431,7 @@ def new_salehouse_handle(request, use_old):
             communities = Community.objects.get(name=sm.company)
             return render(request, "newHouseForSale.html", {"user": user,
                                                             "status": status,
+                                                            "identity": json.dumps(identity),
                                                             "communities": communities})
         else:
             salehouse = SaleHouse.objects.get(roomNumber=roomNumber)
@@ -452,6 +456,7 @@ def new_salehouse_handle(request, use_old):
                                                              "room": salehouse,
                                                              "lat": json.dumps(salehouse.lat),
                                                              "lng": json.dumps(salehouse.lng),
+                                                             "identity": json.dumps(identity),
                                                              "files": json.dumps(images),
                                                              "communities": communities})
     else:

@@ -641,6 +641,8 @@
 <script>
     ;(function(){
 
+        var identity={{ identity|safe }};
+
         $("#landlord_req").chosen();
         $("#merit").chosen();
         //为新增form,save或者submit添加ajax
@@ -687,7 +689,17 @@
                 function(data){
                     if(data.code==1){
                         alert("保存成功！");
-                        window.open("/admin_second_manager","_self");
+                        var _newurl="/admin_root";
+
+                        if(identity=="second_manager"){
+                            _newurl="/admin_second_manager"
+                        }
+
+                        if(identity=="manager"){
+                            _newurl="/admin_manager"
+                        }
+
+                        window.open(_newurl,"_self");
                     }else{
                         alert("保存失败！");
                     }
@@ -699,32 +711,6 @@
         });
 
         $("#stay_intime").datepicker({dateFormat:"yy-mm-dd"});
-
-{#        $("#addr_xiaoqu").chosen({#}
-{#            no_results_text:"没有找到该小区"#}
-{#        });#}
-
-        $(".chosen-search input").bind("input",function(){
-//           console.log("input");
-        });
-
-
-{##}
-{#        $("#addr_xiaoqu").bind("change",function(){#}
-{#           console.log("change");#}
-{##}
-{#            var _option=$("#"+$(this).val());#}
-{#            var _lng=_option.data("lng");#}
-{#            var _lat=_option.data("lat");#}
-{##}
-{#            map.centerAndZoom(new BMap.Point(_lng,_lat),18);#}
-{##}
-{#            map.clearOverlays();#}
-{#            window.marker = new BMap.Marker(new BMap.Point(_lng,_lat));  // 创建标注#}
-{#            map.addOverlay(window.marker);              // 将标注添加到地图中#}
-{#            window.marker.enableDragging();#}
-{#        });#}
-
 
         $("#addr-form .form-control").bind("change",function(){
             //当地址发生改变时，根据地址搜索有没有对应的房源
@@ -746,18 +732,7 @@
                             if(data.status==1){
                                 var res=confirm("已经找到该房源，在下架房源库中，是否导入？");
                                 if(res==true){
-                                    alert("导入");
-
                                     window.open("/use_old_house/?roomNumber="+data.roomNumber,"_self");
-
-{#                                    $.get(#}
-{#                                            "{% url 'use_old_house' %}",#}
-{#                                            {roomNumber:data.roomNumber},#}
-{#                                            function(data){#}
-{##}
-{#                                            }#}
-{#                                    )#}
-
                                 }else{
                                     return;
                                 }

@@ -371,6 +371,7 @@
 
 <script>
     ;(function(){
+        var identity={{ identity|safe }};
 
         //为新增form,save或者submit添加ajax
         $(".btn-post").bind("click",function(e){
@@ -415,7 +416,17 @@
                 function(data){
                     if(data.code==1){
                         alert("保存成功！");
-                        window.open("/admin_second_manager","_self");
+                        var _newurl="";
+
+                        if(identity=="second_manager"){
+                            _newurl="/admin_second_manager"
+                        }
+
+                        if(identity=="manager"){
+                            _newurl="/admin_manager"
+                        }
+
+                        window.open(_newurl,"_self");
                     }else{
                         alert("保存失败！");
                     }
