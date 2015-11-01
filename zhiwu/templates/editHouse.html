@@ -821,7 +821,7 @@
     var mPoint = new BMap.Point({{ lng|safe }},{{ lat|safe }});
     //    map.enableScrollWheelZoom(false);
     //    map.centerAndZoom(mPoint,15);
-    map.centerAndZoom(mPoint,15);
+    map.centerAndZoom(mPoint,18);
 
     //    添加控件
     var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
@@ -834,7 +834,4 @@
     marker.enableDragging();
 
 </script>
-
-
-
 {% endblock %}
