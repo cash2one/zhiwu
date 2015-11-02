@@ -41,7 +41,7 @@
             <section class="st-panel st-color" id="st-panel-1">
 {#                <div class="st-desc" data-icon="H"></div>#}
                 <div class="nav">
-                    <div class="company-title nav-left nav-item">知屋@租房网</div>
+                    <div class="company-title nav-left nav-item">知屋</div>
                     <div class="index-btn btn-login nav-right nav-item">注册/登陆</div>
                     <div class="index-btn btn-console nav-right nav-item"><a href="{% url 'client_back' %}" target="_blank">我的后台</a></div>
                 </div>
@@ -88,7 +88,7 @@
             <section class="st-panel st-color" id="st-panel-2">
 {#                <div class="st-desc" data-icon="2"></div>#}
                 <div class="nav">
-                    <div class="company-title nav-left nav-item">知屋@租房网</div>
+                    <div class="company-title nav-left nav-item">知屋</div>
                     <div class="index-btn btn-login nav-right nav-item">注册/登陆</div>
                     <div class="index-btn btn-console nav-right nav-item"><a href="{% url 'client_back' %}" target="_blank">我的后台</a></div>
                 </div>
@@ -210,6 +210,7 @@
 </body>
 <!--脚本-->
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
 
 <script>
@@ -226,6 +227,13 @@
 
         $(".btn-login").bind("click",function(){
             $("#st-control-5").trigger("click");
+        });
+
+
+        $(document).mousewheel(function(event, delta) {
+            event.preventDefault();
+            var timestick=new Date();
+            console.log(delta+":"+timestick.getTime());
         });
 
 
