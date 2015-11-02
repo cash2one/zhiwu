@@ -18,6 +18,7 @@ import time
 import os
 import random
 from pyExcelerator import *
+import sys
 # Create your views here.
 
 rename = {"code": 0, "msg": "用户已经存在"}
@@ -221,7 +222,7 @@ def salehouse_detail(request):
         evaluation = SaleHouseEvaluation.objects.filter(roomNumber=roomNum, ifpass=True).order_by('createTime')
         cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_salehouse_picture(room)
-        c = Community.objects.get(room.addr_xiaoqu)
+        c = Community.objects.get(name=room.addr_xiaoqu)
         return render(request, "detailForSale.html", {"room": room,
                                                       "user": user,
                                                       "community": c,
@@ -242,7 +243,7 @@ def room_detail(request):
         evaluation = RoomEvaluation.objects.filter(roomNumber=roomNum, ifpass=True).order_by('createTime')
         cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
-        c = Community.objects.get(room.addr_xiaoqu)
+        c = Community.objects.get(name=room.addr_xiaoqu)
         return render(request, "detail.html", {"room": room,
                                                "user": user,
                                                "community": c,
@@ -1874,7 +1875,10 @@ def download_roominfo(request):
     for r in rs:
         j = 0
         for item in attri_list:
-            ws.write(i, j, r.__getattribute__(item))
+            if type(r.__getattribute__(item)) == unicode:
+                ws.write(i, j, r.__getattribute__(item))
+            else:
+                ws.write(i, j, str(r.__getattribute__(item)))
             j += 1
         i += 1
     w.save(file_name)
@@ -1905,7 +1909,10 @@ def download_salehouse(requset):
     for r in rs:
         j = 0
         for item in attri_list:
-            ws.write(i, j, r.__getattribute__(item))
+            if type(r.__getattribute__(item)) == unicode:
+                ws.write(i, j, r.__getattribute__(item))
+            else:
+                ws.write(i, j, str(r.__getattribute__(item)))
             j += 1
         i += 1
     w.save(file_name)
