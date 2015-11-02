@@ -215,29 +215,37 @@ def map_search(request):
 
 def salehouse_detail(request):
     try:
+        user, status, identity = user_session_check(request)
         roomNum = request.GET.get('roomNumber')
         room = SaleHouse.objects.get(roomNumber=roomNum)
         evaluation = SaleHouseEvaluation.objects.filter(roomNumber=roomNum, ifpass=True).order_by('createTime')
         cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_salehouse_picture(room)
+        c = Community.objects.get(room.addr_xiaoqu)
         return render(request, "detailForSale.html", {"room": room,
-                                               "lat": json.dumps(room.lat),
-                                               "lng": json.dumps(room.lng),
-                                               "evaluation": evaluation,
-                                               "contactPerson": cp,
-                                               "picture": roomP})
+                                                      "user": user,
+                                                      "community": c,
+                                                      "lat": json.dumps(room.lat),
+                                                      "lng": json.dumps(room.lng),
+                                                      "evaluation": evaluation,
+                                                      "contactPerson": cp,
+                                                      "picture": roomP})
     except Exception, e:
         print e
         return page_not_found(request)
 
 def room_detail(request):
     try:
+        user, status, identity = user_session_check(request)
         roomNum = request.GET.get('roomNumber')
         room = RoomInfo.objects.get(roomNumber=roomNum)
         evaluation = RoomEvaluation.objects.filter(roomNumber=roomNum, ifpass=True).order_by('createTime')
         cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
+        c = Community.objects.get(room.addr_xiaoqu)
         return render(request, "detail.html", {"room": room,
+                                               "user": user,
+                                               "community": c,
                                                "lat": json.dumps(room.lat),
                                                "lng": json.dumps(room.lng),
                                                "evaluation": evaluation,
@@ -1878,7 +1886,7 @@ def download_roominfo(request):
 
 def download_salehouse(requset):
     file_name = 'data.xls'
-    attri_lisattri_list = ['roomNumber', 'manager', 'contactPerson', 'price', 'lng', 'lat',
+    attri_list = ['roomNumber', 'manager', 'contactPerson', 'price', 'lng', 'lat',
                   'sold', 'exist', 'create_time', 'sold_time', 'have_image'
                   'mianji', 'addr_xiaoqu', 'addr_building', 'addr_unit', 'addr_room', 'type_room',
                   'type_livingroom', 'type_toilet', 'type', 'orientation',
