@@ -21,7 +21,7 @@
           <h5 class="header col s12 light"><span class="bigger">{{room.type_room}}</span>室<span class="bigger">{{room.type_livingroom}}</span>厅<span class="bigger">{{room.type_toilet}}</span>卫&nbsp;<span class="bigger">{{ room.price }}</span>/月&nbsp;{{ room.roomNumber }}</h5>
         </div>
         <div class="row center">
-          <a href="#" id="download-button" data-target="yuyueanniu" class="btn-yuyue btn-large waves-effect waves-light teal lighten-1"><i class="large material-icons left">grade</i>收藏</a>
+          <a href="#" id="download-button" data-target="{{ room.roomNumber }}" class="btn-yuyue btn-large waves-effect waves-light teal lighten-1"><i class="large material-icons left">grade</i>收藏</a>
           <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1"><i class="large material-icons left">contact_phone</i>预约</a>
         </div>
         <br><br>
@@ -301,9 +301,6 @@
 <!--sp_script-->
 {% block sp_script %}
 
-<script src="/js/jquery.pin.min.js" type="text/javascript"></script>
-<script src="/js/stepcarousel.js" type="text/javascript"></script>
-{#<script src="/js/carousel.js" type="text/javascript"></script>#}
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
 <script type="text/javascript">
     // 百度地图API功能
@@ -328,23 +325,6 @@
 </script>
 
 <script type="text/javascript">
-{#    stepcarousel.setup({#}
-{#        galleryid: 'mygallery', //id of carousel DIV#}
-{#        beltclass: 'belt', //class of inner "belt" DIV containing all the panel DIVs#}
-{#        panelclass: 'panel', //class of panel DIVs each holding content#}
-{#        panelbehavior: {speed:300, wraparound:false, persist:true},#}
-{#        autostep: {enable:true, moveby:4, pause:10000},#}
-{#        defaultbuttons: {enable: true, moveby: 4, leftnav: ['/resource/butt-left.jpg', 0, 64], rightnav: ['/resource/butt-right.jpg', -11, 64]},#}
-{#        statusvars: ['statusA', 'statusB', 'statusC'], //register 3 variables that contain current panel (start), current panel (last), and total panels#}
-{#        contenttype: ['inline'], //content setting ['inline'] or ['external', 'path_to_external_file']#}
-{#        oninit:function(){#}
-{#            isloaded=true#}
-{#            document.getElementById('displaycssbelt').style.visibility="visible";#}
-{#//            document.getElementById('stocklevels').style.visibility="visible";#}
-{#        }#}
-{#    });#}
-
-
     $(document).ready(function(){
         $('.materialboxed').materialbox();
         $('.slider').slider();
@@ -353,15 +333,8 @@
 
 <script>
     $(function(){
-
         $('.button-collapse').sideNav();
         $('.parallax').parallax();
-
-
-        //pin住右侧的房源情况
-        $(".room-info").pin({
-            containerSelector: "#pin-container"
-        });
 
         //周边设施交互
         $(".facility-item ").bind("click",function(e){
@@ -405,14 +378,19 @@
                 "{% url 'room_collection' %}",
                 {roomNumber:_id},
                 function(data){
-                    if(data.status==200){
-                        that.addClass("active");
-                        console.log("post success");
-                        alert("已加入收藏夹");
+                    if(data.code==1){
+                        if(data.msg=="收藏成功"){
+                            that.addClass("active");
+                        }else{
+                            that.removeClass("active");
+                        }
+                        alert(data.msg);
                     }else{
-                        console.log("post failed");
-                        if(msg){
-                            alert(msg);
+                        if(data.msg){
+                            alert(data.msg);
+                            if(data.msg=="没有登陆"){
+                                $('#modal1').openModal();
+                            }
                         }
                     }
                 }
