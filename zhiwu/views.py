@@ -84,7 +84,7 @@ def check_manager(request):
 
 
 def search(request):
-    return render(request, "companyPresent.html")
+    return render(request, "404.html")
 
 
 def work_search(request):
@@ -118,6 +118,9 @@ def work_search(request):
                 return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
                                                               "lng": json.dumps(longitude),
                                                               "lat": json.dumps(latitude),
+                                                              "way": way,
+                                                              "time": json.dumps(time_get),
+                                                              "isWork": True,
                                                               "user": user})
             elif sts == 'rent':
                 rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
@@ -128,6 +131,9 @@ def work_search(request):
                 return render(request, "search.html", {"rooms": json.dumps(room_list),
                                                        "lng": json.dumps(longitude),
                                                        "lat": json.dumps(latitude),
+                                                       "way": way,
+                                                       "time": json.dumps(time_get),
+                                                       "isWork": True,
                                                        "user": user})
             else:
                 return page_not_found(request)
@@ -164,6 +170,7 @@ def home_search(request):
         return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
                                                       "lng": json.dumps(longitude),
                                                       "lat": json.dumps(latitude),
+                                                      "isWork": False,
                                                       "user": user})
     elif sts == 'rent':
         rooms = RoomInfo.objects.filter(addr_xiaoqu__in=cs, exist=True, sold=False)
@@ -176,6 +183,7 @@ def home_search(request):
         return render(request, "search.html", {"rooms": json.dumps(room_list),
                                                "lng": json.dumps(longitude),
                                                "lat": json.dumps(latitude),
+                                               "isWork": False,
                                                "user": user})
     else:
         return page_not_found(request)

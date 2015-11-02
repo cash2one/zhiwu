@@ -2,7 +2,7 @@
 <nav class="white" role="navigation">
     <div class="nav-wrapper">
 
-      <a id="logo-container" href="#" class="brand-logo">知屋@租房</a>
+      <a id="logo-container" href="#" class="brand-logo">知屋</a>
 {#        <ul class="left hide-on-med-and-down">#}
         <form class="navbar-form-work" role="search" style="float:left;margin-left:180px;height:62px;" action="{% url 'work_search' %}" method="get">
                 <div class="row" style="width:750px;">
@@ -24,11 +24,20 @@
                         <option value="60">60分钟</option>
                     </select>
 
-                    <select class="form-control col" name="status" id="status">
-                        <option value="rent" selected>租房</option>
-                        <option value="sale">买房</option>
-                    </select>
+{#                    <select class="form-control col" name="status" id="status">#}
+{#                        <option value="rent" selected>租房</option>#}
+{#                        <option value="sale">买房</option>#}
+{#                    </select>#}
 
+                    <div id="status-rent" class="status-col">
+                        租房
+                    </div>
+
+                    <div id="status-sale" class="status-col" style="display:none;">
+                        买房
+                    </div>
+
+                    <input type="hidden" name="status" id="status">
                     <input type="hidden" name="lng" id="work_lng"/>
                     <input type="hidden" name="lat" id="work_lat"/>
                     <button type="submit" class="btn" style="margin-left:20px;margin-bottom: 10px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;搜索</button>

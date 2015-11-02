@@ -379,3 +379,11 @@ button:focus{outline:none;background-color:transparent}
     height: 250px;
     opacity: 0;
 }
+
+.status-col{
+    float: left;
+    height: 45px;
+    width: 70px;
+    line-height: 43px;
+    border-bottom: 1px solid darkgrey;
+}

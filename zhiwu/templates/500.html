@@ -1,10 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title></title>
+    {% include './common/header.html' %}
+    <title>404</title>
+    <style>
+        body{
+            background: #F5E7DA;
+        }
+
+        h1{
+            text-align:center;
+            color:#E4A060;
+            font-size:100px;
+        }
+
+        p{
+            text-align:center;
+            color:grey;
+            font-size:30px;
+        }
+
+        img{
+            text-align: center;
+            position: absolute;
+            left:50%;
+            margin-left:-398px;
+        }
+    </style>
 </head>
 <body>
-this is 500 page
+<h1>500</h1>
+<p>抱歉，目前找不到您所需要的页面，点击<a href="{% url 'home' %}">这里</a>返回首页</p>
+<img src="/resource/sola.jpg" alt=""/>
 </body>
 </html>

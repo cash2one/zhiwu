@@ -19,6 +19,7 @@
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheet/normalize.css">
     <link rel="stylesheet" href="/stylesheet/home.css">
+    <link rel="stylesheet" href="/stylesheet/jquery.fullpage.css">
     <title>租房网demo</title>
 </head>
 <body>
@@ -38,10 +39,10 @@
         <a href="#st-panel-5">登陆/注册</a>
         <!-- Nav end  Content begin -->
         <div class="st-scroll">
-            <section class="st-panel st-color" id="st-panel-1">
+            <div class="section st-panel st-color" id="st-panel-1">
 {#                <div class="st-desc" data-icon="H"></div>#}
                 <div class="nav">
-                    <div class="company-title nav-left nav-item">知屋@租房网</div>
+                    <div class="company-title nav-left nav-item">知屋</div>
                     <div class="index-btn btn-login nav-right nav-item">注册/登陆</div>
                     <div class="index-btn btn-console nav-right nav-item"><a href="{% url 'client_back' %}" target="_blank">我的后台</a></div>
                 </div>
@@ -84,11 +85,11 @@
                     </form>
 
                 </div>
-            </section>
-            <section class="st-panel st-color" id="st-panel-2">
+            </div>
+            <div class="section st-panel st-color" id="st-panel-2">
 {#                <div class="st-desc" data-icon="2"></div>#}
                 <div class="nav">
-                    <div class="company-title nav-left nav-item">知屋@租房网</div>
+                    <div class="company-title nav-left nav-item">知屋</div>
                     <div class="index-btn btn-login nav-right nav-item">注册/登陆</div>
                     <div class="index-btn btn-console nav-right nav-item"><a href="{% url 'client_back' %}" target="_blank">我的后台</a></div>
                 </div>
@@ -123,13 +124,13 @@
                         <span id="search-in-work">按照工作地搜索？</span>
                     </form>
                 </div>
-            </section>
-            <section class="st-panel" id="st-panel-3">
+            </div>
+            <div class="section st-panel" id="st-panel-3">
                 <div class="st-desc" data-icon="K"></div>
                 <h2>知屋</h2>
                 <div class="st-content">我们知道、懂得每一间屋子</div>
-            </section>
-            <section class="st-panel st-color" id="st-panel-4">
+            </div>
+            <div class="section st-panel st-color" id="st-panel-4">
                 <div class="st-desc" data-icon="S"></div>
                 <div class="st-content" style="top:25%;width:80%;left:10%;">
                     <div class="row">
@@ -171,8 +172,8 @@
                     </div>
 
                 </div>
-            </section>
-            <section class="st-panel" id="st-panel-5">
+            </div>
+            <div class="section st-panel" id="st-panel-5">
                 <div class="st-desc" data-icon="]"></div>
                 <div class="st-content">
                    <form class="form-horizontal" action="{% url 'admin_login' %}" method="post">
@@ -199,9 +200,8 @@
 
 
                 </div>
-            </section>
+            </div>
         </div>
-    </div>
 </div>
 
 
@@ -210,6 +210,8 @@
 </body>
 <!--脚本-->
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/jquery.fullpage.min.js"></script>
+<script src="/js/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
 
 <script>
@@ -228,7 +230,19 @@
             $("#st-control-5").trigger("click");
         });
 
+        $('.st-scroll').fullpage({
+            'navigation': true
+        });
 
+        $("#fp-nav ul li a").each(function(index,item){
+            item.setAttribute("num",index+1);
+        });
+
+        //check和右边导航联系
+        $("input[name=radio-set]").bind("click",function(){
+            var _num = Number($(this).attr("id").split("st-control-")[1]);
+            $("#fp-nav ul li:nth-child("+_num+")").find("a").trigger("click");
+        });
 
     })();
 </script>
@@ -328,6 +342,16 @@
         myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
         G("searchResultHomePanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
         setPlaceForHome();
+    });
+
+    $(document).mousewheel(function(event, delta){
+        //每次滑动就更新右边和下方的关系
+
+        var _num=Number($("#fp-nav ul li a.active").attr("num"));
+        console.log(_num);
+
+        $("#st-control-"+_num).trigger("click");
+
     });
 
 </script>
