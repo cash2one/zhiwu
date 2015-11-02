@@ -1518,8 +1518,10 @@
             e.preventDefault();
 
             var _input=$(this).parents("form").find("input[type=password]");
+            if(_input.length!=0){
+                _input.next().val($.md5(_input.val()));
+            }
 
-            _input.next().val($.md5(_input.val()));
             var form = $(this).parents("form");
             var dest = form.attr("dest");
 
