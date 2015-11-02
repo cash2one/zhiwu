@@ -299,10 +299,7 @@
 //    接受房源数据，并作初始化处理
     var rawData={{ rooms|safe }};
 
-    for(var i=0;i<rawData.length;i++){
-        rawData[i].isCollected=false;
-        rawData[i].isValid=true;
-    }
+
 
 //    百度地图初始化
 
@@ -440,6 +437,78 @@
                     map.addOverlay(myCompOverlay);
                 }
             }
+        }
+
+
+        var search_time={{ time|safe }};
+
+        var transitArr=[];
+
+
+        for(var i=0;i<rawData.length;i++){
+            rawData[i].isValid=true;
+            rawData[i].timeValid=false;
+            //检查时间
+            {% if isWork == True %}
+                {% if way == "walk" %}
+                    transitArr[i]=new BMap.WalkingRoute("杭州市",
+                    {
+                            onSearchComplete:function(results,i){
+                             if (transitArr[i].getStatus() == BMAP_STATUS_SUCCESS){
+                                var plan = results.getPlan(0);
+
+                                if(plan.getDuration(false)/60<=search_time){
+                                    rawData[i].timeValid=true;
+                                    rawData[i].usetime=plan.getDuration(false)/60;
+                                    rawData[i].slng=results.getStart().point.lng;
+                                    rawData[i].slat=results.getStart().point.lat;
+                                }
+                             }
+                            }
+                    });
+                {% endif %}
+
+
+                {% if way == "bus" %}
+                    transitArr[i]=new BMap.TransitRoute("杭州市",
+                    {
+                            onSearchComplete:function(results,i){
+                             if (transitArr[i].getStatus() == BMAP_STATUS_SUCCESS){
+                               var plan = results.getPlan(0);
+                                if(plan.getDuration(false)/60<=search_time){
+                                    rawData[i].timeValid=true;
+                                    rawData[i].usetime=plan.getDuration(false)/60;
+                                    rawData[i].slng=results.getStart().point.lng;
+                                    rawData[i].slat=results.getStart().point.lat;
+                                }
+                             }
+                            }
+                    });
+                {% endif %}
+
+                {% if way == "drive" %}
+                    transitArr[i]=function(num){
+                        return function(){
+                            var transit=new BMap.DrivingRoute("杭州市");
+                            transit.setSearchCompleteCallback(function(results){
+                                if (transitArr[num].getStatus() == BMAP_STATUS_SUCCESS){
+                                   var plan = results.getPlan(0);
+                                    if(plan.getDuration(false)/60<=search_time){
+                                        rawData[num].timeValid=true;
+                                        rawData[num].usetime=plan.getDuration(false)/60;
+                                        rawData[num].slng=results.getStart().point.lng;
+                                        rawData[num].slat=results.getStart().point.lat;
+                                    }else{
+                                        rawData[num].mark="haha";
+                                    }
+                                 }
+                            });
+                            return transit;
+                        }
+                    }(i)();
+                {% endif %}
+                transitArr[i].search(new BMap.Point(rawData[i].lng,rawData[i].lat), new BMap.Point(search_lng,search_lat));
+            {% endif %}
         }
 
         freshResult();
