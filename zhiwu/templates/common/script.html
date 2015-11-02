@@ -4,7 +4,6 @@
 <script src="//cdn.bootcss.com/slick-carousel/1.5.8/slick.min.js"></script>
 <script src="/js/materialize.min.js"></script>
 <script src="/js/jquery.tmpl.min.js"></script>
-<script src="/js/icheck.min.js"></script>
 <script src="/js/jquery.md5.js"></script>
 
 <script>
@@ -14,6 +13,18 @@
 
         $(document).delegate("input[type=password]","change",function(){
            $(this).next().val($.md5($(this).val()));
+        });
+
+        $("#status-sale").bind("click",function(){
+            $("#status-sale").hide();
+            $("#status-rent").show();
+            $("#status").val("rent");
+        });
+
+        $("#status-rent").bind("click",function(){
+            $("#status-rent").hide();
+            $("#status-sale").show();
+            $("#status").val("sale");
         });
 
         $("#searched-in-home").bind("click",function(){

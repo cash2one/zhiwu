@@ -245,10 +245,11 @@
 //    接受房源数据，并作初始化处理
     var rawData={{ rooms|safe }};
 
-    for(var i=0;i<rawData.length;i++){
-        rawData[i].isValid=true;
-    }
 
+
+
+    var  search_lng={{ lng|safe }};
+    var  search_lat={{ lat|safe }};
 //    百度地图初始化
 
     var map = new BMap.Map("allmap");    // 创建Map实例
@@ -383,7 +384,105 @@
             }
         }
 
+    {% if isWork == True %}
+        var search_time={{ time|safe }};
+
+        var transitArr=[];
+
+        var endFlag=false;
+
+        for(var i=0;i<rawData.length;i++){
+
+            if(i==rawData.length-1){
+                endFlag=true;
+            }
+            //检查时间
+                {% if way == "walk" %}
+                    transitArr[i]=function(num,flag){
+                        return function(){
+                            var transit=new BMap.WalkingRoute("杭州市");
+                            transit.setSearchCompleteCallback(function(results){
+                                if (transitArr[num].getStatus() == BMAP_STATUS_SUCCESS){
+                                   var plan = results.getPlan(0);
+                                    if(plan.getDuration(false)/60<=search_time){
+                                        rawData[num].timeValid=true;
+                                        rawData[num].isValid=true;
+                                    }else{
+                                        rawData[num].timeValid=false;
+                                        rawData[num].isValid=false;
+                                        rawData[num].usetime=plan.getDuration(false)/60;
+                                    }
+                                    if(flag){
+                                        freshResult();
+                                    }
+                                 }
+                            });
+                            return transit;
+                        }
+                    }(i,endFlag)();
+                {% endif %}
+
+
+                {% if way == "bus" %}
+                    transitArr[i]=function(num,flag){
+                        return function(){
+                            var transit=new BMap.TransitRoute("杭州市");
+                            transit.setSearchCompleteCallback(function(results){
+                                if (transitArr[num].getStatus() == BMAP_STATUS_SUCCESS){
+                                   var plan = results.getPlan(0);
+                                    if(plan.getDuration(false)/60<=search_time){
+                                        rawData[num].timeValid=true;
+                                        rawData[num].isValid=true;
+                                    }else{
+                                        rawData[num].timeValid=false;
+                                        rawData[num].isValid=false;
+                                        rawData[num].usetime=plan.getDuration(false)/60;
+                                    }
+                                    if(flag){
+                                        freshResult();
+                                    }
+                                 }
+                            });
+                            return transit;
+                        }
+                    }(i,endFlag)();
+                {% endif %}
+
+                {% if way == "drive" %}
+                    transitArr[i]=function(num,flag){
+                        return function(){
+                            var transit=new BMap.DrivingRoute("杭州市");
+                            transit.setSearchCompleteCallback(function(results){
+                                if (transitArr[num].getStatus() == BMAP_STATUS_SUCCESS){
+                                   var plan = results.getPlan(0);
+                                    if(plan.getDuration(false)/60<=search_time){
+                                        rawData[num].timeValid=true;
+                                        rawData[num].isValid=true;
+
+                                    }else{
+                                        rawData[num].timeValid=false;
+                                        rawData[num].isValid=false;
+                                        rawData[num].usetime=plan.getDuration(false)/60;
+                                    }
+                                    if(flag){
+                                        freshResult();
+                                    }
+                                 }
+                            });
+                            return transit;
+                        }
+                    }(i,endFlag)();
+                {% endif %}
+                transitArr[i].search(new BMap.Point(rawData[i].lng,rawData[i].lat), new BMap.Point(search_lng,search_lat));
+        }
+    {% else %}
+
+        for(var i=0;i<rawData.length;i++){
+            rawData[i].isValid=true;
+        }
+
         freshResult();
+    {% endif %}
 
         //鼠标进入房源区域，会在地图上高亮
         $('#search-result-container').delegate(".card-image","mouseover",function(e){

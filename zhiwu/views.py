@@ -83,7 +83,7 @@ def check_manager(request):
 
 
 def search(request):
-    return render(request, "companyPresent.html")
+    return render(request, "404.html")
 
 
 def work_search(request):

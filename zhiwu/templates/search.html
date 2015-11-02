@@ -260,24 +260,24 @@
 
 {% verbatim %}
 <script id="house-item" type="text/x-jquery-tmpl">
-{{if isValid}}
-<div class="col s12 m6 l6">
-  <div class="card">
-    <a class="link-cover" href="/room_detail/?roomNumber=${roomNumber}" target="_blank">link</a>
-    <div class="fade card-image" data-target="${roomNumber}">
-        {{each images}}
-            <div><div class="image"><img src="${$value}" width="100%"/></div></div>
-        {{/each}}
+    {{if isValid}}
+    <div class="col s12 m6 l6">
+      <div class="card">
+        <a class="link-cover" href="/room_detail/?roomNumber=${roomNumber}" target="_blank">link</a>
+        <div class="fade card-image" data-target="${roomNumber}">
+            {{each images}}
+                <div><div class="image"><img src="${$value}" width="100%"/></div></div>
+            {{/each}}
+        </div>
+        <div class="card-content">
+          <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}万元</p>
+        </div>
+        <div class="btn-collect {{if collected == true}} active {{/if}}" data-target="${roomNumber}">
+            <i class="small material-icons left">grade</i>
+        </div>
+      </div>
     </div>
-    <div class="card-content">
-      <p>${type_room}室${type_livingroom}厅${type_toilet}卫<br/>${price}万元</p>
-    </div>
-    <div class="btn-collect {{if collected == true}} active {{/if}}" data-target="${roomNumber}">
-        <i class="small material-icons left">grade</i>
-    </div>
-  </div>
-</div>
-{{/if}}
+    {{/if}}
 </script>
 {% endverbatim %}
 
@@ -440,54 +440,72 @@
         }
 
 
+    {% if isWork == True %}
         var search_time={{ time|safe }};
 
         var transitArr=[];
 
+        var endFlag=false;
 
         for(var i=0;i<rawData.length;i++){
-            rawData[i].isValid=true;
-            rawData[i].timeValid=false;
-            //检查时间
-            {% if isWork == True %}
-                {% if way == "walk" %}
-                    transitArr[i]=new BMap.WalkingRoute("杭州市",
-                    {
-                            onSearchComplete:function(results,i){
-                             if (transitArr[i].getStatus() == BMAP_STATUS_SUCCESS){
-                                var plan = results.getPlan(0);
 
-                                if(plan.getDuration(false)/60<=search_time){
-                                    rawData[i].timeValid=true;
-                                    rawData[i].usetime=plan.getDuration(false)/60;
-                                    rawData[i].slng=results.getStart().point.lng;
-                                    rawData[i].slat=results.getStart().point.lat;
-                                }
-                             }
-                            }
-                    });
+            if(i==rawData.length-1){
+                endFlag=true;
+            }
+            //检查时间
+                {% if way == "walk" %}
+                    transitArr[i]=function(num,flag){
+                        return function(){
+                            var transit=new BMap.WalkingRoute("杭州市");
+                            transit.setSearchCompleteCallback(function(results){
+                                if (transitArr[num].getStatus() == BMAP_STATUS_SUCCESS){
+                                   var plan = results.getPlan(0);
+                                    if(plan.getDuration(false)/60<=search_time){
+                                        rawData[num].timeValid=true;
+                                        rawData[num].isValid=true;
+                                    }else{
+                                        rawData[num].timeValid=false;
+                                        rawData[num].isValid=false;
+                                        rawData[num].usetime=plan.getDuration(false)/60;
+                                    }
+                                    if(flag){
+                                        freshResult();
+                                    }
+                                 }
+                            });
+                            return transit;
+                        }
+                    }(i,endFlag)();
                 {% endif %}
 
 
                 {% if way == "bus" %}
-                    transitArr[i]=new BMap.TransitRoute("杭州市",
-                    {
-                            onSearchComplete:function(results,i){
-                             if (transitArr[i].getStatus() == BMAP_STATUS_SUCCESS){
-                               var plan = results.getPlan(0);
-                                if(plan.getDuration(false)/60<=search_time){
-                                    rawData[i].timeValid=true;
-                                    rawData[i].usetime=plan.getDuration(false)/60;
-                                    rawData[i].slng=results.getStart().point.lng;
-                                    rawData[i].slat=results.getStart().point.lat;
-                                }
-                             }
-                            }
-                    });
+                    transitArr[i]=function(num,flag){
+                        return function(){
+                            var transit=new BMap.TransitRoute("杭州市");
+                            transit.setSearchCompleteCallback(function(results){
+                                if (transitArr[num].getStatus() == BMAP_STATUS_SUCCESS){
+                                   var plan = results.getPlan(0);
+                                    if(plan.getDuration(false)/60<=search_time){
+                                        rawData[num].timeValid=true;
+                                        rawData[num].isValid=true;
+                                    }else{
+                                        rawData[num].timeValid=false;
+                                        rawData[num].isValid=false;
+                                        rawData[num].usetime=plan.getDuration(false)/60;
+                                    }
+                                    if(flag){
+                                        freshResult();
+                                    }
+                                 }
+                            });
+                            return transit;
+                        }
+                    }(i,endFlag)();
                 {% endif %}
 
                 {% if way == "drive" %}
-                    transitArr[i]=function(num){
+                    transitArr[i]=function(num,flag){
                         return function(){
                             var transit=new BMap.DrivingRoute("杭州市");
                             transit.setSearchCompleteCallback(function(results){
@@ -495,23 +513,32 @@
                                    var plan = results.getPlan(0);
                                     if(plan.getDuration(false)/60<=search_time){
                                         rawData[num].timeValid=true;
-                                        rawData[num].usetime=plan.getDuration(false)/60;
-                                        rawData[num].slng=results.getStart().point.lng;
-                                        rawData[num].slat=results.getStart().point.lat;
+                                        rawData[num].isValid=true;
+
                                     }else{
-                                        rawData[num].mark="haha";
+                                        rawData[num].timeValid=false;
+                                        rawData[num].isValid=false;
+                                        rawData[num].usetime=plan.getDuration(false)/60;
+                                    }
+                                    if(flag){
+                                        freshResult();
                                     }
                                  }
                             });
                             return transit;
                         }
-                    }(i)();
+                    }(i,endFlag)();
                 {% endif %}
                 transitArr[i].search(new BMap.Point(rawData[i].lng,rawData[i].lat), new BMap.Point(search_lng,search_lat));
-            {% endif %}
+        }
+    {% else %}
+
+        for(var i=0;i<rawData.length;i++){
+            rawData[i].isValid=true;
         }
 
         freshResult();
+    {% endif %}
 
         //鼠标进入房源区域，会在地图上高亮
         $('#search-result-container').delegate(".card-image","mouseover",function(e){
@@ -598,16 +625,7 @@
                     return false;
                 }
             }
-
-{#            var n1= Number(arr1[0])*12+Number(arr1[1])*31+Number(arr1[2]);#}
-{#            var n2= Number(arr2[0])*12+Number(arr2[1])*31+Number(arr2[2]);#}
-{##}
-{#            return n1>=n2;#}
-
         }
-
-
-
 
         $("#intime").bind("change",function(){
             intime=$(this).val();
@@ -745,6 +763,8 @@
           cssEase: 'linear'
         });
     });
+
+
 
 </script>
 
