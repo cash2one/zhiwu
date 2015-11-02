@@ -56,7 +56,6 @@
                     <div class="detail-item"><span class="detail-item-key">面积</span><span class="detail-item-value">{{ room.mianji }}m2</span></div>
                     <div class="detail-item"><span class="detail-item-key">朝向</span><span class="detail-item-value">朝{{ room.orientation }}</span></div>
                     <div class="detail-item"><span class="detail-item-key">楼层</span><span class="detail-item-value">{{ room.floor_level}}层/共{{room.total_floor}}层</span></div>
-                    <div class="detail-item"><span class="detail-item-key">类型</span><span class="detail-item-value">{{ room.type }}</span></div>
                 </div>
             </div>
           </div>
@@ -65,30 +64,13 @@
         <div class="col s12 m4">
           <div class="icon-block">
             <h2 class="center brown-text"><i class="mdi-social-group"></i></h2>
-            <h5 class="center">房屋配置</h5>
+            <h5 class="center">其他情况</h5>
 
             <div class="light">
                 <div class="room-detail-content">
+                    <div class="detail-item"><span class="detail-item-key">类型</span><span class="detail-item-value">{{ room.type }}</span></div>
                     <div class="detail-item"><span class="detail-item-key">产证满二</span><span class="detail-item-value">{% if room.maner == "yes" %}是{% else %}否{% endif %}</span></div>
                     <div class="detail-item"><span class="detail-item-key">唯一住房</span><span class="detail-item-value">{% if room.weiyi == "yes" %}是{% else %}否{% endif %}</span></div>
-                    <div class="detail-item">
-                        <span class="detail-item-key">屋内配置</span>
-                        <span class="detail-item-value">
-                            {% if room.canzhuo == "on" %}餐桌&nbsp{% endif %}
-                            {% if room.sofa == "on" %}沙发&nbsp{% endif %}
-                            {% if room.desk == "on" %}书桌&nbsp{% endif %}
-                            {% if room.chair == "on" %}椅子&nbsp{% endif %}
-                            {% if room.closet == "on" %}衣柜&nbsp{% endif %}
-                            {% if room.bed == "on" %}床&nbsp{% endif %}
-                            {% if room.aircon == "on" %}空调&nbsp{% endif %}
-                            {% if room.washer == "on" %}洗衣机&nbsp{% endif %}
-                            {% if room.waterheater == "on" %}热水器&nbsp{% endif %}
-                            {% if room.refregister == "on" %}冰箱&nbsp{% endif %}
-                            {% if room.tv == "on" %}电视机&nbsp{% endif %}
-                            {% if room.cookerhood == "on" %}油烟机&nbsp{% endif %}
-                            {% if room.gascooker == "on" %}燃气灶&nbsp{% endif %}
-                        </span>
-                    </div>
                 </div>
 
 
@@ -100,7 +82,7 @@
           <div class="col s12 m4">
               <div class="icon-block">
                 <h2 class="center brown-text"><i class="mdi-image-flash-on"></i></h2>
-                <h5 class="center">入住情况</h5>
+                <h5 class="center">详细描述</h5>
 
                 <div class="light">
                     <div class="room-detail-content">
