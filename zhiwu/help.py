@@ -678,7 +678,7 @@ def salehouse_sold(roomNumber):
         p = SaleHouse.objects.get(roomNumber=roomNumber)
         p.sold = True
         p.sold_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-        p.save(update_fields=['sold'])
+        p.save(update_fields=['sold', 'sold_time'])
         print "room sold success!"
         return True
     except Exception, e:
@@ -692,7 +692,7 @@ def roominfo_sold(roomNumber):
         p = RoomInfo.objects.get(roomNumber=roomNumber)
         p.sold = True
         p.sold_time = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-        p.save(update_fields=['sold'])
+        p.save(update_fields=['sold', 'sold_time'])
         print "room sold success!"
         return True
     except Exception, e:
