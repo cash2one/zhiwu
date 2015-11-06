@@ -19,9 +19,21 @@ def get_search_saldhouse_list(rooms, user):
     p = []
     rc = RoomCollect.objects.filter(user=user)
     rc_list = []
+    lng_max = 0.0
+    lng_min = 360.0
+    lat_max = 0.0
+    lat_min = 360.0
     for i in rc:
         rc_list.append(i.roomNumber)
     for i in rooms:
+        if i.lng > lng_max:
+            lng_max = i.lng
+        if i.lng < lng_min:
+            lng_min = i.lng
+        if i.lat > lat_max:
+            lat_max = i.lat
+        if i.lat < lat_min:
+            lat_min = i.lat
         pictures = SaleHousePicture.objects.filter(roomNumber=i.roomNumber)
         cp = SecondManager.objects.get(user=i.contactPerson)
         images = []
@@ -43,16 +55,28 @@ def get_search_saldhouse_list(rooms, user):
                 'images': images,
                 'collected': i.roomNumber in rc_list}
         p.append(room)
-    return p
+    return p, lng_max, lng_min, lat_max, lat_min
 
 
 def get_search_room_list(rooms, user):
     p = []
     rc = RoomCollect.objects.filter(user=user)
     rc_list = []
+    lng_max = 0.0
+    lng_min = 360.0
+    lat_max = 0.0
+    lat_min = 360.0
     for i in rc:
         rc_list.append(i.roomNumber)
     for i in rooms:
+        if i.lng > lng_max:
+            lng_max = i.lng
+        if i.lng < lng_min:
+            lng_min = i.lng
+        if i.lat > lat_max:
+            lat_max = i.lat
+        if i.lat < lat_min:
+            lat_min = i.lat
         pictures = RoomPicture.objects.filter(roomNumber=i.roomNumber)
         cp = SecondManager.objects.get(user=i.contactPerson)
         images = []
@@ -73,7 +97,7 @@ def get_search_room_list(rooms, user):
                 'images': images,
                 'collected': i.roomNumber in rc_list}
         p.append(room)
-    return p
+    return p, lng_max, lng_min, lat_max, lat_min
 
 
 # 判断身份

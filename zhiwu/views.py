@@ -99,6 +99,12 @@ def work_search(request):
         longitude = float(request.GET.get("lng", None))
         latitude = float(request.GET.get("lat", None))
         sts = request.GET.get("status", None)
+        search_condition = {"work_location": work_location,
+                            "time": time_get,
+                            "way": way,
+                            "lng": longitude,
+                            "lat": latitude,
+                            "status": sts}
         if time is None or way is None or longitude is None and latitude is None:
             print "get 信息不全:"
             return page_not_found(request)
@@ -114,27 +120,39 @@ def work_search(request):
                                                  lat__range=(latitude - dis, latitude + dis),
                                                  exist=True,
                                                  sold=False)
-                room_list = get_search_saldhouse_list(rooms, user)
+                room_list, lng_max, lng_min, lat_max, lat_min = get_search_saldhouse_list(rooms, user)
                 return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
                                                               "lng": json.dumps(longitude),
                                                               "lat": json.dumps(latitude),
                                                               "way": way,
                                                               "time": json.dumps(time_get),
                                                               "isWork": True,
-                                                              "user": user})
+                                                              "user": user,
+                                                              "lng_max": lng_max,
+                                                              "lng_min": lng_min,
+                                                              "lat_max": lat_max,
+                                                              "lat_min": lat_max,
+                                                              "search_condition": search_condition,
+                                                              "search_condition_for_js": json.dumps(search_condition)})
             elif sts == 'rent':
                 rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
                                                 lat__range=(latitude - dis, latitude + dis),
                                                 exist=True,
                                                 sold=False)
-                room_list = get_search_room_list(rooms, user)
+                room_list, lng_max, lng_min, lat_max, lat_min = get_search_room_list(rooms, user)
                 return render(request, "search.html", {"rooms": json.dumps(room_list),
                                                        "lng": json.dumps(longitude),
                                                        "lat": json.dumps(latitude),
                                                        "way": way,
                                                        "time": json.dumps(time_get),
                                                        "isWork": True,
-                                                       "user": user})
+                                                       "user": user,
+                                                       "lng_max": lng_max,
+                                                       "lng_min": lng_min,
+                                                       "lat_max": lat_max,
+                                                       "lat_min": lat_max,
+                                                       "search_condition": search_condition,
+                                                       "search_condition_for_js": json.dumps(search_condition)})
             else:
                 return page_not_found(request)
     except Exception, e:
@@ -149,6 +167,10 @@ def home_search(request):
     longitude = request.GET.get("lng", "120.170245")
     latitude = request.GET.get("lat", "30.278905")
     sts = request.GET.get("status", None)
+    search_condition = {"home_location": location,
+                        "lng": longitude,
+                        "lat": latitude,
+                        "status": sts}
     if longitude is None or longitude == "":
         longitude = 120.170245
     else:
@@ -166,12 +188,18 @@ def home_search(request):
                                              lat__range=(latitude - dis, latitude + dis),
                                              exist=True,
                                              sold=False)
-        room_list = get_search_saldhouse_list(rooms, user)
+        room_list, lng_max, lng_min, lat_max, lat_min = get_search_saldhouse_list(rooms, user)
         return render(request, "searchForSale.html", {"rooms": json.dumps(room_list),
                                                       "lng": json.dumps(longitude),
                                                       "lat": json.dumps(latitude),
                                                       "isWork": False,
-                                                      "user": user})
+                                                      "user": user,
+                                                      "lng_max": lng_max,
+                                                      "lng_min": lng_min,
+                                                      "lat_max": lat_max,
+                                                      "lat_min": lat_max,
+                                                      "search_condition": search_condition,
+                                                      "search_condition_for_js": json.dumps(search_condition)})
     elif sts == 'rent':
         rooms = RoomInfo.objects.filter(addr_xiaoqu__in=cs, exist=True, sold=False)
         if len(rooms) == 0:
@@ -179,12 +207,18 @@ def home_search(request):
                                             lat__range=(latitude - dis, latitude + dis),
                                             exist=True,
                                             sold=False)
-        room_list = get_search_room_list(rooms, user)
+        room_list, lng_max, lng_min, lat_max, lat_min = get_search_room_list(rooms, user)
         return render(request, "search.html", {"rooms": json.dumps(room_list),
                                                "lng": json.dumps(longitude),
                                                "lat": json.dumps(latitude),
                                                "isWork": False,
-                                               "user": user})
+                                               "user": user,
+                                               "lng_max": lng_max,
+                                               "lng_min": lng_min,
+                                               "lat_max": lat_max,
+                                               "lat_min": lat_max,
+                                               "search_condition": search_condition,
+                                               "search_condition_for_js": json.dumps(search_condition)})
     else:
         return page_not_found(request)
 
@@ -204,16 +238,20 @@ def map_search(request):
                                              lat__range=(latitude_l, latitude_r),
                                              exist=True,
                                              sold=False)
-            room_list = get_search_saldhouse_list(rooms, user)
+            room_list, lng_max, lng_min, lat_max, lat_min = get_search_saldhouse_list(rooms, user)
         elif sts == 'rent':
             rooms = RoomInfo.objects.filter(lng__range=(longitude_l, longitude_r),
                                             lat__range=(latitude_l, latitude_r),
                                             exist=True,
                                             sold=False)
-            room_list = get_search_room_list(rooms, user)
+            room_list, lng_max, lng_min, lat_max, lat_min = get_search_room_list(rooms, user)
         else:
             return page_not_found(request)
         result = {"code": 1,
+                  "lng_max": lng_max,
+                  "lng_min": lng_min,
+                  "lat_max": lat_max,
+                  "lat_min": lat_max,
                   "newData": room_list}
         return JsonResponse(result, safe=False)
     except Exception, e:
