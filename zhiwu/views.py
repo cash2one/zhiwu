@@ -272,7 +272,7 @@ def salehouse_detail(request):
         cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_salehouse_picture(room)
         c = Community.objects.get(name=room.addr_xiaoqu)
-        search_condition = request.session.get("search_condition")
+        search_condition = request.session.get("search_condition", "")
 
         return render(request, "detailForSale.html", {"room": room,
                                                       "user": user,
@@ -297,7 +297,7 @@ def room_detail(request):
         cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
         c = Community.objects.get(name=room.addr_xiaoqu)
-        search_condition = request.session.get("search_condition")
+        search_condition = request.session.get("search_condition", "")
 
         return render(request, "detail.html", {"room": room,
                                                "user": user,
