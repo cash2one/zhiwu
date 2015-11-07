@@ -84,6 +84,7 @@ def check_manager(request):
 
 
 def search(request):
+    kk = request.session.get("search_condition")
     return render(request, "404.html")
 
 
@@ -105,6 +106,7 @@ def work_search(request):
                             "lng": longitude,
                             "lat": latitude,
                             "status": sts}
+        request.session["search_condition"] = search_condition
         if time is None or way is None or longitude is None and latitude is None:
             print "get 信息不全:"
             return page_not_found(request)
@@ -171,6 +173,7 @@ def home_search(request):
                         "lng": longitude,
                         "lat": latitude,
                         "status": sts}
+    request.session["search_condition"] = search_condition
     if longitude is None or longitude == "":
         longitude = 120.170245
     else:
@@ -269,6 +272,8 @@ def salehouse_detail(request):
         cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_salehouse_picture(room)
         c = Community.objects.get(name=room.addr_xiaoqu)
+        search_condition = request.session.get("search_condition")
+
         return render(request, "detailForSale.html", {"room": room,
                                                       "user": user,
                                                       "community": c,
@@ -276,7 +281,9 @@ def salehouse_detail(request):
                                                       "lng": json.dumps(room.lng),
                                                       "evaluation": evaluation,
                                                       "contactPerson": cp,
-                                                      "picture": roomP})
+                                                      "picture": roomP,
+                                                      "search_condition": search_condition,
+                                                      "search_condition_for_js": json.dumps(search_condition)})
     except Exception, e:
         print e
         return page_not_found(request)
@@ -290,6 +297,8 @@ def room_detail(request):
         cp = SecondManager.objects.get(user=room.contactPerson)
         roomP = get_room_picture(room)
         c = Community.objects.get(name=room.addr_xiaoqu)
+        search_condition = request.session.get("search_condition")
+
         return render(request, "detail.html", {"room": room,
                                                "user": user,
                                                "community": c,
@@ -297,7 +306,9 @@ def room_detail(request):
                                                "lng": json.dumps(room.lng),
                                                "evaluation": evaluation,
                                                "contactPerson": cp,
-                                               "picture": roomP})
+                                               "picture": roomP,
+                                               "search_condition": search_condition,
+                                               "search_condition_for_js": json.dumps(search_condition)})
     except Exception, e:
         print e
         return page_not_found(request)
