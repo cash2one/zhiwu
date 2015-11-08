@@ -9,6 +9,8 @@
 <script>
     ;(function(){
 
+        $.ajaxSetup({cache:false});
+
         $('select').material_select();
 
         $(document).delegate("input[type=password]","change",function(){
@@ -26,6 +28,19 @@
             $("#status-sale").show();
             $("#status").val("sale");
         });
+
+        $("#home-status-sale").bind("click",function(){
+            $("#home-status-sale").hide();
+            $("#home-status-rent").show();
+            $("#home-status").val("rent");
+        });
+
+        $("#home-status-rent").bind("click",function(){
+            $("#home-status-rent").hide();
+            $("#home-status-sale").show();
+            $("#home-status").val("sale");
+        });
+
 
         $("#searched-in-home").bind("click",function(){
             $(".navbar-form-work").hide();
@@ -112,6 +127,10 @@
             {"input" : "work_location"
                 ,"location" : map
             });
+{#    document.getElementById("work_location").value="{{ search_condition_for_js.work_location|safe|default:"work" }}";#}
+    {% if search_condition.type == "work" %}
+        ac.setInputValue("{{ location|safe}}");
+    {% endif %}
 
     ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
         var str = "";
@@ -171,6 +190,10 @@
                 ,"location" : map
             });
 
+{#    document.getElementById("home_location").value="{{ search_condition_for_js.home_location|safe|default:"home" }}";#}
+    {% if search_condition.type == "home" %}
+        acHome.setInputValue({{ location|safe }});
+    {% endif %}
     acHome.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
         var str = "";
         var _value = e.fromitem.value;

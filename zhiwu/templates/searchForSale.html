@@ -214,9 +214,9 @@
 {{if isValid}}
 
 <div class="col s12 m6 l6">
-  <div class="card">
+  <div class="card" data-target="${roomNumber}">
     <a class="link-cover" href="/salehouse_detail/?roomNumber=${roomNumber}" target="_blank">link</a>
-    <div class="fade card-image" data-target="${roomNumber}">
+    <div class="fade card-image">
         {{each images}}
             <div><div class="image"><img src="${$value}" width="100%"/></div></div>
         {{/each}}
@@ -245,15 +245,27 @@
 //    接受房源数据，并作初始化处理
     var rawData={{ rooms|safe }};
 
-
-
-
     var  search_lng={{ lng|safe }};
     var  search_lat={{ lat|safe }};
+
+     var lng_max={{ lng_max|safe }};
+     var lng_min={{ lng_min|safe }};
+     var lat_max={{ lat_max|safe }};
+     var lat_min={{ lat_min|safe }};
+
+     var border_points=[
+         new BMap.Point(lng_max,lat_max),
+         new BMap.Point(lng_min,lat_min)
+     ];
+
+     var center_lng = (lng_max+lng_min)/2;
+     var center_lat = (lat_max+lat_min)/2;
+
 //    百度地图初始化
 
     var map = new BMap.Map("allmap");    // 创建Map实例
-    map.centerAndZoom(new BMap.Point({{ lng|safe }}, {{ lat|safe }}), 16);  // 初始化地图,设置中心点坐标和地图级别
+    map.centerAndZoom(new BMap.Point(center_lng,center_lat), 10);  // 初始化地图,设置中心点坐标和地图级别
+    map.setViewport(border_points);
     map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
     map.setCurrentCity("杭州");          // 设置地图显示的城市 此项是必须设置的
     map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
@@ -485,7 +497,7 @@
     {% endif %}
 
         //鼠标进入房源区域，会在地图上高亮
-        $('#search-result-container').delegate(".card-image","mouseover",function(e){
+        $('#search-result-container').delegate(".card","mouseover",function(e){
             var _id= $(this).data("target");
             $("#overlay"+_id).css({
                 "background-color":"#6BADCA",
@@ -498,7 +510,7 @@
         });
 
         //鼠标离开房源区域，会取消高亮
-        $('#search-result-container').delegate(".card-image","mouseout",function(e){
+        $('#search-result-container').delegate(".card","mouseout",function(e){
             var _id= $(this).data("target");
             $("#overlay"+_id).css({
                 "background-color":"#EE5D5B",

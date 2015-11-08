@@ -387,3 +387,11 @@ button:focus{outline:none;background-color:transparent}
     line-height: 43px;
     border-bottom: 1px solid darkgrey;
 }
+
+#modal1{
+    z-index: 2000;
+}
+
+#lean-overlay{
+    z-index: 1500;
+}

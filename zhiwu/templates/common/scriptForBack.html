@@ -7,6 +7,8 @@
 
 <script>
     ;(function(){
+        $.ajaxSetup({cache:false});
+
         $(document).delegate("input[type=password]","focusout",function(){
            $(this).next().val($.md5($(this).val()));
         });
