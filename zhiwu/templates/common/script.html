@@ -9,6 +9,8 @@
 <script>
     ;(function(){
 
+        $.ajaxSetup({cache:false});
+
         $('select').material_select();
 
         $(document).delegate("input[type=password]","change",function(){

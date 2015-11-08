@@ -583,6 +583,9 @@ def client_back(request):
     houses = SaleHouse.objects.filter(roomNumber__in=c_list)
     room_list = get_search_room_list(rooms, user)
     house_list = get_search_saldhouse_list(houses, user)
+
+    print len(room_list)
+    print len(house_list)
     return render(request, "clientBackend.html",{"room_list": room_list,
                                                  "house_list": house_list,
                                                  "user": user})
