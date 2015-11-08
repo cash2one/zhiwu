@@ -255,14 +255,14 @@
 <!--sp_script-->
 {% block sp_script %}
 
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=gbADGzE7DryWx922MKlLKEnj"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script src="//cdn.bootcss.com/slick-carousel/1.5.8/slick.min.js"></script>
 
 {% verbatim %}
 <script id="house-item" type="text/x-jquery-tmpl">
     {{if isValid}}
     <div class="col s12 m6 l6">
-      <div class="card">
+      <div class="card" data-target="${roomNumber}">
         <a class="link-cover" href="/room_detail/?roomNumber=${roomNumber}" target="_blank">link</a>
         <div class="fade card-image" data-target="${roomNumber}">
             {{each images}}
@@ -281,33 +281,40 @@
 </script>
 {% endverbatim %}
 
-{#<script src="/js/unslider.min.js"></script>#}
-<script src="//cdn.bootcss.com/slick-carousel/1.5.8/slick.min.js"></script>
 
 
 <script type="text/javascript">
-
-
-
- $('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15, // Creates a dropdown of 15 years to control year
-     format: 'yyyy-mm-dd',
-    formatSubmit: 'yyyy-mm-dd'
-  });
+     $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 15, // Creates a dropdown of 15 years to control year
+         format: 'yyyy-mm-dd',
+        formatSubmit: 'yyyy-mm-dd'
+      });
 
 //    接受房源数据，并作初始化处理
     var rawData={{ rooms|safe }};
-
-
 
 //    百度地图初始化
 
     var  search_lng={{ lng|safe }};
     var  search_lat={{ lat|safe }};
 
+     var lng_max={{ lng_max|safe }};
+     var lng_min={{ lng_min|safe }};
+     var lat_max={{ lat_max|safe }};
+     var lat_min={{ lat_min|safe }};
+
+     var border_points=[
+         new BMap.Point(lng_max,lat_max),
+         new BMap.Point(lng_min,lat_min)
+     ];
+
+     var center_lng = (lng_max+lng_min)/2;
+     var center_lat = (lat_max+lat_min)/2;
+
     var map = new BMap.Map("allmap");    // 创建Map实例
-    map.centerAndZoom(new BMap.Point(search_lng,search_lat), 15);  // 初始化地图,设置中心点坐标和地图级别
+    map.centerAndZoom(new BMap.Point(center_lng,center_lat), 10);  // 初始化地图,设置中心点坐标和地图级别
+    map.setViewport(border_points);　　
     map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
     map.setCurrentCity("杭州");          // 设置地图显示的城市 此项是必须设置的
     map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
@@ -317,6 +324,13 @@
     var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
     map.addControl(top_left_control);
     map.addControl(top_left_navigation);
+
+{#    var bs = map.getBounds();   //获取可视区域#}
+{#	var bssw = bs.getSouthWest();   //可视区域左下角#}
+{#	var bsne = bs.getNorthEast();   //可视区域右上角#}
+{#	alert("当前地图可视范围是：" + bssw.lng + "," + bssw.lat + "到" + bsne.lng + "," + bsne.lat);#}
+
+
 
 //    复杂的自定义覆盖物
     function ComplexCustomOverlay(point, text, id){
@@ -541,7 +555,7 @@
     {% endif %}
 
         //鼠标进入房源区域，会在地图上高亮
-        $('#search-result-container').delegate(".card-image","mouseover",function(e){
+        $('#search-result-container').delegate(".card","mouseover",function(e){
             var _id= $(this).data("target");
             $("#overlay"+_id).css({
                 "background-color":"#6BADCA",
@@ -554,7 +568,7 @@
         });
 
         //鼠标离开房源区域，会取消高亮
-        $('#search-result-container').delegate(".card-image","mouseout",function(e){
+        $('#search-result-container').delegate(".card","mouseout",function(e){
             var _id= $(this).data("target");
             $("#overlay"+_id).css({
                 "background-color":"#EE5D5B",
@@ -751,6 +765,10 @@
                     });
 
         }
+
+
+
+
     });
 </script>
 
@@ -763,9 +781,6 @@
           cssEase: 'linear'
         });
     });
-
-
-
 </script>
 
 {% endblock %}

@@ -4,24 +4,24 @@
 
       <a id="logo-container" href="#" class="brand-logo">知屋</a>
 {#        <ul class="left hide-on-med-and-down">#}
-        <form class="navbar-form-work" role="search" style="float:left;margin-left:180px;height:62px;" action="{% url 'work_search' %}" method="get">
+        <form class="navbar-form-work" role="search" style="{% if search_condition.type != "work" %}display: none;{% endif %}float:left;margin-left:180px;height:62px;" action="{% url 'work_search' %}" method="get">
                 <div class="row" style="width:750px;">
-                    <input type="text" class="form-control col" name="work_location" id="work_location" placeholder="工作地点"/>
+                    <input type="text" class="form-control col" name="work_location" id="work_location" placeholder="工作地点" value="{{ search_condition.work_location }}"/>
                     <div id="searchResultPanel" class="navResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
                     <select class="form-control col" name="way" id="way">
-                        <option value="walk" selected>步行</option>
-                        <option value="bus">公交</option>
-                        <option value="drive">驾车</option>
+                        <option value="walk" {% if search_condition.way == "walk" %}selected{% endif %}>步行</option>
+                        <option value="bus" {% if search_condition.way == "bus" %}selected{% endif %}>公交</option>
+                        <option value="drive" {% if search_condition.way == "drive" %}selected{% endif %}>驾车</option>
                     </select>
 
                     <select class="form-control col" name="time" id="time">
-                        <option value="5" selected>5分钟</option>
-                        <option value="10">10分钟</option>
-                        <option value="15">15分钟</option>
-                        <option value="20">20分钟</option>
-                        <option value="30">30分钟</option>
-                        <option value="45">45分钟</option>
-                        <option value="60">60分钟</option>
+                        <option value="5" {% if search_condition.time == "5" %}selected{% endif %}>5分钟</option>
+                        <option value="10" {% if search_condition.time == "10" %}selected{% endif %}>10分钟</option>
+                        <option value="15" {% if search_condition.time == "15" %}selected{% endif %}>15分钟</option>
+                        <option value="20" {% if search_condition.time == "20" %}selected{% endif %}>20分钟</option>
+                        <option value="30" {% if search_condition.time == "30" %}selected{% endif %}>30分钟</option>
+                        <option value="45" {% if search_condition.time == "45" %}selected{% endif %}>45分钟</option>
+                        <option value="60" {% if search_condition.time == "60" %}selected{% endif %}>60分钟</option>
                     </select>
 
 {#                    <select class="form-control col" name="status" id="status">#}
@@ -29,32 +29,40 @@
 {#                        <option value="sale">买房</option>#}
 {#                    </select>#}
 
-                    <div id="status-rent" class="status-col">
+                    <div id="status-rent" class="status-col" {% if search_condition.status == "sale" %} style="display:none;" {% endif %} >
                         租房
                     </div>
 
-                    <div id="status-sale" class="status-col" style="display:none;">
+                    <div id="status-sale" class="status-col" {% if search_condition.status == "rent" %} style="display:none;" {% endif %} >
                         买房
                     </div>
 
-                    <input type="hidden" name="status" id="status">
-                    <input type="hidden" name="lng" id="work_lng"/>
-                    <input type="hidden" name="lat" id="work_lat"/>
+                    <input type="hidden" name="status" id="status" value="rent">
+                    <input type="hidden" name="lng" id="work_lng" value="{{ search_condition.lng }}"/>
+                    <input type="hidden" name="lat" id="work_lat" value="{{ search_condition.lat }}"/>
                     <button type="submit" class="btn" style="margin-left:20px;margin-bottom: 10px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;搜索</button>
                     <span id="searched-in-home" style="margin-left:10px;color:#ADADAD;">改用居住地搜索</span>
                 </div>
             </form>
 
-            <form class="navbar-form navbar-left navbar-form-home" role="search" style="display: none;float:left;margin-left:180px;height:62px;" action="{% url 'home_search' %}" method="get">
+            <form class="navbar-form navbar-left navbar-form-home" role="search" style="{% if search_condition.type != "home" %}display: none;{% endif %}float:left;margin-left:180px;height:62px;" action="{% url 'home_search' %}" method="get">
                 <div class="row" style="width:750px;">
-                    <input type="text" class="form-control col" name="home_location" id="home_location" placeholder="居住地点"/>
+                    <input type="text" class="form-control col" name="home_location" id="home_location" placeholder="居住地点" value="{{ search_condition.home_location }}"/>
                     <div id="searchResultHomePanel" class="navResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
-                    <select class="form-control col" name="status" id="status">
-                        <option value="rent" selected>租房</option>
-                        <option value="sale">买房</option>
-                    </select>
-                    <input type="hidden" name="lng" id="home_lng"/>
-                    <input type="hidden" name="lat" id="home_lat"/>
+{#                    <select class="form-control col" name="status" id="status">#}
+{#                        <option value="rent" selected>租房</option>#}
+{#                        <option value="sale">买房</option>#}
+{#                    </select>#}
+                    <div id="home-status-rent" class="status-col" {% if search_condition.status == "sale" %} style="display:none;" {% endif %}>
+                        租房
+                    </div>
+
+                    <div id="home-status-sale" class="status-col" {% if search_condition.status == "rent" %} style="display:none;" {% endif %}>
+                        买房
+                    </div>
+                    <input type="hidden" name="status" id="home-status" value="rent">
+                    <input type="hidden" name="lng" id="home_lng" value="{{ search_condition.lng }}"/>
+                    <input type="hidden" name="lat" id="home_lat" value="{{ search_condition.lat }}"/>
                     <button type="submit" class="btn" style="margin-left:20px;margin-bottom: 10px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;搜索</button>
                     <span id="searched-in-work" style="margin-left:10px;color:#ADADAD;">改用工作地点搜索</span>
                 </div>
@@ -67,8 +75,15 @@
                 <li><a href="#modal1" class="modal-trigger"><i class="large material-icons left">perm_identity</i>登陆/注册</a></li>
           {% else %}
 
-              <li><a href="#">{{ user }}</a></li>
-              <li><a href="{% url 'client_back' %}"><i class="large material-icons left">receipt</i>选房清单</a></li>
+{#              <li><a href="#">{{ user }}</a></li>#}
+              <li><a class="dropdown-button" href="#!" data-activates="dropdown1">{{ user }}<i class="material-icons right">arrow_drop_down</i></a></li>
+              <ul id="dropdown1" class="dropdown-content">
+                  <li><a href="{% url 'user_logout' %}">退出登录</a></li>
+{#                  <li><a href="#!">two</a></li>#}
+                  <li class="divider"></li>
+                  <li><a href="{% url 'client_back' %}">选房清单</a></li>
+                </ul>
+
           {% endif %}
 
 
@@ -90,7 +105,7 @@
 
 
   <!-- Modal Structure -->
-  <div id="modal1" class="modal bottom-sheet">
+  <div id="modal1" class="modal bottom-sheet" style="z-index:2000;">
     <div class="modal-content">
       <h4>立刻注册</h4>
       <div class="row">
