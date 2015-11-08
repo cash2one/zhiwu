@@ -463,7 +463,11 @@ def new_house_handle(request, use_old):
     if is_second_manager(identity) or is_root(identity) or is_manager(identity):
         if roomNumber == "":
             sm = SecondManager.objects.get(user=user)
-            communities = Community.objects.get(name=sm.company)
+            communities = Community.objects.filter(name=sm.company)
+            if len(communities) == 0:
+                communities = ""
+            else:
+                communities = communities[0]
             return render(request, "newHouse.html", {"user": user,
                                                      "status": status,
                                                      "identity": json.dumps(identity),
@@ -471,7 +475,11 @@ def new_house_handle(request, use_old):
         else:
             roominfo = RoomInfo.objects.get(roomNumber=roomNumber)
             sm = SecondManager.objects.get(user=roominfo.contactPerson)
-            communities = Community.objects.get(name=sm.company)
+            communities = Community.objects.filter(name=sm.company)
+            if len(communities) == 0:
+                communities = ""
+            else:
+                communities = communities[0]
             pictures = RoomPicture.objects.filter(roomNumber=roominfo)
             merit = roominfo.merit.split(',')
             landlord_req = roominfo.landlord_req.split(',')
@@ -514,7 +522,11 @@ def new_salehouse_handle(request, use_old):
     if is_second_manager(identity) or is_root(identity) or is_manager(identity):
         if roomNumber == "":
             sm = SecondManager.objects.get(user=user)
-            communities = Community.objects.get(name=sm.company)
+            communities = Community.objects.filter(name=sm.company)
+            if len(communities) == 0:
+                communities = ""
+            else:
+                communities = communities[0]
             return render(request, "newHouseForSale.html", {"user": user,
                                                             "status": status,
                                                             "identity": json.dumps(identity),
@@ -522,7 +534,11 @@ def new_salehouse_handle(request, use_old):
         else:
             salehouse = SaleHouse.objects.get(roomNumber=roomNumber)
             sm = SecondManager.objects.get(user=salehouse.contactPerson)
-            communities = Community.objects.get(name=sm.company)
+            communities = Community.objects.filter(name=sm.company)
+            if len(communities) == 0:
+                communities = ""
+            else:
+                communities = communities[0]
             pictures = SaleHousePicture.objects.filter(roomNumber=salehouse)
             images = []
             for i in pictures:
@@ -568,11 +584,11 @@ def client_back(request):
         c_list.append(i.roomNumber)
     rooms = RoomInfo.objects.filter(roomNumber__in=c_list)
     houses = SaleHouse.objects.filter(roomNumber__in=c_list)
-    room_list = get_search_room_list(rooms, user)
-    house_list = get_search_saldhouse_list(houses, user)
-    return render(request, "clientBackend.html",{"room_list": room_list,
-                                                 "house_list": house_list,
-                                                 "user": user})
+    room_list, lng_max, lng_min, lat_max, lat_min = get_search_room_list(rooms, user)
+    house_list, lng_max, lng_min, lat_max, lat_min = get_search_saldhouse_list(houses, user)
+    return render(request, "clientBackend.html", {"room_list": room_list,
+                                                  "house_list": house_list,
+                                                  "user": user})
 # def client_back_account(request):
 #     return render(request, "myAccount.html",{"route":"account"})
 #
