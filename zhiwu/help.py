@@ -97,6 +97,11 @@ def get_search_room_list(rooms, user):
                 'images': images,
                 'collected': i.roomNumber in rc_list}
         p.append(room)
+    if len(p) == 0:
+        lng_max = 120.415231
+        lng_min = 119.557457
+        lat_max = 30.477961
+        lat_min = 29.754195
     return p, lng_max, lng_min, lat_max, lat_min
 
 
