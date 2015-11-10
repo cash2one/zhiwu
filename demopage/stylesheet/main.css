@@ -1,7 +1,8 @@
 /*MAIN*/
 body{
     background-color: #f5f5f5;
-    font-family:"Hiragino Sans GB","华文细黑","STHeiti","微软雅黑","Microsoft YaHei",SimHei,"Helvetica Neue",Helvetica,Arial,sans-serif !important
+    /*font-family:"Microsoft YaHei","微软雅黑","华文细黑","STHeiti",SimHei,"Helvetica Neue",Helvetica,Arial,sans-serif !important*/
+    font-family: 'Microsoft Yahei',"微软雅黑", sans-serif; !important
 }
 
 footer{
@@ -508,18 +509,18 @@ hr{
 
 }
 
-@font-face{
-    font-family: indexTitleFont;
-    src:url("../resource/pianpian.ttf");
-}
+/*@font-face{*/
+    /*font-family: indexTitleFont;*/
+    /*src:url("../resource/pianpian.ttf");*/
+/*}*/
 
-@font-face {
-    font-family: companyTitleFont;
-    src:url("../resource/jianyue.ttf");
-}
+/*@font-face {*/
+    /*font-family: companyTitleFont;*/
+    /*src:url("../resource/jianyue.ttf");*/
+/*}*/
 
 .index-panel{
-    font-family: indexTitleFont;
+    /*font-family: indexTitleFont;*/
     color:white;
 }
 
