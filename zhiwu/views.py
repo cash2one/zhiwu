@@ -105,8 +105,7 @@ def work_search(request):
                             "way": way,
                             "lng": longitude,
                             "lat": latitude,
-                            "status": sts,
-                            "type": "work"}
+                            "status": sts}
         request.session["search_condition"] = search_condition
         if time is None or way is None or longitude is None and latitude is None:
             print "get 信息不全:"
@@ -131,12 +130,12 @@ def work_search(request):
                                                               "time": json.dumps(time_get),
                                                               "isWork": True,
                                                               "user": user,
-                                                              "lng_max": json.dumps(lng_max),
-                                                              "lng_min": json.dumps(lng_min),
-                                                              "lat_max": json.dumps(lat_max),
-                                                              "lat_min": json.dumps(lat_min),
+                                                              "lng_max": lng_max,
+                                                              "lng_min": lng_min,
+                                                              "lat_max": lat_max,
+                                                              "lat_min": lat_max,
                                                               "search_condition": search_condition,
-                                                              "location": json.dumps(work_location)})
+                                                              "search_condition_for_js": json.dumps(search_condition)})
             elif sts == 'rent':
                 rooms = RoomInfo.objects.filter(lng__range=(longitude - dis, longitude + dis),
                                                 lat__range=(latitude - dis, latitude + dis),
@@ -148,15 +147,14 @@ def work_search(request):
                                                        "lat": json.dumps(latitude),
                                                        "way": way,
                                                        "time": json.dumps(time_get),
-                                                       "search_condition": search_condition,
-                                                       "location": json.dumps(work_location),
                                                        "isWork": True,
                                                        "user": user,
-                                                       "lng_max": json.dumps(lng_max),
-                                                       "lng_min": json.dumps(lng_min),
-                                                       "lat_max": json.dumps(lat_max),
-                                                       "lat_min": json.dumps(lat_min)}
-                                                      )
+                                                       "lng_max": lng_max,
+                                                       "lng_min": lng_min,
+                                                       "lat_max": lat_max,
+                                                       "lat_min": lat_max,
+                                                       "search_condition": search_condition,
+                                                       "search_condition_for_js": json.dumps(search_condition)})
             else:
                 return page_not_found(request)
     except Exception, e:
@@ -174,8 +172,7 @@ def home_search(request):
     search_condition = {"home_location": location,
                         "lng": longitude,
                         "lat": latitude,
-                        "status": sts,
-                        "type":"home"}
+                        "status": sts}
     request.session["search_condition"] = search_condition
     if longitude is None or longitude == "":
         longitude = 120.170245
@@ -200,12 +197,12 @@ def home_search(request):
                                                       "lat": json.dumps(latitude),
                                                       "isWork": False,
                                                       "user": user,
-                                                      "lng_max": json.dumps(lng_max),
-                                                      "lng_min": json.dumps(lng_min),
-                                                      "lat_max": json.dumps(lat_max),
-                                                      "lat_min": json.dumps(lat_min),
+                                                      "lng_max": lng_max,
+                                                      "lng_min": lng_min,
+                                                      "lat_max": lat_max,
+                                                      "lat_min": lat_max,
                                                       "search_condition": search_condition,
-                                                      "location": json.dumps(location)})
+                                                      "search_condition_for_js": json.dumps(search_condition)})
     elif sts == 'rent':
         rooms = RoomInfo.objects.filter(addr_xiaoqu__in=cs, exist=True, sold=False)
         if len(rooms) == 0:
@@ -219,12 +216,12 @@ def home_search(request):
                                                "lat": json.dumps(latitude),
                                                "isWork": False,
                                                "user": user,
-                                               "lng_max": json.dumps(lng_max),
-                                               "lng_min": json.dumps(lng_min),
-                                               "lat_max": json.dumps(lat_max),
-                                               "lat_min": json.dumps(lat_min),
+                                               "lng_max": lng_max,
+                                               "lng_min": lng_min,
+                                               "lat_max": lat_max,
+                                               "lat_min": lat_max,
                                                "search_condition": search_condition,
-                                               "location": json.dumps(location)})
+                                               "search_condition_for_js": json.dumps(search_condition)})
     else:
         return page_not_found(request)
 
@@ -277,11 +274,6 @@ def salehouse_detail(request):
         c = Community.objects.get(name=room.addr_xiaoqu)
         search_condition = request.session.get("search_condition", "")
 
-        if search_condition["type"] == "home":
-            local = search_condition["home_location"]
-        else:
-            local = search_condition["work_location"]
-
         return render(request, "detailForSale.html", {"room": room,
                                                       "user": user,
                                                       "community": c,
@@ -291,7 +283,7 @@ def salehouse_detail(request):
                                                       "contactPerson": cp,
                                                       "picture": roomP,
                                                       "search_condition": search_condition,
-                                                      "location": json.dumps(local)})
+                                                      "search_condition_for_js": json.dumps(search_condition)})
     except Exception, e:
         print e
         return page_not_found(request)
@@ -307,11 +299,6 @@ def room_detail(request):
         c = Community.objects.get(name=room.addr_xiaoqu)
         search_condition = request.session.get("search_condition", "")
 
-        if search_condition["type"] == "home":
-            local = search_condition["home_location"]
-        else:
-            local = search_condition["work_location"]
-
         return render(request, "detail.html", {"room": room,
                                                "user": user,
                                                "community": c,
@@ -321,7 +308,7 @@ def room_detail(request):
                                                "contactPerson": cp,
                                                "picture": roomP,
                                                "search_condition": search_condition,
-                                               "location": json.dumps(local)})
+                                               "search_condition_for_js": json.dumps(search_condition)})
     except Exception, e:
         print e
         return page_not_found(request)
@@ -476,7 +463,11 @@ def new_house_handle(request, use_old):
     if is_second_manager(identity) or is_root(identity) or is_manager(identity):
         if roomNumber == "":
             sm = SecondManager.objects.get(user=user)
-            communities = Community.objects.get(name=sm.company)
+            communities = Community.objects.filter(name=sm.company)
+            if len(communities) == 0:
+                communities = ""
+            else:
+                communities = communities[0]
             return render(request, "newHouse.html", {"user": user,
                                                      "status": status,
                                                      "identity": json.dumps(identity),
@@ -484,7 +475,11 @@ def new_house_handle(request, use_old):
         else:
             roominfo = RoomInfo.objects.get(roomNumber=roomNumber)
             sm = SecondManager.objects.get(user=roominfo.contactPerson)
-            communities = Community.objects.get(name=sm.company)
+            communities = Community.objects.filter(name=sm.company)
+            if len(communities) == 0:
+                communities = ""
+            else:
+                communities = communities[0]
             pictures = RoomPicture.objects.filter(roomNumber=roominfo)
             merit = roominfo.merit.split(',')
             landlord_req = roominfo.landlord_req.split(',')
@@ -527,7 +522,11 @@ def new_salehouse_handle(request, use_old):
     if is_second_manager(identity) or is_root(identity) or is_manager(identity):
         if roomNumber == "":
             sm = SecondManager.objects.get(user=user)
-            communities = Community.objects.get(name=sm.company)
+            communities = Community.objects.filter(name=sm.company)
+            if len(communities) == 0:
+                communities = ""
+            else:
+                communities = communities[0]
             return render(request, "newHouseForSale.html", {"user": user,
                                                             "status": status,
                                                             "identity": json.dumps(identity),
@@ -535,7 +534,11 @@ def new_salehouse_handle(request, use_old):
         else:
             salehouse = SaleHouse.objects.get(roomNumber=roomNumber)
             sm = SecondManager.objects.get(user=salehouse.contactPerson)
-            communities = Community.objects.get(name=sm.company)
+            communities = Community.objects.filter(name=sm.company)
+            if len(communities) == 0:
+                communities = ""
+            else:
+                communities = communities[0]
             pictures = SaleHousePicture.objects.filter(roomNumber=salehouse)
             images = []
             for i in pictures:
@@ -581,14 +584,11 @@ def client_back(request):
         c_list.append(i.roomNumber)
     rooms = RoomInfo.objects.filter(roomNumber__in=c_list)
     houses = SaleHouse.objects.filter(roomNumber__in=c_list)
-    room_list = get_search_room_list(rooms, user)
-    house_list = get_search_saldhouse_list(houses, user)
-
-    print len(room_list)
-    print len(house_list)
-    return render(request, "clientBackend.html",{"room_list": room_list,
-                                                 "house_list": house_list,
-                                                 "user": user})
+    room_list, lng_max, lng_min, lat_max, lat_min = get_search_room_list(rooms, user)
+    house_list, lng_max, lng_min, lat_max, lat_min = get_search_saldhouse_list(houses, user)
+    return render(request, "clientBackend.html", {"room_list": room_list,
+                                                  "house_list": house_list,
+                                                  "user": user})
 # def client_back_account(request):
 #     return render(request, "myAccount.html",{"route":"account"})
 #
