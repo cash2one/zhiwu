@@ -260,7 +260,7 @@
 
 {% verbatim %}
 <script id="house-item" type="text/x-jquery-tmpl">
-    {{if isValid}}
+    {{if isValid&&timeValid}}
     <div class="col s12 m6 l6">
       <div class="card" data-target="${roomNumber}">
         <a class="link-cover" href="/room_detail/?roomNumber=${roomNumber}" target="_blank">link</a>
@@ -446,7 +446,7 @@
             //清空标记并添加新筛选过的标记
             map.clearOverlays();
             for(var i=0;i<rawData.length;i++){
-                if(rawData[i].isValid){
+                if(rawData[i].timeValid && rawData[i].isValid){
                     var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(rawData[i].lng,rawData[i].lat), rawData[i].price,rawData[i].roomNumber);
                     map.addOverlay(myCompOverlay);
                 }
@@ -459,16 +459,18 @@
 
         var transitArr=[];
 
-        var endFlag=false;
+{#        var endFlag=false;#}
+        var endCnt=rawData.length;
 
         for(var i=0;i<rawData.length;i++){
 
-            if(i==rawData.length-1){
-                endFlag=true;
-            }
+{#            if(i==rawData.length-1){#}
+{#                endFlag=true;#}
+{#            }#}
+
             //检查时间
                 {% if way == "walk" %}
-                    transitArr[i]=function(num,flag){
+                    transitArr[i]=function(num){
                         return function(){
                             var transit=new BMap.WalkingRoute("杭州市");
                             transit.setSearchCompleteCallback(function(results){
@@ -482,19 +484,21 @@
                                         rawData[num].isValid=false;
                                         rawData[num].usetime=plan.getDuration(false)/60;
                                     }
-                                    if(flag){
+                                    endCnt--;
+                                    if(endCnt==0){
                                         freshResult();
                                     }
                                  }
+
                             });
                             return transit;
                         }
-                    }(i,endFlag)();
+                    }(i)();
                 {% endif %}
 
 
                 {% if way == "bus" %}
-                    transitArr[i]=function(num,flag){
+                    transitArr[i]=function(num){
                         return function(){
                             var transit=new BMap.TransitRoute("杭州市");
                             transit.setSearchCompleteCallback(function(results){
@@ -508,18 +512,19 @@
                                         rawData[num].isValid=false;
                                         rawData[num].usetime=plan.getDuration(false)/60;
                                     }
-                                    if(flag){
+                                    endCnt--;
+                                    if(endCnt==0){
                                         freshResult();
                                     }
                                  }
                             });
                             return transit;
                         }
-                    }(i,endFlag)();
+                    }(i)();
                 {% endif %}
 
                 {% if way == "drive" %}
-                    transitArr[i]=function(num,flag){
+                    transitArr[i]=function(num){
                         return function(){
                             var transit=new BMap.DrivingRoute("杭州市");
                             transit.setSearchCompleteCallback(function(results){
@@ -534,14 +539,15 @@
                                         rawData[num].isValid=false;
                                         rawData[num].usetime=plan.getDuration(false)/60;
                                     }
-                                    if(flag){
+                                    endCnt--;
+                                    if(endCnt==0){
                                         freshResult();
                                     }
                                  }
                             });
                             return transit;
                         }
-                    }(i,endFlag)();
+                    }(i)();
                 {% endif %}
                 transitArr[i].search(new BMap.Point(rawData[i].lng,rawData[i].lat), new BMap.Point(search_lng,search_lat));
         }
@@ -549,6 +555,7 @@
 
         for(var i=0;i<rawData.length;i++){
             rawData[i].isValid=true;
+            rawData[i].timeValid=true;
         }
 
         freshResult();
