@@ -16,7 +16,8 @@
 }
 
 body{
-    font-family:Georgia,serif;
+    /*font-family:Georgia,serif;*/
+    /*font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", Heiti, "黑体", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", sans-serif;*/
     background:#ddd;
     font-weight:400;	/* 加粗四倍 */
     font-size:15px;
@@ -42,7 +43,7 @@ a{
     position:absolute;
     left:0;
     top:0;
-    font-family:"Josefin Slab","Myriad Pro", Arial, sans-serif;
+    /*font-family:"Josefin Slab","Myriad Pro", Arial, sans-serif;*/
 }
 .st-container > input,  /*  st-container下的 input 和 a */
 .st-container > a{
@@ -440,15 +441,15 @@ a{
     padding:20px 30px;
 }
 
-@font-face{
-    font-family: indexTitleFont;
-    src:url("../resource/pianpian.ttf");
-}
+/*@font-face{*/
+    /*font-family: indexTitleFont;*/
+    /*src:url("../resource/pianpian.ttf");*/
+/*}*/
 
-@font-face {
-    font-family: companyTitleFont;
-    src:url("../resource/jianyue.ttf");
-}
+/*@font-face {*/
+    /*font-family: companyTitleFont;*/
+    /*src:url("../resource/jianyue.ttf");*/
+/*}*/
 
 #st-panel-1 .st-content,
 #st-panel-2 .st-content{
@@ -460,7 +461,7 @@ a{
 }
 
 .index-panel{
-    font-family: indexTitleFont;
+    /*font-family: indexTitleFont;*/
     color:white;
 }
 
@@ -490,7 +491,7 @@ a{
 }
 
 .btn-search{
-    font-family: indexTitleFont;
+    /*font-family: indexTitleFont;*/
     position: absolute;
     border:2px solid white;
     border-radius: 5px;
@@ -519,7 +520,7 @@ a{
 }
 
 .form-control{
-    font-family: indexTitleFont;
+    /*font-family: indexTitleFont;*/
     display: inline-block;
     width:100px;
     background-color: rgba(0,0,0,0.5);
@@ -553,7 +554,7 @@ a{
 }
 
 #st-panel-5 .st-content .custom-login {
-    font-family: indexTitleFont;
+    /*font-family: indexTitleFont;*/
     position: absolute;
     border: 2px solid white;
     border-radius: 5px;

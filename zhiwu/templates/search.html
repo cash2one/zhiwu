@@ -757,7 +757,7 @@
                         if(data.code==1){
                             rawData=data.newData;
                             for(var i=0;i<rawData.length;i++){
-                                rawData[i].isCollected=false;
+                                rawData[i].timeValid=true;
                                 rawData[i].isValid=true;
                             }
                             freshResult();
