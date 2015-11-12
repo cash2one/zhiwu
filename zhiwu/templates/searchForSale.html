@@ -215,7 +215,7 @@
 
 <div class="col s12 m6 l6">
   <div class="card" data-target="${roomNumber}">
-    <a class="link-cover" href="/salehouse_detail/?roomNumber=${roomNumber}" target="_blank">link</a>
+    <div class="link-cover" data-target="${roomNumber}"></div>
     <div class="fade card-image">
         {{each images}}
             <div><div class="image"><img src="${$value}" width="100%"/></div></div>
@@ -329,7 +329,7 @@
 //        };
 
         div.onclick = function(){
-            window.open("/room_detail?roomNumber="+this.id.split("overlay")[1]);
+            window.open("/salehouse_detail?roomNumber="+this.id.split("overlay")[1]);
         };
 
         map.getPanes().labelPane.appendChild(div);
@@ -360,6 +360,12 @@
         $("#more-way-section").slideUp();
     });
 
+    $(document).delegate(".link-cover","click",function(e){
+        e.preventDefault();
+        var id=$(this).data("target");
+{#        alert("in link");#}
+        window.open("/salehouse_detail?roomNumber="+id);
+    });
 
 
 </script>

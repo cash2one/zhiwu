@@ -263,7 +263,7 @@
     {{if isValid&&timeValid}}
     <div class="col s12 m6 l6">
       <div class="card" data-target="${roomNumber}">
-        <a class="link-cover" href="/room_detail/?roomNumber=${roomNumber}" target="_blank">link</a>
+        <div class="link-cover" data-target="${roomNumber}"></div>
         <div class="fade card-image" data-target="${roomNumber}">
             {{each images}}
                 <div><div class="image"><img src="${$value}" width="100%"/></div></div>
@@ -416,6 +416,13 @@
         $("#more-way-section").slideUp();
     });
 
+
+    $(document).delegate(".link-cover","click",function(e){
+        e.preventDefault();
+        var id=$(this).data("target");
+{#        alert("in link");#}
+        window.open("/room_detail?roomNumber="+id);
+    });
 
 
 </script>
