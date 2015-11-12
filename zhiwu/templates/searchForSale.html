@@ -389,7 +389,7 @@
             //清空标记并添加新筛选过的标记
             map.clearOverlays();
             for(var i=0;i<rawData.length;i++){
-                if(rawData.timeValid && rawData[i].isValid){
+                if(rawData[i].timeValid && rawData[i].isValid){
                     var myCompOverlay = new ComplexCustomOverlay(new BMap.Point(rawData[i].lng,rawData[i].lat), rawData[i].price,rawData[i].roomNumber);
                     map.addOverlay(myCompOverlay);
                 }

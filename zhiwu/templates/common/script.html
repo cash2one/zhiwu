@@ -21,24 +21,28 @@
             $("#status-sale").hide();
             $("#status-rent").show();
             $("#status").val("rent");
+            $("#status").next().trigger("click");
         });
 
         $("#status-rent").bind("click",function(){
             $("#status-rent").hide();
             $("#status-sale").show();
             $("#status").val("sale");
+            $("#status").next().trigger("click");
         });
 
         $("#home-status-sale").bind("click",function(){
             $("#home-status-sale").hide();
             $("#home-status-rent").show();
             $("#home-status").val("rent");
+            $("#home-status").next().trigger("click");
         });
 
         $("#home-status-rent").bind("click",function(){
             $("#home-status-rent").hide();
             $("#home-status-sale").show();
             $("#home-status").val("sale");
+            $("#home-status").next().trigger("click");
         });
 
 

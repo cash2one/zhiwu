@@ -37,10 +37,11 @@
                         买房
                     </div>
 
-                    <input type="hidden" name="status" id="status" value="rent">
+
                     <input type="hidden" name="lng" id="work_lng" value="{{ search_condition.lng }}"/>
                     <input type="hidden" name="lat" id="work_lat" value="{{ search_condition.lat }}"/>
-                    <button type="submit" class="btn" style="margin-left:20px;margin-bottom: 10px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;搜索</button>
+                    <input type="hidden" name="status" id="status" value="rent">
+                    <button type="submit" class="btn nav-sub" style="margin-left:20px;margin-bottom: 10px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;搜索</button>
                     <span id="searched-in-home" style="margin-left:10px;color:#ADADAD;">改用居住地搜索</span>
                 </div>
             </form>
@@ -60,10 +61,10 @@
                     <div id="home-status-sale" class="status-col" {% if search_condition.status == "rent" %} style="display:none;" {% endif %}>
                         买房
                     </div>
-                    <input type="hidden" name="status" id="home-status" value="rent">
                     <input type="hidden" name="lng" id="home_lng" value="{{ search_condition.lng }}"/>
                     <input type="hidden" name="lat" id="home_lat" value="{{ search_condition.lat }}"/>
-                    <button type="submit" class="btn" style="margin-left:20px;margin-bottom: 10px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;搜索</button>
+                    <input type="hidden" name="status" id="home-status" value="rent">
+                    <button type="submit" class="btn nav-sub" style="margin-left:20px;margin-bottom: 10px;"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;搜索</button>
                     <span id="searched-in-work" style="margin-left:10px;color:#ADADAD;">改用工作地点搜索</span>
                 </div>
 
